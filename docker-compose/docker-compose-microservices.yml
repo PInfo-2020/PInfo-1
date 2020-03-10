@@ -1,0 +1,137 @@
+version: "3.7"
+
+services: 
+
+#Zookeeper service provides distributed configuration management to Kafka
+    zookeeper:
+        image: zookeeper:3.4.9
+        container_name: zookeeper 
+        hostname: zookeeper
+        networks:
+            - backend-network
+        ports:
+            - "2181:2181"
+        environment:
+            ZOO_MY_ID: 1
+            ZOO_PORT: 2181
+            ZOO_SERVERS: server.1=zookeeper:2888:3888
+        volumes:
+            - ./target/zk-single-kafka-single/zoo1/data:/data
+            - ./target/zk-single-kafka-single/zoo1/datalog:/datalog
+
+# kafka is the messaging backbone of the micro-service architecture. The objective is avoid point 2 point connections.
+    kafka:
+        image: confluentinc/cp-kafka:5.1.0
+        container_name: kafka 
+        hostname: kafka
+        networks:
+            - backend-network    
+        ports:
+            - "9092:9092"
+        environment:
+            KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://kafka:9092
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+            KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+            KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+            KAFKA_BROKER_ID: 1
+            KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+            KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+        volumes:
+            - ./target/zk-single-kafka-single/kafka1/data:/var/lib/kafka/data
+        depends_on:
+            - zookeeper
+
+    api-twitter-database:
+        image: postgres:10
+        container_name: api-twitter-database
+        hostname: api-twitter-database
+        networks: 
+            - backend-network
+        environment: 
+            POSTGRES_USER: twitter
+            POSTGRES_PASSWORD: twitter
+            POSTGRES_DB: api_twitter
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "twitter", "-d", "api_twitter"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+        volumes:
+            - pgdata-twitter:/var/lib/postgresql/data
+        restart: on-failure
+        stdin_open: true
+        tty: true
+
+    api-insta-database:
+            image: postgres:10
+            container_name: api-insta-database
+            hostname: api-insta-database
+            networks: 
+                - backend-network
+            environment: 
+                POSTGRES_USER: insta
+                POSTGRES_PASSWORD: insta
+                POSTGRES_DB: api_insta
+            healthcheck:
+                test: ["CMD", "pg_isready", "-U", "insta", "-d", "api_insta"]
+                interval: 30s
+                timeout: 30s
+                retries: 3
+            volumes:
+                - pgdata-insta:/var/lib/postgresql/data
+            restart: on-failure
+            stdin_open: true
+            tty: true
+
+    api-insta:
+            container_name: api-insta    
+            image: feedfusion/api-insta:latest
+            hostname: api-insta
+            networks:
+                - backend-network
+            ports:
+                - "11080:18080"
+            environment:
+                THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+                THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
+                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://api-insta-database:5432/api_insta"
+                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
+                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'insta'
+                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'insta'      
+            depends_on:
+                - kafka
+                - api-insta-database
+        
+
+    api-facebook-database:
+                image: postgres:10
+                container_name: api-facebook-database
+                hostname: api-facebook-database
+                networks: 
+                    - backend-network
+                environment: 
+                    POSTGRES_USER: facebook
+                    POSTGRES_PASSWORD: facebook
+                    POSTGRES_DB: api_facebook
+                healthcheck:
+                    test: ["CMD", "pg_isready", "-U", "facebook", "-d", "api_facebook"]
+                    interval: 30s
+                    timeout: 30s
+                    retries: 3
+                volumes:
+                    - pgdata-facebook:/var/lib/postgresql/data
+                restart: on-failure
+                stdin_open: true
+                tty: true
+
+
+
+volumes: 
+    pgdata-facebook:
+    pgdata-insta:
+    pgdata-twitter:
+
+networks:
+    backend-network:
+        driver: bridge
