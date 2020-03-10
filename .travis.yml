@@ -5,9 +5,9 @@ services:
 
 addons:
     sonarcloud:
-        organization: "rozozepine"
+        organization: "pinfo-2020"
         token:
-            secure: "bsexDdButWQhHph7joxu9KHNBAilbivOBnXu1WP09YoIYlsd5EdHxhQC3DWG1fRNqHp4D/PSQHgaOrF3AnfjFwg/sM26QKNemb36GjtDE6SGiCZTRmBpevU8WrGsdl/P+eiEcrNOwn0YqaLV9MXNBLK4sSlvGtQGQoiLKA1+qm1Vq1C71XUFBESQRfXf9YZf8nF9Mft/mg1rFFf0WebHhoDDSvGGI750bCdyH3wJSA/dY/V1VU87wCdzSAgAIp/Mk/USrcDopeNeOdsRdZVHErsDyGAFhiToWwJkZtd1h4/QgWM9DjzD1HeAsOYMmiMHAq17ATAy+21DCK/ZzFkyg4SMaPIrAg/Zr+IIgTHbDS6xMJ0t6nf/RF4/l5cPRO+gTCCYoX6Rh5Mhr5DUnAEOZDa/3MVHIy42IJdAPWjz83dGwS477Lm4K4MAjhqF2Vj9DnB7rLg7LKlJpHIVRwnY3TquIKP6yVmjFfmvHzGO35a38evTGgqAGj7nSp5h6edyl4AFTY/CL4S57s7PujbFFXO//ZtIc4T7hreLaHqX+idizn4P18hrrOUtSQ4QNWBqzEslG9+FSkvgozdwnsiOYLVi1IQAvqsA8kIBQnyTf0lw7YaNw5WmDmJiWuLOR1Nnu8nNmCXAGMITzEKgwqhJ+lJap8gnAb6pClQkLfQ8568="
+            secure: "tNOtFGjNRYqLH3oSfWt7vhOZ6+onUZ6JWlUDGN6LrG3Wl66i1/achxMwkVwPg8RPwD0H8IQ+fZcmYS9lvXeClbT5a5HJlhwqLwe2ZG0TMQReW/eqbG6xHMcbIMMywSSmJqHngjjBSEtsXeEkk8FoUME30lePZfc45csyDAPJ52IwRS4lJCKgVkZk81gKsQ5he1krY2hYOUiuqp0IeHSFRAMhQSO01WKCDNm7B1S2Mi0YsrWk6OPAYjOPKO5kRwoP2cuHkyrA6RPsRv1NW/h++3dzqMeIK0bpbA/0YTXsNtBTrmC3kR87lJn6+e7ha4iLuXXwBsV0PJ7Djn9F2H0edSHFy7nBPeJduiIXUr0L7wpWoxdBVzwuf88X6et6kTLe0QKWaHYspM2sN9ftcIEfBy07PLJn8C8XuQAKu5t5YQQArPAYbFs+O7tbI2afu3c2GyFLNgfs9kxSx5BerLa1eF0oUOSq0KxYzNjipC3WQDYisjqEtZ+Ed2S5DnLdaa790FBxL4uZhHvW/IFKZDFLc2iiqY3dLkOfBxhAc4dYbsFls6L+rzJeK2VbHb4HU2cdPyr/vD1PgAfJBtkl05b4arabHhD3kyjvJSuJbOuD6aEY1XflNE/cVIYB8zNcPXFTp/wrBYX2W4wh/19cTubmxqWBORUSBAiMaMN5HSV61lg="
       
 cache:
     directories:
@@ -16,7 +16,7 @@ cache:
 
 script:
     - mvn test
-    - mvn sonar:sonar -Dsonar.projectKey=Rozozepine_FeedFusion -Dsonar.organization=rozozepine -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=7e016d9a7c54e374b4b3c9ad1ef5c045a4752194
+    - mvn sonar:sonar -Dsonar.projectKey=pinfo-2020_pinfo-1 -Dsonar.organization=pinfo-2020 -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=be934dd83d6eb7ae35fc7c9b7bdb06ed76bebdbe
     - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
     - docker tag feedfusion/api-insta rozozepine/api-insta:latest
