@@ -42,95 +42,236 @@ services:
         depends_on:
             - zookeeper
 
-    api-twitter-database:
-        image: postgres:10
-        container_name: api-twitter-database
-        hostname: api-twitter-database
-        networks: 
+    api-insta:
+        container_name: api-insta    
+        image: feedfusion/api-insta:latest
+        hostname: api-insta
+        networks:
             - backend-network
-        environment: 
-            POSTGRES_USER: twitter
-            POSTGRES_PASSWORD: twitter
-            POSTGRES_DB: api_twitter
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+
+    api-facebook:
+        container_name: api-facebook    
+        image: feedfusion/api-facebook:latest
+        hostname: api-facebook
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+
+    api-twitter:
+        container_name: api-twitter    
+        image: feedfusion/api-twitter:latest
+        hostname: api-twitter
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+             
+
+    feed-service:
+        container_name: feed-service    
+        image: feedfusion/feed-service:latest
+        hostname: feed-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+
+    interact-service:
+        container_name: interact-service    
+        image: feedfusion/interact-service:latest
+        hostname: interact-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+
+    openpost-service:
+        container_name: openpost-service    
+        image: feedfusion/openpost-service:latest
+        hostname: openpost-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+    
+    
+    publish-service:
+        container_name: publish-service    
+        image: feedfusion/publish-service:latest
+        hostname: publish-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+    
+    search-service:
+        container_name: search-service    
+        image: feedfusion/search-service:latest
+        hostname: search-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+
+    sort-service:
+        container_name: sort-service    
+        image: feedfusion/sort-service:latest
+        hostname: sort-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+        
+    interact-service:
+        container_name: interact-service    
+        image: feedfusion/interact-service:latest
+        hostname: interact-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
+        depends_on:
+            - kafka
+    
+    
+    save-database:
+        image: postgres:10
+        container_name: save-database
+        hostname: save-database
+        networks:
+            - backend-network
+        environment:
+            POSTGRES_USER: save_user
+            POSTGRES_PASSWORD: save_paswd
+            POSTGRES_DB: save
         healthcheck:
-            test: ["CMD", "pg_isready", "-U", "twitter", "-d", "api_twitter"]
+            test: ["CMD", "pg_isready", "-U", "cpty", "-d", "save"]
             interval: 30s
             timeout: 30s
             retries: 3
         volumes:
-            - pgdata-twitter:/var/lib/postgresql/data
+            - pgdata-save:/var/lib/postgresql/data
+            - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
         restart: on-failure
         stdin_open: true
         tty: true
 
-    api-insta-database:
-            image: postgres:10
-            container_name: api-insta-database
-            hostname: api-insta-database
-            networks: 
-                - backend-network
-            environment: 
-                POSTGRES_USER: insta
-                POSTGRES_PASSWORD: insta
-                POSTGRES_DB: api_insta
-            healthcheck:
-                test: ["CMD", "pg_isready", "-U", "insta", "-d", "api_insta"]
-                interval: 30s
-                timeout: 30s
-                retries: 3
-            volumes:
-                - pgdata-insta:/var/lib/postgresql/data
-            restart: on-failure
-            stdin_open: true
-            tty: true
+    save-service:
+        container_name: save-service    
+        image: feedfusion/save-service:latest
+        hostname: save-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://save-database:5432/instrument"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'save_user'
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'save_paswd'      
+        depends_on:
+            - kafka
+            - save-database
 
-    api-insta:
-            container_name: api-insta    
-            image: feedfusion/api-insta:latest
-            hostname: api-insta
-            networks:
-                - backend-network
-            ports:
-                - "11080:18080"
-            environment:
-                THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
-                THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
-                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://api-insta-database:5432/api_insta"
-                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
-                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'insta'
-                THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'insta'      
-            depends_on:
-                - kafka
-                - api-insta-database
-        
 
-    api-facebook-database:
-                image: postgres:10
-                container_name: api-facebook-database
-                hostname: api-facebook-database
-                networks: 
-                    - backend-network
-                environment: 
-                    POSTGRES_USER: facebook
-                    POSTGRES_PASSWORD: facebook
-                    POSTGRES_DB: api_facebook
-                healthcheck:
-                    test: ["CMD", "pg_isready", "-U", "facebook", "-d", "api_facebook"]
-                    interval: 30s
-                    timeout: 30s
-                    retries: 3
-                volumes:
-                    - pgdata-facebook:/var/lib/postgresql/data
-                restart: on-failure
-                stdin_open: true
-                tty: true
+    user-database:
+        image: postgres:10
+        container_name: user-database
+        hostname: user-database
+        networks:
+            - backend-network
+        environment:
+            POSTGRES_USER: user_user
+            POSTGRES_PASSWORD: user_paswd
+            POSTGRES_DB: user
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "cpty", "-d", "user"]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+        volumes:
+            - pgdata-user:/var/lib/postgresql/data
+            - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
+        restart: on-failure
+        stdin_open: true
+        tty: true
 
+    user-service:
+        container_name: user-service    
+        image: feedfusion/user-service:latest
+        hostname: user-service
+        networks:
+            - backend-network
+        ports:
+            - "11080:18080"
+        environment:
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+            THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://user-database:5432/instrument"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'user_user'
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'user_paswd'      
+        depends_on:
+            - kafka
+            - user-database
 
 
 volumes: 
-    pgdata-facebook:
-    pgdata-insta:
-    pgdata-twitter:
+    pgdata-save:
+    pgdata-user:
 
 networks:
     backend-network:
