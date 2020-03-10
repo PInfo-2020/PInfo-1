@@ -1,12 +1,19 @@
+[![Build Status](https://travis-ci.com/PInfo-2020/PInfo-1.svg?branch=master)](https://travis-ci.com/PInfo-2020/PInfo-1)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PInfo-2020_PInfo-1&metric=alert_status)](https://sonarcloud.io/dashboard?id=PInfo-2020_PInfo-1)
+
 # Your Project's Name
 
-Repository for PInfo-2020's team 1
+Feed Fusion
 
 ## Team members:
 
-- Team member 1: role
-- Team member 2: role
-- ...
+- Team member 1: Chef de projet
+- Team member 2: Admin Sys
+- : Backend dev
+- : Backend dev
+- : Frontend dev
+- : Frontend dev
+
 
 ## How to set up your project:
 
