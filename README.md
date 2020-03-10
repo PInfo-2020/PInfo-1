@@ -7,9 +7,9 @@ Projet informatique
 
 ## Team members:
 
-- TopFox : Chef de projet
-- @Rozozepine : Admin Sys
-- @Vossitu : Backend dev
-- Jimmysburgger : Backend dev
-- JeremieGuy : Frontend dev
-- jlstoupy98: Frontend dev
+- TopFox : https://github.com/TopFox : Chef de projet
+- Rozozepine : https://github.com/Rozozepine : Admin Sys
+- Vossitu : https://github.com/Vossitu : Backend dev
+- Jimmysburgger : https://github.com/Jimmysburgger : Backend dev
+- JeremieGuy : https://github.com/JeremieGuy : Frontend dev
+- jlstoupy98 : https://github.com/jlstoupy98 : Frontend dev
