@@ -1,0 +1,30 @@
+language: java
+
+services:
+    - docker
+
+addons:
+    sonarcloud:
+        organization: "rozozepine"
+        token:
+            secure: "bsexDdButWQhHph7joxu9KHNBAilbivOBnXu1WP09YoIYlsd5EdHxhQC3DWG1fRNqHp4D/PSQHgaOrF3AnfjFwg/sM26QKNemb36GjtDE6SGiCZTRmBpevU8WrGsdl/P+eiEcrNOwn0YqaLV9MXNBLK4sSlvGtQGQoiLKA1+qm1Vq1C71XUFBESQRfXf9YZf8nF9Mft/mg1rFFf0WebHhoDDSvGGI750bCdyH3wJSA/dY/V1VU87wCdzSAgAIp/Mk/USrcDopeNeOdsRdZVHErsDyGAFhiToWwJkZtd1h4/QgWM9DjzD1HeAsOYMmiMHAq17ATAy+21DCK/ZzFkyg4SMaPIrAg/Zr+IIgTHbDS6xMJ0t6nf/RF4/l5cPRO+gTCCYoX6Rh5Mhr5DUnAEOZDa/3MVHIy42IJdAPWjz83dGwS477Lm4K4MAjhqF2Vj9DnB7rLg7LKlJpHIVRwnY3TquIKP6yVmjFfmvHzGO35a38evTGgqAGj7nSp5h6edyl4AFTY/CL4S57s7PujbFFXO//ZtIc4T7hreLaHqX+idizn4P18hrrOUtSQ4QNWBqzEslG9+FSkvgozdwnsiOYLVi1IQAvqsA8kIBQnyTf0lw7YaNw5WmDmJiWuLOR1Nnu8nNmCXAGMITzEKgwqhJ+lJap8gnAb6pClQkLfQ8568="
+      
+cache:
+    directories:
+        - .autoconf
+        - $HOME/.m2
+
+script:
+    - mvn test
+    - mvn sonar:sonar -Dsonar.projectKey=Rozozepine_FeedFusion -Dsonar.organization=rozozepine -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=7e016d9a7c54e374b4b3c9ad1ef5c045a4752194
+    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
+    - docker tag feedfusion/api-insta rozozepine/api-insta:latest
+    - docker tag feedfusion/api-twitter rozozepine/api-twitter:latest
+    - docker tag feedfusion/api-facebook rozozepine/api-facebook:latest
+    - docker tag feedfusion/api-gateway rozozepine/api-gateway:latest
+    - docker push rozozepine/api-insta:latest
+    - docker push rozozepine/api-twitter:latest
+    - docker push rozozepine/api-facebook:latest
+    - docker push rozozepine/api-gateway:latest
+  
