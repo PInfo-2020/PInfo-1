@@ -49,7 +49,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10080:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -63,7 +63,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10081:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -77,7 +77,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10082:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -92,7 +92,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10083:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -106,7 +106,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10084:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -120,7 +120,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10085:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -135,7 +135,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10086:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -149,7 +149,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10087:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -163,7 +163,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10088:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -177,7 +177,7 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10089:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"     
@@ -196,7 +196,7 @@ services:
             POSTGRES_PASSWORD: save_paswd
             POSTGRES_DB: save
         healthcheck:
-            test: ["CMD", "pg_isready", "-U", "cpty", "-d", "save"]
+            test: ["CMD", "pg_isready", "-U", "save_user", "-d", "save"]
             interval: 30s
             timeout: 30s
             retries: 3
@@ -214,11 +214,11 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10090:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
-            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://save-database:5432/instrument"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://save-database:5432/save"
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'save_user'
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'save_paswd'      
@@ -238,7 +238,7 @@ services:
             POSTGRES_PASSWORD: users_paswd
             POSTGRES_DB: user
         healthcheck:
-            test: ["CMD", "pg_isready", "-U", "cpty", "-d", "users"]
+            test: ["CMD", "pg_isready", "-U", "users_user", "-d", "users"]
             interval: 30s
             timeout: 30s
             retries: 3
@@ -256,11 +256,11 @@ services:
         networks:
             - backend-network
         ports:
-            - "11080:18080"
+            - "10091:18080"
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
-            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://user-database:5432/instrument"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://user-database:5432/user"
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'users_user'
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'users_paswd'      
@@ -275,4 +275,5 @@ volumes:
 
 networks:
     backend-network:
+
         driver: bridge

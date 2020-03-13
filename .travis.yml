@@ -23,8 +23,9 @@ script:
     - docker tag feedfusion/api-twitter rozozepine/api-twitter:latest
     - docker tag feedfusion/api-facebook rozozepine/api-facebook:latest
     - docker tag feedfusion/api-gateway rozozepine/api-gateway:latest
+
     - docker push rozozepine/api-insta:latest
     - docker push rozozepine/api-twitter:latest
     - docker push rozozepine/api-facebook:latest
     - docker push rozozepine/api-gateway:latest
-  
+

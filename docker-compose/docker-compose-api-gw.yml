@@ -64,22 +64,6 @@ services:
         depends_on:
             - kong-database
 
-    api-gateway-konga:
-        image: pantsel/konga
-        container_name: api-gateway-konga
-        hostname: api-gateway-kong
-        networks: 
-            - gateway-network
-            - backend-network
-        environment: 
-            DB_ADAPTER: postgres
-            DB_HOST: kong-database
-            DB_USER: kong
-            DB_PASSWORD: kong
-            DB_DATABASE: kongdb
-            NODE_ENV: development
-            KONGA_HOOK_TIMEOUT: 120000
-
 
     api-gateway-init:
         image: feedfusion/api-gateway
@@ -92,8 +76,18 @@ services:
             sh -c "/tmp/config-kong.sh"  
         depends_on:
             - api-gateway
-            
 
+    api-gateway-konga:
+        image: pantsel/konga
+        container_name: api-gateway-konga
+        hostname: api-gateway-kong
+        networks: 
+            - gateway-network
+            - backend-network
+        ports:
+            - 1337:1337
+        environment: 
+            NODE_ENV: production
 
     iam-db:
         image: postgres:10
