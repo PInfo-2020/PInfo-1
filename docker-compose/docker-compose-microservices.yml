@@ -227,32 +227,32 @@ services:
             - save-database
 
 
-    user-database:
+    users-database:
         image: postgres:10
-        container_name: user-database
-        hostname: user-database
+        container_name: users-database
+        hostname: users-database
         networks:
             - backend-network
         environment:
-            POSTGRES_USER: user_user
-            POSTGRES_PASSWORD: user_paswd
+            POSTGRES_USER: users_user
+            POSTGRES_PASSWORD: users_paswd
             POSTGRES_DB: user
         healthcheck:
-            test: ["CMD", "pg_isready", "-U", "cpty", "-d", "user"]
+            test: ["CMD", "pg_isready", "-U", "cpty", "-d", "users"]
             interval: 30s
             timeout: 30s
             retries: 3
         volumes:
-            - pgdata-user:/var/lib/postgresql/data
+            - pgdata-users:/var/lib/postgresql/data
             - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
         restart: on-failure
         stdin_open: true
         tty: true
 
-    user-service:
-        container_name: user-service    
-        image: feedfusion/user-service:latest
-        hostname: user-service
+    users-service:
+        container_name: users-service    
+        image: feedfusion/users-service:latest
+        hostname: users-service
         networks:
             - backend-network
         ports:
@@ -262,16 +262,16 @@ services:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://user-database:5432/instrument"
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
-            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'user_user'
-            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'user_paswd'      
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'users_user'
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'users_paswd'      
         depends_on:
             - kafka
-            - user-database
+            - users-database
 
 
 volumes: 
     pgdata-save:
-    pgdata-user:
+    pgdata-users:
 
 networks:
     backend-network:
