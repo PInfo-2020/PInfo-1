@@ -236,7 +236,7 @@ services:
         environment:
             POSTGRES_USER: users_user
             POSTGRES_PASSWORD: users_paswd
-            POSTGRES_DB: user
+            POSTGRES_DB: users
         healthcheck:
             test: ["CMD", "pg_isready", "-U", "users_user", "-d", "users"]
             interval: 30s
