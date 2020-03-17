@@ -13,3 +13,7 @@ Projet informatique
 - Jimmysburgger : https://github.com/Jimmysburgger : Backend dev
 - JeremieGuy : https://github.com/JeremieGuy : Frontend dev
 - jlstoupy98 : https://github.com/jlstoupy98 : Frontend dev
+
+## Kanban
+
+https://trello.com/b/PGKJLHGo/project
