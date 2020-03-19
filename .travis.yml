@@ -37,5 +37,8 @@ script:
 - cd helm-chart
 - helm repo index .
 deploy:
-  password:
-    secure: ikzab3/4iz2AyMo2scH7LhkYA4zJ4wfsHcuaLd5QX/HTQgxmK8rklCp7yaoUtAiORcLGSMU6Zc6khYT3P2S+QcYnrYdO64PDomvNwdutU0K2vGD0JNBgbv+z/2SgZ50w+QuAJAB5+t1C6iTV6D2JNvdYTtk9WAz38X1w+XdfrM+iYn7ZscHgEqi9O1AZ27ujQxjFceIthOozOu18GJJ/cMT2ngiM8LfIVu8CMcbR/aG5IYnCHNc0wpm5h1XBlTDabHjv8CplY8aVrp5gHfjUg97VACIv15DH7EIuqN4USNu94ysfIcylbXU7kZpGJVbdQFE9nXhuxhGhZFG0B6NhYJPmM1x+r6nIjZ7lYx6AtsKK8kQxk28exEf22QseOuerWpe0LEbjwjmJXXgcjii+nfdiclLAoiVywLdegwceIr4YHLzTJ4NoMn7RNWjL4XqAWw2CFWeZ94yWZoSnswg/3nxOsaj9EJ7UzfaMpxRtVv0+kmVW5L77xzPan66HEBD6qP4j7YGfu/PtvmdEL5gzzO6CjVbChdgqtxYutFpm/o4/Xpj50u4uX651qeSXUhVkZ8neQB43F13hg/I+AUbzG5jTqBiKMisU6LxFv1/HM4hXC/mSEk0lRZeC8GLdrpBHKme2tXSDmqH/2iuElTXf++GdPLxerFkkA9Mm1a68Hv4=
+  provider: script
+  skip_cleanup: true
+  script: ssh smithlu7@129.194.69.131 'bash '
+  on:
+    branch: master
