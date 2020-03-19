@@ -1,36 +1,37 @@
 language: java
-
 services:
-    - docker
-
+- docker
 addons:
-    sonarcloud:
-        organization: "pinfo-2020"
-        token:
-            secure: "ILuluYoJgzPAS/vzxJVQAYNwH/7Ji9nfz1xlui3MnS00ey3wQRQGHIzvpm1dNs4F3h7Ae15Jy8pUc1DmW98WbaPSQ1LahHg0reUQsaodFPHq2C2pM3w8zmen/GuPRo9EBYNoH2wg8yajzIRLIrg94QEnXNozc36NNKiSl5Bz2NYRSk1oumxjaJTOr6aPal9psSC65lWzM3KYA+NnjNQy0Pwm6y8ANm+hVaYC485KBQzahdo4VZMboY4HBGjnclxPFDc14B/sG2K6zNhh4XqqcnIx3u+CiJUtrUr7jKK74+yLlvTVP56dW5DqZzUhcoKw0X2aDLT+i1w6ssBqinyDqjrAef5dnf9u8wB7f9aZ7Vm747EAopVG+wo4qFG8BlB2kutmC8AlXvFCnUJ3u6dovW7uNKp4XaNzajAExKqp5yiCmJgVQprbT1+lhHFl0HqgBCo7ckyp++K6NS9vaIwrPWifZ+Xj8OxdbZAfdqkM+RgayH/EIZR2GmYvt5SrNtmhInO1rGk3j6PmaHS6/MbqgQkYrp7KaS9mFFMJqF+3S7TXEGeifLyqeoOgWDZ42e3h4W4yEklYrNjIiXOR9i8v7esm6K+473WCtdsiRxVBehETQriB6LDBEp+rNuQOlrtYt7CHwtf6WrGXATGGsOAQIWfrfuyD/aTYAb0KoWetls0="
-      
+  sonarcloud:
+    organization: pinfo-2020
+    token:
+      secure: ILuluYoJgzPAS/vzxJVQAYNwH/7Ji9nfz1xlui3MnS00ey3wQRQGHIzvpm1dNs4F3h7Ae15Jy8pUc1DmW98WbaPSQ1LahHg0reUQsaodFPHq2C2pM3w8zmen/GuPRo9EBYNoH2wg8yajzIRLIrg94QEnXNozc36NNKiSl5Bz2NYRSk1oumxjaJTOr6aPal9psSC65lWzM3KYA+NnjNQy0Pwm6y8ANm+hVaYC485KBQzahdo4VZMboY4HBGjnclxPFDc14B/sG2K6zNhh4XqqcnIx3u+CiJUtrUr7jKK74+yLlvTVP56dW5DqZzUhcoKw0X2aDLT+i1w6ssBqinyDqjrAef5dnf9u8wB7f9aZ7Vm747EAopVG+wo4qFG8BlB2kutmC8AlXvFCnUJ3u6dovW7uNKp4XaNzajAExKqp5yiCmJgVQprbT1+lhHFl0HqgBCo7ckyp++K6NS9vaIwrPWifZ+Xj8OxdbZAfdqkM+RgayH/EIZR2GmYvt5SrNtmhInO1rGk3j6PmaHS6/MbqgQkYrp7KaS9mFFMJqF+3S7TXEGeifLyqeoOgWDZ42e3h4W4yEklYrNjIiXOR9i8v7esm6K+473WCtdsiRxVBehETQriB6LDBEp+rNuQOlrtYt7CHwtf6WrGXATGGsOAQIWfrfuyD/aTYAb0KoWetls0=
 cache:
-    directories:
-        - .autoconf
-        - $HOME/.m2
-
+  directories:
+  - ".autoconf"
+  - "$HOME/.m2"
 before_install:
-    - curl -L https://git.io/get_helm.sh | bash
-    - helm init --client-only
+- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- curl -L https://git.io/get_helm.sh | bash
+- helm init --client-only
 script:
-    - mvn test
-    - mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020 -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
-    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image 
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
-    - docker tag feedfusion/api-insta rozozepine/api-insta:latest
-    - docker tag feedfusion/api-twitter rozozepine/api-twitter:latest
-    - docker tag feedfusion/api-facebook rozozepine/api-facebook:latest
-    - docker tag feedfusion/api-gateway rozozepine/api-gateway:latest
-
-    - docker push rozozepine/api-insta:latest
-    - docker push rozozepine/api-twitter:latest
-    - docker push rozozepine/api-facebook:latest
-    - docker push rozozepine/api-gateway:latest
-    - helm package helm-chart/feedfusion/ -d helm-chart/docs/
-    - cd helm-chart
-    - helm repo index .
+- mvn test
+- mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020
+  -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker tag feedfusion/api-insta rozozepine/api-insta:latest
+- docker tag feedfusion/api-twitter rozozepine/api-twitter:latest
+- docker tag feedfusion/api-facebook rozozepine/api-facebook:latest
+- docker tag feedfusion/api-gateway rozozepine/api-gateway:latest
+- docker push rozozepine/api-insta:latest
+- docker push rozozepine/api-twitter:latest
+- docker push rozozepine/api-facebook:latest
+- docker push rozozepine/api-gateway:latest
+- helm package helm-chart/feedfusion/ -d helm-chart/docs/
+- cd helm-chart
+- helm repo index .
+deploy:
+  password:
+    secure: ikzab3/4iz2AyMo2scH7LhkYA4zJ4wfsHcuaLd5QX/HTQgxmK8rklCp7yaoUtAiORcLGSMU6Zc6khYT3P2S+QcYnrYdO64PDomvNwdutU0K2vGD0JNBgbv+z/2SgZ50w+QuAJAB5+t1C6iTV6D2JNvdYTtk9WAz38X1w+XdfrM+iYn7ZscHgEqi9O1AZ27ujQxjFceIthOozOu18GJJ/cMT2ngiM8LfIVu8CMcbR/aG5IYnCHNc0wpm5h1XBlTDabHjv8CplY8aVrp5gHfjUg97VACIv15DH7EIuqN4USNu94ysfIcylbXU7kZpGJVbdQFE9nXhuxhGhZFG0B6NhYJPmM1x+r6nIjZ7lYx6AtsKK8kQxk28exEf22QseOuerWpe0LEbjwjmJXXgcjii+nfdiclLAoiVywLdegwceIr4YHLzTJ4NoMn7RNWjL4XqAWw2CFWeZ94yWZoSnswg/3nxOsaj9EJ7UzfaMpxRtVv0+kmVW5L77xzPan66HEBD6qP4j7YGfu/PtvmdEL5gzzO6CjVbChdgqtxYutFpm/o4/Xpj50u4uX651qeSXUhVkZ8neQB43F13hg/I+AUbzG5jTqBiKMisU6LxFv1/HM4hXC/mSEk0lRZeC8GLdrpBHKme2tXSDmqH/2iuElTXf++GdPLxerFkkA9Mm1a68Hv4=
