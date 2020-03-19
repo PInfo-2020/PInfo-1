@@ -14,6 +14,9 @@ cache:
         - .autoconf
         - $HOME/.m2
 
+before_install:
+    - curl -L https://git.io/get_helm.sh | bash
+    - helm init --client-only
 script:
     - mvn test
     - mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020 -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
@@ -28,4 +31,6 @@ script:
     - docker push rozozepine/api-twitter:latest
     - docker push rozozepine/api-facebook:latest
     - docker push rozozepine/api-gateway:latest
-
+    - helm package helm-chart/feedfusion/ -d helm-chart/docs/
+    - cd helm-chart
+    - helm repo index .

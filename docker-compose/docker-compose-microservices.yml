@@ -186,7 +186,7 @@ services:
     
     
     save-database:
-        image: postgres:10
+        image: postgres:12
         container_name: save-database
         hostname: save-database
         networks:
@@ -202,7 +202,6 @@ services:
             retries: 3
         volumes:
             - pgdata-save:/var/lib/postgresql/data
-            - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
         restart: on-failure
         stdin_open: true
         tty: true
@@ -228,7 +227,7 @@ services:
 
 
     users-database:
-        image: postgres:10
+        image: postgres:12
         container_name: users-database
         hostname: users-database
         networks:
@@ -244,7 +243,6 @@ services:
             retries: 3
         volumes:
             - pgdata-users:/var/lib/postgresql/data
-            - ./test-data/counterparties.sql:/docker-entrypoint-initdb.d/init.sql
         restart: on-failure
         stdin_open: true
         tty: true
@@ -260,7 +258,7 @@ services:
         environment:
             THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
             THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
-            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://users-database:5432/user"
+            THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://users-database:5432/users"
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_DRIVER_DASH_NAME: 'postgresql'   
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_USER_DASH_NAME: 'users_user'
             THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INSTRUMENTDS_PASSWORD: 'users_paswd'      
