@@ -35,13 +35,13 @@ script:
 - helm package helm-chart/feedfusion/ -d docs/
 - helm repo index docs/
 deploy:
-  provider: script
+  - provider: script
   skip_cleanup: true
   script: ssh defosse0@129.194.69.128 'bash deploy_script.sh' 
   on:
     branch: master
    # ⋮
-  provider: pages
+  - provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
