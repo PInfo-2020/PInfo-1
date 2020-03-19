@@ -2,7 +2,7 @@ language: java
 services:
 - docker
 addons:
-  ssh_known_hosts: 129.194.69.128
+  ssh_known_hosts: defosse0@129.194.69.128
   sonarcloud:
     organization: pinfo-2020
     token:
@@ -12,7 +12,7 @@ cache:
   - ".autoconf"
   - "$HOME/.m2"
 before_install:
-- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv
+- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
   -in deploy_rsa.enc -out deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
@@ -36,9 +36,9 @@ script:
 - helm package helm-chart/feedfusion/ -d helm-chart/docs/
 - cd helm-chart
 - helm repo index .
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: ssh smithlu7@129.194.69.131 'bash '
-  on:
-    branch: master
+#deploy:
+#  provider: script
+#  skip_cleanup: true
+#  script: ssh defosse0@129.194.69.128 'bash '
+#  on:
+#    branch: master
