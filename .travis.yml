@@ -32,9 +32,8 @@ script:
 - docker push rozozepine/api-twitter:latest
 - docker push rozozepine/api-facebook:latest
 - docker push rozozepine/api-gateway:latest
-- helm package helm-chart/feedfusion/ -d helm-chart/docs/
-- cd helm-chart
-- helm repo index .
+- helm package helm-chart/feedfusion/ -d docs/
+- helm repo index docs/
 #deploy:
 #  provider: script
 #  skip_cleanup: true
