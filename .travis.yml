@@ -1,6 +1,8 @@
 language: java
+
 services:
-- docker
+    - docker
+
 addons:
   ssh_known_hosts: defosse0@129.194.69.128
   sonarcloud:
@@ -36,16 +38,16 @@ script:
 - helm repo index docs/
 
 deploy:
-  - provider: script
-  skip_cleanup: true
-  script: ssh defosse0@129.194.69.128 'bash deploy_script.sh' 
-  on:
-    branch: master
-   # ⋮
-  - provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
-  local_dir: docs
-  on:
-    branch: master
+    - provider: script
+        skip_cleanup: true
+        script: ssh defosse0@129.194.69.128 'bash deploy_script.sh' 
+        on:
+            branch: master
+
+    - provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep_history: true
+        local_dir: docs
+        on:
+            branch: master
