@@ -34,9 +34,9 @@ script:
 - docker push rozozepine/api-gateway:latest
 - helm package helm-chart/feedfusion/ -d docs/
 - helm repo index docs/
-#deploy:
-#  provider: script
-#  skip_cleanup: true
-#  script: ssh defosse0@129.194.69.128 'bash '
-#  on:
-#    branch: master
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ssh defosse0@129.194.69.128 'bash deploy_script.sh' 
+  on:
+    branch: master
