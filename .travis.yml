@@ -34,6 +34,7 @@ script:
 - docker push rozozepine/api-gateway:latest
 - helm package helm-chart/feedfusion/ -d docs/
 - helm repo index docs/
+
 deploy:
   - provider: script
   skip_cleanup: true
