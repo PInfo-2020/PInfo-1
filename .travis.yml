@@ -20,6 +20,7 @@ before_install:
 - ssh-add deploy_rsa
 - curl -L https://git.io/get_helm.sh | bash
 - helm init --client-only
+
 script:
 - mvn test
 - mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020
@@ -37,20 +38,6 @@ script:
 - helm package helm-chart/feedfusion/ -d docs/
 - helm repo index docs/
 
-deploy:
-    - provider: script
-    skip_cleanup: true
-    script: ssh defosse0@129.194.69.128 'bash deploy_script.sh' 
-    on:
-        branch: master
-
-    - provider: pages
-        skip_cleanup: true
-        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-        keep_history: true
-        local_dir: docs
-        on:
-            branch: master
 deploy:
   - provider: script
     skip_cleanup: true
