@@ -34,6 +34,7 @@ script:
 - docker push rozozepine/api-twitter:latest
 - docker push rozozepine/api-facebook:latest
 - docker push rozozepine/api-gateway:latest
+- mkdir docs
 - helm package helm-chart/feedfusion/ -d docs/
 - helm repo index docs/
 
