@@ -35,6 +35,7 @@ script:
 - docker push rozozepine/api-facebook:latest
 - docker push rozozepine/api-gateway:latest
 - mkdir file-gh-pages
+- cp README.md file-gh-pages
 - helm package helm-chart/feedfusion/ -d  file-gh-pages/
 - helm repo index  file-gh-pages/
 
