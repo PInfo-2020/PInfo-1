@@ -34,9 +34,9 @@ script:
 - docker push rozozepine/api-twitter:latest
 - docker push rozozepine/api-facebook:latest
 - docker push rozozepine/api-gateway:latest
-- mkdir docs
-- helm package helm-chart/feedfusion/ -d docs/
-- helm repo index docs/
+- mkdir file-gh-pages
+- helm package helm-chart/feedfusion/ -d  file-gh-pages/
+- helm repo index  file-gh-pages/
 
 deploy:
   - provider: script
@@ -49,6 +49,7 @@ deploy:
     skip_cleanup: true
     github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
     keep_history: true
-    local_dir: docs
+    local_dir:  file-gh-pages
+    target_branch: gh-pages
     on:
         branch: master
