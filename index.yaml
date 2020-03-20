@@ -3,11 +3,11 @@ entries:
   feedfusion:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2020-03-20T09:08:29.55153666Z"
+    created: "2020-03-20T09:33:56.687621252Z"
     description: A Helm chart for Kubernetes
-    digest: 497f55aaa57ff443ae471e523f160e04f6083ad3faf15a4d3d291f24573a6405
+    digest: a8ddb237615fc512ddd33331cf348e2081fb9804d7bc79379cd3a713b3699419
     name: feedfusion
     urls:
     - feedfusion-0.1.0.tgz
     version: 0.1.0
-generated: "2020-03-20T09:08:29.551090218Z"
+generated: "2020-03-20T09:33:56.685616985Z"
