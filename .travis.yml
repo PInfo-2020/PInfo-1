@@ -30,10 +30,26 @@ script:
 - docker tag feedfusion/api-twitter rozozepine/api-twitter:latest
 - docker tag feedfusion/api-facebook rozozepine/api-facebook:latest
 - docker tag feedfusion/api-gateway rozozepine/api-gateway:latest
+- docker tag feedfusion/feed-service rozozepine/feed-service:latest
+- docker tag feedfusion/interact-service rozozepine/interact-service:latest
+- docker tag feedfusion/openpost-service rozozepine/openpost-service:latest
+- docker tag feedfusion/publish-service rozozepine/publish-service:latest
+- docker tag feedfusion/save-service rozozepine/save-service:latest
+- docker tag feedfusion/search-service rozozepine/search-service:latest
+- docker tag feedfusion/sort-service rozozepine/sort-service:latest
+- docker tag feedfusion/users-service rozozepine/users-service:latest
 - docker push rozozepine/api-insta:latest
 - docker push rozozepine/api-twitter:latest
 - docker push rozozepine/api-facebook:latest
 - docker push rozozepine/api-gateway:latest
+- docker push rozozepine/feed-service:latest
+- docker push rozozepine/interact-service:latest
+- docker push rozozepine/openpost-service:latest
+- docker push rozozepine/publish-service:latest
+- docker push rozozepine/save-service:latest
+- docker push rozozepine/search-service:latest
+- docker push rozozepine/sort-service:latest
+- docker push rozozepine/users-service:latest
 - mkdir file-gh-pages
 - cp README.md file-gh-pages
 - helm package helm-chart/feedfusion/ -d  file-gh-pages/
