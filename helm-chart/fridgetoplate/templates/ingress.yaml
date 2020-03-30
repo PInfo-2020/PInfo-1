@@ -12,5 +12,5 @@ spec:
       paths:
         - path: /
         backend:
-          serviceName: {{ include "fridgetoplate.fullname" . }}-web-ui
+          serviceName: {{- include "fridgetoplate.fullname" . }}-web-ui
           servicePort: 80
