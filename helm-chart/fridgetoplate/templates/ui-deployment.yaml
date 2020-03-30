@@ -25,7 +25,7 @@ spec:
             securityContext:
                 {{- toYaml .Values.podSecurityContext | nindent 8 }}
         containers:
-            - name: {{.Char.name}}
+            - name: {{.Chart.name}}
             securityContext:
                 {{- toYaml .Values.securityContext | nindent 12 }}
             image: {{- toYaml .Values.image.repository }}web-ui:{{.Values.image.labels}}
