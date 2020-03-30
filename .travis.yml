@@ -26,33 +26,9 @@ script:
   -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker tag feedfusion/api-insta rozozepine/api-insta:latest
-- docker tag feedfusion/api-twitter rozozepine/api-twitter:latest
-- docker tag feedfusion/api-facebook rozozepine/api-facebook:latest
-- docker tag feedfusion/api-gateway rozozepine/api-gateway:latest
-- docker tag feedfusion/feed-service rozozepine/feed-service:latest
-- docker tag feedfusion/interact-service rozozepine/interact-service:latest
-- docker tag feedfusion/openpost-service rozozepine/openpost-service:latest
-- docker tag feedfusion/publish-service rozozepine/publish-service:latest
-- docker tag feedfusion/save-service rozozepine/save-service:latest
-- docker tag feedfusion/search-service rozozepine/search-service:latest
-- docker tag feedfusion/sort-service rozozepine/sort-service:latest
-- docker tag feedfusion/users-service rozozepine/users-service:latest
-- docker push rozozepine/api-insta:latest
-- docker push rozozepine/api-twitter:latest
-- docker push rozozepine/api-facebook:latest
-- docker push rozozepine/api-gateway:latest
-- docker push rozozepine/feed-service:latest
-- docker push rozozepine/interact-service:latest
-- docker push rozozepine/openpost-service:latest
-- docker push rozozepine/publish-service:latest
-- docker push rozozepine/save-service:latest
-- docker push rozozepine/search-service:latest
-- docker push rozozepine/sort-service:latest
-- docker push rozozepine/users-service:latest
 - mkdir file-gh-pages
 - cp README.md file-gh-pages
-- helm package helm-chart/feedfusion/ -d  file-gh-pages/
+- helm package helm-chart/fridgetoplate/ -d  file-gh-pages/
 - helm repo index  file-gh-pages/
 
 deploy:
