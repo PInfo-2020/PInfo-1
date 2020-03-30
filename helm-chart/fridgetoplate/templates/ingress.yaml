@@ -8,10 +8,9 @@ metadata:
     {{- include "fridgetoplate.labels" . | nindent 4 }}.ingress
 spec:
   rules:
-    - http:
-      paths:
-        - path: /
-          backend:
-            serviceName: {{ include "fridgetoplate.fullname" . }}-web-ui
-            servicePort: 80
----
+  - http:
+      paths: 
+      - path: /
+        backend:
+          serviceName: {{ include "fridgetoplate.fullname" . }}-web-ui
+          servicePort: 80
