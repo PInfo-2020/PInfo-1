@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "fridgetoplate.fullname" . }}.web-ui
+  name: {{ include "fridgetoplate.fullname" . }}-web-ui
   namespace: {{ .Release.Namespace }} 
   labels:
     {{- include "fridgetoplate.labels" . | nindent 4 }}
