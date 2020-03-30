@@ -13,9 +13,9 @@ spec:
             {{- include "fridgetoplate.selectorLabels" . | nindent 6 }}
     template:
         metadata:
-        labels:
-            app: {{ include "fridgetoplate.fullname" . }}.web-ui
-                {{- include "fridgetoplate.selectorLabels" . | nindent 8 }}       
+            labels:
+                app: {{ include "fridgetoplate.fullname" . }}.web-ui
+                    {{- include "fridgetoplate.selectorLabels" . | nindent 8 }}       
         spec:
             {{- if .Values.imagePullSecrets }}
             imagePullSecrets:
