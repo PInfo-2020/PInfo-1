@@ -17,8 +17,10 @@ spec:
             app: {{ include "fridgetoplate.fullname" . }}.web-ui
                 {{- include "fridgetoplate.selectorLabels" . | nindent 8 }}       
         spec:
-         
-            imagePullSecrets: []
+            {{- if .Values.imagePullSecrets }}
+            imagePullSecrets:
+                - name: {{ .Values.imagePullSecrets }}
+            {{- end }}
             serviceAccountName: {{ include "fridgetoplate.serviceAccountName" . }}
             securityContext:
                 {{- toYaml .Values.podSecurityContext | nindent 8 }}
