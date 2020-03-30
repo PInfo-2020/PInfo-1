@@ -14,4 +14,3 @@ spec:
         backend:
           serviceName: {{ include "fridgetoplate.fullname" . }}-web-ui
           servicePort: 80
----
