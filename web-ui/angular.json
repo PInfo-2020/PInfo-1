@@ -3,7 +3,7 @@
   "version": 1, 
   "newProjectRoot": "projects",
   "projects": {
-    "FridgeToPlate": {
+    "PickNCook": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/FridgeToPlate",
+            "outputPath": "dist/PickNCook",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "FridgeToPlate:build"
+            "browserTarget": "PickNCook:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "FridgeToPlate:build:production"
+              "browserTarget": "PickNCook:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FridgeToPlate:build"
+            "browserTarget": "PickNCook:build"
           }
         },
         "test": {
@@ -110,15 +110,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "FridgeToPlate:serve"
+            "devServerTarget": "PickNCook:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "FridgeToPlate:serve:production"
+              "devServerTarget": "PickNCook:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "FridgeToPlate"
+  "defaultProject": "PickNCook"
 }
