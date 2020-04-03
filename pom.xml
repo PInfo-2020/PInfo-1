@@ -3,9 +3,9 @@
     
   <modelVersion>4.0.0</modelVersion>
     
-  <groupId>ch.unige.fridgetoplay</groupId>
+  <groupId>ch.unige.pickncook</groupId>
     
-  <artifactId>fridgetoplay</artifactId>
+  <artifactId>pickncook</artifactId>
     
   <version>0.1.0-SNAPSHOT</version>
     
