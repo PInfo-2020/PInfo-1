@@ -25,18 +25,6 @@ kafka:
   persistence:
     enabled: false
 
-frigo-db:
-  driver_name: org.postgresql
-  persistence:
-     enabled: false
-  postgresUser: frig
-  postgresDatabase: frigodb
-  postgresqlDatabase: frigodb
-  global:
-      persistence:
-         enabled: false
-      postgresqlDatabase: frigodb
-
 rbac:
   create: true
 
