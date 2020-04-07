@@ -43,10 +43,10 @@ script:
 - docker tag pickncook/web-ui rozozepine/web-ui:latest 
 - docker push rozozepine/web-ui:latest
 #build gh-pages
-#- mkdir file-gh-pages
-#- cp README.md file-gh-pages
-#- helm package helm-chart/fridgetoplate/ -d  file-gh-pages/
-#- helm repo index  file-gh-pages/
+- mkdir file-gh-pages
+- cp README.md file-gh-pages
+- helm package helm-chart/pickncook/ -d  file-gh-pages/
+- helm repo index  file-gh-pages/
 
 deploy:
   - provider: script
