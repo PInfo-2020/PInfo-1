@@ -26,22 +26,22 @@ before_install:
 - helm init --client-only
 - nvm install $NODE_VERSION
 script:
-- mvn test
+#- mvn test
 #- mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020
 #  -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
-- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker tag pickncook/frigo_service rozozepine/frigo_service:latest 
-- docker push rozozepine/frigo_service:latest 
+#- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
+#- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#- docker tag pickncook/frigo_service rozozepine/frigo_service:latest 
+#- docker push rozozepine/frigo_service:latest 
 #build web-ui
-- cd web-ui
-- npm -v
-- npm install
-- npm update
-- npm run-script build --prod
-- docker build -t pickncook/web-ui .
-- docker tag pickncook/web-ui rozozepine/web-ui:latest 
-- docker push rozozepine/web-ui:latest
+#- cd web-ui
+#- npm -v
+#- npm install
+#- npm update
+#- npm run-script build --prod
+#- docker build -t pickncook/web-ui .
+#- docker tag pickncook/web-ui rozozepine/web-ui:latest 
+#- docker push rozozepine/web-ui:latest
 #build gh-pages
 - mkdir file-gh-pages
 - cp README.md file-gh-pages
