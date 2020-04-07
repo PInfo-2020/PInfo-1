@@ -42,10 +42,11 @@ script:
 - docker build -t pickncook/web-ui .
 - docker tag pickncook/web-ui rozozepine/web-ui:latest 
 - docker push rozozepine/web-ui:latest
+- cd ..
 #build gh-pages
 - mkdir file-gh-pages
 - cp README.md file-gh-pages
-- ls helm-chart/pickncook/ 
+- echo $(pwd)
 - helm package helm-chart/pickncook/ -d  file-gh-pages/
 - helm repo index  file-gh-pages/
 
