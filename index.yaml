@@ -1,13 +1,13 @@
 apiVersion: v1
 entries:
-  feedfusion:
+  pickncook:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2020-03-20T09:33:56.687621252Z"
+    created: "2020-04-07T11:21:41.330277019Z"
     description: A Helm chart for Kubernetes
-    digest: a8ddb237615fc512ddd33331cf348e2081fb9804d7bc79379cd3a713b3699419
-    name: feedfusion
+    digest: 47c6fd3d0b4141317947c47432849dd5734610bc8a9f21e6d8aaf70ae138f031
+    name: pickncook
     urls:
-    - feedfusion-0.1.0.tgz
+    - pickncook-0.1.0.tgz
     version: 0.1.0
-generated: "2020-03-20T09:33:56.685616985Z"
+generated: "2020-04-07T11:21:41.328635744Z"
