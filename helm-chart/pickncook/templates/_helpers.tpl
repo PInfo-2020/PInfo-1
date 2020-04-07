@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "fridgetoplate.name" -}}
+{{- define "pickncook.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "fridgetoplate.fullname" -}}
+{{- define "pickncook.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "fridgetoplate.chart" -}}
+{{- define "pickncook.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "fridgetoplate.labels" -}}
-helm.sh/chart: {{ include "fridgetoplate.chart" . }}
-{{ include "fridgetoplate.selectorLabels" . }}
+{{- define "pickncook.labels" -}}
+helm.sh/chart: {{ include "pickncook.chart" . }}
+{{ include "pickncook.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +46,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "fridgetoplate.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "fridgetoplate.name" . }}
+{{- define "pickncook.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "pickncook.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "fridgetoplate.serviceAccountName" -}}
+{{- define "pickncook.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "fridgetoplate.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "pickncook.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

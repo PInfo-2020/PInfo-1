@@ -1,9 +1,10 @@
-package ch.unige.fridgetoplay;
+package ch.unige.pickncook;
 
 /**
  * Hello world!
  *
  */
+
 public class App 
 {
     public static void main( String[] args )

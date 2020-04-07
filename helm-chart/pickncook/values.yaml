@@ -1,4 +1,4 @@
-# Default values for fridgetoplate.
+# Default values for pickncook.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -24,18 +24,6 @@ kafka:
       enabled: false
   persistence:
     enabled: false
-
-frigo-db:
-  driver_name: org.postgresql
-  persistence:
-     enabled: false
-  postgresUser: frig
-  postgresDatabase: frigodb
-  postgresqlDatabase: frigodb
-  global:
-      persistence:
-         enabled: false
-      postgresqlDatabase: frigodb
 
 rbac:
   create: true

@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "pickncook.fullname" . }}.ingress-static
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "pickncook.labels" . | nindent 4 }}
+    {{- include "pickncook.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths: 
+      - path: /
+        backend:
+          serviceName: {{ include "pickncook.fullname" . }}-web-ui
+          servicePort: 80
