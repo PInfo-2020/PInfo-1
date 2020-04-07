@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
   repository: rozozepine/
-  tag: latest
-  pullPolicy: IfNotPresent
+  tag: 
+  pullPolicy: Always
 
 #imagePullSecrets: []
 nameOverride: ""
