@@ -45,6 +45,7 @@ script:
 #build gh-pages
 - mkdir file-gh-pages
 - cp README.md file-gh-pages
+- ls helm-chart/pickncook/ 
 - helm package helm-chart/pickncook/ -d  file-gh-pages/
 - helm repo index  file-gh-pages/
 
