@@ -8,10 +8,10 @@
   </parent>
 
   <groupId>ch.unige.pickncook</groupId>
-  <artifactId>frigo_service</artifactId>
+  <artifactId>kitchenware_service</artifactId>
   <version>0.1.0-SNAPSHOT</version>
-
-  <name>frigo_service</name>
+  <packaging>war</packaging>
+  <name>kitchenware_service</name>
 
 	<properties>
 		<skip-docker-build>false</skip-docker-build>
