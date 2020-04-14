@@ -48,6 +48,11 @@ spec:
 #             periodSeconds: 20                                                 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: config-volume
+            mountPath: /usr/share/nginx/html/assets/config/app-config.json
+            subPath: app-config.json                                         
+      {{- with .Values.nodeSelector }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
