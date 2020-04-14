@@ -3,11 +3,17 @@
     "production": "false",
     "apiUrl": "URL_DE_API",
     "keycloak": {
-        "url": "http://129.194.69.128/auth",
+        "url": "https://129.194.69.128/auth",
         "realm": "apigw",
         "clientId": "web-sso",
         "checkLoginIframe": true,
         "onLoad": "login-required",
         "responseMode": "fragment"
+    },
+    "counterpartyService": {
+        "url": "https://129.194.69.128/api/v1/counterparty"
+    },
+    "valuationService": {
+        "url": "https://129.194.69.128/api/v1/valuation"
     }
 }
