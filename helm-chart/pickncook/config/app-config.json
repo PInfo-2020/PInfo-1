@@ -3,7 +3,7 @@
     "production": "false", 
     "apiUrl": "URL_DE_API", 
     "keycloak": {
-        "url": "https://129.194.69.128/auth", 
+        "url": "http://www.pickncook.ch/auth", 
         "realm": "apigw", 
         "clientId": "web-sso", 
         "checkLoginIframe": true, 
