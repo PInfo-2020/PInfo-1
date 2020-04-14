@@ -6,5 +6,5 @@ metadata:
   labels:
 {{- include "pickncook.labels" . | nindent 4 }}
 data:
-  {{ (.Files.Glob "config/app-config.json").AsConfig | indent 2 }}
----
+  config.properties: |-
+{{ (.Files.Glob "config/app-config.json").AsConfig | indent 2 }}
