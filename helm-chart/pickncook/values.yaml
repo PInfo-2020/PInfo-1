@@ -48,6 +48,21 @@ keycloak:
       initialDelaySeconds: 120
     readinessProbe: |
       initialDelaySeconds: 120
+      
+kafka:
+  zookeeper:
+    livenessProbe:
+      initialDelaySeconds: 120
+    readinessProbe:
+      initialDelaySeconds: 120
+    persistence:
+      enabled: false
+  persistence:
+     enabled: false
+  livenessProbe:
+     initialDelaySeconds: 120
+  readinessProbe:
+     initialDelaySeconds: 120
 
 ingress:
   enabled: false
