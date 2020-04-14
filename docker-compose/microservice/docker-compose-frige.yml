@@ -1,0 +1,50 @@
+version: "3.5"
+
+services:
+
+  fridge-database:
+    image: postgres:10
+    container_name: 
+    hostname: fridge-database
+    networks:
+     - backend-network
+    environment:
+      POSTGRES_USER: fridge_user
+      POSTGRES_PASSWORD: fridge_pswd
+      POSTGRES_DB: fridge
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "fridge_user", "-d", "fridge"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - pgdata-frige:/var/lib/postgresql/data
+      - ../../config/data/fridge_data.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: on-failure
+    stdin_open: true
+    tty: true
+
+  fridge-service:
+    container_name: fridge-service    
+    image:  pickncook/fridge_service:latest
+    hostname: fridge-service
+    environment:
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_CONNECTION_DASH_URL: "jdbc:postgresql://fridge-database:5432/fridge"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_DRIVER_DASH_NAME: 'postgresql'   
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_USER_DASH_NAME: 'fridge_user'
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_PASSWORD: 'fridge_pswd'
+    networks:
+      - backend-network    
+    ports:
+      - "10080:53672"
+    depends_on:
+       - fridge-database
+
+volumes:
+   pgdata-frige:
+
+  
+
+networks:
+  backend-network:
+    driver: bridge
