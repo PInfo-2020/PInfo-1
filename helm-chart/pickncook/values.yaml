@@ -6,9 +6,9 @@ replicaCount: 1
 
 image:
   repository: rozozepine/
-  tag:
-  pullPolicy: Always
-
+  tag: latest
+  pullPolicy: IfNotPresent
+  
 kafka:
   zookeeper:
     livenessProbe:
