@@ -32,7 +32,7 @@ script:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker tag pickncook/fridge_service rozozepine/fridge_service:latest 
-- docker push rozozepine/frigo_service:latest 
+- docker push rozozepine/fridge_service:latest 
 #build web-ui
 - cd web-ui
 - npm -v
