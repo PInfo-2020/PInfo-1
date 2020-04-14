@@ -32,6 +32,23 @@ service:
   type: ClusterIP
   port: 80
 
+keycloak:
+  keycloak:
+    password: asdfghjkl
+    extraVolumes: |
+      - name: keycloak-realm-secret
+        secret:
+          secretName: keycloak-realm-secret
+    extraVolumeMounts: |
+      - name: keycloak-realm-secret
+        mountPath: "/realm/"
+        readOnly: true          
+    extraArgs: -Dkeycloak.import=/realm/realms.json
+    livenessProbe: |
+      initialDelaySeconds: 120
+    readinessProbe: |
+      initialDelaySeconds: 120
+
 ingress:
   enabled: false
 
