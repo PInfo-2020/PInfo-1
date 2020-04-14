@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "pickncook.fullname" . }}.web-ui
-  namespace: {{ .Release.Namespace }} 
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "pickncook.labels" . | nindent 4 }}
-    {{- include "pickncook.labels" . | nindent 4 }}.web-ui    
+  {{- include "pickncook.labels" . | nindent 4 }}.web-ui
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ $.Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "pickncook.selectorLabels" . | nindent 6 }}
@@ -15,63 +15,52 @@ spec:
     metadata:
       labels:
         app: {{ include "pickncook.fullname" . }}.web-ui
-        {{- include "pickncook.selectorLabels" . | nindent 8 }}       
+        {{- include "pickncook.selectorLabels" . | nindent 8 }}
     spec:
-    {{- with .Values.imagePullSecrets }}
+    {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       serviceAccountName: {{ include "pickncook.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}     
+        {{- toYaml $.Values.podSecurityContext | nindent 8 }}
       volumes:
       - name: config-volume
         configMap:
-          name: {{ include "pickncook.fullname" . }}-web-ui-config 
+          name: {{ include "pickncook.fullname" . }}-web-ui-config
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ .Values.image.repository }}web-ui:{{ .Values.image.tag }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.image.repository }}web-ui:{{ $.Values.image.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
           resources:
-               {{- toYaml .Values.resources | nindent 12 }}
+               {{- toYaml $.Values.resources | nindent 12 }}
           env:
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST
               value: "{{ .Release.Name }}-kafka"
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_POST
               value: "9092"
             - name: THORNTAIL_PORT_OFFSET
-              value: "0"      
+              value: "0"
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
-#           livenessProbe:
-#             httpGet:
-#               path: /instrument
-#               port: http
-#             initialDelaySeconds: 60
-#             periodSeconds: 20                            
-#           readinessProbe:
-#             httpGet:
-#               path: /instrument
-#               port: http
-#             initialDelaySeconds: 60
-#             periodSeconds: 20
           volumeMounts:
           - name: config-volume
             mountPath: /usr/share/nginx/html/assets/config/app-config.json
-            subPath: app-config.json                                         
-      {{- with .Values.nodeSelector }}
+            subPath: app-config.json
+      {{- with $.Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.affinity }}
+    {{- with $.Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.tolerations }}
+    {{- with $.Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+...
