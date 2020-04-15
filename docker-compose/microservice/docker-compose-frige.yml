@@ -4,7 +4,7 @@ services:
 
   fridge-database:
     image: postgres:10
-    container_name: 
+    container_name: fridge-database
     hostname: fridge-database
     networks:
      - backend-network
