@@ -29,6 +29,8 @@ services:
     image:  pickncook/fridge_service:latest
     hostname: fridge-service
     environment:
+      THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+      THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
       THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_CONNECTION_DASH_URL: "jdbc:postgresql://fridge-database:5432/fridge"
       THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_DRIVER_DASH_NAME: 'postgresql'   
       THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_USER_DASH_NAME: 'fridge_user'
@@ -39,12 +41,15 @@ services:
       - "10080:53672"
     depends_on:
        - fridge-database
+       
 
 volumes:
    pgdata-frige:
 
   
+  
 
 networks:
-  backend-network:
-    driver: bridge
+    backend-network:
+      external:
+        name: backend-network
