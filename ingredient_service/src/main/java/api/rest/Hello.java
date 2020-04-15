@@ -1,4 +1,4 @@
-package ch.unige.pickncook;
+package api.rest;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.GET;

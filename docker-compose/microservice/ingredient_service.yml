@@ -41,7 +41,6 @@ services:
       - "10080:28080"
     depends_on:
        - ingredient-database
-       - kafka
 volumes:
    pgdata-frige:
 
