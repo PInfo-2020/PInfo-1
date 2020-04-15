@@ -1,4 +1,4 @@
-package ch.unige.pickncook;
+package api.rest;
 
 import java.io.IOException;
 
