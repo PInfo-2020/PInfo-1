@@ -4,7 +4,7 @@ services:
 
   ingredient-database:
     image: postgres:10
-    container_name: 
+    container_name: ingredient-database
     hostname: ingredient-database
     networks:
      - backend-network
