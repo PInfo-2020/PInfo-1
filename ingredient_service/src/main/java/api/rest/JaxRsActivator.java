@@ -1,4 +1,4 @@
-package ch.unige.pickncook;
+package api.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
