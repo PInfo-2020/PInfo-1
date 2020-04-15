@@ -1,6 +1,8 @@
 import javax.ws.rs.*;
-@Path("/")
+import javax.ws.rs.core.*;
 
+@Path("/")
+@Produces(MediaType.TEXT_PLAIN)
 public class Hello {
 
     @GET
