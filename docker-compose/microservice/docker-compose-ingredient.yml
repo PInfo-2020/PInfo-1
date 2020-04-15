@@ -1,0 +1,50 @@
+version: "3.5"
+
+services:
+
+  ingredient-database:
+    image: postgres:10
+    container_name: 
+    hostname: ingredient-database
+    networks:
+     - backend-network
+    environment:
+      POSTGRES_USER: ingredient_user
+      POSTGRES_PASSWORD: ingredient_pswd
+      POSTGRES_DB: ingredient
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "ingredient_user", "-d", "ingredient"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - pgdata-frige:/var/lib/postgresql/data
+      - ../../config/data/ingredient_data.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: on-failure
+    stdin_open: true
+    tty: true
+
+  ingredient-service:
+    container_name: ingredient-service    
+    image:  pickncook/ingredient_service:latest
+    hostname: ingredient-service
+    environment:
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_ingredientDS_CONNECTION_DASH_URL: "jdbc:postgresql://ingredient-database:5432/ingredient"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_ingredientDS_DRIVER_DASH_NAME: 'postgresql'   
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_ingredientDS_USER_DASH_NAME: 'ingredient_user'
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_ingredientDS_PASSWORD: 'ingredient_pswd'
+    networks:
+      - backend-network    
+    ports:
+      - "10080:53672"
+    depends_on:
+       - ingredient-database
+
+volumes:
+   pgdata-frige:
+
+  
+
+networks:
+  backend-network:
+    driver: bridge
