@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @ApplicationScoped
-@Path("/ingredient")
+@Path("/hello")
 public class Hello {
 
 	@GET
