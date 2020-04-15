@@ -13,7 +13,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { TestModule } from './test/test.module';
+import { MyReceipesModule } from './my-receipes/my-receipes.module';
+import { MyPlanningModule } from './my-planning/my-planning.module';
+import { MyFridgeModule } from './my-fridge/my-fridge.module';
 
 @NgModule({
    declarations: [
@@ -32,7 +34,9 @@ import { TestModule } from './test/test.module';
       MatIconModule,
       MatListModule,
       DashboardModule,
-      TestModule
+      MyReceipesModule,
+      MyPlanningModule,
+      MyFridgeModule
 
    ],
    providers: [],
