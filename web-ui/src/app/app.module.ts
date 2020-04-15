@@ -15,7 +15,10 @@ import { MatListModule } from '@angular/material/list';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MyReceipesModule } from './my-receipes/my-receipes.module';
 import { MyPlanningModule } from './my-planning/my-planning.module';
+import { MyFavoritesModule } from './my-favorites/my-favorites.module';
 import { MyFridgeModule } from './my-fridge/my-fridge.module';
+import { MyShoppingListModule } from './my-shopping-list/my-shopping-list.module';
+import { AddReceipeModule } from './add-receipe/add-receipe.module';
 
 @NgModule({
    declarations: [
@@ -36,7 +39,12 @@ import { MyFridgeModule } from './my-fridge/my-fridge.module';
       DashboardModule,
       MyReceipesModule,
       MyPlanningModule,
-      MyFridgeModule
+      MyFridgeModule,
+      MyFavoritesModule,
+      MyShoppingListModule,
+      AddReceipeModule
+
+
 
    ],
    providers: [],
