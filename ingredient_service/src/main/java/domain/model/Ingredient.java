@@ -16,15 +16,17 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AccessLevel;
-	import lombok.Getter;
+import lombok.Data;
+import lombok.Getter;
 	import lombok.Setter;
 
 
 @Getter
 @Setter
+@Data
 @Entity
 @Table(name="ingredient_data")
-public abstract class Ingredient {
+public class Ingredient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")

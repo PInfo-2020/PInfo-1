@@ -20,6 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.arjuna.ats.internal.jdbc.drivers.modifiers.list;
+
 import domain.model.Ingredient;
 import eu.drus.jpa.unit.api.JpaUnit;
 
@@ -34,16 +36,19 @@ public class IngredientServiceImplTest {
 	private IngredientServiceImpl ingredientService;
 	
 	@Test
-	void testGet() {
-		assertEquals(1, 1);
-	}
-	
-	@Test
-	void testGet2() {
-		Ingredient ingredient = ingredientService.getAll().get(0);
-		assertNotNull(ingredient);
-		Long id = ingredient.getId();
-		Ingredient getIngredient = ingredientService.get(id);
-		assertEquals(1, ingredient);
+	void testGetAll() {
+		List<Ingredient> ingredients = ingredientService.getAll();
+		int size = ingredients.size();
+		ingredientService.create(getRandomIngredient());
+		assertEquals(size + 1, ingredientService.getAll().size());
+		
+	} 
+	private Ingredient getRandomIngredient() {
+		Ingredient i = new Ingredient();
+		i.setCategorie("test");
+		i.setPoid_moyen(3);
+		i.setUnite("g");
+		i.setNom("test");
+		return i;
 	}
 }

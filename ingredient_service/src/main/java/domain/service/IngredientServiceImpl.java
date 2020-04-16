@@ -28,9 +28,6 @@ public Ingredient get(Long id) {
 
 @Override
 public void create(Ingredient ingredient) {
-	if (ingredient.getId() != 0) {
-		throw new IllegalArgumentException("Instrument already exists : " + ingredient.getId());
-	}
 	em.persist(ingredient);
 }
 
