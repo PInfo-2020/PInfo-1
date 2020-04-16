@@ -23,7 +23,6 @@ import lombok.Getter;
 
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name="ingredient_data")
 public class Ingredient {

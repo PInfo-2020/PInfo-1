@@ -37,19 +37,27 @@ public class IngredientServiceImplTest {
 	
 	@Test
 	void testGetAll() {
-		List<Ingredient> ingredients = ingredientService.getAll();
+		List<Ingredient> ingredients = ingredientService.getAllIngredients();
 		int size = ingredients.size();
 		ingredientService.create(getRandomIngredient());
-		assertEquals(size + 1, ingredientService.getAll().size());
+		assertEquals(size + 1, ingredientService.getAllIngredients().size());
 		
 	}
 	
 	@Test
 	void testSizeGetAll() {
-		List<Ingredient> ingredients = ingredientService.getAll();
+		List<Ingredient> ingredients = ingredientService.getAllIngredients();
 		int size = ingredients.size();
 		assertEquals(7, size);
 	} 
+	
+	/*@Test
+	void testget() {
+		long nb = 1;
+		Ingredient ingredient = ingredientService.get(nb);
+		String nom = ingredient.getNom();
+		assertEquals("abricot", nom);
+	}*/
 	
 	private Ingredient getRandomIngredient() {
 		Ingredient i = new Ingredient();

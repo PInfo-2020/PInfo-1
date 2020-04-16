@@ -7,6 +7,7 @@ import domain.model.Ingredient;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
@@ -37,13 +38,20 @@ public Long count() {
 	return null;
 }
 
+//@Override
+//public List<Ingredient> getAll() {
+//	CriteriaBuilder builder = em.getCriteriaBuilder();
+//	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
+//	criteria.from(Ingredient.class);
+//	return em.createQuery(criteria).getResultList();
+//}
+
 @Override
-public List<Ingredient> getAll() {
-	CriteriaBuilder builder = em.getCriteriaBuilder();
-	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
-	criteria.from(Ingredient.class);
-	return em.createQuery(criteria).getResultList();
+public List<Ingredient> getAllIngredients() {
+	Query query = em.createQuery("SELECT i FROM Ingredient i");
+	return (List<Ingredient>) query.getResultList();
 }
+
 
 
 }
