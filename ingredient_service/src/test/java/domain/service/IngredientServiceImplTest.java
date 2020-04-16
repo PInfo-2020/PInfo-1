@@ -48,7 +48,7 @@ public class IngredientServiceImplTest {
 	void testSizeGetAll() {
 		List<Ingredient> ingredients = ingredientService.getAllIngredients();
 		int size = ingredients.size();
-		assertEquals(7, size);
+		assertEquals(0, size);
 	} 
 	
 	/*@Test
