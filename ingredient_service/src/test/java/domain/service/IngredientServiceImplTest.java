@@ -42,7 +42,15 @@ public class IngredientServiceImplTest {
 		ingredientService.create(getRandomIngredient());
 		assertEquals(size + 1, ingredientService.getAll().size());
 		
+	}
+	
+	@Test
+	void testSizeGetAll() {
+		List<Ingredient> ingredients = ingredientService.getAll();
+		int size = ingredients.size();
+		assertEquals(7, size);
 	} 
+	
 	private Ingredient getRandomIngredient() {
 		Ingredient i = new Ingredient();
 		i.setCategorie("test");
