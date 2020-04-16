@@ -5,15 +5,15 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar><a href="#">Profil</a></mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Mon Frigo</a>
-      <a mat-list-item href="#">Mes Recettes</a>
-      <a mat-list-item href="#">Mes Favoris</a>
-      <a mat-list-item href="#">Mon Planning</a>
-      <a mat-list-item href="#">Ma liste de courses</a>
+      <a mat-list-item routerLink="/my-fridge">Mon Frigo</a>
+      <a mat-list-item routerLink="/my-receipes">Mes Recettes</a>
+      <a mat-list-item routerLink="/my-favorites">Mes Favoris</a>
+      <a mat-list-item routerLink="/my-planning">Mon Planning</a>
+      <a mat-list-item routerLink="/my-shopping-list">Ma Liste de courses</a>
     </mat-nav-list>
     <br>
     <mat-nav-list>
-        <a mat-list-item href="#">+ Ajouter une recette</a>
+        <a mat-list-item routerLink="/add-receipe">+ Ajouter une recette</a>
     </mat-nav-list>
     <br>
     <mat-nav-list>
@@ -32,6 +32,7 @@
       </button>
       <span>PickNCook</span>
     </mat-toolbar>
+    <router-outlet></router-outlet>
     <!-- Add Content Here -->
   </mat-sidenav-content>
 </mat-sidenav-container>

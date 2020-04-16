@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuNavComponent } from './menu-nav/menu-nav.component';
@@ -11,16 +12,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { TrendingReceipesComponent } from './trending-receipes/trending-receipes.component';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { MyReceipesModule } from './my-receipes/my-receipes.module';
+import { MyPlanningModule } from './my-planning/my-planning.module';
+import { MyFavoritesModule } from './my-favorites/my-favorites.module';
+import { MyFridgeModule } from './my-fridge/my-fridge.module';
+import { MyShoppingListModule } from './my-shopping-list/my-shopping-list.module';
+import { AddReceipeModule } from './add-receipe/add-receipe.module';
 
 @NgModule({
    declarations: [
       AppComponent,
-      MenuNavComponent,
-      TrendingReceipesComponent
+      MenuNavComponent
    ],
    imports: [
       BrowserModule,
+      RouterModule.forRoot([]),
       AppRoutingModule,
       BrowserAnimationsModule,
       LayoutModule,
@@ -28,7 +35,17 @@ import { TrendingReceipesComponent } from './trending-receipes/trending-receipes
       MatButtonModule,
       MatSidenavModule,
       MatIconModule,
-      MatListModule
+      MatListModule,
+      DashboardModule,
+      MyReceipesModule,
+      MyPlanningModule,
+      MyFridgeModule,
+      MyFavoritesModule,
+      MyShoppingListModule,
+      AddReceipeModule
+
+
+
    ],
    providers: [],
    bootstrap: [
