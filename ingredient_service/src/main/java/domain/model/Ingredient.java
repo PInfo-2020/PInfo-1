@@ -24,7 +24,7 @@ import lombok.Getter;
 @Getter
 @Setter
 @Entity
-@Table(name="ingredient_data")
+@Table(name="BDD_ingredient")
 public class Ingredient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
