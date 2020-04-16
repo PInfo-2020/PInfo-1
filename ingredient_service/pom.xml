@@ -12,13 +12,14 @@
   <version>0.1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>ingredient_service</name>
-
-	<properties>
+<properties>
+		<container.folder>${project.build.directory}/wildfly-${wildfly.version}</container.folder>
 		<skip-docker-build>false</skip-docker-build>
+		<version.postgresql>42.2.2</version.postgresql>
 	</properties>
 
+
 	<dependencies>
-		
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>jaxrs</artifactId>
@@ -29,15 +30,15 @@
 		</dependency>
 		<dependency>
 			<groupId>io.thorntail</groupId>
-			<artifactId>swagger</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.thorntail</groupId>
 			<artifactId>cdi</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>transactions</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>swagger</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
@@ -64,9 +65,8 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${postgresql.jdbc.driver.version}</version>
+			<groupId>org.aerogear.kafka</groupId>
+			<artifactId>kafka-cdi-extension</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
@@ -96,12 +96,10 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -113,11 +111,14 @@
 			<artifactId>hamcrest-all</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.jdbc.driver.version}</version>
+		</dependency>
 	</dependencies>
-
-
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -202,7 +203,7 @@
 					</jvmArguments>
 					<properties>
 						<thorntail.port.offset>20000</thorntail.port.offset>
-						<java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>						
+						<java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
 					</properties>
 				</configuration>
 				<executions>
@@ -229,6 +230,41 @@
 						<goals>
 							<goal>stop</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+						<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${version.h2}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<driver>org.h2.Driver</driver>
+					<url>jdbc:h2:${java.io.tmpdir}/target/InstrumentDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
+					<username>sa</username>
+					<password>sa</password>
+					<autocommit>true</autocommit>
+					<skip>${maven.test.skip}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-db</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<srcFiles>
+								<srcFile>${project.basedir}/src/main/resources/META-INF/ingredient_test_data.sql</srcFile>
+							</srcFiles>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
