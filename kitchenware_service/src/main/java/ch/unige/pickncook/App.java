@@ -1,4 +1,4 @@
-package ch.unige.pickncook.f;
+package ch.unige.pickncook;
 
 /**
  * Hello world!

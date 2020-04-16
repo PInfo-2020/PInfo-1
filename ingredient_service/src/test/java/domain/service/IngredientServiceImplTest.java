@@ -32,8 +32,18 @@ public class IngredientServiceImplTest {
 
 	@InjectMocks
 	private IngredientServiceImpl ingredientService;
+	
 	@Test
 	void testGet() {
-		assertEquals(2, 1);
+		assertEquals(1, 1);
+	}
+	
+	@Test
+	void testGet2() {
+		Ingredient ingredient = ingredientService.getAll().get(0);
+		assertNotNull(ingredient);
+		Long id = ingredient.getId();
+		Ingredient getIngredient = ingredientService.get(id);
+		assertEquals(1, ingredient);
 	}
 }

@@ -15,23 +15,28 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
+import lombok.AccessLevel;
+	import lombok.Getter;
+	import lombok.Setter;
 
-@Data
+
+@Getter
+@Setter
 @Entity
-@Table(name="BDD_ingredient")
+@Table(name="ingredient_data")
 public abstract class Ingredient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private long id;
     @Column(name = "NOM")
-	private String nom;
+	private @Getter String nom;
     @Column(name ="POIDS_MOYEN_G")
     private int poid_moyen;
     @Column(name = "UNITES") 
     private String unite;
     @Column(name ="CATEGORIE")
     private String categorie;
+    
 	
 }

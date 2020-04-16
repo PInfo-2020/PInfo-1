@@ -25,9 +25,10 @@ public String helloWorld(){
 public Ingredient get(Long id) {
 	return em.find(Ingredient.class, id);
 }
+
 @Override
 public void create(Ingredient ingredient) {
-	if (ingredient.getId() != null) {
+	if (ingredient.getId() != 0) {
 		throw new IllegalArgumentException("Instrument already exists : " + ingredient.getId());
 	}
 	em.persist(ingredient);
@@ -37,6 +38,14 @@ public void create(Ingredient ingredient) {
 public Long count() {
 	// TODO Auto-generated method stub
 	return null;
+}
+
+@Override
+public List<Ingredient> getAll() {
+	CriteriaBuilder builder = em.getCriteriaBuilder();
+	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
+	criteria.from(Ingredient.class);
+	return em.createQuery(criteria).getResultList();
 }
 
 
