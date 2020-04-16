@@ -43,9 +43,6 @@ import { AddReceipeModule } from './add-receipe/add-receipe.module';
       MyFavoritesModule,
       MyShoppingListModule,
       AddReceipeModule
-
-
-
    ],
    providers: [],
    bootstrap: [
