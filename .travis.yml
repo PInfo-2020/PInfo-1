@@ -1,6 +1,14 @@
+language: java
+
+services:
+  - docker
+
 env:
   - NODE_VERSION="12.13.1"
-
+    
+addons:
+  ssh_known_hosts: defosse0@129.194.69.128
+  
 
 cache:
   directories:
@@ -15,7 +23,7 @@ before_script:
 - ssh-add deploy_rsa
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-job:
+jobs:
   include: 
   - stage: "sonar-cloud"
     language: java
@@ -43,11 +51,10 @@ job:
       - npm run-script build --prod
       - docker build -t pickncook/web-ui .
       - cd ..
-    after_script:
       - docker tag pickncook/web-ui rozozepine/web-ui:latest 
       - docker push rozozepine/web-ui:latest
 
-  -stage: "helm"
+  - stage: "helm"
     before_script:
       - curl -L https://git.io/get_helm.sh | bash
       - helm init --client-only
