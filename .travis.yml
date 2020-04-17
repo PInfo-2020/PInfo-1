@@ -21,11 +21,10 @@ before_script:
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 jobs:
   include: 
-  - stage: "sonar-cloud"
+  - stage: "sonar-cloud and build image"
     language: java
     addons:
       sonarcloud:
@@ -35,7 +34,8 @@ jobs:
     script:
       - mvn test
       - mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020 -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
-  
+      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-images
+
   - stage: "web-ui"
     services: 
       - docker
@@ -50,6 +50,7 @@ jobs:
       - npm run-script build --prod
       - docker build -t pickncook/web-ui .
       - cd ..
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker tag pickncook/web-ui rozozepine/web-ui:latest 
       - docker push rozozepine/web-ui:latest
 
@@ -66,13 +67,12 @@ jobs:
       - helm repo index  file-gh-pages/
 
 
-  - stage: "fridge"
+  - stage: "push image"
     language: java
     services:
       - docker
     before_script:
-      - cd fridge_service/
-      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-images
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     after_success:
       - docker tag pickncook/fridge_service rozozepine/fridge_service:latest 
       - docker push rozozepine/fridge_service:latest 
