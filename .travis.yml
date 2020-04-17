@@ -1,14 +1,6 @@
-language: java
-
-services:
-    - docker
-
 env:
-    - NODE_VERSION="12.13.1"
-    
-addons:
-  ssh_known_hosts: defosse0@129.194.69.128
-  
+  - NODE_VERSION="12.13.1"
+
 
 cache:
   directories:
