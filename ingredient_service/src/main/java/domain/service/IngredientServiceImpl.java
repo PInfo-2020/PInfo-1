@@ -22,6 +22,13 @@ public String helloWorld(){
     return "Hello World2";
 }
 
+public IngredientServiceImpl() {
+}
+
+public IngredientServiceImpl(EntityManager em) {
+	this();
+	this.em = em;
+}
 @Override
 public Ingredient get(Long id) {
 	return em.find(Ingredient.class, id);
@@ -48,8 +55,10 @@ public Long count() {
 
 @Override
 public List<Ingredient> getAllIngredients() {
-	Query query = em.createQuery("SELECT i FROM Ingredient i");
-	return (List<Ingredient>) query.getResultList();
+	CriteriaBuilder builder = em.getCriteriaBuilder();
+	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
+	criteria.from(Ingredient.class);
+	return em.createQuery(criteria).getResultList();
 }
 
 

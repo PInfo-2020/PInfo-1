@@ -1,5 +1,6 @@
 package domain.model;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,19 +25,15 @@ import lombok.Getter;
 @Getter
 @Setter
 @Entity
-@Table(name="BDD_ingredient")
+@Table(name="Ingredient")
 public class Ingredient {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
+	@SequenceGenerator(name = "INGREDIENT_SEQ", sequenceName = "INGREDIENT_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INGREDIENT_SEQ")	
 	private long id;
-    @Column(name = "NOM")
-	private @Getter String nom;
-    @Column(name ="POIDS_MOYEN_G")
-    private int poid_moyen;
-    @Column(name = "UNITES") 
+	private String nom;
+    private Integer poid_moyen;
     private String unite;
-    @Column(name ="CATEGORIE")
     private String categorie;
     
 	

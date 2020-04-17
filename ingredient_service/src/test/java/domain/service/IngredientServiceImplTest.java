@@ -29,7 +29,7 @@ import eu.drus.jpa.unit.api.JpaUnit;
 @ExtendWith(MockitoExtension.class)
 public class IngredientServiceImplTest {
 	@Spy
-	@PersistenceContext(unitName = "InstrumentPUTest")
+	@PersistenceContext(unitName = "IngredientPUTest")
 	EntityManager em;
 
 	@InjectMocks
@@ -40,31 +40,27 @@ public class IngredientServiceImplTest {
 		List<Ingredient> ingredients = ingredientService.getAllIngredients();
 		int size = ingredients.size();
 		ingredientService.create(getRandomIngredient());
-		assertEquals(size + 1, ingredientService.getAllIngredients().size());
+		ingredientService.create(getRandomIngredient());
+		ingredientService.create(getRandomIngredient());
+		ingredientService.create(getRandomIngredient());
+		assertEquals(4+size, ingredientService.getAllIngredients().size());
 		
 	}
 	
 	@Test
-	void testSizeGetAll() {
-		List<Ingredient> ingredients = ingredientService.getAllIngredients();
-		int size = ingredients.size();
-		assertEquals(0, size);
-	} 
-	
-	/*@Test
 	void testget() {
-		long nb = 1;
-		Ingredient ingredient = ingredientService.get(nb);
-		String nom = ingredient.getNom();
-		assertEquals("abricot", nom);
-	}*/
-	
+		ingredientService.create(getRandomIngredient());
+		Ingredient ingredient = ingredientService.getAllIngredients().get(0);
+		assertNotNull(ingredient);
+	}
+
+		
 	private Ingredient getRandomIngredient() {
 		Ingredient i = new Ingredient();
-		i.setCategorie("test");
-		i.setPoid_moyen(3);
-		i.setUnite("g");
-		i.setNom("test");
+		i.setCategorie(UUID.randomUUID().toString());
+		i.setPoid_moyen((int) (Math.random()*1000));
+		i.setUnite(UUID.randomUUID().toString());
+		i.setNom(UUID.randomUUID().toString());
 		return i;
 	}
 }
