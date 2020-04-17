@@ -5,50 +5,84 @@ services:
 
 env:
     - NODE_VERSION="12.13.1"
-
+    
 addons:
   ssh_known_hosts: defosse0@129.194.69.128
-  sonarcloud:
-    organization: pinfo-2020
-    token:
-      secure: ILuluYoJgzPAS/vzxJVQAYNwH/7Ji9nfz1xlui3MnS00ey3wQRQGHIzvpm1dNs4F3h7Ae15Jy8pUc1DmW98WbaPSQ1LahHg0reUQsaodFPHq2C2pM3w8zmen/GuPRo9EBYNoH2wg8yajzIRLIrg94QEnXNozc36NNKiSl5Bz2NYRSk1oumxjaJTOr6aPal9psSC65lWzM3KYA+NnjNQy0Pwm6y8ANm+hVaYC485KBQzahdo4VZMboY4HBGjnclxPFDc14B/sG2K6zNhh4XqqcnIx3u+CiJUtrUr7jKK74+yLlvTVP56dW5DqZzUhcoKw0X2aDLT+i1w6ssBqinyDqjrAef5dnf9u8wB7f9aZ7Vm747EAopVG+wo4qFG8BlB2kutmC8AlXvFCnUJ3u6dovW7uNKp4XaNzajAExKqp5yiCmJgVQprbT1+lhHFl0HqgBCo7ckyp++K6NS9vaIwrPWifZ+Xj8OxdbZAfdqkM+RgayH/EIZR2GmYvt5SrNtmhInO1rGk3j6PmaHS6/MbqgQkYrp7KaS9mFFMJqF+3S7TXEGeifLyqeoOgWDZ42e3h4W4yEklYrNjIiXOR9i8v7esm6K+473WCtdsiRxVBehETQriB6LDBEp+rNuQOlrtYt7CHwtf6WrGXATGGsOAQIWfrfuyD/aTYAb0KoWetls0=
+  
+
 cache:
   directories:
   - ".autoconf"
   - "$HOME/.m2"
   - node_modules
-before_install:
+  
+before_script:
 - openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsa.enc -out deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
-- curl -L https://git.io/get_helm.sh | bash
-- helm init --client-only
-- nvm install $NODE_VERSION
-script:
-- mvn test
-- mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020
-  -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
-- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- docker tag pickncook/fridge_service rozozepine/fridge_service:latest 
-- docker push rozozepine/fridge_service:latest 
-#build web-ui
-- cd web-ui
-- npm -v
-- npm install
-- npm update
-- npm run-script build --prod
-- docker build -t pickncook/web-ui .
-- docker tag pickncook/web-ui rozozepine/web-ui:latest 
-- docker push rozozepine/web-ui:latest
-- cd ..
-#build gh-pages
-- mkdir file-gh-pages
-- cp README.md file-gh-pages
-- echo $(pwd)
-- helm package helm-chart/pickncook/ -d  file-gh-pages/
-- helm repo index  file-gh-pages/
+
+job:
+  include: 
+  - stage: "sonar-cloud"
+    language: java
+    jdk: openjdk11s
+    addons:
+      sonarcloud:
+        organization: pinfo-2020
+        token:
+          secure: ILuluYoJgzPAS/vzxJVQAYNwH/7Ji9nfz1xlui3MnS00ey3wQRQGHIzvpm1dNs4F3h7Ae15Jy8pUc1DmW98WbaPSQ1LahHg0reUQsaodFPHq2C2pM3w8zmen/GuPRo9EBYNoH2wg8yajzIRLIrg94QEnXNozc36NNKiSl5Bz2NYRSk1oumxjaJTOr6aPal9psSC65lWzM3KYA+NnjNQy0Pwm6y8ANm+hVaYC485KBQzahdo4VZMboY4HBGjnclxPFDc14B/sG2K6zNhh4XqqcnIx3u+CiJUtrUr7jKK74+yLlvTVP56dW5DqZzUhcoKw0X2aDLT+i1w6ssBqinyDqjrAef5dnf9u8wB7f9aZ7Vm747EAopVG+wo4qFG8BlB2kutmC8AlXvFCnUJ3u6dovW7uNKp4XaNzajAExKqp5yiCmJgVQprbT1+lhHFl0HqgBCo7ckyp++K6NS9vaIwrPWifZ+Xj8OxdbZAfdqkM+RgayH/EIZR2GmYvt5SrNtmhInO1rGk3j6PmaHS6/MbqgQkYrp7KaS9mFFMJqF+3S7TXEGeifLyqeoOgWDZ42e3h4W4yEklYrNjIiXOR9i8v7esm6K+473WCtdsiRxVBehETQriB6LDBEp+rNuQOlrtYt7CHwtf6WrGXATGGsOAQIWfrfuyD/aTYAb0KoWetls0=
+    script:
+      - mvn test
+      - mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020 -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
+  
+  - stage: "web-ui"
+    services: 
+      - docker
+    before_script:
+      - nvm install $NODE_VERSION
+      - node -v
+    script:
+      - cd web-ui
+      - npm -v
+      - npm install
+      - npm update
+      - npm run-script build --prod
+      - docker build -t pickncook/web-ui .
+      - cd ..
+    after_script:
+      - docker tag pickncook/web-ui rozozepine/web-ui:latest 
+      - docker push rozozepine/web-ui:latest
+
+  -stage: "helm"
+    before_script:
+      - curl -L https://git.io/get_helm.sh | bash
+      - helm init --client-only
+      - nvm install $NODE_VERSION
+    script:
+      - mkdir file-gh-pages
+      - cp README.md file-gh-pages
+      - echo $(pwd)
+      - helm package helm-chart/pickncook/ -d  file-gh-pages/
+      - helm repo index  file-gh-pages/
+
+
+  - stage: "fridge"
+    language: java
+    jdk: openjdk11
+    services:
+      - docker
+    before_script:
+      - cd fridge_service/
+      - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-images
+    after_success:
+      - docker tag pickncook/fridge_service rozozepine/fridge_service:latest 
+      - docker push rozozepine/fridge_service:latest 
+
+
+
+
 
 deploy:
   - provider: pages
