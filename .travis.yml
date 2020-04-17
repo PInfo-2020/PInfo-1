@@ -27,7 +27,6 @@ jobs:
   include: 
   - stage: "sonar-cloud"
     language: java
-    jdk: openjdk11s
     addons:
       sonarcloud:
         organization: pinfo-2020
@@ -69,7 +68,6 @@ jobs:
 
   - stage: "fridge"
     language: java
-    jdk: openjdk11
     services:
       - docker
     before_script:
