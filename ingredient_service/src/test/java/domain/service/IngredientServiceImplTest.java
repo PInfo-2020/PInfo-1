@@ -34,7 +34,7 @@ public class IngredientServiceImplTest {
 
 	@InjectMocks
 	private IngredientServiceImpl ingredientService;
-	
+
 	@Test
 	void testGetAll() {
 		List<Ingredient> ingredients = ingredientService.getAllIngredients();
