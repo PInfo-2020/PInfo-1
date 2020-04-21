@@ -17,18 +17,17 @@ import domain.model.Ingredient;
 public class IngredientServiceImpl implements IngredientService {
 	@PersistenceContext(unitName = "IngredientPU")
 	private EntityManager em;
+	public IngredientServiceImpl() {
+	}
 
-public String helloWorld(){
+	public IngredientServiceImpl(EntityManager em) {
+		this();
+		this.em = em;
+	}
+	public String helloWorld(){
     return "Hello World2";
-}
+	}
 
-public IngredientServiceImpl() {
-}
-
-public IngredientServiceImpl(EntityManager em) {
-	this();
-	this.em = em;
-}
 @Override
 public Ingredient get(Long id) {
 	return em.find(Ingredient.class, id);
@@ -37,12 +36,6 @@ public Ingredient get(Long id) {
 @Override
 public void create(Ingredient ingredient) {
 	em.persist(ingredient);
-}
-
-@Override
-public Long count() {
-	// TODO Auto-generated method stub
-	return null;
 }
 
 //@Override
@@ -57,8 +50,17 @@ public Long count() {
 public List<Ingredient> getAllIngredients() {
 	CriteriaBuilder builder = em.getCriteriaBuilder();
 	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
-	criteria.from(Ingredient.class);
-	return em.createQuery(criteria).getResultList();
+	criteria.select(criteria.from(Ingredient.class));
+	List<Ingredient> ingredients = em.createQuery("select g from Ingredient g",Ingredient.class).getResultList();
+	return ingredients;
+}
+
+@Override
+public Long count() {
+	CriteriaBuilder qb = em.getCriteriaBuilder();
+	CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+	cq.select(qb.count(cq.from(Ingredient.class)));
+	return em.createQuery(cq).getSingleResult();
 }
 
 

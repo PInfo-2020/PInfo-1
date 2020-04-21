@@ -25,6 +25,7 @@ import lombok.Getter;
 @Getter
 @Setter
 @Entity
+@Table(name ="Ingredient")
 public class Ingredient {
 	@Id
 	@SequenceGenerator(name = "INGREDIENT_SEQ", sequenceName = "INGREDIENT_SEQ")
