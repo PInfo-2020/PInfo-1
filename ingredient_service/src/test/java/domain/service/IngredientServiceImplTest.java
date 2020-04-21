@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -53,6 +54,23 @@ public class IngredientServiceImplTest {
 		ingredientService.create(getRandomIngredient());
 		Ingredient ingredient = ingredientService.getAllIngredients().get(0);
 		assertNotNull(ingredient);
+	}
+	
+	//@Test
+	//void testSize() {
+	//	List<Ingredient> ingredients = ingredientService.getAllIngredients();
+	//	int size = ingredients.size();
+	//	assertEquals(7, size);
+	//}
+	
+	@Test
+	void testgetAllBaseInfo() {
+		ingredientService.create(getRandomIngredient());
+		ingredientService.create(getRandomIngredient());
+		ingredientService.create(getRandomIngredient());
+		ingredientService.create(getRandomIngredient());
+		ArrayList<ArrayList<Object>> tab = ingredientService.getAllBaseInfo();
+		assertEquals(2, tab.get(0).get(1));
 	}
 
 		

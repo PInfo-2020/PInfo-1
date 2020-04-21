@@ -1,6 +1,9 @@
 package domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 import domain.model.Ingredient;
 
@@ -10,4 +13,5 @@ public interface IngredientService {
 	Long count();
     String helloWorld();
 	void create(Ingredient ingredient);
+	ArrayList<ArrayList<Object>> getAllBaseInfo();
 }

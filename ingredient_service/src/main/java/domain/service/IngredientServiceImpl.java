@@ -1,10 +1,13 @@
 package domain.service;
-
+import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
 import domain.model.Ingredient;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -53,6 +56,25 @@ public List<Ingredient> getAllIngredients() {
 	criteria.select(criteria.from(Ingredient.class));
 	List<Ingredient> ingredients = em.createQuery("select g from Ingredient g",Ingredient.class).getResultList();
 	return ingredients;
+}
+
+
+@Override
+public ArrayList<ArrayList<Object>> getAllBaseInfo(){
+	
+	ArrayList<ArrayList<Object>> tab=new ArrayList<>();
+	List<Ingredient> ingredients = getAllIngredients();
+	
+	for 
+	tab.add(new ArrayList<>());
+	tab.get(0).add("aaa");
+	tab.get(0).add(2);
+	tab.get(0).add(456.33);
+	tab.add(new ArrayList<>());
+	tab.get(0).add("ddd");
+	tab.get(0).add(3);
+	tab.get(0).add(11122.33);
+	return tab;
 }
 
 @Override
