@@ -3,11 +3,11 @@ entries:
   pickncook:
   - apiVersion: v1
     appVersion: 1.16.0
-    created: "2020-04-21T11:47:50.039635471Z"
+    created: "2020-04-21T12:13:43.773593379Z"
     description: A Helm chart for Kubernetes
-    digest: 4c43a2d31ae39f62a698ef74c95c218aa8feb715cfe23ab2fe36b08d2896ea77
+    digest: 002b992818b095b4f159614f4b70b4d5abd97cf3a58ce0859ca3d5777e6215a0
     name: pickncook
     urls:
     - pickncook-0.1.0.tgz
     version: 0.1.0
-generated: "2020-04-21T11:47:50.032172787Z"
+generated: "2020-04-21T12:13:43.765745605Z"
