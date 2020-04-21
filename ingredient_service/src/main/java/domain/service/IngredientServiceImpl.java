@@ -60,20 +60,18 @@ public List<Ingredient> getAllIngredients() {
 
 
 @Override
-public ArrayList<ArrayList<Object>> getAllBaseInfo(){
+public ArrayList<ArrayList<Object>> getAllBaseInfo(){ //Id, Nom, Unite
 	
 	ArrayList<ArrayList<Object>> tab=new ArrayList<>();
 	List<Ingredient> ingredients = getAllIngredients();
 	
-	for 
-	tab.add(new ArrayList<>());
-	tab.get(0).add("aaa");
-	tab.get(0).add(2);
-	tab.get(0).add(456.33);
-	tab.add(new ArrayList<>());
-	tab.get(0).add("ddd");
-	tab.get(0).add(3);
-	tab.get(0).add(11122.33);
+	for (int i=0; i<ingredients.size(); i++) {
+		tab.add(new ArrayList<>());
+		tab.get(i).add(ingredients.get(i).getId());
+		tab.get(i).add(ingredients.get(i).getNom());
+		tab.get(i).add(ingredients.get(i).getUnite());
+	}
+	
 	return tab;
 }
 

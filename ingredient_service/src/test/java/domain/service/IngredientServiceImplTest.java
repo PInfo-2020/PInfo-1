@@ -65,12 +65,12 @@ public class IngredientServiceImplTest {
 	
 	@Test
 	void testgetAllBaseInfo() {
-		ingredientService.create(getRandomIngredient());
-		ingredientService.create(getRandomIngredient());
-		ingredientService.create(getRandomIngredient());
-		ingredientService.create(getRandomIngredient());
+		ingredientService.create(createIngredient("patate", 12, "g", "légume"));
+		ingredientService.create(createIngredient("carrote", 120, "g", "légume"));
+		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
+		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
 		ArrayList<ArrayList<Object>> tab = ingredientService.getAllBaseInfo();
-		assertEquals(2, tab.get(0).get(1));
+		assertEquals("pâtes", tab.get(2).get(1));
 	}
 
 		
@@ -80,6 +80,15 @@ public class IngredientServiceImplTest {
 		i.setPoid_moyen((int) (Math.random()*1000));
 		i.setUnite(UUID.randomUUID().toString());
 		i.setNom(UUID.randomUUID().toString());
+		return i;
+	}
+	
+	private Ingredient createIngredient(String nom, int poids, String unite, String categorie) {
+		Ingredient i = new Ingredient();
+		i.setCategorie(categorie);
+		i.setPoid_moyen(poids);
+		i.setUnite(unite);
+		i.setNom(nom);
 		return i;
 	}
 }
