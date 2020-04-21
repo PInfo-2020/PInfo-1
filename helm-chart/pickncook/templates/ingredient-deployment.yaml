@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "microservices.fullname" . }}.ingredient-service
+  name: {{ include "pickncook.fullname" . }}.ingredient-service
   namespace: {{ .Release.Namespace }} 
   labels:
-    {{- include "microservices.labels" . | nindent 4 }}
-    {{- include "microservices.labels" . | nindent 4 }}.ingredient-service
+    {{- include "pickncook.labels" . | nindent 4 }}
+    {{- include "pickncook.labels" . | nindent 4 }}.ingredient-service
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "microservices.selectorLabels" . | nindent 6 }}
+      {{- include "pickncook.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ include "microservices.fullname" . }}.ingredient-service
-        {{- include "microservices.selectorLabels" . | nindent 8 }}
+        app: {{ include "pickncook.fullname" . }}.ingredient-service
+        {{- include "pickncook.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "microservices.serviceAccountName" . }}
+      serviceAccountName: {{ include "pickncook.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:

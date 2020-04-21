@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "microservices.fullname" . }}-ingredient-service
+  name: {{ include "pickncook.fullname" . }}-ingredient-service
   labels:
-    {{- include "microservices.labels" . | nindent 4 }}.ingredient-service
+    {{- include "pickncook.labels" . | nindent 4 }}.ingredient-service
 spec:
   type: ClusterIP
   ports:
@@ -11,9 +11,8 @@ spec:
       targetPort: 28080
       protocol: TCP
   selector:
-    app: {{ include "microservices.fullname" . }}.ingredient-service
+    app: {{ include "pickncook.fullname" . }}.ingredient-service
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
