@@ -1,6 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: {{ include "microservices.fullname" . }}-ingredient-service
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}.ingredient-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 28080
+      targetPort: 28080
+      protocol: TCP
+  selector:
+    app: {{ include "microservices.fullname" . }}.ingredient-service
+---
+
+apiVersion: v1
+kind: Service
+metadata:
   name: {{ include "pickncook.fullname" . }}-web-ui
   labels:
     {{- include "pickncook.labels" . | nindent 4 }}.web-ui
@@ -12,3 +28,22 @@ spec:
       protocol: TCP
   selector:
       app: {{ include "pickncook.fullname" . }}.web-ui
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /ingredient/$2
+  name: {{ include "microservices.fullname" . }}.ingress-api-ingredient
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/ingredient(/|$)(.*)
+        backend:
+          serviceName: {{ include "microservices.fullname" . }}-ingredient-service
+          servicePort: 28080       

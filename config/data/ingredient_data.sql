@@ -1,11 +1,13 @@
-CREATE TABLE IF NOT EXISTS "BDD_ingredients" (
-    "ID" INT,
-    "NOM" TEXT,
-    "POIDS_MOYEN_G" INT,
-    "UNITES" TEXT,
-    "CATEGORIE" TEXT
+drop table 'Ingredient' if exists;
+CREATE TABLE 'Ingredient' (
+		'id' int not null,
+		primary key ('id'),
+	    'nom' varchar(255),
+	    'poid_moyen' int,
+	    'unite' varchar(255),
+	    'categorie' varchar(255)
 );
-INSERT INTO "BDD_ingredients" VALUES
+INSERT INTO "Ingredient" VALUES
     (379,'Abricot',60,'unité/g','Fruits/Fruits frais'),
     (469,'Abricot, sec',NULL,'g','Fruits/Fruits secs'),
     (621,'Abricot, sucré, conserve',NULL,'g','Fruits/Fruits cuits (conserves comprises)'),
@@ -256,7 +258,7 @@ INSERT INTO "BDD_ingredients" VALUES
     (13402,'Huile de noix',NULL,'ml','Graisses et huiles/Huiles'),
     (592,'Huile de pépins de raisin',NULL,'ml','Graisses et huiles/Huiles'),
     (603,'Huile de soja',NULL,'ml','Graisses et huiles/Huiles');
-INSERT INTO "BDD_ingredients" VALUES
+INSERT INTO "Ingredient" VALUES
     (598,'Huile de tournesol',NULL,'ml','Graisses et huiles/Huiles'),
     (591,'Huile d''olive',NULL,'ml','Graisses et huiles/Huiles'),
     (693,'Jambon cru',NULL,'g','Produits carnés et charcuterie/Produits de charcuterie crus'),
@@ -507,7 +509,7 @@ INSERT INTO "BDD_ingredients" VALUES
     (1250,'Viande émincée porc',NULL,'g','Viande et abats/Porc'),
     (1251,'Viande émincée poulet',NULL,'g','Viande et abats/Volaille'),
     (1252,'Viande émincée veau',NULL,'g','Viande et abats/Veau');
-INSERT INTO "BDD_ingredients" VALUES
+INSERT INTO "Ingredient" VALUES
     (1105,'Viande hachée bœuf',NULL,'g','Viande et abats/Bœuf'),
     (1253,'Viande hachée porc',NULL,'g','Viande et abats/Porc'),
     (1254,'Viande hachée poulet',NULL,'g','Viande et abats/Volaille'),
