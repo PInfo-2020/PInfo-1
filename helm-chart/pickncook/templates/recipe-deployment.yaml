@@ -46,9 +46,9 @@ spec:
             - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_recipeDS_DRIVER_DASH_NAME
               value: "postgresql"   
             - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_recipeDS_USER_DASH_NAME
-              value: "ing"
+              value: "recipe"
             - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_recipeDS_PASSWORD
-              value: "ing"              
+              value: "recipe"              
           ports:
             - name: http
               containerPort: 28080
