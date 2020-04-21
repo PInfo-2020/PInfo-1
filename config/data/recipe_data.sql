@@ -1,0 +1,1 @@
+CREATE USER recipe WITH PASSWORD 'recipe';
