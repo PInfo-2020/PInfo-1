@@ -69,8 +69,9 @@ public class IngredientServiceImplTest {
 		ingredientService.create(createIngredient("carrote", 120, "g", "légume"));
 		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
 		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
-		ArrayList<ArrayList<Object>> tab = ingredientService.getAllBaseInfo();
-		assertEquals("pâtes", tab.get(2).get(1));
+		List<Object[]> tab = ingredientService.getAllBaseInfo();
+		System.out.println(tab);
+		assertEquals("pâtes", tab.get(2)[1]);
 	}
 
 		

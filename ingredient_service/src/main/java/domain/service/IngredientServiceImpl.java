@@ -13,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.CompoundSelection;
 
 import domain.model.Ingredient;
 
@@ -60,20 +62,30 @@ public List<Ingredient> getAllIngredients() {
 
 
 @Override
-public ArrayList<ArrayList<Object>> getAllBaseInfo(){ //Id, Nom, Unite
+public List<Object[]> getAllBaseInfo(){ //Id, nom, unité
 	
-	ArrayList<ArrayList<Object>> tab=new ArrayList<>();
-	List<Ingredient> ingredients = getAllIngredients();
+	//ArrayList<ArrayList<Object>> tab=new ArrayList<>();
+	//List<Ingredient> ingredients = getAllIngredients();
 	
-	for (int i=0; i<ingredients.size(); i++) {
-		tab.add(new ArrayList<>());
-		tab.get(i).add(ingredients.get(i).getId());
-		tab.get(i).add(ingredients.get(i).getNom());
-		tab.get(i).add(ingredients.get(i).getUnite());
-	}
+	//for (int i=0; i<ingredients.size(); i++) {
+	//	tab.add(new ArrayList<>());
+	//	tab.get(i).add(ingredients.get(i).getId());
+	//	tab.get(i).add(ingredients.get(i).getNom());
+	//	tab.get(i).add(ingredients.get(i).getUnite());
+	//}
 	
-	return tab;
+	//return tab;
+	
+	CriteriaBuilder builder = em.getCriteriaBuilder();
+	CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
+	Root<Ingredient> c = criteria.from(Ingredient.class);
+	criteria.multiselect(c.get("id"), c.get("nom"), c.get("unite"));
+	List<Object[]> results = em.createQuery(criteria).getResultList();
+	
+	return results;
+	
 }
+
 
 @Override
 public Long count() {
