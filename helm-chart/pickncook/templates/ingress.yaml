@@ -18,3 +18,22 @@ spec:
         backend:
           serviceName: {{ .Release.Name  }}-keycloak-http
           servicePort: 80  
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /ingredient/$2
+  name: {{ include "microservices.fullname" . }}.ingress-api-ingredient
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "microservices.labels" . | nindent 4 }}
+    {{- include "microservices.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/ingredient(/|$)(.*)
+        backend:
+          serviceName: {{ include "microservices.fullname" . }}-ingredient-service
+          servicePort: 28080       
