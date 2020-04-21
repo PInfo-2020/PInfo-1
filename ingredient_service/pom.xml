@@ -25,6 +25,11 @@
        <artifactId>slf4j-api</artifactId>
        <version>1.7.5</version>
    </dependency>
+           <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>jipijapa-eclipselink</artifactId>
+            <version>14.0.1.Final</version>
+        </dependency>
    <dependency>
        <groupId>org.slf4j</groupId>
        <artifactId>slf4j-log4j12</artifactId>
@@ -257,7 +262,7 @@
 				</dependencies>
 				<configuration>
 					<driver>org.h2.Driver</driver>
-					<url>jdbc:h2:${java.io.tmpdir}/target/InstrumentDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
+					<url>jdbc:h2:${java.io.tmpdir}/target/IngredientDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
 					<username>sa</username>
 					<password>sa</password>
 					<autocommit>true</autocommit>

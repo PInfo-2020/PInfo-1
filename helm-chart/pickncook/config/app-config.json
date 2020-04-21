@@ -3,11 +3,14 @@
     "production": "false", 
     "apiUrl": "URL_DE_API", 
     "keycloak": {
-        "url": "http://www.pickncook.ch/auth", 
+        "url": "https://pinfo1.unige.ch/auth", 
         "realm": "apigw", 
         "clientId": "web-sso", 
         "checkLoginIframe": true, 
         "onLoad": "login-required", 
         "responseMode": "fragment" 
+    },
+    "valuationService": {
+        "url": "https://pinfo1.unige.ch/api/v1/valuation"
     }
 }
