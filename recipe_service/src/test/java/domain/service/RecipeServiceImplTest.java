@@ -82,17 +82,17 @@ public class RecipeServiceImplTest {
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipeService.getAllRecipes().get(size);
 		assertEquals("maRecette", recipe.getNom());
-		assertEquals(5, recipe.getTempsPreparation());
+		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getTempsPreparation());
 		assertEquals("difficile", recipe.getDifficulte());
-		assertEquals(4, recipe.getNbPersonnes());
+		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getNbPersonnes());
 		assertEquals("maPhoto", recipe.getPhoto());
 		assertEquals("fais ceci cela", recipe.getPreparation());
-		assertEquals(42, recipe.getAuteur());
+		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getAuteur());
 		assertEquals(Date.valueOf("2019-01-26"), recipe.getDatePublication());
 		assertEquals("dessert", recipe.getCategoriePlat());
 		assertEquals("suisse", recipe.getTypeCuisine());
 		assertEquals(4.5, recipe.getNote());
-		assertEquals(43, recipe.getCommentaires());
+		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getCommentaires());
 		
 	}
 	

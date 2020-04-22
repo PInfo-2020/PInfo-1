@@ -33,8 +33,8 @@ public class IngredientRestService {
 	@Path("/BaseInfos")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Ingredient getBaseInfos() {
-		List<Object[]> infos = ingredientService.getAllBaseInfo();
+	public List<Ingredient> getBaseInfos() {
+		List<Ingredient> infos = ingredientService.getAllIngredients();
 		Ingredient i = new Ingredient();
 		i.setCategorie("test");
 		i.setPoid_moyen(10);
@@ -43,7 +43,7 @@ public class IngredientRestService {
 		
 		
 		
-		return i;
+		return infos;
 	}
 
     @GET
