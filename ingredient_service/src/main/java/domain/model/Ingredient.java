@@ -14,7 +14,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AccessLevel;
@@ -26,6 +25,7 @@ import lombok.Getter;
 @Getter
 @Setter
 @Entity
+@Data
 @Table(name ="Ingredient")
 public class Ingredient {
 	@Id

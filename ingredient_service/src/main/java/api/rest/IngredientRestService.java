@@ -15,11 +15,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.FormParam;
 
-import org.jboss.resteasy.plugins.providers.multipart.*;
+
 
 import domain.model.Ingredient;
 import domain.service.IngredientService;
-import io.undertow.server.handlers.form.FormData;
 import lombok.var;   
 
 
