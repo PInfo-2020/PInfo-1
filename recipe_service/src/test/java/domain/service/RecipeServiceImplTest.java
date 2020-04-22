@@ -63,6 +63,14 @@ public class RecipeServiceImplTest {
 		
 	}
 	
+	
+	@Test
+	void testget() {
+		recipeService.create(getRandomRecipe());
+		Recipe ingredient = recipeService.getAllRecipes().get(0);
+		assertNotNull(ingredient);
+	}
+	
 	private Recipe getRandomRecipe() {
 		Recipe i = new Recipe();
 		i.setNom(UUID.randomUUID().toString());
