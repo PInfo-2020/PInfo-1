@@ -13,7 +13,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.FormParam;
 
+import org.jboss.resteasy.plugins.providers.multipart.*;
 
 import domain.model.Ingredient;
 import domain.service.IngredientService;
@@ -31,19 +33,18 @@ public class IngredientRestService {
 	
 	@Path("/BaseInfos")
 	@GET
-	@Produces(MediaType.MULTIPART_FORM_DATA)
-	public FormData getBaseInfos() {
-		
-		
+	@Produces(MediaType.APPLICATION_JSON)
+	public Ingredient getBaseInfos() {
 		List<Object[]> infos = ingredientService.getAllBaseInfo();
+		Ingredient i = new Ingredient();
+		i.setCategorie("test");
+		i.setPoid_moyen(10);
+		i.setUnite("g");
+		i.setNom("test");
 		
-		var formData = new FormData();
-		for (int i=0; i <= infos.size(); i++) {
-			formData.;
-		}
-			
 		
-		return formData;
+		
+		return i;
 	}
 
     @GET
