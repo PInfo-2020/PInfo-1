@@ -16,8 +16,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.CompoundSelection;
 
-import domain.model.Ingredient;
-
 @ApplicationScoped
 public class IngredientServiceImpl implements IngredientService {
 	@PersistenceContext(unitName = "IngredientPU")

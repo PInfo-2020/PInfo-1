@@ -1,5 +1,7 @@
 package domain.model;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,16 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RECIPE_SEQ")
 	private long id;
 	private String nom;
-	private String ingredients[];
-	
-	
+	private short tempsPreparation;
+	private String difficulte;
+	private short nbPersonnes;
+	private String photo;
+	private String preparation;
+	private long auteur;
+	private Date datePublication;
+	private String categoriePlat;
+	private String typeCuisine;
+	private float note;
+	private long commentaires;
+	//private String ingredients[];
 }

@@ -3,7 +3,10 @@ package domain.service;
 import java.util.List;
 
 
+import domain.model.Recipe;
 
-public class RecipeService {
+public interface RecipeService {
 
+	Recipe get(Long id);
+	void create(Recipe recipe);
 }
