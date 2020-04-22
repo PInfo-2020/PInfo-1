@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,9 +66,34 @@ public class RecipeServiceImplTest {
 	
 	@Test
 	void testget() {
+		List<Recipe> recipes = recipeService.getAllRecipes();
+		int size = recipes.size();
 		recipeService.create(getRandomRecipe());
-		Recipe ingredient = recipeService.getAllRecipes().get(0);
-		assertNotNull(ingredient);
+		recipeService.create(getRandomRecipe());
+		Recipe recipe = recipeService.getAllRecipes().get(0);
+		assertNotNull(recipe);
+	}
+	
+	@Test
+	void testCreation() {
+		int size = recipeService.getAllRecipes().size();
+		recipeService.create(createRecipe("maRecette", (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
+				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43));
+		List<Recipe> recipes = recipeService.getAllRecipes();
+		Recipe recipe = recipeService.getAllRecipes().get(size);
+		assertEquals("maRecette", recipe.getNom());
+		assertEquals(5, recipe.getTempsPreparation());
+		assertEquals("difficile", recipe.getDifficulte());
+		assertEquals(4, recipe.getNbPersonnes());
+		assertEquals("maPhoto", recipe.getPhoto());
+		assertEquals("fais ceci cela", recipe.getPreparation());
+		assertEquals(42, recipe.getAuteur());
+		assertEquals(Date.valueOf("2019-01-26"), recipe.getDatePublication());
+		assertEquals("dessert", recipe.getCategoriePlat());
+		assertEquals("suisse", recipe.getTypeCuisine());
+		assertEquals(4.5, recipe.getNote());
+		assertEquals(43, recipe.getCommentaires());
+		
 	}
 	
 	private Recipe getRandomRecipe() {
@@ -80,15 +105,31 @@ public class RecipeServiceImplTest {
 		i.setPhoto(UUID.randomUUID().toString());
 		i.setPreparation(UUID.randomUUID().toString());
 		i.setAuteur((int) (Math.random()*1000));
-		final java.sql.Date dateSQL = new java.sql.Date(new Date().getTime()) ;
-		i.setDatePublication(dateSQL);
+		i.setDatePublication(Date.valueOf("2019-01-26"));
 		i.setCategoriePlat(UUID.randomUUID().toString());
 		i.setTypeCuisine(UUID.randomUUID().toString());
 		i.setNote((float) (Math.random()*1000));
 		i.setCommentaires((int) (Math.random()*1000));
 		
-		
-		
+		return i;
+	}
+	
+	private Recipe createRecipe(String nom, short temps, String difficulte, short nbPersonnes,
+			String photo, String preparation, long auteur, Date date,
+			String categorie, String type, float note, long commentaires) {
+		Recipe i = new Recipe();
+		i.setNom(nom);
+		i.setTempsPreparation(temps);
+		i.setDifficulte(difficulte);
+		i.setNbPersonnes(nbPersonnes);
+		i.setPhoto(photo);
+		i.setPreparation(preparation);
+		i.setAuteur(auteur);
+		i.setDatePublication(date);
+		i.setCategoriePlat(categorie);
+		i.setTypeCuisine(type);
+		i.setNote(note);
+		i.setCommentaires(commentaires);
 		return i;
 	}
 }
