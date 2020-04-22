@@ -6,7 +6,7 @@
 	<persistence-unit name="RecipePUTest"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>domain.model.Ingredient</class>
+		<class>domain.model.Recipe</class>
 		<properties>
 		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 				<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />

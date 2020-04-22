@@ -56,12 +56,12 @@ public class IngredientServiceImplTest {
 		assertNotNull(ingredient);
 	}
 	
-	@Test
-	void testSize() {
-		List<Ingredient> ingredients = ingredientService.getAllIngredients();
-		int size = ingredients.size();
-		assertEquals(7, size);
-	}
+	//@Test
+	//void testSize() {
+	//	List<Ingredient> ingredients = ingredientService.getAllIngredients();
+	//	int size = ingredients.size();
+	//	assertEquals(7, size);
+	//}
 	
 	@Test
 	void testgetAllBaseInfo() {

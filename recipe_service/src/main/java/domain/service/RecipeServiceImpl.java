@@ -2,6 +2,7 @@ package domain.service;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
+
 import domain.model.Recipe;
 
 import java.util.List;
@@ -26,6 +27,15 @@ public class RecipeServiceImpl implements RecipeService{
 	public RecipeServiceImpl(EntityManager em) {
 		this();
 		this.em = em;
+	}
+	
+	@Override
+	public List<Recipe> getAllRecipes() {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
+		criteria.select(criteria.from(Recipe.class));
+		List<Recipe> recipes = em.createQuery("select g from Recipe g",Recipe.class).getResultList();
+		return recipes;
 	}
 	
 	@Override
