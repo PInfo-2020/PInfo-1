@@ -20,17 +20,6 @@
 
 
 	<dependencies>
-	<dependency>
-    	<groupId>org.jboss.resteasy</groupId>
-    	<artifactId>resteasy-jaxrs</artifactId>
-    		<version>3.11.2.Final</version>
-	</dependency>
-<dependency>
-    <groupId>org.jboss.resteasy</groupId>
-    <artifactId>resteasy-multipart-provider</artifactId>
-    <version>2.1-beta-1</version>
-</dependency>
-
 	  <dependency>
        <groupId>org.slf4j</groupId>
        <artifactId>slf4j-api</artifactId>
