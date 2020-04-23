@@ -33,5 +33,6 @@ public class Recipe {
 	private String typeCuisine;
 	private float note;
 	private long commentaires;
-	//private String ingredients[];
+	
+
 }

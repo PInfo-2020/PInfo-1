@@ -9,6 +9,10 @@ export class AddReceipeComponent implements OnInit {
 
   constructor() { }
 
+  onNameChanged(nameEntered: string) {
+    console.log('nom : ', nameEntered);
+  }
+
   ngOnInit() {
   }
 

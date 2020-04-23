@@ -78,6 +78,7 @@ ingredient-db:
   persistence:
      enabled: false
   postgresUser: ingredient
+  postgresqlPassword: ingredient
   postgresDatabase: ingredient
   postgresqlDatabase: ingredient
   global:

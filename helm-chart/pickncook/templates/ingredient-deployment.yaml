@@ -34,7 +34,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: {{ .Values.image.repository }}ingredient_service:{{ .Values.image.tag }}
+          image: "{{ $.Values.image.repository }}ingredient_service:{{ $.Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST
@@ -46,9 +46,9 @@ spec:
             - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_DRIVER_DASH_NAME
               value: "postgresql"   
             - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_USER_DASH_NAME
-              value: "ing"
+              value: "ingredient"
             - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_PASSWORD
-              value: "ing"              
+              value: "ingredient"              
           ports:
             - name: http
               containerPort: 28080
