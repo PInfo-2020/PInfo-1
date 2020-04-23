@@ -16,21 +16,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pickncook.fullname" . }}-recipe-service
-  labels:
-    {{- include "pickncook.labels" . | nindent 4 }}.recipe-service
-spec:
-  type: ClusterIP
-  ports:
-    - port: 28080
-      targetPort: 28080
-      protocol: TCP
-  selector:
-    app: {{ include "pickncook.fullname" . }}.recipe-service
----
-apiVersion: v1
-kind: Service
-metadata:
   name: {{ include "pickncook.fullname" . }}-web-ui
   labels:
     {{- include "pickncook.labels" . | nindent 4 }}.web-ui

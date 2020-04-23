@@ -92,22 +92,6 @@ ingredient-db:
      initialDelaySeconds: 100
 
 
-recipe-db:
-  driver_name: org.postgresql
-  persistence:
-     enabled: false
-  postgresDatabase: recipe
-  postgresqlDatabase: recipe
-  global:
-      persistence:
-         enabled: false
-      postgresqlDatabase: recipe
-  initdbScriptsConfigMap:
-    recipe-scripts
-  livenessProbe:
-     initialDelaySeconds: 120
-  readinessProbe:
-     initialDelaySeconds: 100
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
