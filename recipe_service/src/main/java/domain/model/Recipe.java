@@ -31,6 +31,24 @@ public class Recipe {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RECIPE_SEQ")
 	private long id;
 	private String nom;
+	
+	@ElementCollection
+	@CollectionTable(name = "IngredientsRecipe", 
+	       joinColumns = @JoinColumn(name = "id_recipe"))
+	@MapKeyColumn(name = "ingredient")
+	@Column(name = "quantite")
+	private Map<Long, Short> ingredientsOfRecipe;
+	
+	@ElementCollection
+	@CollectionTable(name="Ustensiles",joinColumns=@JoinColumn(name="id_recipe"))
+	@Column(name="ustensile")
+	private List<String> ustensiles;
+	
+	@ElementCollection
+	@CollectionTable(name="Tags",joinColumns=@JoinColumn(name="id_recipe"))
+	@Column(name="tag")
+	private List<String> tags;
+	
 	private short tempsPreparation;
 	private String difficulte;
 	private short nbPersonnes;
@@ -43,21 +61,6 @@ public class Recipe {
 	private float note;
 	private long commentaires;
 	
-	@ElementCollection
-	@CollectionTable(name="Ustensiles",joinColumns=@JoinColumn(name="id_recipe"))
-	@Column(name="ustensile")
-	private List<String> ustensiles;
-	
-	@ElementCollection
-	@CollectionTable(name="Tags",joinColumns=@JoinColumn(name="id_recipe"))
-	@Column(name="tag")
-	private List<String> tags;
-	
-	@ElementCollection
-	@CollectionTable(name = "IngredientsRecipe", 
-	       joinColumns = @JoinColumn(name = "id_recipe"))
-	@MapKeyColumn(name = "ingredient")
-	@Column(name = "quantite")
-	private Map<Long, Short> ingredientsOfRecipe;
+
 	
 }

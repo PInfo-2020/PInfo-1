@@ -81,11 +81,14 @@ public class RecipeServiceImplTest {
 		Map<Long, Short> listIng = new HashMap<>();
 		listIng.put(10l, (short)1);
 		listIng.put(20l, (short)2);
-		recipeService.create(createRecipe("maRecette", (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
-				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43, Arrays.asList("Voici", "mes", "ustensiles"), Arrays.asList("Mes", "tags", "sont", "cools"), listIng));
+		recipeService.create(createRecipe("maRecette", listIng, Arrays.asList("Voici", "mes", "ustensiles"), Arrays.asList("Mes", "tags", "sont", "cools"), (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
+				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43));
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipes.get(size);
 		assertEquals("maRecette", recipe.getNom());
+		assertEquals(listIng, recipe.getIngredientsOfRecipe());
+		assertEquals(Arrays.asList("Voici", "mes", "ustensiles"), recipe.getUstensiles());
+		assertEquals(Arrays.asList("Mes", "tags", "sont", "cools"), recipe.getTags());
 		assertEquals(5, recipe.getTempsPreparation());
 		assertEquals("difficile", recipe.getDifficulte());
 		assertEquals(4, recipe.getNbPersonnes());
@@ -118,11 +121,14 @@ public class RecipeServiceImplTest {
 		return i;
 	}
 	
-	private Recipe createRecipe(String nom, short temps, String difficulte, short nbPersonnes,
+	private Recipe createRecipe(String nom, Map<Long, Short> ingredientsList, List<String> ustensiles, List<String> tags, short temps, String difficulte, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
-			String categorie, String type, float note, long commentaires, List<String> ustensiles, List<String> tags, Map<Long, Short> ingredientsList) {
+			String categorie, String type, float note, long commentaires) {
 		Recipe i = new Recipe();
 		i.setNom(nom);
+		i.setIngredientsOfRecipe(ingredientsList);
+		i.setUstensiles(ustensiles);
+		i.setTags(tags);
 		i.setTempsPreparation(temps);
 		i.setDifficulte(difficulte);
 		i.setNbPersonnes(nbPersonnes);
@@ -134,8 +140,7 @@ public class RecipeServiceImplTest {
 		i.setTypeCuisine(type);
 		i.setNote(note);
 		i.setCommentaires(commentaires);
-		i.setUstensiles(ustensiles);
-		i.setIngredientsOfRecipe(ingredientsList);
+
 		return i;
 	}
 }
