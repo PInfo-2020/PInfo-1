@@ -17,6 +17,10 @@ dependencies:
       version: 7.7.2
       repository: https://kubernetes-charts.storage.googleapis.com
       alias: ingredient-db
+    - name: postgresql
+      version: 7.7.2
+      repository: https://kubernetes-charts.storage.googleapis.com
+      alias: recipe-db
     - name: kafka 
       version: 7.2.9
       repository: https://charts.bitnami.com/bitnami   
