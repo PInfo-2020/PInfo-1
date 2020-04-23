@@ -46,7 +46,7 @@ public class IngredientRestService {
 		return infos;
 	}
 	
-	@Path("/ingredients/mininfos")
+	@Path("/ingredients/minInfos")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Object[]> getMinInfos() {

@@ -29,11 +29,13 @@ public class RecipeRestService {
 		RecipeService.create(recipe);
 	
 	}
-
+	
+	@Path("/{idrecipe}")
     @GET
 	@Produces(MediaType.APPLICATION_JSON)
-    public String getRecipeTXT() {
-        return "recipe";
+    public Recipe getRecipe(@PathParam("name") Long idRecipe) {
+    	Recipe recipe = RecipeService.get(idRecipe);
+        return recipe;
     }
 
 }

@@ -64,13 +64,14 @@ public class IngredientServiceImplTest {
 	//}
 	
 	@Test
-	void testgetAllBaseInfo() {
+	void testgetAllMinInfos() {
+		int size = ingredientService.getAllIngredients().size();
 		ingredientService.create(createIngredient("patate", 12, "g", "légume"));
 		ingredientService.create(createIngredient("carrote", 120, "g", "légume"));
 		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
 		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
 		List<Object[]> tab = ingredientService.getAllMinInfos();
-		assertEquals("pâtes", tab.get(2)[1]);
+		assertEquals("pâtes", tab.get(size+2)[1]);
 	}
 
 		
