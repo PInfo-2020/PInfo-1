@@ -27,9 +27,6 @@ public class IngredientServiceImpl implements IngredientService {
 		this();
 		this.em = em;
 	}
-	public String helloWorld(){
-    return "Hello World2";
-	}
 
 @Override
 public Ingredient get(Long id) {
