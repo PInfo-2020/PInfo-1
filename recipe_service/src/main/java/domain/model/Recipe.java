@@ -1,7 +1,16 @@
 package domain.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OrderColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,5 +43,21 @@ public class Recipe {
 	private float note;
 	private long commentaires;
 	
-
+	@ElementCollection
+	@CollectionTable(name="Ustensiles",joinColumns=@JoinColumn(name="id_recipe"))
+	@Column(name="ustensile")
+	private List<String> ustensiles;
+	
+	@ElementCollection
+	@CollectionTable(name="Tags",joinColumns=@JoinColumn(name="id_recipe"))
+	@Column(name="tag")
+	private List<String> tags;
+	
+	@ElementCollection
+	@CollectionTable(name = "IngredientsRecipe", 
+	       joinColumns = @JoinColumn(name = "id_recipe"))
+	@MapKeyColumn(name = "ingredient")
+	@Column(name = "quantite")
+	private Map<String, Short> ingredientsOfRecipe;
+	
 }
