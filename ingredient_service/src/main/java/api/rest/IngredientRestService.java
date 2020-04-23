@@ -30,11 +30,11 @@ public class IngredientRestService {
 	@Inject
 	private IngredientService ingredientService;
 	
-	@Path("/BaseInfos")
+	@Path("/ingredients")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Ingredient getBaseInfos() {
-		List<Object[]> infos = ingredientService.getAllBaseInfo();
+	public List<Ingredient> getIngredients() {
+		List<Ingredient> infos = ingredientService.getAllIngredients();
 		Ingredient i = new Ingredient();
 		i.setCategorie("test");
 		i.setPoid_moyen(10);
@@ -43,7 +43,16 @@ public class IngredientRestService {
 		
 		
 		
-		return i;
+		return infos;
+	}
+	
+	@Path("/ingredients/MinInfos")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object[]> getMinInfos() {
+		List<Object[]> baseInfos = ingredientService.getAllMinInfos();
+		
+		return baseInfos;
 	}
 
     @GET

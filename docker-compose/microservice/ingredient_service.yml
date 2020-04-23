@@ -9,11 +9,11 @@ services:
     networks:
      - backend-network
     environment:
-      POSTGRES_USER: ing
+      POSTGRES_USER: ingredient
       POSTGRES_PASSWORD: ing
       POSTGRES_DB: ingredient
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "ing", "-d", "ing"]
+      test: ["CMD", "pg_isready", "-U", "ingredient", "-d", "ingredient"]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -33,7 +33,7 @@ services:
       THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
       THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_CONNECTION_DASH_URL: "jdbc:postgresql://ingredient-database:5432/ingredient"
       THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_DRIVER_DASH_NAME: 'postgresql'   
-      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_USER_DASH_NAME: 'ing'
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_USER_DASH_NAME: 'ingredient'
       THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_INGREDIENTDS_PASSWORD: 'ing'
     networks:
       - backend-network   

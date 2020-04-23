@@ -60,7 +60,7 @@ public class IngredientServiceImplTest {
 	//void testSize() {
 	//	List<Ingredient> ingredients = ingredientService.getAllIngredients();
 	//	int size = ingredients.size();
-	//	assertEquals(7, size);
+	//	assertEquals(nextval('INGREDIENT_SEQ'), size);
 	//}
 	
 	@Test
@@ -70,7 +70,6 @@ public class IngredientServiceImplTest {
 		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
 		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
 		List<Object[]> tab = ingredientService.getAllBaseInfo();
-		System.out.println(tab);
 		assertEquals("pâtes", tab.get(2)[1]);
 	}
 

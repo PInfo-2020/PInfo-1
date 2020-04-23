@@ -9,8 +9,5 @@
         "checkLoginIframe": true, 
         "onLoad": "login-required", 
         "responseMode": "fragment" 
-    },
-    "valuationService": {
-        "url": "https://pinfo1.unige.ch/api/v1/valuation"
     }
 }
