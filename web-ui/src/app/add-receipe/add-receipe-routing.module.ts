@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AddReceipeComponent } from './add-receipe.component';
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { NameInputComponent } from './name-input/name-input.component';
+import { TimeInputComponent } from './time-input/time-input.component';
+import { DifficultyInputComponent } from './difficulty-input/difficulty-input.component';
 
 const routes: Routes = [
   { path: 'add-receipe', component: AddReceipeComponent }
@@ -13,11 +15,15 @@ const routes: Routes = [
   exports: [
     RouterModule,
     UploadPhotoComponent,
-    NameInputComponent
+    NameInputComponent,
+    TimeInputComponent,
+    DifficultyInputComponent
   ],
   declarations: [
     UploadPhotoComponent,
-    NameInputComponent
+    NameInputComponent,
+    TimeInputComponent,
+    DifficultyInputComponent
   ]
 })
 export class AddReceipeRoutingModule { }
