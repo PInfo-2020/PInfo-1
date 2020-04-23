@@ -73,7 +73,7 @@ public class RecipeServiceImplTest {
 		Recipe recipe = recipeService.getAllRecipes().get(0);
 		assertNotNull(recipe);
 	}
-	/*
+	
 	@Test
 	void testCreation() {
 		int size = recipeService.getAllRecipes().size();
@@ -82,19 +82,19 @@ public class RecipeServiceImplTest {
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipeService.getAllRecipes().get(size);
 		assertEquals("maRecette", recipe.getNom());
-		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getTempsPreparation());
+		assertEquals(5, recipe.getTempsPreparation());
 		assertEquals("difficile", recipe.getDifficulte());
-		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getNbPersonnes());
+		assertEquals(4, recipe.getNbPersonnes());
 		assertEquals("maPhoto", recipe.getPhoto());
 		assertEquals("fais ceci cela", recipe.getPreparation());
-		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getAuteur());
+		assertEquals(42, recipe.getAuteur());
 		assertEquals(Date.valueOf("2019-01-26"), recipe.getDatePublication());
 		assertEquals("dessert", recipe.getCategoriePlat());
 		assertEquals("suisse", recipe.getTypeCuisine());
 		assertEquals(4.5, recipe.getNote());
-		assertEquals(nextval('INGREDIENT_SEQ'), recipe.getCommentaires());
+		assertEquals(43, recipe.getCommentaires());
 		
-	}*/
+	}
 	
 	private Recipe getRandomRecipe() {
 		Recipe i = new Recipe();
