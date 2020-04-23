@@ -26,7 +26,8 @@ public class RecipeRestServiceIT {
 
 	@Test
 	public void testGetRecipe() {
-		when().get("/1").then().body(containsString("Abricot"));
+		when().get("/1").then().body(containsString("français"));
+		when().get("/1").then().body(containsString("vegan"));
 	}
 
 
