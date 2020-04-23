@@ -1,4 +1,5 @@
 package domain.service;
+
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
