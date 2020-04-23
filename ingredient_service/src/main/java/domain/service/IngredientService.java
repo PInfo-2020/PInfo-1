@@ -13,5 +13,5 @@ public interface IngredientService {
 	Long count();
     String helloWorld();
 	void create(Ingredient ingredient);
-	List<Object[]> getAllBaseInfo();
+	List<Object[]> getAllMinInfos();
 }

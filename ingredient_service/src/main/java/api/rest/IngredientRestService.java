@@ -46,18 +46,11 @@ public class IngredientRestService {
 		return infos;
 	}
 	
-	@Path("/BaseInfos")
+	@Path("/ingredients/MinInfos")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object[]> getBaseInfos() {
-		List<Object[]> baseInfos = ingredientService.getAllBaseInfo();
-		Ingredient i = new Ingredient();
-		i.setCategorie("test");
-		i.setPoid_moyen(10);
-		i.setUnite("g");
-		i.setNom("test");
-		
-		
+	public List<Object[]> getMinInfos() {
+		List<Object[]> baseInfos = ingredientService.getAllMinInfos();
 		
 		return baseInfos;
 	}
