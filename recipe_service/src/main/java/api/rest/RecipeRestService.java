@@ -12,15 +12,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import domain.model.Recipe;
+import domain.service.RecipeService;
+
 
 @ApplicationScoped
 @Path("/recipe")
 public class RecipeRestService {
+	
+	@Inject
+	private RecipeService RecipeService;
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public void postRecipe() {
-		
+	public void postRecipe(Recipe recipe) {
+		RecipeService.create(recipe);
 	
 	}
 
