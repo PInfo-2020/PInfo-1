@@ -25,7 +25,7 @@ INSERT INTO Tags(id_recipe, tag) VALUES ((SELECT id from Recipe WHERE nom='Abric
 INSERT INTO Tags(id_recipe, tag) VALUES ((SELECT id from Recipe WHERE nom='Abricot sec sucré'), 'sucré');
 
 
-CREATE TABLE IF NOT EXISTS IngredientsRecipe (id serial primary key, id_recipe bigint not null, ingredient varchar(255) not null, quantite smallint, FOREIGN KEY (id_recipe) REFERENCES Recipe (id), UNIQUE (id_recipe, ingredient));
+CREATE TABLE IF NOT EXISTS IngredientsRecipe (id serial primary key, id_recipe bigint not null, ingredient bigint not null, quantite smallint, FOREIGN KEY (id_recipe) REFERENCES Recipe (id), UNIQUE (id_recipe, ingredient));
 
 TRUNCATE TABLE IngredientsRecipe; 
 INSERT INTO IngredientsRecipe(id_recipe, ingredient, quantite) VALUES ((SELECT id from Recipe WHERE nom='Abricot sucré'), 1, 4);

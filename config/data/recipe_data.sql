@@ -4,7 +4,7 @@ create sequence RECIPE_SEQ start with 1 increment by 1;
 CREATE TABLE IF NOT EXISTS Recipe (id bigint not null, primary key (id), nom varchar(255), tempsPreparation smallint, difficulte varchar(255),nbPersonnes smallint, photo varchar(255), preparation varchar(255), auteur bigint, datePublication date, categoriePlat varchar(255), typeCuisine varchar(255), note float, commentaires bigint);
 CREATE TABLE IF NOT EXISTS Ustensiles (id serial primary key, id_recipe bigint not null, ustensile varchar(255) not null, FOREIGN KEY (id_recipe) REFERENCES Recipe (id), UNIQUE (id_recipe, ustensile));
 CREATE TABLE IF NOT EXISTS Tags (id serial primary key, id_recipe bigint not null, tag varchar(255) not null, FOREIGN KEY (id_recipe) REFERENCES Recipe (id), UNIQUE (id_recipe, tag));
-CREATE TABLE IF NOT EXISTS IngredientsRecipe (id serial primary key, id_recipe bigint not null, ingredient varchar(255) not null, quantite smallint, FOREIGN KEY (id_recipe) REFERENCES Recipe (id), UNIQUE (id_recipe, ingredient));
+CREATE TABLE IF NOT EXISTS IngredientsRecipe (id serial primary key, id_recipe bigint not null, ingredient bigint not null, quantite smallint, FOREIGN KEY (id_recipe) REFERENCES Recipe (id), UNIQUE (id_recipe, ingredient));
 GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA public to recipe;
 
 TRUNCATE TABLE Recipe; 

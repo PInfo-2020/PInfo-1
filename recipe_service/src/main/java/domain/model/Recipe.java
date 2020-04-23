@@ -58,6 +58,6 @@ public class Recipe {
 	       joinColumns = @JoinColumn(name = "id_recipe"))
 	@MapKeyColumn(name = "ingredient")
 	@Column(name = "quantite")
-	private Map<String, Short> ingredientsOfRecipe;
+	private Map<Long, Short> ingredientsOfRecipe;
 	
 }

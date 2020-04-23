@@ -1,5 +1,7 @@
 package domain.service;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.enterprise.context.ApplicationScoped;
 
 import domain.model.Recipe;
@@ -67,7 +69,6 @@ public class RecipeServiceImplTest {
 	@Test
 	void testget() {
 		List<Recipe> recipes = recipeService.getAllRecipes();
-		int size = recipes.size();
 		recipeService.create(getRandomRecipe());
 		recipeService.create(getRandomRecipe());
 		Recipe recipe = recipeService.getAllRecipes().get(0);
@@ -77,10 +78,13 @@ public class RecipeServiceImplTest {
 	@Test
 	void testCreation() {
 		int size = recipeService.getAllRecipes().size();
+		Map<Long, Short> listIng = new HashMap<>();
+		listIng.put(10l, (short)1);
+		listIng.put(20l, (short)2);
 		recipeService.create(createRecipe("maRecette", (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
-				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43));
+				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43, Arrays.asList("Voici", "mes", "ustensiles"), Arrays.asList("Mes", "tags", "sont", "cools"), listIng));
 		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe recipe = recipeService.getAllRecipes().get(size);
+		Recipe recipe = recipes.get(size);
 		assertEquals("maRecette", recipe.getNom());
 		assertEquals(5, recipe.getTempsPreparation());
 		assertEquals("difficile", recipe.getDifficulte());
@@ -116,7 +120,7 @@ public class RecipeServiceImplTest {
 	
 	private Recipe createRecipe(String nom, short temps, String difficulte, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
-			String categorie, String type, float note, long commentaires) {
+			String categorie, String type, float note, long commentaires, List<String> ustensiles, List<String> tags, Map<Long, Short> ingredientsList) {
 		Recipe i = new Recipe();
 		i.setNom(nom);
 		i.setTempsPreparation(temps);
@@ -130,6 +134,8 @@ public class RecipeServiceImplTest {
 		i.setTypeCuisine(type);
 		i.setNote(note);
 		i.setCommentaires(commentaires);
+		i.setUstensiles(ustensiles);
+		i.setIngredientsOfRecipe(ingredientsList);
 		return i;
 	}
 }
