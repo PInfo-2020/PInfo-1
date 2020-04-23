@@ -1,0 +1,52 @@
+version: "3.5"
+
+services:
+
+  recipe-database:
+    image: postgres:10
+    container_name: recipe-database
+    hostname: recipe-database
+    networks:
+     - backend-network
+    environment:
+      POSTGRES_USER: recipe
+      POSTGRES_PASSWORD: recipe
+      POSTGRES_DB: recipe
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "recipe", "-d", "recipe"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - pgdata-frige:/var/lib/postgresql/data
+      - ../../config/data/recipe_data.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: on-failure
+    stdin_open: true
+    tty: true
+
+  recipe-service:
+    container_name: recipe-service    
+    image:  pickncook/recipe_service:latest
+    hostname: recipe-service
+    environment:
+      THORNTAIL_KAFKA_DASH_CONFIGURATION_HOST: "kafka"
+      THORNTAIL_KAFKA_DASH_CONFIGURATION_PORT: "9092"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_RECIPEDS_CONNECTION_DASH_URL: "jdbc:postgresql://recipe-database:5432/recipe"
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_RECIPEDS_DRIVER_DASH_NAME: 'postgresql'   
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_RECIPEDS_USER_DASH_NAME: 'recipe'
+      THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_RECIPEDS_PASSWORD: 'recipe'
+    networks:
+      - backend-network   
+    ports:
+      - "10080:28080"
+    depends_on:
+       - recipe-database
+volumes:
+   pgdata-frige:
+
+  
+
+networks:
+    backend-network:
+      external:
+        name: backend-network
