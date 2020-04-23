@@ -60,7 +60,7 @@ public List<Ingredient> getAllIngredients() {
 
 
 @Override
-public List<Object[]> getAllBaseInfo(){ //Id, nom, unité
+public List<Object[]> getAllMinInfos(){ //Id, nom, unité
 	
 	//ArrayList<ArrayList<Object>> tab=new ArrayList<>();
 	//List<Ingredient> ingredients = getAllIngredients();
