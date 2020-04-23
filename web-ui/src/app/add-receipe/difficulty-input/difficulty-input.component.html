@@ -1,0 +1,3 @@
+<label for="difficulty">Difficulté de la recette : </label>
+<input type="text" #difficulty (keyup.enter)="changeDifficulty(difficulty.value)" (blur)="changeDifficulty(difficulty.value)" placeholder="5">
+<label for="difficulty">/ 10</label>
