@@ -69,7 +69,7 @@ public class IngredientServiceImplTest {
 		ingredientService.create(createIngredient("carrote", 120, "g", "légume"));
 		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
 		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
-		List<Object[]> tab = ingredientService.getAllBaseInfo();
+		List<Object[]> tab = ingredientService.getAllMinInfos();
 		assertEquals("pâtes", tab.get(2)[1]);
 	}
 
