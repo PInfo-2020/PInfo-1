@@ -35,7 +35,7 @@ public class RecipeRestService {
 	@Path("/{idrecipe}")
     @GET
 	@Produces(MediaType.APPLICATION_JSON)
-    public Recipe getRecipe(@PathParam("name") Long idRecipe) {
+    public Recipe getRecipe(@PathParam("idrecipe") Long idRecipe) {
     	Recipe recipe = RecipeService.get(idRecipe);
         return recipe;
     }
