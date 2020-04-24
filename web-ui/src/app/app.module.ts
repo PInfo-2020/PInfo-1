@@ -19,12 +19,17 @@ import { MyFavoritesModule } from './my-favorites/my-favorites.module';
 import { MyFridgeModule } from './my-fridge/my-fridge.module';
 import { MyShoppingListModule } from './my-shopping-list/my-shopping-list.module';
 import { AddReceipeModule } from './add-receipe/add-receipe.module';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { InputsModule } from '@progress/kendo-angular-inputs';
 import { CommonModule } from '@angular/common';
+
+
 
 @NgModule({
    declarations: [
       AppComponent,
-      MenuNavComponent
+      MenuNavComponent,
+      DropDownsModule
    ],
    imports: [
       BrowserModule,
@@ -44,7 +49,9 @@ import { CommonModule } from '@angular/common';
       MyFridgeModule,
       MyFavoritesModule,
       MyShoppingListModule,
-      AddReceipeModule
+      AddReceipeModule,
+      InputsModule,
+      DropDownsModule
    ],
    providers: [],
    bootstrap: [
