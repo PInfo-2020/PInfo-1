@@ -24,6 +24,7 @@ kafka:
   readinessProbe:
     initialDelaySeconds: 120
 
+
 keycloak:
   keycloak:
     password: asdfghjkl
@@ -34,12 +35,9 @@ keycloak:
     extraVolumeMounts: |
       - name: keycloak-realm-secret
         mountPath: "/realm/"
-        readOnly: true
+        readOnly: true          
     extraArgs: -Dkeycloak.import=/realm/realms.json
-    livenessProbe: |
-      initialDelaySeconds: 120
-    readinessProbe: |
-      initialDelaySeconds: 120
+
 
 imagePullSecrets: []
 nameOverride: ""
