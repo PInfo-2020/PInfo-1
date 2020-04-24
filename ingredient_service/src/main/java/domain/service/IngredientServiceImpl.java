@@ -1,4 +1,5 @@
 package domain.service;
+
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
@@ -26,9 +27,6 @@ public class IngredientServiceImpl implements IngredientService {
 	public IngredientServiceImpl(EntityManager em) {
 		this();
 		this.em = em;
-	}
-	public String helloWorld(){
-    return "Hello World2";
 	}
 
 @Override

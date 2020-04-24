@@ -1,1 +1,1 @@
-<input type="text" #name (keyup)="changeName(name.value)" value="Le nom de votre recette">
+<input type="text" #name (keyup.enter)="changeName(name.value)" (blur)="changeName(name.value)" placeholder="Le nom de votre recette">

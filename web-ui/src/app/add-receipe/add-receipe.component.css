@@ -1,3 +1,7 @@
 :host {
   padding: 30px
 }
+
+#add-recipe {
+  margin-left: 3%;
+}

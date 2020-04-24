@@ -1,5 +1,7 @@
 package api.rest;
 
+import java.sql.Date;
+
 import javax.enterprise.context.ApplicationScoped;
 
 import javax.inject.Inject;
@@ -27,13 +29,15 @@ public class RecipeRestService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public void postRecipe(Recipe recipe) {
 		RecipeService.create(recipe);
-	
-	}
 
+	}
+	
+	@Path("/{idrecipe}")
     @GET
 	@Produces(MediaType.APPLICATION_JSON)
-    public String getRecipeTXT() {
-        return "recipe";
+    public Recipe getRecipe(@PathParam("name") Long idRecipe) {
+    	Recipe recipe = RecipeService.get(idRecipe);
+        return recipe;
     }
 
 }
