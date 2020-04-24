@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UploaderService } from './uploader.service';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-photo',
@@ -9,46 +9,54 @@ import { UploaderService } from './uploader.service';
 
 export class UploadPhotoComponent implements OnInit {
 
-  progress: number;
-  infoMessage: any;
-  isUploading = false;
-  file: File;
-
-  imageUrl: string | ArrayBuffer =
-    'https://bulma.io/images/placeholders/480x480.png';
-  fileName = 'No file selected';
-
-  constructor(private uploader: UploaderService) {}
+  fileData: File = null;
+  previewUrl: any = null;
+  fileUploadProgress: string = null;
+  uploadedFilePath: string = null;
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.uploader.progressSource.subscribe(progress => {
-      this.progress = progress;
-    });
   }
 
-  onChange(file: File) {
-    if (file) {
-      this.fileName = file.name;
-      this.file = file;
+  fileProgress(fileInput: any) {
+      this.fileData = fileInput.target.files[0] as File;
+      this.preview();
+  }
 
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = event => {
-        this.imageUrl = reader.result;
-      };
+  preview() {
+    // Show preview
+    const mimeType = this.fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
     }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(this.fileData);
+    reader.onload = (_event) => {
+      this.previewUrl = reader.result;
+    };
   }
 
-  onUpload() {
-    this.infoMessage = null;
-    this.progress = 0;
-    this.isUploading = true;
+  onSubmit() {
+    const formData = new FormData();
+    formData.append('files', this.fileData);
 
-    this.uploader.upload(this.file).subscribe(message => {
-      this.isUploading = false;
-      this.infoMessage = message;
+    this.fileUploadProgress = '0%';
+
+    this.http.post('https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload', formData, {
+      reportProgress: true,
+      observe: 'events'
+    })
+    .subscribe(events => {
+      if (events.type === HttpEventType.UploadProgress) {
+        this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
+        console.log(this.fileUploadProgress);
+      } else if (events.type === HttpEventType.Response) {
+        this.fileUploadProgress = '';
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
+
     });
-  }
-
+}
 }

@@ -32,7 +32,6 @@
   
   <modules>
   	<module>ingredient_service</module>
-  
     <module>fridge_service</module>  
 	<module>comments_service</module>
 	<module>moderation_service</module>
