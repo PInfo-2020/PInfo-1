@@ -13,24 +13,18 @@ public class IngredientRestServiceIT {
 
 	@BeforeAll
 	public static void setup() {
-		RestAssured.baseURI = "http://localhost:28080/ingredient";
+		RestAssured.baseURI = "http://localhost:28080/ingredients";
 		RestAssured.port = 8080;
 	}
 
 	@Test
-	public void test() {
-		when().get("/").then().body(containsString("Hello World2"));
-
-	}
-
-	@Test
 	public void testGetMinInfos() {
-		when().get("/ingredients/minInfos").then().body(containsString("Abricot, sucré, conserve"));
+		when().get("/minInfos").then().body(containsString("Abricot, sucré, conserve"));
 	}
 	
 	@Test
 	public void testGetIngedients() {
-		when().get("/ingredients").then().body(containsString("Abricot, sucré, conserve"));
+		when().get("/").then().body(containsString("Abricot, sucré, conserve"));
 	}
 
 }

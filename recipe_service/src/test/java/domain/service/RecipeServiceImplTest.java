@@ -1,5 +1,7 @@
 package domain.service;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.enterprise.context.ApplicationScoped;
 
 import domain.model.Recipe;
@@ -67,7 +69,6 @@ public class RecipeServiceImplTest {
 	@Test
 	void testget() {
 		List<Recipe> recipes = recipeService.getAllRecipes();
-		int size = recipes.size();
 		recipeService.create(getRandomRecipe());
 		recipeService.create(getRandomRecipe());
 		Recipe recipe = recipeService.getAllRecipes().get(0);
@@ -77,11 +78,17 @@ public class RecipeServiceImplTest {
 	@Test
 	void testCreation() {
 		int size = recipeService.getAllRecipes().size();
-		recipeService.create(createRecipe("maRecette", (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
+		Map<Long, Short> listIng = new HashMap<>();
+		listIng.put(10l, (short)1);
+		listIng.put(20l, (short)2);
+		recipeService.create(recipeService.createRecipe("maRecette", listIng, Arrays.asList("Voici", "mes", "ustensiles"), Arrays.asList("Mes", "tags", "sont", "cools"), (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
 				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43));
 		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe recipe = recipeService.getAllRecipes().get(size);
+		Recipe recipe = recipes.get(size);
 		assertEquals("maRecette", recipe.getNom());
+		assertEquals(listIng, recipe.getIngredientsOfRecipe());
+		assertEquals(Arrays.asList("Voici", "mes", "ustensiles"), recipe.getUstensiles());
+		assertEquals(Arrays.asList("Mes", "tags", "sont", "cools"), recipe.getTags());
 		assertEquals(5, recipe.getTempsPreparation());
 		assertEquals("difficile", recipe.getDifficulte());
 		assertEquals(4, recipe.getNbPersonnes());
@@ -111,25 +118,6 @@ public class RecipeServiceImplTest {
 		i.setNote((float) (Math.random()*1000));
 		i.setCommentaires((int) (Math.random()*1000));
 		
-		return i;
-	}
-	
-	private Recipe createRecipe(String nom, short temps, String difficulte, short nbPersonnes,
-			String photo, String preparation, long auteur, Date date,
-			String categorie, String type, float note, long commentaires) {
-		Recipe i = new Recipe();
-		i.setNom(nom);
-		i.setTempsPreparation(temps);
-		i.setDifficulte(difficulte);
-		i.setNbPersonnes(nbPersonnes);
-		i.setPhoto(photo);
-		i.setPreparation(preparation);
-		i.setAuteur(auteur);
-		i.setDatePublication(date);
-		i.setCategoriePlat(categorie);
-		i.setTypeCuisine(type);
-		i.setNote(note);
-		i.setCommentaires(commentaires);
 		return i;
 	}
 }

@@ -23,30 +23,22 @@ import lombok.var;
 
 
 @ApplicationScoped
-@Path("/ingredient")
+@Path("/ingredients")
 public class IngredientRestService {
 
 
 	@Inject
 	private IngredientService ingredientService;
 	
-	@Path("/ingredients")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Ingredient> getIngredients() {
 		List<Ingredient> infos = ingredientService.getAllIngredients();
-		Ingredient i = new Ingredient();
-		i.setCategorie("test");
-		i.setPoid_moyen(10);
-		i.setUnite("g");
-		i.setNom("test");
-		
-		
-		
+
 		return infos;
 	}
 	
-	@Path("/ingredients/minInfos")
+	@Path("/minInfos")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Object[]> getMinInfos() {
@@ -55,10 +47,5 @@ public class IngredientRestService {
 		return baseInfos;
 	}
 
-    @GET
-	@Produces(MediaType.APPLICATION_JSON)
-    public String getIngredientTXT() {
-        return ingredientService.helloWorld();
-    }
 
 }

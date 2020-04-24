@@ -1,4 +1,5 @@
 package domain.service;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
@@ -47,4 +48,28 @@ public class RecipeServiceImpl implements RecipeService{
 	public void create(Recipe recipe) {
 		em.persist(recipe);
 	}
+	@Override
+	public Recipe createRecipe(String nom, Map<Long, Short> ingredientsList, List<String> ustensiles, List<String> tags, short temps, String difficulte, short nbPersonnes,
+			String photo, String preparation, long auteur, Date date,
+			String categorie, String type, float note, long commentaires) {
+		Recipe i = new Recipe();
+		i.setNom(nom);
+		i.setIngredientsOfRecipe(ingredientsList);
+		i.setUstensiles(ustensiles);
+		i.setTags(tags);
+		i.setTempsPreparation(temps);
+		i.setDifficulte(difficulte);
+		i.setNbPersonnes(nbPersonnes);
+		i.setPhoto(photo);
+		i.setPreparation(preparation);
+		i.setAuteur(auteur);
+		i.setDatePublication(date);
+		i.setCategoriePlat(categorie);
+		i.setTypeCuisine(type);
+		i.setNote(note);
+		i.setCommentaires(commentaires);
+
+		return i;
+	}
 }
+
