@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns'
 
 import { AddReceipeRoutingModule } from './add-receipe-routing.module';
 import { AddReceipeComponent } from './add-receipe.component';
@@ -11,8 +12,10 @@ import { AddReceipeComponent } from './add-receipe.component';
     CommonModule,
     AddReceipeRoutingModule,
     HttpClientModule,
-    BrowserModule
+    BrowserModule,
+    DropDownsModule,
   ],
-  declarations: [AddReceipeComponent]
+  declarations: [AddReceipeComponent],
+  exports: [DropDownsModule]
 })
 export class AddReceipeModule { }

@@ -1,4 +1,3 @@
-import { TagsInputComponent } from './tags-input/tags-input.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AddReceipeComponent } from './add-receipe.component';
@@ -6,6 +5,8 @@ import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { NameInputComponent } from './name-input/name-input.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { DifficultyInputComponent } from './difficulty-input/difficulty-input.component';
+import { TagsInputComponent } from './tags-input/tags-input.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
     NameInputComponent,
     TimeInputComponent,
     DifficultyInputComponent,
-    TagsInputComponent
+    TagsInputComponent,
+    DropDownsModule,
   ],
   declarations: [
     UploadPhotoComponent,

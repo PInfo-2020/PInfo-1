@@ -50,7 +50,7 @@ import { CommonModule } from '@angular/common';
       MyShoppingListModule,
       AddReceipeModule,
       InputsModule,
-      DropDownsModule
+      DropDownsModule,
    ],
    providers: [],
    bootstrap: [
