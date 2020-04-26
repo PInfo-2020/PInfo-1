@@ -14,7 +14,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), DropDownsModule],
   exports: [
     RouterModule,
     UploadPhotoComponent,
