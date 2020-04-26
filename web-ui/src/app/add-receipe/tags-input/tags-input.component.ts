@@ -9,11 +9,14 @@ import { Component, OnInit } from '@angular/core';
 
 export class TagsInputComponent implements OnInit {
 
+  constructor() {}
+
   public listItems: Array<string> = [
     'Vegan',
-    'Végétarien', 'Sans Gluten'];
+    'Végétarien',
+    'Sans Gluten'];
 
-  public value: any = ['']
+  public value: any = [''];
 
   ngOnInit() {}
 
