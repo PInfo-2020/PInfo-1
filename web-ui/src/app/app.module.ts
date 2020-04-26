@@ -28,8 +28,7 @@ import { CommonModule } from '@angular/common';
 @NgModule({
    declarations: [
       AppComponent,
-      MenuNavComponent,
-      DropDownsModule
+      MenuNavComponent
    ],
    imports: [
       BrowserModule,
