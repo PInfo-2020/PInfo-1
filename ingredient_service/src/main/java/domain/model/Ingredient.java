@@ -32,14 +32,14 @@ public class Ingredient {
 	@SequenceGenerator(name = "INGREDIENT_SEQ", sequenceName = "INGREDIENT_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INGREDIENT_SEQ")	
 	private long id;
-	@Column(name="nom")
-	private String nom;
-	@Column(name = "poid_moyen")
-    private Integer poid_moyen;
-	@Column(name = "unite")
-    private String unite;
-	@Column(name="categorie")
-    private String categorie;
+	@Column(name="name")
+	private String name;
+	@Column(name = "averageWeight")
+    private Integer averageWeight;
+	@Column(name = "unity")
+    private String unity;
+	@Column(name="category")
+    private String category;
     
 	
 }

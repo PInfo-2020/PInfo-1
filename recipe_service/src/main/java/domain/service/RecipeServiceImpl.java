@@ -50,17 +50,19 @@ public class RecipeServiceImpl implements RecipeService{
 	public void create(Recipe recipe) {
 		em.persist(recipe);
 	}
+	
 	@Override
 	public Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
 			String categorie, String type, float note, List<Comment> comments) {
+		
 		Recipe i = new Recipe();
 		i.setName(name);
 		i.setIngredients(ingredients);
 		i.setUtensils(utensils);
 		i.setPreparationTime(prepTime);
 		i.setDifficulty(difficulty);
-		i.setNbPersonnes(nbPersonnes);
+		i.setNbPersons(nbPersonnes);
 		i.setPicture(photo);
 		i.setPreparation(preparation);
 		i.setAuthor(auteur);
@@ -74,26 +76,29 @@ public class RecipeServiceImpl implements RecipeService{
 
 	}
 	@Override
-	public Ingredient createIngredient(short quantity, long detailsID) {
+	public Ingredient createIngredient(long detailsID, short quantity) {
 		Ingredient ingredient = new Ingredient();
 		ingredient.setDetailsID(detailsID);
 		ingredient.setQuantity(quantity);
 		
 		return ingredient;
-		
 	}
+	
 	@Override
 	public Comment createComment(String text, long userID,short grade) {
 		Comment comment = new Comment();
 		comment.setText(text);
-		comment.setGrade(grade);
 		comment.setUserID(userID);
+		comment.setGrade(grade);
+		
 		return comment;
 	}
+	
 	@Override
 	public Utensil createUtensil(String name) {
 		Utensil utensil = new Utensil();
 		utensil.setName(name);
+		
 		return utensil;
 	}
 }

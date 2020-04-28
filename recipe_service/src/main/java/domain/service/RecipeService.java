@@ -16,7 +16,7 @@ public interface RecipeService {
 	Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
 			String categorie, String type, float note, List<Comment> comments);
-	Ingredient createIngredient(short quantity, long detailsID);
+	Ingredient createIngredient(long detailsID, short quantity);
 	Comment createComment(String text, long userID,short grade);
 	Utensil createUtensil(String name);
 }

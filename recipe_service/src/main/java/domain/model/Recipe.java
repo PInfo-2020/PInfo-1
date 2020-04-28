@@ -37,12 +37,11 @@ public class Recipe {
 	private List<Ingredient> ingredients;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Comment> comments;
-	private String name;
 	
-
+	private String name;
 	private short preparationTime;
 	private short difficulty;
-	private short nbPersonnes;
+	private short nbPersons;
 	private String picture;
 	private String preparation;
 	private long author;

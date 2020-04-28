@@ -77,19 +77,19 @@ public class IngredientServiceImplTest {
 		
 	private Ingredient getRandomIngredient() {
 		Ingredient i = new Ingredient();
-		i.setCategorie(UUID.randomUUID().toString());
-		i.setPoid_moyen((int) (Math.random()*1000));
-		i.setUnite(UUID.randomUUID().toString());
-		i.setNom(UUID.randomUUID().toString());
+		i.setCategory(UUID.randomUUID().toString());
+		i.setAverageWeight((int) (Math.random()*1000));
+		i.setUnity(UUID.randomUUID().toString());
+		i.setName(UUID.randomUUID().toString());
 		return i;
 	}
 	
 	private Ingredient createIngredient(String nom, int poids, String unite, String categorie) {
 		Ingredient i = new Ingredient();
-		i.setCategorie(categorie);
-		i.setPoid_moyen(poids);
-		i.setUnite(unite);
-		i.setNom(nom);
+		i.setCategory(categorie);
+		i.setAverageWeight(poids);
+		i.setUnity(unite);
+		i.setName(nom);
 		return i;
 	}
 }

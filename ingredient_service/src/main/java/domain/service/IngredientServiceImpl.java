@@ -75,20 +75,11 @@ public List<Object[]> getAllMinInfos(){ //Id, nom, unité
 	CriteriaBuilder builder = em.getCriteriaBuilder();
 	CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
 	Root<Ingredient> c = criteria.from(Ingredient.class);
-	criteria.multiselect(c.get("id"), c.get("nom"), c.get("unite"));
+	criteria.multiselect(c.get("id"), c.get("name"), c.get("unity"));
 	List<Object[]> results = em.createQuery(criteria).getResultList();
 	
 	return results;
 	
-}
-
-
-@Override
-public Long count() {
-	CriteriaBuilder qb = em.getCriteriaBuilder();
-	CriteriaQuery<Long> cq = qb.createQuery(Long.class);
-	cq.select(qb.count(cq.from(Ingredient.class)));
-	return em.createQuery(cq).getSingleResult();
 }
 
 
