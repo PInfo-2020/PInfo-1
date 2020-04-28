@@ -14,7 +14,8 @@ import { NameInputComponent } from './name-input/name-input.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { DifficultyInputComponent } from './difficulty-input/difficulty-input.component';
 import { TagsInputComponent } from './tags-input/tags-input.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { IngredientsInputComponent } from './ingredients-input/ingredients-input.component';
+
 
 
 
@@ -50,6 +51,7 @@ const routes: Routes = [
     DifficultyInputComponent,
     TagsInputComponent,
     DropDownsModule,
+    IngredientsInputComponent,
   ],
   declarations: [
     UploadPhotoComponent,

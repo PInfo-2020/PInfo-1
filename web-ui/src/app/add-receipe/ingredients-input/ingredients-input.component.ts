@@ -87,7 +87,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   addJsonToClass(e) {
     this.temp = new Ingredient(e[0][0], e[0][1], e[0][2]);
-    this.ingredients.push(this.temp);
+    // this.ingredients.push(this.temp);
     console.log(this.temp);
     this.temp = new Ingredient(e[1][0], e[1][1], e[1][2]);
     // this.ingredients.push(this.temp);
