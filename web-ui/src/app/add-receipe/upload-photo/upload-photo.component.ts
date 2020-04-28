@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-upload-photo',
@@ -58,5 +59,6 @@ export class UploadPhotoComponent implements OnInit {
       }
 
     });
+
 }
 }

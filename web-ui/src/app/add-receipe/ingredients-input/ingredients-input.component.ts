@@ -46,7 +46,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   public addedIngredients: Array<AddedIngredient> = [];
 
-
+  public temp;
 
 
   // private json: Array<Array<string>>;
@@ -57,7 +57,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (!this.source.includes(e)) {
       return;
     }
-    console.log(e)
+    console.log(e);
   }
 
   ngOnInit() {
@@ -81,7 +81,19 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   getIngredients() {
     this.http.get(this.url).toPromise().then(json => {
       console.log(json);
+      // this.addJsonToClass(json);
     });
+  }
+
+  addJsonToClass(e) {
+    this.temp = new Ingredient(e[0][0], e[0][1], e[0][2]);
+    this.ingredients.push(this.temp);
+    console.log(this.temp);
+    this.temp = new Ingredient(e[1][0], e[1][1], e[1][2]);
+    // this.ingredients.push(this.temp);
+    console.log(e.length);
+    // console.log(this.ingredients);
+
   }
 
 }
