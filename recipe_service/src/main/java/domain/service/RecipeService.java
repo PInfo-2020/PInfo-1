@@ -13,7 +13,7 @@ public interface RecipeService {
 	List<Recipe> getAllRecipes();
 	Recipe get(Long id);
 	void create(Recipe recipe);
-	Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, String difficulty, short nbPersonnes,
+	Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
 			String categorie, String type, float note, List<Comment> comments);
 	Ingredient createIngredient(short quantity, long detailsID);

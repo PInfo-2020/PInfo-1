@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -30,25 +31,25 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Utensil> utensils;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Comment> comments;
 	private String name;
 	
 
 	private short preparationTime;
-	private String difficulty;
+	private short difficulty;
 	private short nbPersonnes;
-	private String photo;
+	private String picture;
 	private String preparation;
-	private long auteur;
-	private Date datePublication;
-	private String categoriePlat;
-	private String typeCuisine;
-	private float note;
+	private long author;
+	private Date publicationDate;
+	private String plateCategory;
+	private String KitchenType;
+	private float grade;
 	
 
 	
