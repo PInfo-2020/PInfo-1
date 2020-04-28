@@ -4,13 +4,19 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import domain.model.Comment;
+import domain.model.Ingredient;
 import domain.model.Recipe;
+import domain.model.Utensil;
 
 public interface RecipeService {
 	List<Recipe> getAllRecipes();
 	Recipe get(Long id);
 	void create(Recipe recipe);
-	Recipe createRecipe(String nom, Map<Long, Short> ingredientsList, List<String> ustensiles, List<String> tags, short temps, String difficulte, short nbPersonnes,
+	Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
-			String categorie, String type, float note, long commentaires);
+			String categorie, String type, float note, List<Comment> comments);
+	Ingredient createIngredient(short quantity, long detailsID);
+	Comment createComment(String text, long userID,short grade);
+	Utensil createUtensil(String name);
 }

@@ -3,15 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="RecipePUTest"
+	<persistence-unit name="FridgePUTest"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<class>domain.model.Recipe</class>
-		<class>domain.model.Utensil</class>
-		<class>domain.model.Comment</class>
 		<class>domain.model.Ingredient</class>
+		<class>domain.model.Fridge</class>
+		
 		<properties>
-		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+	<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 				<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 			<property name="javax.persistence.jdbc.url"
 		    	value="jdbc:h2:mem:RecipeDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE" />
@@ -26,7 +25,8 @@
 			<property name="hibernate.id.new_generator_mappings" value="true" />
 			<property name="hibernate.hbm2ddl.charset_name" value="UTF-8"/>	
 			
+			
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-			</properties>
+		</properties>
 	</persistence-unit>
 </persistence>

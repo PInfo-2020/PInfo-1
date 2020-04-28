@@ -3,8 +3,10 @@ import java.sql.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
-
+import domain.model.Comment;
+import domain.model.Ingredient;
 import domain.model.Recipe;
+import domain.model.Utensil;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -49,27 +51,50 @@ public class RecipeServiceImpl implements RecipeService{
 		em.persist(recipe);
 	}
 	@Override
-	public Recipe createRecipe(String nom, Map<Long, Short> ingredientsList, List<String> ustensiles, List<String> tags, short temps, String difficulte, short nbPersonnes,
+	public Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
 			String photo, String preparation, long auteur, Date date,
-			String categorie, String type, float note, long commentaires) {
+			String categorie, String type, float note, List<Comment> comments) {
 		Recipe i = new Recipe();
-		i.setNom(nom);
-		i.setIngredientsOfRecipe(ingredientsList);
-		i.setUstensiles(ustensiles);
-		i.setTags(tags);
-		i.setTempsPreparation(temps);
-		i.setDifficulte(difficulte);
+		i.setName(name);
+		i.setIngredients(ingredients);
+		i.setUtensils(utensils);
+		i.setPreparationTime(prepTime);
+		i.setDifficulty(difficulty);
 		i.setNbPersonnes(nbPersonnes);
-		i.setPhoto(photo);
+		i.setPicture(photo);
 		i.setPreparation(preparation);
-		i.setAuteur(auteur);
-		i.setDatePublication(date);
-		i.setCategoriePlat(categorie);
-		i.setTypeCuisine(type);
-		i.setNote(note);
-		i.setCommentaires(commentaires);
+		i.setAuthor(auteur);
+		i.setPublicationDate(date);
+		i.setPlateCategory(categorie);
+		i.setKitchenType(type);
+		i.setGrade(note);
+		i.setComments(comments);
 
 		return i;
+
+	}
+	@Override
+	public Ingredient createIngredient(short quantity, long detailsID) {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setDetailsID(detailsID);
+		ingredient.setQuantity(quantity);
+		
+		return ingredient;
+		
+	}
+	@Override
+	public Comment createComment(String text, long userID,short grade) {
+		Comment comment = new Comment();
+		comment.setText(text);
+		comment.setGrade(grade);
+		comment.setUserID(userID);
+		return comment;
+	}
+	@Override
+	public Utensil createUtensil(String name) {
+		Utensil utensil = new Utensil();
+		utensil.setName(name);
+		return utensil;
 	}
 }
 

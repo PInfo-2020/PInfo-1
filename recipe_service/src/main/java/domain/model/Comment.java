@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,31 +24,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name ="Recipe")
-public class Recipe {
+@Table(name ="Comment")
+public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Utensil> utensils;
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Ingredient> ingredients;
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Comment> comments;
-	private String name;
-	
-
-	private short preparationTime;
-	private short difficulty;
-	private short nbPersonnes;
-	private String picture;
-	private String preparation;
-	private long author;
-	private Date publicationDate;
-	private String plateCategory;
-	private String KitchenType;
-	private float grade;
-	
-
+	private String text;
+	private long userID;
+	private short grade; 
 	
 }
