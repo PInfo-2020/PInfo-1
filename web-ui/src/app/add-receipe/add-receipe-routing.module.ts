@@ -6,8 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
-
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AddReceipeComponent } from './add-receipe.component';
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
@@ -32,6 +31,8 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatSlideToggleModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     RouterModule,
@@ -41,6 +42,8 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatSlideToggleModule,
+    ReactiveFormsModule,
+    FormsModule,
     UploadPhotoComponent,
     NameInputComponent,
     TimeInputComponent,

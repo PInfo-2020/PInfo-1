@@ -31,6 +31,7 @@
     "@progress/kendo-drawing": "^1.5.12",
     "@progress/kendo-theme-default": "latest",
     "rxjs": "~6.5.4",
+    "rxjs-compat": "^6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
