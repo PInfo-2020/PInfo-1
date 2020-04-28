@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,31 +24,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name ="Recipe")
-public class Recipe {
+@Table(name ="Comment")
+public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@OneToMany
-	private List<Utensil> utensils;
-	@OneToMany
-	private List<Ingredient> ingredients;
-	@OneToMany
-	private List<Comment> comments;
-	private String name;
-	
-
-	private short preparationTime;
-	private String difficulty;
-	private short nbPersonnes;
-	private String photo;
-	private String preparation;
-	private long auteur;
-	private Date datePublication;
-	private String categoriePlat;
-	private String typeCuisine;
-	private float note;
-	
-
+	private String text;
+	private long userID;
+	private short grade; 
 	
 }

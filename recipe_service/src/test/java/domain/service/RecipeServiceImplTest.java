@@ -4,7 +4,10 @@ import java.util.Arrays;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import domain.model.Comment;
+import domain.model.Ingredient;
 import domain.model.Recipe;
+import domain.model.Utensil;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -78,19 +81,31 @@ public class RecipeServiceImplTest {
 	@Test
 	void testCreation() {
 		int size = recipeService.getAllRecipes().size();
-		Map<Long, Short> listIng = new HashMap<>();
-		listIng.put(10l, (short)1);
-		listIng.put(20l, (short)2);
-		recipeService.create(recipeService.createRecipe("maRecette", listIng, Arrays.asList("Voici", "mes", "ustensiles"), Arrays.asList("Mes", "tags", "sont", "cools"), (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
-				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, 43));
+		List<Ingredient> listIng = null;
+		Ingredient ingredient1 = recipeService.createIngredient((short)10, 50l);
+		Ingredient ingredient2 = recipeService.createIngredient((short)15, 55l);
+		listIng.add(ingredient1);
+		listIng.add(ingredient2);
+		List<Utensil> listUtensil = null;
+		Utensil utensil1 = recipeService.createUtensil("poele");
+		Utensil utensil2 = recipeService.createUtensil("fourchette");
+		listUtensil.add(utensil1);
+		listUtensil.add(utensil2);
+		Comment comment1 = recipeService.createComment("bonjour je suis pas content", 20l, (short)1);
+		Comment comment2 = recipeService.createComment("bonjour je suis content", 22l, (short)5);
+		List<Comment> listComment = null;
+		listComment.add(comment1);
+		listComment.add(comment1);
+
+		recipeService.create(recipeService.createRecipe("maRecette", listIng, listUtensil, (short)5, "difficile", (short)4, "maPhoto", "fais ceci cela",
+				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, listComment));
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipes.get(size);
-		assertEquals("maRecette", recipe.getNom());
-		assertEquals(listIng, recipe.getIngredientsOfRecipe());
-		assertEquals(Arrays.asList("Voici", "mes", "ustensiles"), recipe.getUstensiles());
-		assertEquals(Arrays.asList("Mes", "tags", "sont", "cools"), recipe.getTags());
-		assertEquals(5, recipe.getTempsPreparation());
-		assertEquals("difficile", recipe.getDifficulte());
+		assertEquals("maRecette", recipe.getName());
+		assertEquals(listIng, recipe.getIngredients());
+		assertEquals(Arrays.asList("Voici", "mes", "ustensiles"), recipe.getUtensils());
+		assertEquals(5, recipe.getPreparationTime());
+		assertEquals("difficile", recipe.getDifficulty());
 		assertEquals(4, recipe.getNbPersonnes());
 		assertEquals("maPhoto", recipe.getPhoto());
 		assertEquals("fais ceci cela", recipe.getPreparation());
@@ -99,15 +114,30 @@ public class RecipeServiceImplTest {
 		assertEquals("dessert", recipe.getCategoriePlat());
 		assertEquals("suisse", recipe.getTypeCuisine());
 		assertEquals(4.5, recipe.getNote());
-		assertEquals(43, recipe.getCommentaires());
+		assertEquals(43, recipe.getComments());
 		
 	}
 	
 	private Recipe getRandomRecipe() {
+		List<Ingredient> listIng = null;
+		Ingredient ingredient1 = recipeService.createIngredient((short)10, 50l);
+		Ingredient ingredient2 = recipeService.createIngredient((short)15, 55l);
+		listIng.add(ingredient1);
+		listIng.add(ingredient2);
+		List<Utensil> listUtensil = null;
+		Utensil utensil1 = recipeService.createUtensil("poele");
+		Utensil utensil2 = recipeService.createUtensil("fourchette");
+		listUtensil.add(utensil1);
+		listUtensil.add(utensil2);
+		Comment comment1 = recipeService.createComment("bonjour je suis pas content", 20l, (short)1);
+		Comment comment2 = recipeService.createComment("bonjour je suis content", 22l, (short)5);
+		List<Comment> listComment = null;
+		listComment.add(comment1);
+		listComment.add(comment1);
 		Recipe i = new Recipe();
-		i.setNom(UUID.randomUUID().toString());
-		i.setTempsPreparation((short) (Math.random()*1000));
-		i.setDifficulte(UUID.randomUUID().toString());
+		i.setName(UUID.randomUUID().toString());
+		i.setPreparationTime((short) (Math.random()*1000));
+		i.setDifficulty(UUID.randomUUID().toString());
 		i.setNbPersonnes((short) (Math.random()*1000));
 		i.setPhoto(UUID.randomUUID().toString());
 		i.setPreparation(UUID.randomUUID().toString());
@@ -116,7 +146,9 @@ public class RecipeServiceImplTest {
 		i.setCategoriePlat(UUID.randomUUID().toString());
 		i.setTypeCuisine(UUID.randomUUID().toString());
 		i.setNote((float) (Math.random()*1000));
-		i.setCommentaires((int) (Math.random()*1000));
+		i.setComments(listComment);
+		i.setUtensils(listUtensil);
+		i.setIngredients(listIng);
 		
 		return i;
 	}
