@@ -16,7 +16,7 @@ export class TagsInputComponent implements OnInit {
     'Végétarien',
     'Sans Gluten'];
 
-  public value: any = [''];
+  public value: any = [];
 
   ngOnInit() {}
 
