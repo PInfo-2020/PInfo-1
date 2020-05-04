@@ -22,7 +22,7 @@ before_install:
 - eval "$(ssh-agent -s)"
 - chmod 600 deploy_rsa
 - ssh-add deploy_rsa
-- curl -L https://git.io/get_helm.sh | bash
+- curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 - helm init --client-only
 - nvm install $NODE_VERSION
 script:
