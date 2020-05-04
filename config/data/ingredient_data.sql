@@ -1,6 +1,6 @@
 drop sequence if exists INGREDIENT_SEQ;
 create sequence INGREDIENT_SEQ start with 1 increment by 1;
-CREATE TABLE IF NOT EXISTS Ingredient ( id bigint not null, primary key (id), nom varchar(255), poid_moyen bigint, unite varchar(255), categorie varchar(255) );
+CREATE TABLE IF NOT EXISTS Ingredient ( id bigint not null, primary key (id), name varchar(255), averageWeight bigint, unity varchar(255), category varchar(255) );
 GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA public to ingredient;
 TRUNCATE TABLE Ingredient;
 INSERT INTO Ingredient VALUES
