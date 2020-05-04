@@ -1,13 +1,36 @@
 apiVersion: v1
 entries:
   pickncook:
-  - apiVersion: v1
+  - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-05-04T09:25:59.749897618Z"
+    created: "2020-05-04T11:22:25.563994416Z"
+    dependencies:
+    - name: nginx-ingress
+      repository: https://kubernetes-charts.storage.googleapis.com
+      version: 1.27.0
+    - name: keycloak
+      repository: https://codecentric.github.io/helm-charts
+      version: 7.4.0
+    - alias: ingredient-db
+      name: postgresql
+      repository: https://kubernetes-charts.storage.googleapis.com
+      version: 7.7.2
+    - alias: recipe-db
+      name: postgresql
+      repository: https://kubernetes-charts.storage.googleapis.com
+      version: 7.7.2
+    - alias: fridge-db
+      name: postgresql
+      repository: https://kubernetes-charts.storage.googleapis.com
+      version: 7.7.2
+    - name: kafka
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.2.9
     description: A Helm chart for Kubernetes
-    digest: 26684e7478ed9a8cb1064c6ac42068190543365f73e83e0a8b869dd2a1f77cd4
+    digest: 21514ed275b77989a39c23bff5a43862f3f6aad472a4886a0c90f734cc3a8a73
     name: pickncook
+    type: application
     urls:
     - pickncook-0.1.0.tgz
     version: 0.1.0
-generated: "2020-05-04T09:25:59.739453136Z"
+generated: "2020-05-04T11:22:25.545035385Z"
