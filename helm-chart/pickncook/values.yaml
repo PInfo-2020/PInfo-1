@@ -122,6 +122,8 @@ fridge-db:
       persistence:
          enabled: false
       postgresqlDatabase: fridge
+  initdbScriptsConfigMap:
+    fridge-scripts
   livenessProbe:
      initialDelaySeconds: 120
   readinessProbe:
