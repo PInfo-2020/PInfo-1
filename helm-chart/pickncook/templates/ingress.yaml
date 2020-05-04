@@ -56,3 +56,23 @@ spec:
         backend:
           serviceName: {{ include "pickncook.fullname" . }}-recipe-service
           servicePort: 28080       
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /fridge/$2
+  name: {{ include "pickncook.fullname" . }}.ingress-api-fridge
+  namespace: {{ .Release.Namespace }} 
+  labels:
+    {{- include "pickncook.labels" . | nindent 4 }}
+    {{- include "pickncook.labels" . | nindent 4 }}.ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/fridge(/|$)(.*)
+        backend:
+          serviceName: {{ include "pickncook.fullname" . }}-fridge-service
+          servicePort: 28080       

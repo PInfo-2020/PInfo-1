@@ -110,6 +110,23 @@ recipe-db:
   readinessProbe:
      initialDelaySeconds: 100
 
+fridge-db:
+  driver_name: org.postgresql
+  persistence:
+     enabled: false
+  postgresUser: fridge
+  postgresqlPassword: fridge
+  postgresDatabase: fridge
+  postgresqlDatabase: fridge
+  global:
+      persistence:
+         enabled: false
+      postgresqlDatabase: fridge
+  livenessProbe:
+     initialDelaySeconds: 120
+  readinessProbe:
+     initialDelaySeconds: 100
+
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
