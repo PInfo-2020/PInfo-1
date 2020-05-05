@@ -21,6 +21,14 @@ export class AddReceipeComponent implements OnInit {
     console.log('Difficulté : ', difficultyEntered);
   }
 
+  onRecipeChanged(recipeEntered: string) {
+    console.log('Recette : ', recipeEntered);
+  }
+
+  onPeopleChanged(peopleEntered: number) {
+    console.log('Nombre de personnes : ', peopleEntered);
+  }
+
   ngOnInit() {
   }
 

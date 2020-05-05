@@ -6,17 +6,21 @@
       (valueChange)="SelectedAssetFromSTCombo($event)"
   >
   </kendo-autocomplete>
-  <p> caca </p>
   <ul>
-    <li *ngFor="let ingredient of addedIngredients">
+    <li *ngFor="let ingredient of addedIngredients; let i = index">
       <ul>
         <li>{{ ingredient.name }}</li>
         <li><input type="text" name="" id=""></li>
         <li>{{ ingredient.unity }}</li>
+        <li>
+          <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </li>
       </ul>
-
     </li>
   </ul>
+
 
 </div>
 

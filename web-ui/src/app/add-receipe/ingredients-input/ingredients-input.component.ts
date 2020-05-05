@@ -119,6 +119,12 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     }
   }
 
-}
+  onRemove(index) {
+    console.log("index : ", index);
+    console.log('this.addedIngredients : ', this.addedIngredients[index]);
+    this.addedIngredients.splice(index, 1);
+  }
+
+ }
 
 
