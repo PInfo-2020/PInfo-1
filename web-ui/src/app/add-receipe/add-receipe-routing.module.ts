@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
 import { AddReceipeComponent } from './add-receipe.component';
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { NameInputComponent } from './name-input/name-input.component';
@@ -34,9 +34,11 @@ const routes: Routes = [
     MatSlideToggleModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule
   ],
   exports: [
     RouterModule,
+    CommonModule,
     DropDownsModule,
     MatAutocompleteModule,
     MatFormFieldModule,

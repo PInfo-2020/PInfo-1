@@ -7,11 +7,13 @@ import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 class AddedIngredient {
   name = '';
   quantity = '';
+  unity = '';
   id = '';
-  constructor(name, quantity, id) {
+  constructor(name, quantity, id, unity) {
       this.name = name;
       this.quantity = quantity;
       this.id = id;
+      this.unity = unity;
   }
 }
 
@@ -71,7 +73,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
           console.log('Ingred : ', ingred);
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id);
+          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
           this.addedIngredients.push(newIngr);
         }
       }

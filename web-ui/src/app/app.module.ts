@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
@@ -21,7 +22,6 @@ import { MyShoppingListModule } from './my-shopping-list/my-shopping-list.module
 import { AddReceipeModule } from './add-receipe/add-receipe.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputsModule } from '@progress/kendo-angular-inputs';
-import { CommonModule } from '@angular/common';
 
 
 
@@ -32,9 +32,9 @@ import { CommonModule } from '@angular/common';
    ],
    imports: [
       BrowserModule,
-      CommonModule,
       RouterModule.forRoot([]),
       AppRoutingModule,
+      CommonModule,
       BrowserAnimationsModule,
       LayoutModule,
       MatToolbarModule,
@@ -50,7 +50,7 @@ import { CommonModule } from '@angular/common';
       MyShoppingListModule,
       AddReceipeModule,
       InputsModule,
-      DropDownsModule,
+      DropDownsModule
    ],
    providers: [],
    bootstrap: [

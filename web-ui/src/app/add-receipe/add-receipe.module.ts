@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -19,7 +18,6 @@ import { AddReceipeComponent } from './add-receipe.component';
     CommonModule,
     AddReceipeRoutingModule,
     HttpClientModule,
-    BrowserModule,
     DropDownsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
@@ -39,6 +37,7 @@ import { AddReceipeComponent } from './add-receipe.component';
     MatSlideToggleModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule
   ]
 })
 export class AddReceipeModule { }
