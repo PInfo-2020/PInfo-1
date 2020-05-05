@@ -2,6 +2,7 @@ import { NgModule, AfterViewInit } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType } from '@angular/common/http';
+import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 
 class AddedIngredient {
   name = '';
@@ -38,23 +39,20 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   constructor(private http: HttpClient) { }
 
-  public source: Array<string> = ['Albania', 'Andorra', 'Armenia', 'Austria', 'Azerbaijan'];
+  public listIngredient: Array<string> = [];
 
-  public ingredients: Array<Ingredient> ;
+  public ingredients: Array<Ingredient> = [];
 
   public data: Array<string> = [];
 
   public addedIngredients: Array<AddedIngredient> = [];
-
-  public temp;
-
 
   // private json: Array<Array<string>>;
 
   url = 'https://www.pickncook.ch/api/v1/ingredients/minInfos';
 
   public SelectedAssetFromSTCombo(e) {
-    if (!this.source.includes(e)) {
+    if (!this.listIngredient.includes(e)) {
       return;
     }
     console.log(e);
@@ -67,7 +65,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
-    this.list.filterChange.asObservable().switchMap(value => Observable.from([this.source])
+    this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
       .do(() => this.list.loading = true)
       .map((data) =>  data.filter(contains(value))))
       .subscribe(x => {
@@ -81,19 +79,20 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   getIngredients() {
     this.http.get(this.url).toPromise().then(json => {
       console.log(json);
-      // this.addJsonToClass(json);
+      this.addJsonToClass(json);
     });
   }
 
   addJsonToClass(e) {
-    this.temp = new Ingredient(e[0][0], e[0][1], e[0][2]);
-    // this.ingredients.push(this.temp);
-    console.log(this.temp);
-    this.temp = new Ingredient(e[1][0], e[1][1], e[1][2]);
-    // this.ingredients.push(this.temp);
-    console.log(e.length);
-    // console.log(this.ingredients);
+    let ingr;
 
+    for (const ingredient of e){
+      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
+      this.ingredients.push(ingr);
+    }
+    for (const ingredient of this.ingredients) {
+      this.listIngredient.push(ingredient.name);
+    }
   }
 
 }
