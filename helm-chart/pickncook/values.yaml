@@ -110,6 +110,7 @@ recipe-db:
   readinessProbe:
      initialDelaySeconds: 100
 
+
 fridge-db:
   driver_name: org.postgresql
   persistence:

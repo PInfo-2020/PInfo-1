@@ -41,13 +41,13 @@ spec:
               value: "{{ .Release.Name }}-kafka"
             - name: THORNTAIL_KAFKA_DASH_CONFIGURATION_POST
               value: "9092"
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_CONNECTION_DASH_URL
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_FRIDGEDS_CONNECTION_DASH_URL
               value: "jdbc:postgresql://{{ .Release.Name }}-fridge-db:5432/fridge"
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_DRIVER_DASH_NAME
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_FRIDGEDS_DRIVER_DASH_NAME
               value: "postgresql"   
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_USER_DASH_NAME
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_FRIDGEDS_USER_DASH_NAME
               value: "fridge"
-            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_fridgeDS_PASSWORD
+            - name: THORNTAIL_DATASOURCES_DATA_DASH_SOURCES_FRIDGEDS_PASSWORD
               value: "fridge"              
           ports:
             - name: http
