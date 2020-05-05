@@ -51,11 +51,33 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   url = 'https://www.pickncook.ch/api/v1/ingredients/minInfos';
 
-  public SelectedAssetFromSTCombo(e) {
-    if (!this.listIngredient.includes(e)) {
+  public SelectedAssetFromSTCombo(ingre) {
+    if (!this.listIngredient.includes(ingre)) {
       return;
     }
-    console.log(e);
+
+    console.log(ingre);
+
+    let alreadyIn = 0;
+
+    for (const ingredient of this.addedIngredients) {
+      if (ingredient.name === ingre) {
+        alreadyIn = 1;
+      }
+    }
+    let newIngr;
+
+    if (alreadyIn === 0)  {
+      for (const ingred of this.ingredients) {
+        if (ingred.name === ingre) {
+          console.log('Ingred : ', ingred);
+          newIngr = new AddedIngredient(ingred.name, 0, ingred.id);
+          this.addedIngredients.push(newIngr);
+        }
+      }
+    }
+    console.log( 'Added Ingredients :' );
+    console.log(this.addedIngredients);
   }
 
   ngOnInit() {
