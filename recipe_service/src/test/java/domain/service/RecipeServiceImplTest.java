@@ -159,11 +159,20 @@ public class RecipeServiceImplTest {
 		recipeService.create(getRandomRecipe());
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe myRecipe = recipes.get(0);
+		
+		Comment comment1 = recipeService.createComment("bonjour c'est moyen", "asdfakasy", (short)3);
+		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		List<Comment> listComment = new ArrayList<Comment>();
+		listComment.add(comment1);
+		listComment.add(comment2);
+		myRecipe.setComments(listComment);
 		int size = myRecipe.getComments().size();
+		
 		Comment comment = recipeService.createComment("bonjour je ne suis pas content", "asdfakasy", (short)1);
 		recipeService.addComment(myRecipe.getId(), comment);
 		assertEquals(size+1,myRecipe.getComments().size());
 		assertEquals("bonjour je ne suis pas content", myRecipe.getComments().get(size).getText());
+		assertEquals(3,myRecipe.getGrade());
 		
 	}
 	
@@ -186,7 +195,7 @@ public class RecipeServiceImplTest {
 		Comment comment = new Comment();
 		comment.setText(UUID.randomUUID().toString());
 		comment.setUserID(UUID.randomUUID().toString());
-		comment.setGrade((short) (Math.random()*1000));
+		comment.setGrade((short)(Math.random() * ((5 - 0) + 1)));
 		
 		return comment;
 	}

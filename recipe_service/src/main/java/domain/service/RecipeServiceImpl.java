@@ -9,6 +9,7 @@ import domain.model.Recipe;
 import domain.model.Utensil;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -120,12 +121,21 @@ public class RecipeServiceImpl implements RecipeService{
 	public void addComment(long recipeId, Comment comment) {
 		Recipe recipe = em.find(Recipe.class, recipeId);
 		
-		//Ajout du commentaire
+		//Addition of the comment
 		List<Comment> commentList = recipe.getComments();
 		commentList.add(comment);
 		recipe.setComments(commentList);
 		
-		//Mise à jour de la note de la recette
+		//Update of recipe grade
+	    ListIterator<Comment> c = commentList.listIterator();
+	    int total = 0;
+	    int n = 0;
+	    while(c.hasNext()){
+	    	n=n+1;
+	    	total = total + c.next().getGrade();
+	    }
+	    float result = (float)total/n;
+	    recipe.setGrade(result);
 		
 		em.flush(); //Update of the recipe
 	}
