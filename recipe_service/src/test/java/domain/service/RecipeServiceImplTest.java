@@ -176,6 +176,32 @@ public class RecipeServiceImplTest {
 		
 	}
 	
+	@Test
+	void testDeleteComment() {
+		recipeService.create(getRandomRecipe());
+		recipeService.create(getRandomRecipe());
+		List<Recipe> recipes = recipeService.getAllRecipes();
+		Recipe myRecipe = recipes.get(1);
+
+
+		
+		Comment comment1 = recipeService.createComment("bonjour c'est moyen", "asdfakasy", (short)3);
+		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		Comment comment3 = recipeService.createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
+
+		recipeService.addComment(myRecipe.getId(), comment1);
+		recipeService.addComment(myRecipe.getId(), comment2);
+		recipeService.addComment(myRecipe.getId(), comment3);
+		int size = myRecipe.getComments().size();
+		recipeService.deleteComment(myRecipe.getId(), comment3);
+		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0));
+		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0));
+		assertEquals(size-3,myRecipe.getComments().size());
+		assertEquals("bonjour je suis content", myRecipe.getComments().get(size-4).getText());
+		assertEquals(4,myRecipe.getGrade());
+		
+	}
+	
 	private Ingredient getRandomIngredient() {
 		Ingredient ingredient = new Ingredient();
 		ingredient.setDetailsID((long) (Math.random()*1000));
@@ -235,6 +261,7 @@ public class RecipeServiceImplTest {
 		i.setComments(listComment);
 		i.setUtensils(listUtensil);
 		i.setIngredients(listIng);
+
 		
 		return i;
 	}
