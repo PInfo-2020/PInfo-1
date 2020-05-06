@@ -154,6 +154,19 @@ public class RecipeServiceImplTest {
 	}
 
 	
+	@Test
+	void testAddComment() {
+		recipeService.create(getRandomRecipe());
+		List<Recipe> recipes = recipeService.getAllRecipes();
+		Recipe myRecipe = recipes.get(0);
+		int size = myRecipe.getComments().size();
+		Comment comment = recipeService.createComment("bonjour je ne suis pas content", "asdfakasy", (short)1);
+		recipeService.addComment(myRecipe.getId(), comment);
+		assertEquals(size+1,myRecipe.getComments().size());
+		assertEquals("bonjour je ne suis pas content", myRecipe.getComments().get(size).getText());
+		
+	}
+	
 	private Ingredient getRandomIngredient() {
 		Ingredient ingredient = new Ingredient();
 		ingredient.setDetailsID((long) (Math.random()*1000));

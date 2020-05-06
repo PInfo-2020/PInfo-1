@@ -115,5 +115,19 @@ public class RecipeServiceImpl implements RecipeService{
 		return Listrecipes;
 		
 	}
+	
+	@Override
+	public void addComment(long recipeId, Comment comment) {
+		Recipe recipe = em.find(Recipe.class, recipeId);
+		
+		//Ajout du commentaire
+		List<Comment> commentList = recipe.getComments();
+		commentList.add(comment);
+		recipe.setComments(commentList);
+		
+		//Mise à jour de la note de la recette
+		
+		em.flush(); //Update of the recipe
+	}
 }
 

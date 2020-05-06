@@ -20,4 +20,5 @@ public interface RecipeService {
 	Comment createComment(String text, String userID,short grade);
 	Utensil createUtensil(String name);
 	List<Recipe> getListRecipesFromUserId(String userId);
+	void addComment(long recipeId, Comment comment);
 }
