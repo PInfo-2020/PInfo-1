@@ -95,14 +95,14 @@ public class RecipeServiceImplTest {
 		Utensil utensil2 = recipeService.createUtensil("fourchette");
 		listUtensil.add(utensil1);
 		listUtensil.add(utensil2);
-		Comment comment1 = recipeService.createComment("bonjour je suis pas content", 20l, (short)1);
-		Comment comment2 = recipeService.createComment("bonjour je suis content", 22l, (short)5);
+		Comment comment1 = recipeService.createComment("bonjour je suis pas content", "asdfakasy", (short)1);
+		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
 		List<Comment> listComment = new ArrayList<Comment>();
 		listComment.add(comment1);
 		listComment.add(comment2);
 
 		recipeService.create(recipeService.createRecipe("maRecette", listIng, listUtensil, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
-				42, Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, listComment));
+				"aprfg", Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, listComment));
 		
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipes.get(size);
@@ -117,7 +117,7 @@ public class RecipeServiceImplTest {
 		assertEquals(4, recipe.getNbPersons());
 		assertEquals("maPhoto", recipe.getPicture());
 		assertEquals("fais ceci cela", recipe.getPreparation());
-		assertEquals(42, recipe.getAuthor());
+		assertEquals("aprfg", recipe.getAuthor());
 		assertEquals(Date.valueOf("2019-01-26"), recipe.getPublicationDate());
 		assertEquals("dessert", recipe.getPlateCategory());
 		assertEquals("suisse", recipe.getKitchenType());
@@ -128,15 +128,15 @@ public class RecipeServiceImplTest {
 	
 	@Test
 	void testgetListRecipebyUserId() {
-		int size = recipeService.getListRecipesFromUserId(13).size();
+		int size = recipeService.getListRecipesFromUserId("moi").size();
 		Recipe r1 = getRandomRecipe();
 		Recipe r2 = getRandomRecipe();
 		Recipe r3 = getRandomRecipe();
 		Recipe r4 = getRandomRecipe();
-		r1.setAuthor(13);
-		r2.setAuthor(13);
-		r3.setAuthor(12);
-		r4.setAuthor(13);
+		r1.setAuthor("moi");
+		r2.setAuthor("moi");
+		r3.setAuthor("toi");
+		r4.setAuthor("moi");
 		r1.setName("canard laqué");
 		r2.setName("toutre à la framboise");
 		r3.setName("Fondue au chocolat");
@@ -146,11 +146,11 @@ public class RecipeServiceImplTest {
 		recipeService.create(r2);
 		recipeService.create(r3);
 		recipeService.create(r4);
-		List<Recipe> recipeList = recipeService.getListRecipesFromUserId(13);
+		List<Recipe> recipeList = recipeService.getListRecipesFromUserId("moi");
 		System.out.println(recipeList);
 		
 		assertEquals("Salade de fruit", recipeList.get(2).getName());
-		assertEquals(size+3, recipeService.getListRecipesFromUserId(13).size());
+		assertEquals(size+3, recipeService.getListRecipesFromUserId("moi").size());
 	}
 
 	
@@ -172,7 +172,7 @@ public class RecipeServiceImplTest {
 	private Comment getRandomComment() {
 		Comment comment = new Comment();
 		comment.setText(UUID.randomUUID().toString());
-		comment.setUserID((long) (Math.random()*1000));
+		comment.setUserID(UUID.randomUUID().toString());
 		comment.setGrade((short) (Math.random()*1000));
 		
 		return comment;
@@ -205,7 +205,7 @@ public class RecipeServiceImplTest {
 		i.setNbPersons((short) (Math.random()*1000));
 		i.setPicture(UUID.randomUUID().toString());
 		i.setPreparation(UUID.randomUUID().toString());
-		i.setAuthor((int) (Math.random()*1000));
+		i.setAuthor(UUID.randomUUID().toString());
 		i.setPublicationDate(Date.valueOf("2019-01-26"));
 		i.setPlateCategory(UUID.randomUUID().toString());
 		i.setKitchenType(UUID.randomUUID().toString());

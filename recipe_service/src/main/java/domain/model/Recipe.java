@@ -44,7 +44,7 @@ public class Recipe {
 	private short nbPersons;
 	private String picture;
 	private String preparation;
-	private long author;
+	private String author;
 	private Date publicationDate;
 	private String plateCategory;
 	private String KitchenType;

@@ -14,10 +14,10 @@ public interface RecipeService {
 	Recipe get(Long id);
 	void create(Recipe recipe);
 	Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
-			String photo, String preparation, long auteur, Date date,
+			String photo, String preparation, String auteur, Date date,
 			String categorie, String type, float note, List<Comment> comments);
 	Ingredient createIngredient(long detailsID, short quantity);
-	Comment createComment(String text, long userID,short grade);
+	Comment createComment(String text, String userID,short grade);
 	Utensil createUtensil(String name);
-	List<Recipe> getListRecipesFromUserId(long userId);
+	List<Recipe> getListRecipesFromUserId(String userId);
 }

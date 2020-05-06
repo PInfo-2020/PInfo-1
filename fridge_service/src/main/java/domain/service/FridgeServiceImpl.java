@@ -56,7 +56,7 @@ public class FridgeServiceImpl implements FridgeService {
 
 	@Override
 	public void deleteFridge(long id) {
-		Fridge fridge = em.find(Fridge.class, id);	
+		Fridge fridge = em.find(Fridge.class, id);
 		em.remove(fridge);
 	}
 

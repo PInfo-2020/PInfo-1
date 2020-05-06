@@ -30,7 +30,7 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String text;
-	private long userID;
+	private String userID;
 	private short grade; 
 	
 }

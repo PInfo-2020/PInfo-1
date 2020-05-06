@@ -53,7 +53,7 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	@Override
 	public Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
-			String photo, String preparation, long auteur, Date date,
+			String photo, String preparation, String auteur, Date date,
 			String categorie, String type, float note, List<Comment> comments) {
 		
 		Recipe i = new Recipe();
@@ -85,7 +85,7 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 	
 	@Override
-	public Comment createComment(String text, long userID,short grade) {
+	public Comment createComment(String text, String userID,short grade) {
 		Comment comment = new Comment();
 		comment.setText(text);
 		comment.setUserID(userID);
@@ -103,7 +103,7 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 	
 	@Override
-	public List<Recipe> getListRecipesFromUserId(long userId){
+	public List<Recipe> getListRecipesFromUserId(String userId){
 
 		
 		CriteriaBuilder builder = em.getCriteriaBuilder();
