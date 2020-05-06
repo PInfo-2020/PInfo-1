@@ -101,5 +101,19 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		return utensil;
 	}
+	
+	@Override
+	public List<Recipe> getListRecipesFromUserId(long userId){
+
+		
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
+		Root<Recipe> c = criteria.from(Recipe.class);
+		criteria.select(c).where(builder.equal(c.get("author"), userId));
+		List<Recipe> Listrecipes = em.createQuery(criteria).getResultList();
+		
+		return Listrecipes;
+		
+	}
 }
 

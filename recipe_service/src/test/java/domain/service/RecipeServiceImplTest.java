@@ -125,6 +125,33 @@ public class RecipeServiceImplTest {
 		assertEquals(listComment, recipe.getComments());
 		assertEquals(5, recipe.getComments().get(1).getGrade());
 	}
+	
+	@Test
+	void testgetListRecipebyUserId() {
+		int size = recipeService.getListRecipesFromUserId(13).size();
+		Recipe r1 = getRandomRecipe();
+		Recipe r2 = getRandomRecipe();
+		Recipe r3 = getRandomRecipe();
+		Recipe r4 = getRandomRecipe();
+		r1.setAuthor(13);
+		r2.setAuthor(13);
+		r3.setAuthor(12);
+		r4.setAuthor(13);
+		r1.setName("canard laqué");
+		r2.setName("toutre à la framboise");
+		r3.setName("Fondue au chocolat");
+		r4.setName("Salade de fruit");
+		
+		recipeService.create(r1);
+		recipeService.create(r2);
+		recipeService.create(r3);
+		recipeService.create(r4);
+		List<Recipe> recipeList = recipeService.getListRecipesFromUserId(13);
+		System.out.println(recipeList);
+		
+		assertEquals("Salade de fruit", recipeList.get(2).getName());
+		assertEquals(size+3, recipeService.getListRecipesFromUserId(13).size());
+	}
 
 	
 	private Ingredient getRandomIngredient() {

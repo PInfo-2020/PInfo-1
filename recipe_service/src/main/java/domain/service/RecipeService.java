@@ -19,4 +19,5 @@ public interface RecipeService {
 	Ingredient createIngredient(long detailsID, short quantity);
 	Comment createComment(String text, long userID,short grade);
 	Utensil createUtensil(String name);
+	List<Recipe> getListRecipesFromUserId(long userId);
 }
