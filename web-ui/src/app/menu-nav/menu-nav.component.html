@@ -3,7 +3,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'side' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar><a href="#">Profil</a></mat-toolbar>
+    <mat-toolbar><a href="#"><img src="assets/img/toque.png" height="35">Profil</a></mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/my-fridge"><img src="assets/img/fridge.png" height="25">Mon Frigo</a>
       <a mat-list-item routerLink="/my-receipes"><img src="assets/img/recette.png" height="25">Mes Recettes</a>
