@@ -5,19 +5,19 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar><a href="#">Profil</a></mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/my-fridge">Mon Frigo</a>
-      <a mat-list-item routerLink="/my-receipes">Mes Recettes</a>
-      <a mat-list-item routerLink="/my-favorites">Mes Favoris</a>
-      <a mat-list-item routerLink="/my-planning">Mon Planning</a>
-      <a mat-list-item routerLink="/my-shopping-list">Ma Liste de courses</a>
+      <a mat-list-item routerLink="/my-fridge"><img src="assets/img/fridge.png" height="25">Mon Frigo</a>
+      <a mat-list-item routerLink="/my-receipes"><img src="assets/img/recette.png" height="25">Mes Recettes</a>
+      <a mat-list-item routerLink="/my-favorites"><img src="assets/img/favorite.png" height="25">Mes Favoris</a>
+      <a mat-list-item routerLink="/my-planning"><img src="assets/img/planning.png" height="25">Mon Planning</a>
+      <a mat-list-item routerLink="/my-shopping-list"><img src="assets/img/liste.png" height="25">Ma Liste de courses</a>
     </mat-nav-list>
     <br>
     <mat-nav-list>
-        <a mat-list-item routerLink="/add-receipe">+ Ajouter une recette</a>
+        <a mat-list-item routerLink="/add-receipe"><img src="assets/img/plus.png" height="25">Ajouter une recette</a>
     </mat-nav-list>
     <br>
     <mat-nav-list>
-      <a mat-list-item href="#">Paramètres</a>
+        <a mat-list-item href="#"><img src="assets/img/parametre.png" height="25">Paramètres</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
