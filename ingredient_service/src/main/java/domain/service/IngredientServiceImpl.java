@@ -1,21 +1,15 @@
 package domain.service;
 
-import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
 import domain.model.Ingredient;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CompoundSelection;
 
 @ApplicationScoped
 public class IngredientServiceImpl implements IngredientService {
@@ -52,8 +46,8 @@ public List<Ingredient> getAllIngredients() {
 	CriteriaBuilder builder = em.getCriteriaBuilder();
 	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
 	criteria.select(criteria.from(Ingredient.class));
-	List<Ingredient> ingredients = em.createQuery("select g from Ingredient g",Ingredient.class).getResultList();
-	return ingredients;
+
+	return em.createQuery("select g from Ingredient g",Ingredient.class).getResultList();
 }
 
 
@@ -76,9 +70,8 @@ public List<Object[]> getAllMinInfos(){ //Id, nom, unité
 	CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
 	Root<Ingredient> c = criteria.from(Ingredient.class);
 	criteria.multiselect(c.get("id"), c.get("name"), c.get("unity"));
-	List<Object[]> results = em.createQuery(criteria).getResultList();
 	
-	return results;
+	return em.createQuery(criteria).getResultList();
 	
 }
 

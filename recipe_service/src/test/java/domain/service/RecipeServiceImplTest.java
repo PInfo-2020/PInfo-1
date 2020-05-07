@@ -156,7 +156,6 @@ public class RecipeServiceImplTest {
 		Recipe myRecipe = recipes.get(1);
 
 
-		
 		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
 		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
 		Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
@@ -173,6 +172,34 @@ public class RecipeServiceImplTest {
 		assertEquals(4,myRecipe.getGrade());
 		
 	}
+	
+	
+	@Test
+	void testGetComment() {
+		recipeService.create(getRandomRecipe());
+		recipeService.create(getRandomRecipe());
+		List<Recipe> recipes = recipeService.getAllRecipes();
+		Recipe myRecipe = recipes.get(1);
+		
+		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
+		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
+
+		recipeService.addComment(myRecipe.getId(), comment1);
+		recipeService.addComment(myRecipe.getId(), comment2);
+		recipeService.addComment(myRecipe.getId(), comment3);
+		Comment myComment = myRecipe.getComments().get(2);
+		
+		Comment searchComment = recipeService.getComment(myRecipe.getId(), myComment.getId());
+		Comment searchComment2 = recipeService.getComment(myRecipe.getId(), 3738204);
+		
+		assertEquals(myComment, searchComment);
+		assertEquals(null, searchComment2);
+	}
+	
+	
+	
+	
 	
 	private Ingredient getRandomIngredient() {
 		Ingredient ingredient = new Ingredient();

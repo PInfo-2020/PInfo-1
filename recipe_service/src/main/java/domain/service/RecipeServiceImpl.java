@@ -1,7 +1,6 @@
 package domain.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 
 import domain.model.Comment;
@@ -10,16 +9,11 @@ import domain.model.Recipe;
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CompoundSelection;
 
 @ApplicationScoped
 public class RecipeServiceImpl implements RecipeService{
@@ -38,8 +32,8 @@ public class RecipeServiceImpl implements RecipeService{
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
 		criteria.select(criteria.from(Recipe.class));
-		List<Recipe> recipes = em.createQuery("select g from Recipe g",Recipe.class).getResultList();
-		return recipes;
+		
+		return em.createQuery("select g from Recipe g",Recipe.class).getResultList();
 	}
 	
 	@Override
@@ -63,9 +57,8 @@ public class RecipeServiceImpl implements RecipeService{
 		CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
 		Root<Recipe> c = criteria.from(Recipe.class);
 		criteria.select(c).where(builder.equal(c.get("author"), userId));
-		List<Recipe> Listrecipes = em.createQuery(criteria).getResultList();
 		
-		return Listrecipes;
+		return em.createQuery(criteria).getResultList();
 		
 	}
 	
