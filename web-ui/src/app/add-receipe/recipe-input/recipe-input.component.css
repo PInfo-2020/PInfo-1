@@ -1,0 +1,20 @@
+.recipe{
+  width: 50%;
+  min-height: 256px;
+  border-radius: 6px;
+  border: 2px solid #7c7c7c;
+  padding-top : 5px;
+  padding-left : 5px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.section{
+  font-size : 20px;
+
+}
+
+.box{
+  display: flex;
+  align-items: center;
+}

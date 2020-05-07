@@ -1,3 +1,7 @@
+<div class="box">
+  <mat-icon>restaurant</mat-icon>
+  <label class = "section" for="recipe">Entrez votre recette :</label>
+</div>
 <div>
-  <input type="text" #recipe (keyup.enter)="changeRecipe(recipe.value)" (blur)="changeRecipe(recipe.value)" placeholder="Entrez votre recette">
+  <textarea id = "recipe"class="recipe" type="text" #recipe (keyup.enter)="changeRecipe(recipe.value)" (blur)="changeRecipe(recipe.value)" placeholder="Ecrivez votre recette ..."></textarea>
 </div>

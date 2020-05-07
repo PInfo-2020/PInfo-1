@@ -3,22 +3,27 @@
   <p></p>
   <app-upload-photo></app-upload-photo>
   <p></p>
+  <div class="box">
+    <mat-icon>info</mat-icon>
+    <label class = "section" for="informations">Informations Générales :</label>
+  </div>
+  <div class="box">
+    <!-- Nombre de personnes -->
+    <div class="item"><app-people-input (changedPeople) = "onPeopleChanged($event)"></app-people-input></div>
+    <!-- Temps de préparation -->
+    <div class="item"><app-time-input (changedTime)="onTimeChanged($event)"></app-time-input></div>
+    <!-- Difficulté de la recette -->
+    <div class="item"><app-difficulty-input (changedDifficulty)="onDifficultyChanged($event)"></app-difficulty-input></div>
+  </div>
   <!-- Tags -->
   <!-- Style -->
   <!-- Type -->
-  <p></p>
-  <app-time-input (changedTime)="onTimeChanged($event)"></app-time-input>
-  <p></p>
-  <app-difficulty-input (changedDifficulty)="onDifficultyChanged($event)"></app-difficulty-input>
-  <p></p>
   <!-- Ustensils -->
   <!-- Ingrédients -->
   <!-- Préparation -->
   <!-- Boutons annuler et publier -->
   <p></p>
   <app-tags-input></app-tags-input>
-  <p></p>
-  <app-people-input (changedPeople) = "onPeopleChanged($event)"></app-people-input>
   <p></p>
   <app-ingredients-input></app-ingredients-input>
   <p></p>

@@ -5,3 +5,16 @@
 #add-recipe {
   margin-left: 3%;
 }
+
+.section{
+  font-size : 20px;
+}
+
+.box{
+  display: flex;
+  align-items: center;
+}
+
+.item{
+  margin: 15px;
+}

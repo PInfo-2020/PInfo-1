@@ -3,21 +3,21 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'side' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar><a href="#">Profil</a></mat-toolbar>
+    <mat-toolbar><a href="#"><mat-icon>account_circle</mat-icon>Profil</a></mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/my-fridge">Mon Frigo</a>
-      <a mat-list-item routerLink="/my-receipes">Mes Recettes</a>
-      <a mat-list-item routerLink="/my-favorites">Mes Favoris</a>
-      <a mat-list-item routerLink="/my-planning">Mon Planning</a>
-      <a mat-list-item routerLink="/my-shopping-list">Ma Liste de courses</a>
+      <a mat-list-item routerLink="/my-fridge"><mat-icon>kitchen</mat-icon>Mon Frigo</a>
+      <a mat-list-item routerLink="/my-receipes"><mat-icon>restaurant</mat-icon>Mes Recettes</a>
+      <a mat-list-item routerLink="/my-favorites"><mat-icon>favorite</mat-icon>Mes Favoris</a>
+      <a mat-list-item routerLink="/my-planning"><mat-icon>calendar_today</mat-icon>Mon Planning</a>
+      <a mat-list-item routerLink="/my-shopping-list"><mat-icon>note</mat-icon>Ma Liste de courses</a>
     </mat-nav-list>
     <br>
     <mat-nav-list>
-        <a mat-list-item routerLink="/add-receipe">+ Ajouter une recette</a>
+        <a mat-list-item routerLink="/add-receipe"><mat-icon>add_circle_outline</mat-icon>Ajouter une recette</a>
     </mat-nav-list>
     <br>
     <mat-nav-list>
-      <a mat-list-item href="#">Paramètres</a>
+        <a mat-list-item href="#"><mat-icon>settings</mat-icon>Paramètres</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
