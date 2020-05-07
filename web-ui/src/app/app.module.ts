@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { KeycloakService } from './services/keycloak/keycloak.service';
+import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -52,7 +56,14 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
       InputsModule,
       DropDownsModule
    ],
-   providers: [],
+   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakInterceptorService,
+      multi: true
+    },
+    KeycloakService
+   ],
    bootstrap: [
       AppComponent
    ]
