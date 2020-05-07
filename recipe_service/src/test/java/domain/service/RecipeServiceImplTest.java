@@ -1,47 +1,29 @@
 package domain.service;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.enterprise.context.ApplicationScoped;
 
 import domain.model.Comment;
 import domain.model.Ingredient;
 import domain.model.Recipe;
-import domain.model.Utensil;
+
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.CompoundSelection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+
 import java.sql.Date;
-import java.util.List;
-import java.util.UUID;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.arjuna.ats.internal.jdbc.drivers.modifiers.list;
 
 import eu.drus.jpa.unit.api.JpaUnit;
 
@@ -73,7 +55,6 @@ public class RecipeServiceImplTest {
 	@Test
 	void testget() {
 		
-		List<Recipe> recipes = recipeService.getAllRecipes();
 		recipeService.create(getRandomRecipe());
 		recipeService.create(getRandomRecipe());
 		Recipe recipe = recipeService.getAllRecipes().get(0);
@@ -86,23 +67,18 @@ public class RecipeServiceImplTest {
 		
 		int size = recipeService.getAllRecipes().size();
 		List<Ingredient> listIng = new ArrayList<Ingredient>();
-		Ingredient ingredient1 = recipeService.createIngredient(50l, (short)10);
-		Ingredient ingredient2 = recipeService.createIngredient(55l, (short)15);
+		Ingredient ingredient1 = createIngredient(50l, (short)10);
+		Ingredient ingredient2 = createIngredient(55l, (short)15);
 		listIng.add(ingredient1);
 		listIng.add(ingredient2);
-		List<Utensil> listUtensil = new ArrayList<Utensil>();
-		Utensil utensil1 = recipeService.createUtensil("poele");
-		Utensil utensil2 = recipeService.createUtensil("fourchette");
-		listUtensil.add(utensil1);
-		listUtensil.add(utensil2);
-		Comment comment1 = recipeService.createComment("bonjour je suis pas content", "asdfakasy", (short)1);
-		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		Comment comment1 = createComment("bonjour je suis pas content", "asdfakasy", (short)1);
+		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
 		List<Comment> listComment = new ArrayList<Comment>();
 		listComment.add(comment1);
 		listComment.add(comment2);
 
-		recipeService.create(recipeService.createRecipe("maRecette", listIng, listUtensil, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
-				"aprfg", Date.valueOf("2019-01-26"), "dessert", "suisse", 4.5f, listComment));
+		recipeService.create(createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
+				"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment));
 		
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipes.get(size);
@@ -110,8 +86,6 @@ public class RecipeServiceImplTest {
 		assertEquals("maRecette", recipe.getName());
 		assertEquals(listIng, recipe.getIngredients());
 		assertEquals(10, recipe.getIngredients().get(0).getQuantity());
-		assertEquals(listUtensil, recipe.getUtensils());
-		assertEquals("poele", recipe.getUtensils().get(0).getName());
 		assertEquals(5, recipe.getPreparationTime());
 		assertEquals(5, recipe.getDifficulty());
 		assertEquals(4, recipe.getNbPersons());
@@ -119,8 +93,6 @@ public class RecipeServiceImplTest {
 		assertEquals("fais ceci cela", recipe.getPreparation());
 		assertEquals("aprfg", recipe.getAuthor());
 		assertEquals(Date.valueOf("2019-01-26"), recipe.getPublicationDate());
-		assertEquals("dessert", recipe.getPlateCategory());
-		assertEquals("suisse", recipe.getKitchenType());
 		assertEquals(4.5, recipe.getGrade());
 		assertEquals(listComment, recipe.getComments());
 		assertEquals(5, recipe.getComments().get(1).getGrade());
@@ -160,15 +132,15 @@ public class RecipeServiceImplTest {
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe myRecipe = recipes.get(0);
 		
-		Comment comment1 = recipeService.createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
+		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
 		List<Comment> listComment = new ArrayList<Comment>();
 		listComment.add(comment1);
 		listComment.add(comment2);
 		myRecipe.setComments(listComment);
 		int size = myRecipe.getComments().size();
 		
-		Comment comment = recipeService.createComment("bonjour je ne suis pas content", "asdfakasy", (short)1);
+		Comment comment = createComment("bonjour je ne suis pas content", "asdfakasy", (short)1);
 		recipeService.addComment(myRecipe.getId(), comment);
 		assertEquals(size+1,myRecipe.getComments().size());
 		assertEquals("bonjour je ne suis pas content", myRecipe.getComments().get(size).getText());
@@ -185,17 +157,17 @@ public class RecipeServiceImplTest {
 
 
 		
-		Comment comment1 = recipeService.createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
-		Comment comment3 = recipeService.createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
+		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
+		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
 
 		recipeService.addComment(myRecipe.getId(), comment1);
 		recipeService.addComment(myRecipe.getId(), comment2);
 		recipeService.addComment(myRecipe.getId(), comment3);
 		int size = myRecipe.getComments().size();
-		recipeService.deleteComment(myRecipe.getId(), comment3);
-		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0));
-		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0));
+		recipeService.deleteComment(myRecipe.getId(), comment3.getId());
+		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0).getId());
+		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0).getId());
 		assertEquals(size-3,myRecipe.getComments().size());
 		assertEquals("bonjour je suis content", myRecipe.getComments().get(size-4).getText());
 		assertEquals(4,myRecipe.getGrade());
@@ -210,13 +182,6 @@ public class RecipeServiceImplTest {
 		return ingredient;
 	}
 	
-	private Utensil getRandomUtensil() {
-		Utensil utensil = new Utensil();
-		utensil.setName(UUID.randomUUID().toString());
-		
-		return utensil;
-	}
-	
 	private Comment getRandomComment() {
 		Comment comment = new Comment();
 		comment.setText(UUID.randomUUID().toString());
@@ -226,6 +191,43 @@ public class RecipeServiceImplTest {
 		return comment;
 	}
 	
+
+	private Comment createComment(String text, String userID,short grade) {
+		Comment comment = new Comment();
+		comment.setText(text);
+		comment.setUserID(userID);
+		comment.setGrade(grade);
+		return comment;
+	}
+	
+	private Ingredient createIngredient(long detailsID, short quantity) {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setDetailsID(detailsID);
+		ingredient.setQuantity(quantity);
+		
+		return ingredient;
+	}
+	
+	private Recipe createRecipe(String name, List<Ingredient> ingredients, short prepTime, short difficulty, short nbPersonnes,
+			String photo, String preparation, String auteur, Date date, float note, List<Comment> comments) {
+		 // changer List<Ingredient> et map quantity detailsID
+		Recipe i = new Recipe();
+		i.setName(name);
+		i.setIngredients(ingredients);
+		i.setPreparationTime(prepTime);
+		i.setDifficulty(difficulty);
+		i.setNbPersons(nbPersonnes);
+		i.setPicture(photo);
+		i.setPreparation(preparation);
+		i.setAuthor(auteur);
+		i.setPublicationDate(date);
+		i.setGrade(note);
+		i.setComments(comments);
+
+		return i;
+
+	}
+	
 	private Recipe getRandomRecipe() {
 		
 		List<Ingredient> listIng = new ArrayList<Ingredient>();
@@ -233,12 +235,6 @@ public class RecipeServiceImplTest {
 		Ingredient ingredient2 = getRandomIngredient();
 		listIng.add(ingredient1);
 		listIng.add(ingredient2);
-		
-		List<Utensil> listUtensil = new ArrayList<Utensil>();
-		Utensil utensil1 = getRandomUtensil();
-		Utensil utensil2 = getRandomUtensil();
-		listUtensil.add(utensil1);
-		listUtensil.add(utensil2);
 		
 		Comment comment1 = getRandomComment();
 		Comment comment2 = getRandomComment();
@@ -255,11 +251,8 @@ public class RecipeServiceImplTest {
 		i.setPreparation(UUID.randomUUID().toString());
 		i.setAuthor(UUID.randomUUID().toString());
 		i.setPublicationDate(Date.valueOf("2019-01-26"));
-		i.setPlateCategory(UUID.randomUUID().toString());
-		i.setKitchenType(UUID.randomUUID().toString());
 		i.setGrade((float) (Math.random()*1000));
 		i.setComments(listComment);
-		i.setUtensils(listUtensil);
 		i.setIngredients(listIng);
 
 		

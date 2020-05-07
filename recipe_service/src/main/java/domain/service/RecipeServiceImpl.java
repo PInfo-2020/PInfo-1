@@ -7,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import domain.model.Comment;
 import domain.model.Ingredient;
 import domain.model.Recipe;
-import domain.model.Utensil;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -53,55 +52,8 @@ public class RecipeServiceImpl implements RecipeService{
 		em.persist(recipe);
 	}
 	
-	@Override
-	public Recipe createRecipe(String name, List<Ingredient> ingredients, List<Utensil> utensils, short prepTime, short difficulty, short nbPersonnes,
-			String photo, String preparation, String auteur, Date date,
-			String categorie, String type, float note, List<Comment> comments) {
-		
-		Recipe i = new Recipe();
-		i.setName(name);
-		i.setIngredients(ingredients);
-		i.setUtensils(utensils);
-		i.setPreparationTime(prepTime);
-		i.setDifficulty(difficulty);
-		i.setNbPersons(nbPersonnes);
-		i.setPicture(photo);
-		i.setPreparation(preparation);
-		i.setAuthor(auteur);
-		i.setPublicationDate(date);
-		i.setPlateCategory(categorie);
-		i.setKitchenType(type);
-		i.setGrade(note);
-		i.setComments(comments);
 
-		return i;
 
-	}
-	@Override
-	public Ingredient createIngredient(long detailsID, short quantity) {
-		Ingredient ingredient = new Ingredient();
-		ingredient.setDetailsID(detailsID);
-		ingredient.setQuantity(quantity);
-		
-		return ingredient;
-	}
-	
-	@Override
-	public Comment createComment(String text, String userID,short grade) {
-		Comment comment = new Comment();
-		comment.setText(text);
-		comment.setUserID(userID);
-		comment.setGrade(grade);
-		return comment;
-	}
-	
-	@Override
-	public Utensil createUtensil(String name) {
-		Utensil utensil = new Utensil();
-		utensil.setName(name);
-		
-		return utensil;
-	}
 	
 	@Override
 	public List<Recipe> getListRecipesFromUserId(String userId){
@@ -117,6 +69,8 @@ public class RecipeServiceImpl implements RecipeService{
 		
 	}
 	
+	
+
 	@Override
 	public void addComment(long recipeId, Comment comment) {
 		Recipe recipe = em.find(Recipe.class, recipeId);
@@ -134,19 +88,20 @@ public class RecipeServiceImpl implements RecipeService{
 	    	n=n+1;
 	    	total = total + c.next().getGrade();
 	    }
-	    float result = (float)total/n;
-	    recipe.setGrade(result);
-		
+	    if (n != 0) {
+	    	float result = (float)total/n;
+	    	recipe.setGrade(result);
+	    }
+	    
 		em.flush(); //Update of the recipe
 	}
 	
 	@Override
-	public void deleteComment(long recipeId, Comment comment) {
+	public void deleteComment(long recipeId, long commentId) {
 		Recipe recipe = em.find(Recipe.class, recipeId);
 		
 		//Addition of the comment
 		List<Comment> commentList = recipe.getComments();
-		long commentId = comment.getId();
 		ListIterator<Comment> c1 = commentList.listIterator();
 	    while(c1.hasNext()){
 	    	if(c1.next().getId()==commentId) {
@@ -163,10 +118,25 @@ public class RecipeServiceImpl implements RecipeService{
 	    	n=n+1;
 	    	total = total + c.next().getGrade();
 	    }
-	    float result = (float)total/n;
-	    recipe.setGrade(result);
-		
+	    if (n!= 0) {
+		    float result = (float)total/n;
+		    recipe.setGrade(result);
+	    }else {
+	    	recipe.setGrade(-1);
+	    }
 		em.flush(); //Update of the recipe
+	}
+
+	@Override
+	public Comment getComment(long recipeId, long commentId) {
+		Recipe recipe = em.find(Recipe.class, recipeId);
+		List<Comment> commentList = recipe.getComments();
+		for (Comment comment : commentList) {
+			if (comment.getId() == commentId) {
+				return comment;
+			}
+		}
+		return null;
 	}
 	
 }
