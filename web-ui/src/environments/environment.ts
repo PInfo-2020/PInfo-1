@@ -3,7 +3,13 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'URL_DE_API',
+  keycloak: {
+    url: 'http://pickncook.ch/auth',
+    realm: 'apigw',
+    clientId: 'web-sso'
+    }
 };
 
 /*
