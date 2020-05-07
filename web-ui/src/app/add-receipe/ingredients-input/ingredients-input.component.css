@@ -6,3 +6,8 @@
   padding-top : 5px;
   font-size: 15px;
 }
+
+.box{
+  display: flex;
+  align-items: center;
+}
