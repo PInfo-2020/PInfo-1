@@ -31,24 +31,30 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Utensil> utensils;
+	//@OneToMany(cascade = CascadeType.ALL)
+	//private List<Utensil> utensils;
+
+	
+	private String name;
+	private String picture;
+	private short nbPersons;
+	private short preparationTime;
+	private short difficulty;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients;
+	private String preparation;
+	// pas dans le json
+	private String author;
+	//pas de json
+	private Date publicationDate;
+	//private String plateCategory;
+	//private String KitchenType;
+	
+	// commence a null
+	private float grade;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Comment> comments;
 	
-	private String name;
-	private short preparationTime;
-	private short difficulty;
-	private short nbPersons;
-	private String picture;
-	private String preparation;
-	private String author;
-	private Date publicationDate;
-	private String plateCategory;
-	private String KitchenType;
-	private float grade;
 	
 
 	

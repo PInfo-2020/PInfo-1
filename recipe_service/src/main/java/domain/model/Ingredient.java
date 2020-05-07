@@ -31,5 +31,4 @@ public class Ingredient {
 	private long id;
 	private short quantity;
 	private long detailsID;
-	
 }
