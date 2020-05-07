@@ -99,7 +99,7 @@ public class RecipeServiceImpl implements RecipeService{
 
 	@Override
 	public void addComment(long recipeId, Comment comment) {
-		Recipe recipe = em.find(Recipe.class, recipeId);
+		Recipe recipe = get(recipeId);
 		
 		//Addition of the comment
 		List<Comment> commentList = recipe.getComments();
@@ -124,7 +124,7 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	@Override
 	public void deleteComment(long recipeId, long commentId) {
-		Recipe recipe = em.find(Recipe.class, recipeId);
+		Recipe recipe = get(recipeId);
 		
 		//Addition of the comment
 		List<Comment> commentList = recipe.getComments();
@@ -156,7 +156,7 @@ public class RecipeServiceImpl implements RecipeService{
 
 	@Override
 	public Comment getComment(long recipeId, long commentId) {
-		Recipe recipe = em.find(Recipe.class, recipeId);
+		Recipe recipe = get(recipeId);
 		List<Comment> commentList = recipe.getComments();
 		for (Comment comment : commentList) {
 			if (comment.getId() == commentId) {

@@ -62,6 +62,9 @@ public class RecipeServiceImplTest {
 		Recipe recipe = recipeService.getAllRecipes().get(0);
 		
 		assertNotNull(recipe);
+		
+		long id = recipe.getId();
+		assertEquals(recipeService.get(id), recipe);
 	}
 	
 	

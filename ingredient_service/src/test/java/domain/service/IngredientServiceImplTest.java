@@ -54,6 +54,9 @@ public class IngredientServiceImplTest {
 		ingredientService.create(getRandomIngredient());
 		Ingredient ingredient = ingredientService.getAllIngredients().get(0);
 		assertNotNull(ingredient);
+		
+		long id = ingredient.getId();
+		assertEquals(ingredientService.get(id), ingredient);
 	}
 	
 	//@Test
