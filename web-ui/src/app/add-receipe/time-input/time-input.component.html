@@ -1,3 +1,3 @@
 <label for="time">Temps de préparation : </label>
-<input type="text" #time (keyup.enter)="changeTime(time.value)" (blur)="changeTime(time.value)" placeholder="10">
+<input type="number" #time (keyup.enter)="changeTime(time.value)" (blur)="changeTime(time.value)" value="10" step="5">
 <label for="time">minutes</label>

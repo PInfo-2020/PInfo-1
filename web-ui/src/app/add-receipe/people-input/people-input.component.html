@@ -1,2 +1,2 @@
 <label for="people">Nombre de personnes : </label>
-<input type="text" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" placeholder="Ex: 4" maxlength="2" size="4">
+<input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="4" maxlength="2" size="4">

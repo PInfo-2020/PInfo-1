@@ -1,5 +1,5 @@
 .recipe{
-  min-width: 50vw;
+  width: 50%;
   min-height: 256px;
   border-radius: 6px;
   border: 2px solid #7c7c7c;
