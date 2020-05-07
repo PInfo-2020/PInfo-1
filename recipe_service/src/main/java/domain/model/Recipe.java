@@ -34,14 +34,14 @@ public class Recipe {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients;
 	private String preparation;
-	// pas dans le json
+
 	private String author;
-	//pas de json
+
 	private Date publicationDate;
 	//private String plateCategory;
 	//private String KitchenType;
 	
-	// commence a null
+
 	private float grade;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Comment> comments;

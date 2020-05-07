@@ -17,4 +17,5 @@ public interface RecipeService {
 	void addComment(long recipeId, Comment comment);
 	void deleteComment(long recipeId, long commentId);
 	Comment getComment(long recipeId, long commentId);
+	void addRecipe(String name, String picture, short nbPersons, short preparationTime, short difficulty, Map<Long, Short> ingredients, String preparation, String author);
 }
