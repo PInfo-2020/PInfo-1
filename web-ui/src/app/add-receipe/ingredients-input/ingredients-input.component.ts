@@ -110,7 +110,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   addJsonToClass(e) {
     let ingr;
 
-    for (const ingredient of e){
+    for (const ingredient of e) {
       ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
       this.ingredients.push(ingr);
     }
