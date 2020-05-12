@@ -1,7 +1,7 @@
 import { NgModule, AfterViewInit } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 
 class AddedIngredient {
@@ -101,7 +101,12 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   addIngredient(name) { }
 
   getIngredients() {
-    this.http.get(this.url).toPromise().then(json => {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.url, headernode).toPromise().then(json => {
       console.log(json);
       this.addJsonToClass(json);
     });
