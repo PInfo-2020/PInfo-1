@@ -40,7 +40,7 @@ public class RecipeRestServiceIT {
 	public void testPostRecipe() {
 		
 	}
-
+/*
 	@Test
 	public void testGetRecipe() {
 		when().get("/1").then().body(containsString("Abricot"));
@@ -55,7 +55,7 @@ public class RecipeRestServiceIT {
 
 	@Test
 	public void testDeleteComment() {
-		/*
+		
 		recipeService.create(getRandomRecipe());
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe myRecipe = recipes.get(0);
@@ -67,11 +67,11 @@ public class RecipeRestServiceIT {
 		myRecipe.setComments(listComment);
 		RecipeService.createComment(text, userID, grade);
 		RecipeRestService.deleteComment(idRecipe, idComment, headers);
-		*/
+		
 		when().get("/1").then().body(containsString("Abricot"));
 		when().get("/1").then().body(containsString("vegan"));
 	}
 	
-	public void createRandomBDD() {}
+*/
 
 }

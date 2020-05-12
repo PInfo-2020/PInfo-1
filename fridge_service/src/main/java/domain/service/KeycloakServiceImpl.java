@@ -9,6 +9,8 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+@ApplicationScoped
+
 public class KeycloakServiceImpl implements KeycloakService {
 
 	@Override
