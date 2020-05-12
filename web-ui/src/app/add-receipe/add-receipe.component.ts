@@ -1,32 +1,92 @@
 import { Component, OnInit } from '@angular/core';
+import { numberSymbols } from '@progress/kendo-angular-intl';
+
+interface Ingredients {
+  [Key: string]: number;
+}
+
+interface Recipe {
+  name: string;
+  picture: string;
+  people: number;
+  time: number;
+  difficulty: number;
+  ingredients: Ingredients;
+  preparation: string;
+  userID: number;
+}
 
 @Component({
   selector: 'app-add-receipe',
   templateUrl: './add-receipe.component.html',
   styleUrls: ['./add-receipe.component.css']
 })
+
 export class AddReceipeComponent implements OnInit {
 
   constructor() { }
 
+  recipe: Recipe;
+  nameEntered: string;
+  pictureEntered: string;
+  timeEntered: number;
+  recipeEntered: string;
+  difficultyEntered: number;
+  ingredientsEntered: Ingredients;
+  peopleEntered: number;
+  incorrectData: number;
+  json: string;
+
   onNameChanged(nameEntered: string) {
-    console.log('Nom : ', nameEntered);
+    this.nameEntered = nameEntered;
   }
 
   onTimeChanged(timeEntered: number) {
-    console.log('Temps : ', timeEntered);
+    this.timeEntered = timeEntered;
   }
 
   onDifficultyChanged(difficultyEntered: number) {
-    console.log('Difficulté : ', difficultyEntered);
+    this.difficultyEntered = difficultyEntered;
   }
 
   onRecipeChanged(recipeEntered: string) {
-    console.log('Recette : ', recipeEntered);
+    this.recipeEntered = recipeEntered;
   }
 
   onPeopleChanged(peopleEntered: number) {
-    console.log('Nombre de personnes : ', peopleEntered);
+    this.peopleEntered = peopleEntered;
+  }
+
+  verifyData() {
+    this.incorrectData = 0;
+  }
+
+  createJSON() {
+    this.recipe = {
+      name: this.nameEntered,
+      picture: this.pictureEntered,
+      people: this.peopleEntered,
+      time: this.timeEntered,
+      difficulty: this.difficultyEntered,
+      ingredients: this.ingredientsEntered,
+      preparation: this.recipeEntered,
+      userID: 1                               // for testing
+    };
+    this.json = JSON.stringify(this.recipe);
+    console.log(this.json);
+  }
+
+  printErrors() {
+
+  }
+
+  publishRecipe() {
+    this.verifyData();
+    if (this.incorrectData === 0) {
+      this.createJSON();
+    } else {
+      this.printErrors();
+    }
   }
 
   ngOnInit() {
