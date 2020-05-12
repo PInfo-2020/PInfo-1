@@ -35,12 +35,12 @@ public class RecipeRestServiceIT {
 	RecipeService recipeService;
 	
 	
-/*
+
 	@Test
 	public void testPostRecipe() {
 		
 	}
-
+/*
 	@Test
 	public void testGetRecipe() {
 		when().get("/1").then().body(containsString("Abricot"));
