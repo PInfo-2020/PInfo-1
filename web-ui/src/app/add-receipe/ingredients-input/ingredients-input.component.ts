@@ -1,7 +1,7 @@
 import { NgModule, AfterViewInit } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 
 class AddedIngredient {
@@ -100,6 +100,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   addIngredient(name) { }
 
+
   getIngredients() {
     const headernode = {
       headers: new HttpHeaders(
@@ -112,10 +113,22 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     });
   }
 
-  addJsonToClass(e) {
+    /*
+    let post_message = data;
+    let header_node = {
+        headers: new HttpHeaders(
+            { 'Accept': 'application/json' },
+            { 'rejectUnauthorized': 'false' })
+        };
+
+    return this.http.post('https://ip/createdata', post_message, header_node).toPromise();
+}
+  */
+
+  addJsonToClass(json) {
     let ingr;
 
-    for (const ingredient of e) {
+    for (const ingredient of json) {
       ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
       this.ingredients.push(ingr);
     }
@@ -123,6 +136,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       this.listIngredient.push(ingredient.name);
     }
   }
+
 
   onRemove(index) {
     console.log('index : ', index);

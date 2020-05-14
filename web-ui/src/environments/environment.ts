@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiUrl: 'URL_DE_API',
   keycloak: {
-    url: 'http://pickncook.ch/auth',
+    //url: 'http://pickncook.ch/auth',
+    url: 'http://pinfo1.unige.ch/auth/',
     realm: 'apigw',
     clientId: 'web-sso'
     }
