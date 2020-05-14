@@ -22,8 +22,6 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	//@OneToMany(cascade = CascadeType.ALL)
-	//private List<Utensil> utensils;
 
 	
 	private String name;
@@ -38,8 +36,6 @@ public class Recipe {
 	private String author;
 
 	private Date publicationDate;
-	//private String plateCategory;
-	//private String KitchenType;
 	
 
 	private float grade;
