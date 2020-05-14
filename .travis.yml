@@ -25,17 +25,17 @@ before_install:
 - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 - nvm install $NODE_VERSION
 script:
-# - mvn test
-# - mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020
-#   -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
-# - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
-# - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-# - docker tag pickncook/fridge_service rozozepine/fridge_service:latest
-# - docker tag pickncook/ingredient_service rozozepine/ingredient_service:latest 
-#- docker tag pickncook/recipe_service rozozepine/recipe_service:latest 
-#- docker push rozozepine/fridge_service:latest 
-#- docker push rozozepine/ingredient_service:latest 
-#- docker push rozozepine/recipe_service:latest 
+- mvn test
+- mvn sonar:sonar -Dsonar.projectKey=PInfo-2020_PInfo-1 -Dsonar.organization=pinfo-2020
+  -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=860546795f4339575e9a105a89a565f45b305bc1
+- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Ppackage-docker-image
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker tag pickncook/fridge_service rozozepine/fridge_service:latest
+- docker tag pickncook/ingredient_service rozozepine/ingredient_service:latest 
+- docker tag pickncook/recipe_service rozozepine/recipe_service:latest 
+- docker push rozozepine/fridge_service:latest 
+- docker push rozozepine/ingredient_service:latest 
+- docker push rozozepine/recipe_service:latest 
 #build web-ui
 - cd web-ui
 - npm -v
