@@ -1,0 +1,13 @@
+{
+    "environment": "local",
+    "production": "false",
+    "apiUrl": "URL_DE_API",
+    "keycloak": {
+        "realm": "apigw",
+        "auth-server-url": "http://localhost:8080/auth",
+        "ssl-required": "external",
+        "resource": "web-sso",
+        "public-client": true,
+        "confidential-port": 0
+    }
+}

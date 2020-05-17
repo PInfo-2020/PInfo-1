@@ -14,20 +14,7 @@ export class KeycloakService {
 
   static init(): Promise<any> {
 
-  const keycloakAuth: Keycloak.KeycloakInstance = Keycloak({
-    url: environment.keycloak.url,
-    realm: environment.keycloak.realm,
-    clientId: environment.keycloak.clientId,
-    /* 'ssl-required': 'external',
-    // 'public-client': true,
-    // 'keycloak.json'
-    realm: 'apigw',
-    'auth-server-url': 'https://www.pickncook.ch/auth/',
-    'ssl-required': 'external',
-    resource: 'web-sso',
-    'public-client': true,
-    'confidential-port': 0 */
-  });
+  const keycloakAuth: Keycloak.KeycloakInstance = Keycloak(environment.keycloak());
 
   KeycloakService.auth.loggedIn = false;
   return new Promise((resolve, reject) => {
