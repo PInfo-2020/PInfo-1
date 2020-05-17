@@ -13,7 +13,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 
 
-// KeycloakService.init()
-//   .then(() => platformBrowserDynamic().bootstrapModule(AppModule))
-//   .catch(e => window.location.reload())
+ KeycloakService.init()
+   .then(() => platformBrowserDynamic().bootstrapModule(AppModule))
+   .catch(e => window.location.reload())
 

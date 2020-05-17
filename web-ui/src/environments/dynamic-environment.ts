@@ -1,4 +1,3 @@
-import { worker } from 'cluster';
 
 declare var window: any;
 
