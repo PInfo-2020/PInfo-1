@@ -2,12 +2,14 @@ package domain.service;
 
 import java.sql.Date;
 import javax.enterprise.context.ApplicationScoped;
+import java.lang.Character;
 
 import domain.model.Comment;
 import domain.model.Ingredient;
 import domain.model.Recipe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -162,6 +164,117 @@ public class RecipeServiceImpl implements RecipeService{
 			if (comment.getId() == commentId) {
 				return comment;
 			}
+		}
+		return null;
+	}
+	
+	@Override
+	public List<String> cleanSearch(String search){
+		
+		//We delete some characters and we put everything in lowercase
+		search = search.replace(",", " ");
+		search = search.replace(";", " ");
+		search = search.replace(".", " ");
+		search = search.replace(":", " ");
+		search = search.replace("l'", "");
+		search = search.replace("d'", "");
+		
+		search = search.toLowerCase();
+
+		//Parse of the string
+		List<String> words = new ArrayList<String>(Arrays.asList(search.split(" ")));
+		
+		//List<String> newWords1 = new ArrayList<String>();
+
+		//We clean the words :
+		
+		ListIterator<String> w = words.listIterator();
+		while(w.hasNext()){
+			String currentWord = w.next();
+			
+			
+			//Delete all common words
+			List<String> wordsToDelete = new ArrayList<String>();
+			wordsToDelete.add("et");
+			wordsToDelete.add("au");
+			wordsToDelete.add("aux");
+			wordsToDelete.add("a");
+			wordsToDelete.add("à");
+			wordsToDelete.add("la");
+			wordsToDelete.add("le");
+			wordsToDelete.add("les");
+			wordsToDelete.add("de");
+			wordsToDelete.add("du");
+			wordsToDelete.add("des");
+			wordsToDelete.add("un");
+			wordsToDelete.add("une");
+			wordsToDelete.add("en");
+			wordsToDelete.add("pour");
+			wordsToDelete.add("recette");
+			wordsToDelete.add("recettes");
+			wordsToDelete.add("plat");
+			wordsToDelete.add("plats");
+			wordsToDelete.add("cuisine");
+			wordsToDelete.add("cuisines");
+			
+
+			if (wordsToDelete.contains(currentWord) || currentWord.length()<=2) {
+				w.remove();
+			}
+			
+
+		}
+		//words.addAll(newWords1); //concatenate the 2 lists
+		
+		
+		return words;
+	}
+	
+	
+	@Override
+	public List<Recipe> searchRecipes(String search){
+		List<String> words = cleanSearch(search);
+		
+		
+		
+		List<Recipe> allRecipes = getAllRecipes();
+		List<Recipe> foundRecipes = new ArrayList<Recipe>();
+		ListIterator<Recipe> r = allRecipes.listIterator();
+	    while(r.hasNext()){
+	    	Recipe currentRecipe = r.next();
+	    	boolean missSomething = false;
+	    	ListIterator<String> w2= words.listIterator();
+	    	while(w2.hasNext()){
+	    		
+	    		String currentWord = w2.next();
+	    		
+	    		String wordWithS = "";
+	    		
+				//Add words with capitals and s at the end, delete last s
+				if(currentWord.endsWith("s")) {
+					wordWithS = currentWord.substring(0, currentWord.length() - 1);
+				}
+				else {
+					wordWithS = currentWord + "s";
+				}
+	    		
+	    		
+	    		String currentName = currentRecipe.getName();
+	    		currentName = currentName.toLowerCase();
+	    		
+	    		//Searching in recipe's name
+	    		if(! (currentName.contains(currentWord) || currentName.contains(wordWithS))) {
+	    			missSomething = true;
+	    		}
+	    	}
+			
+			if(missSomething == false) {
+				foundRecipes.add(currentRecipe);
+			}
+	    }
+	    
+		if(! foundRecipes.isEmpty()) {
+			return foundRecipes;
 		}
 		return null;
 	}

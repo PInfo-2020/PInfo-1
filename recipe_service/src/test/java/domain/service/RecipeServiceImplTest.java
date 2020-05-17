@@ -265,7 +265,26 @@ public class RecipeServiceImplTest {
 	}
 	
 	
-	
+	@Test
+	void testSearchRecipes() {
+		Recipe newRecipe = getRandomRecipe();
+		newRecipe.setName("tarte aux fraises bernoise");
+		Recipe newRecipe2 = getRandomRecipe();
+		newRecipe2.setName("tarte aux fraises suisse");
+		recipeService.create(newRecipe);
+		recipeService.create(newRecipe2);
+		List<Recipe> recipes = recipeService.getAllRecipes();
+		int size = recipes.size();
+		Recipe myRecipe = recipes.get(size-1);
+		
+		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tarte à la fraise");
+		List<Recipe> foundRecipes2 = recipeService.searchRecipes("poires aux truffes");
+		
+
+		assertEquals(2,foundRecipes1.size());
+		assertEquals(myRecipe, foundRecipes1.get(1));
+		assertEquals(null, foundRecipes2);
+	}
 	
 	
 	private Ingredient getRandomIngredient() {
