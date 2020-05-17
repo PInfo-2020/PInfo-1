@@ -277,7 +277,7 @@ public class RecipeServiceImplTest {
 		int size = recipes.size();
 		Recipe myRecipe = recipes.get(size-1);
 		
-		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tarte à la fraise");
+		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises");
 		List<Recipe> foundRecipes2 = recipeService.searchRecipes("poires aux truffes");
 		
 

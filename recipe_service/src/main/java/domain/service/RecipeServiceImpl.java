@@ -109,12 +109,11 @@ public class RecipeServiceImpl implements RecipeService{
 		recipe.setComments(commentList);
 		
 		//Update of recipe grade
-	    ListIterator<Comment> c = commentList.listIterator();
 	    int total = 0;
 	    int n = 0;
-	    while(c.hasNext()){
+	    for(Comment currentComment : commentList) {
 	    	n=n+1;
-	    	total = total + c.next().getGrade();
+	    	total = total + currentComment.getGrade();
 	    }
 	    if (n != 0) {
 	    	float result = (float)total/n;
@@ -139,12 +138,11 @@ public class RecipeServiceImpl implements RecipeService{
 		recipe.setComments(commentList);
 		
 		//Update of recipe grade
-	    ListIterator<Comment> c = commentList.listIterator();
 	    int total = 0;
 	    int n = 0;
-	    while(c.hasNext()){
+	    for(Comment comment : commentList) {
 	    	n=n+1;
-	    	total = total + c.next().getGrade();
+	    	total = total + comment.getGrade();
 	    }
 	    if (n!= 0) {
 		    float result = (float)total/n;
@@ -184,7 +182,15 @@ public class RecipeServiceImpl implements RecipeService{
 		//Parse of the string
 		List<String> words = new ArrayList<String>(Arrays.asList(search.split(" ")));
 		
-		//List<String> newWords1 = new ArrayList<String>();
+		//delete last s of the words
+		for (int i = 0; i < words.size(); i++) {
+			String currentWord = words.get(i);
+			if(currentWord.endsWith("s")) {
+				currentWord = currentWord.substring(0, currentWord.length() - 1);
+			    words.set(i, currentWord);
+			}
+		}
+
 
 		//We clean the words :
 		
@@ -194,28 +200,8 @@ public class RecipeServiceImpl implements RecipeService{
 			
 			
 			//Delete all common words
-			List<String> wordsToDelete = new ArrayList<String>();
-			wordsToDelete.add("et");
-			wordsToDelete.add("au");
-			wordsToDelete.add("aux");
-			wordsToDelete.add("a");
-			wordsToDelete.add("à");
-			wordsToDelete.add("la");
-			wordsToDelete.add("le");
-			wordsToDelete.add("les");
-			wordsToDelete.add("de");
-			wordsToDelete.add("du");
-			wordsToDelete.add("des");
-			wordsToDelete.add("un");
-			wordsToDelete.add("une");
-			wordsToDelete.add("en");
-			wordsToDelete.add("pour");
-			wordsToDelete.add("recette");
-			wordsToDelete.add("recettes");
-			wordsToDelete.add("plat");
-			wordsToDelete.add("plats");
-			wordsToDelete.add("cuisine");
-			wordsToDelete.add("cuisines");
+			List<String> wordsToDelete = Arrays.asList("et", "au", "aux", "a", "à", "la", "le", "les", "de", "du", "des", "un", "une", "en", "pour",
+					"recette", "recettes", "plat", "plats", "cuisine", "cuisines");
 			
 
 			if (wordsToDelete.contains(currentWord) || currentWord.length()<=2) {
@@ -224,7 +210,6 @@ public class RecipeServiceImpl implements RecipeService{
 			
 
 		}
-		//words.addAll(newWords1); //concatenate the 2 lists
 		
 		
 		return words;
@@ -239,31 +224,15 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		List<Recipe> allRecipes = getAllRecipes();
 		List<Recipe> foundRecipes = new ArrayList<Recipe>();
-		ListIterator<Recipe> r = allRecipes.listIterator();
-	    while(r.hasNext()){
-	    	Recipe currentRecipe = r.next();
+
+		for (Recipe currentRecipe : allRecipes) {
 	    	boolean missSomething = false;
-	    	ListIterator<String> w2= words.listIterator();
-	    	while(w2.hasNext()){
-	    		
-	    		String currentWord = w2.next();
-	    		
-	    		String wordWithS = "";
-	    		
-				//Add words with capitals and s at the end, delete last s
-				if(currentWord.endsWith("s")) {
-					wordWithS = currentWord.substring(0, currentWord.length() - 1);
-				}
-				else {
-					wordWithS = currentWord + "s";
-				}
-	    		
-	    		
-	    		String currentName = currentRecipe.getName();
-	    		currentName = currentName.toLowerCase();
+    		String currentName = currentRecipe.getName();
+    		currentName = currentName.toLowerCase();
+	    	for(String currentWord : words) {
 	    		
 	    		//Searching in recipe's name
-	    		if(! (currentName.contains(currentWord) || currentName.contains(wordWithS))) {
+	    		if(! (currentName.contains(currentWord))) {
 	    			missSomething = true;
 	    		}
 	    	}
