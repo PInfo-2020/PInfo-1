@@ -20,4 +20,5 @@ public interface RecipeService {
 	void addRecipe(String name, String picture, short nbPersons, short preparationTime, short difficulty, Map<Long, Short> ingredients, String preparation, String author);
 	List<Recipe> searchRecipes(String search);
 	List<String> cleanSearch(String search);
+	Recipe getRandomRecipe();
 }

@@ -105,4 +105,15 @@ public class RecipeRestService {
 		return UserID;
 	}
 
+	
+	@Path("/test")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Recipe getTest() {
+		
+		
+		return RecipeService.getRandomRecipe();
+	}
+	
+	
 }
