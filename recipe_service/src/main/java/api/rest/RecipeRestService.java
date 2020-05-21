@@ -37,8 +37,7 @@ public class RecipeRestService {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postRecipe( @Context HttpHeaders headers) {
-		Recipe recipe = new Recipe();
+	public void postRecipe(Recipe recipe, @Context HttpHeaders headers) {
 		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
