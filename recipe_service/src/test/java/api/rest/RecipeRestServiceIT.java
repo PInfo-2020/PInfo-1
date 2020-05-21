@@ -33,22 +33,15 @@ public class RecipeRestServiceIT {
 		RestAssured.baseURI = "http://localhost:28080/recipe";
 		RestAssured.port = 8080;
 	}
-	@InjectMocks
-	RecipeRestService recipeRestService;
-	
-	@InjectMocks
-	RecipeService recipeService;
-	
-	
 
+	
 	@Test
 	public void testPostRecipe() {
-
 		Recipe recipe = new Recipe();
 		recipe = getRandomRecipe();
 		with().contentType(ContentType.JSON).body(recipe).when().request("POST", "/").then().statusCode(204);
-		
 	}
+	
 /*
 	@Test
 	public void testGetRecipe() {

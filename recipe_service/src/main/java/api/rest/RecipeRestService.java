@@ -35,18 +35,39 @@ public class RecipeRestService {
 	@Inject
 	private KeycloakService KeycloakService;
 
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void postRecipe(Recipe recipe, @Context HttpHeaders headers) {
-		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			String idAuthor = recipe.getAuthor();
-			if (UserID == idAuthor) {
-				RecipeService.create(recipe);
-			}
-		}
+		//if (KeycloakService.verifyAuthentification(headers,  new Date())) {
+			//String token = KeycloakService.getToken(headers);
+			//String UserID = KeycloakService.getIdUser(token);
+			//String idAuthor = recipe.getAuthor();
+			//if (UserID == idAuthor) {
+		RecipeService.create(recipe);
+			//}
+		//}
 	}
+	
+	
+	@Path("/recipes/{iduser}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Recipe> getRecipes(@PathParam("iduser") String idUser) {
+		List<Recipe> recipes = RecipeService.getListRecipesFromUserId(idUser);
+		
+		return recipes;
+	}
+	
+	@Path("/recipes")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Recipe> getAllRecipes() {
+		List<Recipe> recipes = RecipeService.getAllRecipes();
+		
+		return recipes;
+	}
+
 	
 	@Path("/{idrecipe}")
     @GET
