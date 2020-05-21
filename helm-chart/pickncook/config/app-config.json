@@ -1,13 +1,13 @@
 {
-    "environment": "local", 
-    "production": "false", 
-    "apiUrl": "URL_DE_API", 
+    "environment": "local",
+    "production": "false",
+    "apiUrl": "URL_DE_API",
     "keycloak": {
-        "url": "https://pinfo1.unige.ch/auth", 
-        "realm": "apigw", 
-        "clientId": "web-sso", 
-        "checkLoginIframe": false, 
-        "onLoad": "check-sso", 
-        "responseMode": "fragment" 
+      "realm": "master",
+      "url": "https://pinfo1.unige.ch/auth", 
+      "ssl-required": "external",
+      "clientId": "web-sso",
+      "public-client": true,
+      "confidential-port": 0
     }
 }
