@@ -2,10 +2,14 @@ package api.rest;
 
 
 import static io.restassured.RestAssured.when;
+import static io.restassured.RestAssured.with;
 import static org.hamcrest.Matchers.containsString;
+import io.restassured.http.ContentType;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -18,6 +22,7 @@ import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import api.rest.RecipeRestService;
 import domain.model.Comment;
+import domain.model.Ingredient;
 import domain.model.Recipe;
 import domain.service.RecipeService;
 
@@ -38,6 +43,10 @@ public class RecipeRestServiceIT {
 
 	@Test
 	public void testPostRecipe() {
+
+		Recipe recipe = new Recipe();
+		recipe = getRandomRecipe();
+		with().contentType(ContentType.JSON).body(recipe).when().request("POST", "/").then().statusCode(204);
 		
 	}
 /*
@@ -74,4 +83,55 @@ public class RecipeRestServiceIT {
 	
 */
 
+	private Ingredient getRandomIngredient() {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setDetailsID((long) (Math.random()*1000));
+		ingredient.setQuantity((short) (Math.random()*1000));
+		
+		return ingredient;
+	}
+	
+	private Comment getRandomComment() {
+		Comment comment = new Comment();
+		comment.setText(UUID.randomUUID().toString());
+		comment.setUserID(UUID.randomUUID().toString());
+		comment.setGrade((short)(Math.random() * ((5 - 0) + 1)));
+		
+		return comment;
+	}
+	
+	
+	
+	private Recipe getRandomRecipe() {
+		
+		List<Ingredient> listIng = new ArrayList<Ingredient>();
+		Ingredient ingredient1 = getRandomIngredient();
+		Ingredient ingredient2 = getRandomIngredient();
+		listIng.add(ingredient1);
+		listIng.add(ingredient2);
+		
+		Comment comment1 = getRandomComment();
+		Comment comment2 = getRandomComment();
+		List<Comment> listComment = new ArrayList<Comment>();
+		listComment.add(comment1);
+		listComment.add(comment2);
+		
+		Recipe i = new Recipe();
+		i.setName(UUID.randomUUID().toString());
+		i.setPreparationTime((short) (Math.random()*1000));
+		i.setDifficulty((short) (Math.random()*1000));
+		i.setNbPersons((short) (Math.random()*1000));
+		i.setPicture(UUID.randomUUID().toString());
+		i.setPreparation(UUID.randomUUID().toString());
+		i.setAuthor(UUID.randomUUID().toString());
+		i.setPublicationDate(Date.valueOf("2019-01-26"));
+		i.setGrade((float) (Math.random()*1000));
+		i.setComments(listComment);
+		i.setIngredients(listIng);
+
+		
+		return i;
+	}
+	
+	
 }
