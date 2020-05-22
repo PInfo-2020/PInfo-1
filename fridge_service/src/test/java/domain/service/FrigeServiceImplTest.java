@@ -56,10 +56,6 @@ public class FrigeServiceImplTest {
 	
 
 	@Test
-	void testCreation() {
-		
-	}
-	@Test
 	void testGetAllIngredient() {
 		List<Fridge> fridge = fridgeService.getAll();
 		int size = fridge.size();
@@ -81,21 +77,142 @@ public class FrigeServiceImplTest {
 		fridgeService.create(createFridge());
 		assertEquals(size+4, fridgeService.getAll().size());
 	}
+	
+	
 	@Test
 	void testUpdateIngredient() {
 		Ingredient ing = new Ingredient();
-		ing.setDetail("test");
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
 		ing.setExpiration(new java.util.Date());
-		ing.setName("abricot");
-		List<Ingredient> ings   = new ArrayList<Ingredient>();
+		Ingredient ing2 = new Ingredient();
+		ing2.setDetailsID(43);
+		ing2.setQuantity((short)5);
+		ing2.setExpiration(new java.util.Date());
+		List<Ingredient> ings = new ArrayList<Ingredient>();
+		ings.add(ing);
+		ings.add(ing2);
+		Fridge fridge = new Fridge();
+		fridge.setIngredients(ings);
+		fridge.setUserId("aosédv");
+		fridgeService.create(fridge);
+		assertEquals(2, fridge.getIngredients().get(0).getQuantity());
+		Ingredient newIng = new Ingredient();
+		newIng.setDetailsID(42);
+		newIng.setQuantity((short)12);
+		newIng.setExpiration(new java.util.Date());
+		fridgeService.updateIngredient(fridge.getId(), newIng);
+		assertEquals(12, fridge.getIngredients().get(0).getQuantity());
+	}
+	
+	@Test
+	void testAddQuantity() {
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
+		ing.setExpiration(new java.util.Date());
+		Ingredient ing2 = new Ingredient();
+		ing2.setDetailsID(43);
+		ing2.setQuantity((short)5);
+		ing2.setExpiration(new java.util.Date());
+		List<Ingredient> ings = new ArrayList<Ingredient>();
+		ings.add(ing);
+		ings.add(ing2);
+		Fridge fridge = new Fridge();
+		fridge.setIngredients(ings);
+		fridge.setUserId("aosédv");
+		fridgeService.create(fridge);
+		assertEquals(2, fridge.getIngredients().get(0).getQuantity());
+		fridgeService.addQuantity(fridge.getId(), ing.getDetailsID(), (short)3);
+		assertEquals(5, fridge.getIngredients().get(0).getQuantity());
+		assertEquals(2, fridge.getIngredients().size());
+		fridgeService.addQuantity(fridge.getId(), 44, (short)3);
+		assertEquals(3, fridge.getIngredients().size());
+	}
+	
+	
+	@Test
+	void testRemoveQuantity() {
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
+		ing.setExpiration(new java.util.Date());
+		Ingredient ing2 = new Ingredient();
+		ing2.setDetailsID(43);
+		ing2.setQuantity((short)5);
+		ing2.setExpiration(new java.util.Date());
+		List<Ingredient> ings = new ArrayList<Ingredient>();
+		ings.add(ing);
+		ings.add(ing2);
+		Fridge fridge = new Fridge();
+		fridge.setIngredients(ings);
+		fridge.setUserId("aosédv");
+		fridgeService.create(fridge);
+		assertEquals(2, fridge.getIngredients().get(0).getQuantity());
+		fridgeService.removeQuantity(fridge.getId(), ing.getDetailsID(), (short)1);
+		assertEquals(1, fridge.getIngredients().get(0).getQuantity());
+		assertEquals(2, fridge.getIngredients().size());
+		fridgeService.removeQuantity(fridge.getId(), ing.getDetailsID(), (short)3);
+		assertEquals(1, fridge.getIngredients().size());
+	}
+	
+	@Test
+	void testAddIngredient() {
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
+		ing.setExpiration(new java.util.Date());
+		Ingredient ing2 = new Ingredient();
+		ing2.setDetailsID(43);
+		ing2.setQuantity((short)5);
+		ing2.setExpiration(new java.util.Date());
+		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		Fridge fridge = new Fridge();
 		fridge.setIngredients(ings);
-		fridge.setUser(1);
-		fridge.setName("frigo1");
+		fridge.setUserId("aosédv");
+		fridgeService.create(fridge);
+		assertEquals(1, fridge.getIngredients().size());
+		fridgeService.addIngredient(fridge.getId(), ing2);
+		assertEquals(2, fridge.getIngredients().size());
+	}
+	
+	@Test
+	void testDeleteIngredient() {
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
+		ing.setExpiration(new java.util.Date());
+		Ingredient ing2 = new Ingredient();
+		ing2.setDetailsID(43);
+		ing2.setQuantity((short)5);
+		ing2.setExpiration(new java.util.Date());
+		List<Ingredient> ings = new ArrayList<Ingredient>();
+		ings.add(ing);
+		ings.add(ing2);
+		Fridge fridge = new Fridge();
+		fridge.setIngredients(ings);
+		fridge.setUserId("aosédv");
+		fridgeService.create(fridge);
+		assertEquals(2, fridge.getIngredients().size());
+		fridgeService.deleteIngredient(fridge.getId(), 42);
+		assertEquals(1, fridge.getIngredients().size());
+	}
+	
+	@Test
+	void testUpdateFridge() {
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
+		ing.setExpiration(new java.util.Date());
+		List<Ingredient> ings = new ArrayList<Ingredient>();
+		ings.add(ing);
+		Fridge fridge = new Fridge();
+		fridge.setIngredients(ings);
+		fridge.setUserId("aosédv");
 		fridgeService.create(fridge);
 		assertEquals(1, fridgeService.getAllIngredient(fridge.getId()).size());
-		fridgeService.updateIngredient(fridge.getId(), createIngredient());
+		fridgeService.updateFridge(fridge.getId(), createListIngredients());
 		assertEquals(2, fridgeService.getAllIngredient(fridge.getId()).size());
 	}
 	@Test
@@ -113,25 +230,24 @@ public class FrigeServiceImplTest {
 		assertEquals(size+4, fridgeService.getAll().size());
 		
 	}
-	private List<Ingredient> createIngredient(){
-		List<Ingredient> test = new ArrayList<Ingredient>();
+	private List<Ingredient> createListIngredients(){
+		List<Ingredient> ingredients = new ArrayList<Ingredient>();
 		Ingredient ing1 = new Ingredient();
-		ing1.setDetail("test");
+		ing1.setDetailsID(123);
+		ing1.setQuantity((short)12);
 		ing1.setExpiration(new java.util.Date());
-		ing1.setName("abricot");
 		Ingredient ing2 = new Ingredient();
-		ing2.setDetail("test2");
+		ing2.setDetailsID(124);
+		ing2.setQuantity((short)2);
 		ing2.setExpiration(new java.util.Date());
-		ing2.setName("abricot2");
-		test.add(ing1);
-		test.add(ing2);
-		return test;
+		ingredients.add(ing1);
+		ingredients.add(ing2);
+		return ingredients;
 	}
 	private Fridge createFridge() {
 		Fridge fridge = new Fridge();
-		fridge.setIngredients(createIngredient());
-		fridge.setUser(1);
-		fridge.setName("frigo1");
+		fridge.setIngredients(createListIngredients());
+		fridge.setUserId("asfasydd");
 		return fridge;
 		
 	}

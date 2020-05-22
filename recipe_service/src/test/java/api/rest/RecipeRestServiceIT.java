@@ -6,6 +6,9 @@ import static io.restassured.RestAssured.with;
 import static org.hamcrest.Matchers.containsString;
 import io.restassured.http.ContentType;
 
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;

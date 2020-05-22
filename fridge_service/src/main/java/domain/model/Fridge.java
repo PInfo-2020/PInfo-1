@@ -33,8 +33,7 @@ public class Fridge {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	private long user;
-	private String name;
+	private String userId;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients;
 }

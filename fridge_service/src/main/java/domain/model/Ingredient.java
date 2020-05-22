@@ -32,8 +32,8 @@ public class Ingredient {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	private String detail;
-	private String name;
+	private long detailsID;
+	private short quantity;
 	private Date expiration;
 	
 }
