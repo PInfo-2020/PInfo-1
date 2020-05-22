@@ -20,6 +20,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+
 
 @ApplicationScoped
 public class RecipeServiceImpl implements RecipeService{
@@ -48,6 +50,7 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
+	@Transactional
 	public long create(Recipe recipe) {
 		em.persist(recipe);
 		List<Recipe> recipes = getAllRecipes();

@@ -40,43 +40,41 @@ public class RecipeRestServiceIT {
 	
 	//@InjectMocks
 	//KeycloakService KeycloakService;
-	
-	
 
 	@Test
 	public void testPostRecipe() {
 		
 		Recipe recipe = new Recipe();
-		JsonObject recipejson = Json.createObjectBuilder()
-				.add("name", "name")
-				.add("picture", "picture")
-				.add("nbPersons", 5)
-				.add("preparationTime", 523)
-				.add("difficulty", 642)
-				.add("ingredients", Json.createArrayBuilder()
-						.add(Json.createObjectBuilder()
-								.add("quantity",296)
-								.add("detailsID", 6))
-						.add(Json.createObjectBuilder()
-								.add("quantity",269)
-								.add("detailsID", 834)))
-				.add("preparation", "preparation")
-				.add("author", "author")
-				.add("publicationData",15400)
-				.add("grade", 3.5)
-				.add("comments", Json.createArrayBuilder()
-						.add("comment"))
-				.build();
+		// JsonObject recipejson = Json.createObjectBuilder()
+		// 		.add("name", "name")
+		// 		.add("picture", "picture")
+		// 		.add("nbPersons", 5)
+		// 		.add("preparationTime", 523)
+		// 		.add("difficulty", 642)
+		// 		.add("ingredients", Json.createArrayBuilder()
+		// 				.add(Json.createObjectBuilder()
+		// 						.add("quantity",296)
+		// 						.add("detailsID", 6))
+		// 				.add(Json.createObjectBuilder()
+		// 						.add("quantity",269)
+		// 						.add("detailsID", 834)))
+		// 		.add("preparation", "preparation")
+		// 		.add("author", "author")
+		// 		.add("publicationData",15400)
+		// 		.add("grade", 3.5)
+		// 		.add("comments", Json.createArrayBuilder()
+		// 				.add("comment"))
+		// 		.build();
 		recipe = getRandomRecipe();
-		long id = recipe.getId();
-		given()
-		.contentType(ContentType.JSON)
-		.body(recipejson)
-		.when()
-		.post("/")
-		.then()
-		.statusCode(200);
-		//with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").thenReturn().contentType().contains(id));
+		// long id = recipe.getId();
+		// given()
+		// .contentType(ContentType.JSON)
+		// .body(recipejson)
+		// .when()
+		// .post("/")
+		// .then()
+		// .statusCode(200);
+		with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200);
 	}
 
 	@Test
@@ -127,8 +125,6 @@ public class RecipeRestServiceIT {
 		
 		return comment;
 	}
-	
-	
 	
 	private Recipe getRandomRecipe() {
 		
