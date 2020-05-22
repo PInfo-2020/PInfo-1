@@ -3,7 +3,16 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'side' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar><a href="#"><mat-icon>account_circle</mat-icon>Profil</a></mat-toolbar>
+    <!-- <mat-toolbar>
+      <a href="#"><mat-icon>account_circle</mat-icon>
+        Profil
+      </a></mat-toolbar> -->
+    <mat-toolbar>
+        <p (click)="onProfil()"> <mat-icon>account_circle</mat-icon>
+          <br>Profil
+        </p>
+    </mat-toolbar>
+
     <mat-nav-list>
       <a mat-list-item routerLink="/my-fridge"><mat-icon>kitchen</mat-icon>Mon Frigo</a>
       <a mat-list-item routerLink="/my-receipes"><mat-icon>restaurant</mat-icon>Mes Recettes</a>

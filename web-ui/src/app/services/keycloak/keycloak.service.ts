@@ -12,20 +12,26 @@ export class KeycloakService {
 
   static auth: any = {};
 
-  static init(): Promise<any> {
+  public init(): Promise<any> {
 
-  const keycloakAuth: Keycloak.KeycloakInstance = Keycloak(environment.keycloak());
+  // const keycloakAuth: Keycloak.KeycloakInstance = Keycloak(environment.keycloak);
+  const keycloakAuth: Keycloak.KeycloakInstance = Keycloak(
+    {
+      url: environment.keycloak.url,
+      realm: environment.keycloak.realm,
+      clientId: environment.keycloak.clientId,
+    });
 
   KeycloakService.auth.loggedIn = false;
   return new Promise((resolve, reject) => {
       keycloakAuth.init({ onLoad: 'check-sso', checkLoginIframe: false })
-        .success(() => {
+        .then(() => {
           KeycloakService.auth.loggedIn = false;
           KeycloakService.auth.authz = keycloakAuth;
           console.log(KeycloakService.auth.authz.tokenParsed);
           resolve();
         })
-        .error(() => {
+        .catch(() => {
           reject();
         });
     });

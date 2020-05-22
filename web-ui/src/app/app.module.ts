@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-//import { KeycloakService } from './services/keycloak/keycloak.service';
-//import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
-//import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { KeycloakService } from './services/keycloak/keycloak.service';
+import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppInitService } from './app.init';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
@@ -27,7 +28,15 @@ import { AddReceipeModule } from './add-receipe/add-receipe.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 
+declare var window: any;
 
+export function init_config(appLoadService: AppInitService, keycloak: KeycloakService) {
+  return () =>  appLoadService.init().then( () => {
+     console.info(window.config);
+     keycloak.init();
+    },
+   );
+}
 
 @NgModule({
    declarations: [
@@ -56,14 +65,21 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
       InputsModule,
       DropDownsModule
    ],
-  //  providers: [
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: KeycloakInterceptorService,
-  //     multi: true
-  //   },
-  //   KeycloakService
-  //  ],
+   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakInterceptorService,
+      multi: true,
+    },
+    AppInitService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: init_config,
+      deps: [AppInitService, KeycloakService],
+      multi: true,
+    },
+    KeycloakService
+   ],
    bootstrap: [
       AppComponent
    ]
