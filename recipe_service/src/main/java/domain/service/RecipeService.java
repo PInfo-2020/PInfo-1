@@ -12,7 +12,7 @@ import domain.model.Recipe;
 public interface RecipeService {
 	List<Recipe> getAllRecipes();
 	Recipe get(Long id);
-	void create(Recipe recipe);
+	long create(Recipe recipe);
 	List<Recipe> getListRecipesFromUserId(String userId);
 	void addComment(long recipeId, Comment comment);
 	void deleteComment(long recipeId, long commentId);

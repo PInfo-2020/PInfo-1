@@ -17,11 +17,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import org.postgresql.shaded.com.ongres.scram.common.message.ServerFinalMessage.Error;
+
 import javax.ws.rs.core.HttpHeaders;
 
 import domain.model.Comment;
 import domain.model.Recipe;
 import domain.service.RecipeService;
+//import io.restassured.http.ContentType;
 import domain.service.KeycloakService;
 
 
@@ -32,20 +36,23 @@ public class RecipeRestService {
 	@Inject
 	private RecipeService RecipeService;
 	
-	@Inject
-	private KeycloakService KeycloakService;
+	//@Inject
+	//private KeycloakService KeycloakService;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postRecipe(Recipe recipe, @Context HttpHeaders headers) {
-		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			String idAuthor = recipe.getAuthor();
-			if (UserID == idAuthor) {
-				RecipeService.create(recipe);
-			}
-		}
+	@Produces(MediaType.APPLICATION_JSON)
+	public long postRecipe(Recipe recipe, @Context HttpHeaders headers) {
+		//if (KeycloakService.verifyAuthentification(headers,  new Date())) {
+		//	String token = KeycloakService.getToken(headers);
+		//	String UserID = KeycloakService.getIdUser(token);
+		//	String idAuthor = recipe.getAuthor();
+		//	if (UserID == idAuthor) {
+				long id = RecipeService.create(recipe);
+				return id;
+		//	}
+		//}
+		//return 0;
 	}
 	
 	@Path("/{idrecipe}")
@@ -60,7 +67,7 @@ public class RecipeRestService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
-		
+		/*
 		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
@@ -69,13 +76,13 @@ public class RecipeRestService {
 				RecipeService.addComment(idRecipe,comment);
 			}
 		}
-		
+		*/
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
 	@DELETE
 	public void deleteComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment, @Context HttpHeaders headers) {
-		
+		/*
 		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
@@ -85,7 +92,7 @@ public class RecipeRestService {
 				RecipeService.addComment(idRecipe,comment);
 			}
 		}
-		RecipeService.deleteComment(idRecipe,idComment);
+		RecipeService.deleteComment(idRecipe,idComment);*/
 	}
 	
 	
@@ -95,23 +102,22 @@ public class RecipeRestService {
 	public String getUserID(@Context HttpHeaders headers) {
 		
 		String UserID = "Something has gone wrong. Wrong token.";
-		
+		/*
 		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
 			String token = KeycloakService.getToken(headers);
 			UserID = KeycloakService.getIdUser(token);
 		}
-		
+		*/
 		return UserID;
 	}
 
 	
-	@Path("/test")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Recipe getTest() {
+	public int getTest() {
 		
 		
-		return RecipeService.getRandomRecipe();
+		return 1;
 	}
 	
 	

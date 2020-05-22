@@ -48,8 +48,14 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
-	public void create(Recipe recipe) {
+	public long create(Recipe recipe) {
 		em.persist(recipe);
+		List<Recipe> recipes = getAllRecipes();
+		int indexRecipe = recipes.indexOf(recipe);
+		Recipe recipedb = recipes.get(indexRecipe);
+		long id = recipedb.getId();
+		return id;
+		
 	}
 	
 	
