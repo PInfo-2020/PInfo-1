@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { KeycloakService } from '../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-my-fridge',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyFridgeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public keycloak: KeycloakService) { }
 
   ngOnInit() {
   }

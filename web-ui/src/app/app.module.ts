@@ -41,7 +41,7 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
 @NgModule({
    declarations: [
       AppComponent,
-      MenuNavComponent
+      MenuNavComponent,
    ],
    imports: [
       BrowserModule,

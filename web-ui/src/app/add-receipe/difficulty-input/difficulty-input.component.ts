@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-difficulty-input',
@@ -7,7 +8,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class DifficultyInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(public keycloak: KeycloakService) { }
 
   @Output() changedDifficulty = new EventEmitter<string>();
 

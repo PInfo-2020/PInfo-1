@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-people-input',
@@ -7,7 +8,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class PeopleInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(public keycloak: KeycloakService) { }
 
 
   @Output() changedPeople = new EventEmitter<string>();

@@ -1,0 +1,7 @@
+{
+    "/api/v1/*": {
+      "target": "https://www.pickncook.ch/",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }

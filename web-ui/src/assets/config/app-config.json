@@ -9,9 +9,6 @@
       "clientId": "web-sso",
       "public-client": true,
       "confidential-port": 0
-    },
-    "ingredientService": {
-      "url": "https://pinfo3.unige.ch/api/v1/counterparty"
     }
 }
 

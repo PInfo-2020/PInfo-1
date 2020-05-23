@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-upload-photo',
@@ -14,7 +15,7 @@ export class UploadPhotoComponent implements OnInit {
   previewUrl: any = null;
   fileUploadProgress: string = null;
   uploadedFilePath: string = null;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public keycloak: KeycloakService) { }
 
   ngOnInit() {
   }

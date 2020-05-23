@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { numberSymbols } from '@progress/kendo-angular-intl';
+import { KeycloakService } from '../services/keycloak/keycloak.service';
 
 interface Ingredients {
   [Key: string]: number;
@@ -24,7 +25,7 @@ interface Recipe {
 
 export class AddReceipeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public keycloak: KeycloakService) { }
 
   recipe: Recipe;
   nameEntered: string;

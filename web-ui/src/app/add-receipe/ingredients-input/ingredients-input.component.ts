@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
+import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
 
 class AddedIngredient {
   name = '';
@@ -39,7 +40,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   @ViewChild('list') list;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,  public keycloak: KeycloakService) { }
 
   public listIngredient: Array<string> = [];
 
@@ -51,7 +52,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   // private json: Array<Array<string>>;
 
-  url = 'https://www.pickncook.ch/api/v1/ingredients/minInfos';
+  url = 'api/v1/ingredients/minInfos';
 
   public SelectedAssetFromSTCombo(ingre) {
     if (!this.listIngredient.includes(ingre)) {
@@ -105,6 +106,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.url, headernode).toPromise().then(json => {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-tags-input',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class TagsInputComponent implements OnInit {
 
-  constructor() {}
+  constructor(public keycloak: KeycloakService) {}
 
   public listItems: Array<string> = [
     'Vegan',

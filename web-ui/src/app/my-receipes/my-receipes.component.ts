@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { KeycloakService } from './../services/keycloak/keycloak.service';
 @Component({
   selector: 'app-my-receipes',
   templateUrl: './my-receipes.component.html',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyReceipesComponent implements OnInit {
 
-  constructor() { }
+
+
+  constructor(public keycloak: KeycloakService) { }
 
   ngOnInit() {
+ 
   }
 
 }
