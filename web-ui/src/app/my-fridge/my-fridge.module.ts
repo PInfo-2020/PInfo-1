@@ -8,7 +8,8 @@ import { MyFridgeComponent } from './my-fridge.component';
     CommonModule,
     MyFridgeRoutingModule
   ],
-  declarations: [MyFridgeComponent]
+  declarations: [
+    MyFridgeComponent]
 })
 export class MyFridgeModule { }
 
