@@ -4,7 +4,7 @@
     "apiUrl": "URL_DE_API",
     "keycloak": {
       "realm": "master",
-      "url": "https://pinfo1.unige.ch/auth", 
+      "url": "https://pickncook/auth", 
       "ssl-required": "external",
       "clientId": "web-sso",
       "public-client": true,
