@@ -49,6 +49,12 @@ public class FridgeRestServiceIT {
 
 		with().contentType(ContentType.JSON).body(fridge).when().request("POST","/").then().statusCode(204);
 	}
+	
+	//@Test
+	//public void testGetByUserId() {
+
+		//when().get("/testId").then().body(containsString("124"));
+	//}
 
 	
 	private List<Ingredient> createListIngredients(){
@@ -68,7 +74,7 @@ public class FridgeRestServiceIT {
 	private Fridge createFridge() {
 		Fridge fridge = new Fridge();
 		fridge.setIngredients(createListIngredients());
-		fridge.setUserId("asfasydd");
+		fridge.setUserId("testId");
 		return fridge;
 		
 	}
