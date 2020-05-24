@@ -4,7 +4,7 @@
     "apiUrl": "URL_DE_API",
     "keycloak": {
       "realm": "master",
-      "url": "https://pickncook/auth", 
+      "url": "https://www.pickncook.ch/auth", 
       "ssl-required": "external",
       "clientId": "web-sso",
       "public-client": true,
