@@ -1,3 +1,4 @@
+import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import * as Keycloak from 'keycloak-js';
 import { environment } from '../../../environments/environment';
@@ -78,6 +79,14 @@ export class KeycloakService {
     if (this.isLoggedIn()) {
         return KeycloakService.auth.authz.tokenParsed.preferred_username;
     } else { return 'guest'; }
+  }
+
+  getUserRoles(): string[]{
+    let role: string[] = [];
+    if (this.isLoggedIn()) {
+       role = KeycloakService.auth.authz.tokenParsed.realm_access.roles;
+       return role;
+    } else { return role; }
   }
 
   getKeycloakAuth() {

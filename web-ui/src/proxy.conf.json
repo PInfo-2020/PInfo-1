@@ -1,6 +1,6 @@
 {
     "/api/v1/*": {
-      "target": "https://www.pickncook.ch/",
+      "target": "https://pinfo1.unige.ch/",
       "secure": false,
       "changeOrigin": true
     }
