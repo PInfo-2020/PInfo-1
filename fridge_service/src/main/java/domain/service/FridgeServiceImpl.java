@@ -10,9 +10,11 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import domain.model.Fridge;
 import domain.model.Ingredient;
+import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class FridgeServiceImpl implements FridgeService {
@@ -42,6 +44,7 @@ public class FridgeServiceImpl implements FridgeService {
 	}
 
 	@Override
+	@Transactional
 	public void create(Fridge fridge) {
 		em.persist(fridge);
 	}
