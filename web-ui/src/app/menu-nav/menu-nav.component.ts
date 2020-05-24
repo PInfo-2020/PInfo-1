@@ -30,4 +30,11 @@ export class MenuNavComponent {
     }
   }
 
+  logOut() {
+    if (this.keycloak.isLoggedIn() === true){
+      console.log('je sors , yemeteeeee');
+      this.keycloak.logout();
+    }
+  }
+
 }
