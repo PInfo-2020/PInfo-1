@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { numberSymbols } from '@progress/kendo-angular-intl';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { KeycloakService } from '../services/keycloak/keycloak.service';
 
 interface Ingredients {
@@ -25,7 +26,7 @@ interface Recipe {
 
 export class AddReceipeComponent implements OnInit {
 
-  constructor(public keycloak: KeycloakService) { }
+  constructor(public keycloak: KeycloakService, private http: HttpClient) { }
 
   recipe: Recipe;
   nameEntered: string;
@@ -75,6 +76,18 @@ export class AddReceipeComponent implements OnInit {
     };
     this.json = JSON.stringify(this.recipe);
     console.log(this.json);
+    // tslint:disable-next-line: max-line-length
+    const tempJson = {name: 'name', picture: 'picture', nbPersons: 5, preparationTime: 25, difficulty: 8, ingredients: [{quantity: 296, detailsID: 6}, {quantity: 269, detailsID: 834}], preparation: 'preparation', author: 'author', publicationDate: '2019-01-26', grade: 3, comments: [{text: 'monCommentaire', userID: 'userID', grade: 5}]};
+    this.http.post('https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload', tempJson, {
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      if (events.type === HttpEventType.Response) {
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
+
+    });
   }
 
   printErrors() {
