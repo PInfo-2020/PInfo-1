@@ -1,4 +1,6 @@
 #!/bin/bash
+docker system prune 
+docker volume prune
 docker network inspect backend-network >/dev/null 2>&1|| docker network create --driver bridge backend-network
 docker-compose -f "docker-compose/kafka-compose.yml" up -d
 for param in $@ 
