@@ -11,3 +11,7 @@
   display: flex;
   align-items: center;
 }
+
+.mat-icon {
+  padding : 5px;
+}
