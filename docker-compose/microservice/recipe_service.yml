@@ -19,7 +19,6 @@ services:
       retries: 3
     volumes:
       - pgdata-frige:/var/lib/postgresql/data
-      - ../../config/data/recipe_data.sql:/docker-entrypoint-initdb.d/init.sql
     restart: on-failure
     stdin_open: true
     tty: true
