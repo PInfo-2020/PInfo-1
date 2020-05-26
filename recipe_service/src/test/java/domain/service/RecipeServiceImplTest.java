@@ -67,7 +67,6 @@ public class RecipeServiceImplTest {
 		assertEquals(recipeService.get(id), recipe);
 	}
 	
-	
 	@Test
 	void testCreation() {
 		
@@ -82,12 +81,11 @@ public class RecipeServiceImplTest {
 		List<Comment> listComment = new ArrayList<Comment>();
 		listComment.add(comment1);
 		listComment.add(comment2);
-
-		 long returnedId = recipeService.create(createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
+		long returnedId = recipeService.create(createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
 				"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment));
 		
 		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe recipe = recipes.get(size);
+		Recipe recipe = recipes.get(recipes.size()-1);
 		
 		assertEquals(returnedId,recipe.getId());
 		assertEquals("maRecette", recipe.getName());

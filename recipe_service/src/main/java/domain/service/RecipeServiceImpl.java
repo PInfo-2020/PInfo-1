@@ -38,11 +38,8 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	@Override
 	public List<Recipe> getAllRecipes() {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
-		criteria.select(criteria.from(Recipe.class));
-		
-		return em.createQuery("select g from Recipe g",Recipe.class).getResultList();
+		List<Recipe> recipes = em.createQuery("select g from Recipe g",Recipe.class).getResultList();
+		return recipes;
 	}
 	
 	@Override
@@ -54,9 +51,9 @@ public class RecipeServiceImpl implements RecipeService{
 	@Transactional
 	public long create(Recipe recipe) {
 		em.persist(recipe);
+		em.flush();
 		List<Recipe> recipes = getAllRecipes();
-		int indexRecipe = recipes.indexOf(recipe);
-		Recipe recipedb = recipes.get(indexRecipe);
+		Recipe recipedb = recipes.get(recipes.size()-1);
 		long id = recipedb.getId();
 		return id;
 		
