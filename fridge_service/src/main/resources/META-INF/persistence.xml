@@ -6,6 +6,8 @@
 	<persistence-unit name="FridgePUT"
 		transaction-type="JTA">
 		<jta-data-source>java:jboss/datasources/fridgeds</jta-data-source>
+		<class>domain.model.Ingredient</class>
+		<class>domain.model.Fridge</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />

@@ -10,6 +10,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -30,10 +31,16 @@ import lombok.Setter;
 @Entity
 public class Ingredient {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@SequenceGenerator(name = "INGREDIENT_SEQ", sequenceName = "INGREDIENT_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INGREDIENT_SEQ")
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private long detailsID;
 	private short quantity;
 	private Date expiration;
+	
+	@ManyToOne
+	@JoinColumn(name = "fridgeId")
+	private Fridge fridge;
 	
 }

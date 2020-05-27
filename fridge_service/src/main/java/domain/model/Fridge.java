@@ -32,7 +32,9 @@ import lombok.Setter;
 @Entity
 public class Fridge {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@SequenceGenerator(name = "FRIDGE_SEQ", sequenceName = "FRIDGE_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FRIDGE_SEQ")
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String userId;
 	@OneToMany(cascade = CascadeType.ALL)
