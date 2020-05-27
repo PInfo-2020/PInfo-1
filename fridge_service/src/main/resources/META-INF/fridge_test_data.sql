@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Fridge ( id bigint not null, primary key (id), userId
 CREATE TABLE IF NOT EXISTS Ingredient ( id bigint not null, primary key (id), detailsId bigint, quantity bigint, expiration varchar(255), fridgeId long, foreign key (fridgeId) REFERENCES Fridge(id));
 CREATE TABLE IF NOT EXISTS FRIDGE_INGREDIENT (Fridge_id bigint, ingredients_id bigint);
 
-INSERT INTO Fridge (id, userId) VALUES (FRIDGE_SEQ.nextval,'asdjkfh');
+INSERT INTO Fridge (id, userId) VALUES (FRIDGE_SEQ.nextval,'testId');
 INSERT INTO Fridge (id, userId) VALUES (FRIDGE_SEQ.nextval,'ksakjxnbc');
 INSERT INTO Fridge (id, userId) VALUES (FRIDGE_SEQ.nextval,'teasukbxb');
 

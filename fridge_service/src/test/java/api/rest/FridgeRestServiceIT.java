@@ -50,11 +50,11 @@ public class FridgeRestServiceIT {
 		with().contentType(ContentType.JSON).body(fridge).when().request("POST","/").then().statusCode(204);
 	}
 	
-	//@Test
-	//public void testGetByUserId() {
+	@Test
+	public void testGetByUserId() {
 
-		//when().get("/testId").then().body(containsString("124"));
-	//}
+		when().get("/testId").then().body(containsString("testId"));
+	}
 
 	
 	private List<Ingredient> createListIngredients(){

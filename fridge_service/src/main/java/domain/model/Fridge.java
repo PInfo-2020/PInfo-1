@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +39,7 @@ public class Fridge {
 	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String userId;
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Ingredient> ingredients;
 }
