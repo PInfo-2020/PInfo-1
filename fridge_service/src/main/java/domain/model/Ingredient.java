@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,8 +41,9 @@ public class Ingredient {
 	private short quantity;
 	private Date expiration;
 	
+	@JsonBackReference
 	@ManyToOne
-	@JoinColumn(name = "fridgeId")
+	@JoinColumn(name = "Fridge_id")
 	private Fridge fridge;
 	
 }

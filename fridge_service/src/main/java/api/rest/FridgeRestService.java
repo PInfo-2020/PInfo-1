@@ -44,7 +44,6 @@ public class FridgeRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void postFridge(Fridge fridge, @Context HttpHeaders headers) {
 		//Keaycloack + récupérer l'id user à mettre dans fridge
-		fridge.setUserId("monId");
 		fridgeService.create(fridge);
 	}
 	

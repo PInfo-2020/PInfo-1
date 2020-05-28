@@ -53,9 +53,9 @@ public class FridgeRestServiceIT {
 	@Test
 	public void testGetByUserId() {
 
-		when().get("/testId").then().body(containsString("testId"));
+		when().get("/testId").then().body(containsString("10"));
 	}
-
+//equalto avec le nom des champs fridge.fridgeId
 	
 	private List<Ingredient> createListIngredients(){
 		List<Ingredient> ingredients = new ArrayList<Ingredient>();
