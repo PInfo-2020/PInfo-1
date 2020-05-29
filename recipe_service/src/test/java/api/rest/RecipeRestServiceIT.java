@@ -77,10 +77,15 @@ public class RecipeRestServiceIT {
 		with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200);
 	}
 
-	@Test
-	public void testTest() {
-		when().get("/").then().body(containsString("1"));
-	}
+	
+	//@Test
+	//public void testGetByUserId() {
+
+		//when().get("/user/autreId").then().body(containsString("Choux à la crème"));
+	//}
+	
+	
+	
 	/*
 	@Test
 	public void testPostComment() {

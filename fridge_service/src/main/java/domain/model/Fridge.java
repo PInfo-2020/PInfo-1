@@ -38,7 +38,6 @@ public class Fridge {
 	@Id
 	@SequenceGenerator(name = "FRIDGE_SEQ", sequenceName = "FRIDGE_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FRIDGE_SEQ")
-	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String userId;
 	@JsonManagedReference

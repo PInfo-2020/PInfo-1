@@ -51,10 +51,13 @@ public class RecipeServiceImpl implements RecipeService{
 	@Transactional
 	public long create(Recipe recipe) {
 		em.persist(recipe);
-		em.flush();
-		List<Recipe> recipes = getAllRecipes();
-		Recipe recipedb = recipes.get(recipes.size()-1);
-		long id = recipedb.getId();
+		long id = recipe.getId();
+		
+		//em.flush();
+		//List<Recipe> recipes = getAllRecipes();
+		//Recipe recipedb = recipes.get(recipes.size()-1);
+		//long id = recipedb.getId();
+		
 		return id;
 		
 	}

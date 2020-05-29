@@ -294,7 +294,7 @@
 				</dependencies>
 				<configuration>
 					<driver>org.h2.Driver</driver>
-					<url>jdbc:h2:${java.io.tmpdir}/target/IngredientDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
+					<url>jdbc:h2:${java.io.tmpdir}/target/RecipeDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
 					<username>sa</username>
 					<password>sa</password>
 					<autocommit>true</autocommit>
@@ -315,7 +315,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 		</plugins>
 	</build>
 </project>

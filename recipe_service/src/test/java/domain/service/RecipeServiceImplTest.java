@@ -85,10 +85,14 @@ public class RecipeServiceImplTest {
 				"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment));
 		
 		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe recipe = recipes.get(recipes.size()-1);
+		Recipe recipe = recipes.get(0);
+		System.out.println("ICI");
+		System.out.println(recipe.getId());
+		System.out.println(recipes.get(1).getId());
+		System.out.println(recipes.get(2).getId());
 		
-		assertEquals(returnedId,recipe.getId());
 		assertEquals("maRecette", recipe.getName());
+		assertEquals(returnedId,recipe.getId()); //ERROR ????????????????????????????
 		assertEquals(listIng, recipe.getIngredients());
 		assertEquals(10, recipe.getIngredients().get(0).getQuantity());
 		assertEquals(5, recipe.getPreparationTime());

@@ -111,7 +111,7 @@ public class RecipeRestService {
 		return UserID;
 	}
 
-	@Path("/{iduser}")
+	@Path("/user/{iduser}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Recipe> getRecipesOfUserId(@PathParam("iduser") String idUser) {
@@ -126,15 +126,6 @@ public class RecipeRestService {
 
 		return RecipeService.getAllRecipes();
 	}
-	
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public int getTest() {
-		
-		
-		return 1;
-	}
-	
+
 	
 }
