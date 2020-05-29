@@ -5,6 +5,9 @@ import static io.restassured.RestAssured.when;
 import static io.restassured.RestAssured.with;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.hasItems;
 import io.restassured.http.ContentType;
 
 import java.sql.Date;
@@ -24,8 +27,10 @@ import org.mockito.InjectMocks;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import api.rest.FridgeRestService;
-import domain.model.Ingredient;
+
+
 import domain.model.Fridge;
+import domain.model.Ingredient;
 import domain.service.FridgeService;
 
 public class FridgeRestServiceIT {
@@ -54,6 +59,9 @@ public class FridgeRestServiceIT {
 	public void testGetByUserId() {
 
 		when().get("/testId").then().body(containsString("10"));
+		when().get("/testId").then().assertThat().body("userId", equalTo("testId"));
+		when().get("/testId").then().assertThat().body("ingredients.quantity", hasItems(5,10));
+
 	}
 //equalto avec le nom des champs fridge.fridgeId
 	
