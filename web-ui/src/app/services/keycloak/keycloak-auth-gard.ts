@@ -24,7 +24,7 @@ export  class KeycloakAuthGuard implements CanActivate {
       try {
         this.authenticated = await this.keycloak.isLoggedIn();
         this.roles = await this.keycloak.getUserRoles();
-        console.log('roles :', this.roles);
+        // console.log('roles :', this.roles);
 
         const result = await this.isAccessAllowed(route, state);
         resolve(result);
@@ -57,7 +57,7 @@ export  class KeycloakAuthGuard implements CanActivate {
         granted = true;
       } else {
         for (const requiredRole of requiredRoles) {
-          console.log('Required role :', requiredRole);
+          // console.log('Required role :', requiredRole);
           if (this.roles.indexOf(requiredRole) > -1) {
             granted = true;
             break;
@@ -66,6 +66,7 @@ export  class KeycloakAuthGuard implements CanActivate {
       }
 
       if (granted === false) {
+        // console.log('jai foiré');
         this.router.navigate(['/']);
       }
       resolve(granted);

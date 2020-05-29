@@ -106,7 +106,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };

@@ -41,7 +41,7 @@ export class KeycloakService {
   constructor() { }
 
   login(): void {
-    KeycloakService.auth.authz.login().success(
+    KeycloakService.auth.authz.login({redirectUri : document.baseURI + 'my-fridge'}).success(
       () => {
         KeycloakService.auth.loggedIn = true;
       }
@@ -98,6 +98,10 @@ export class KeycloakService {
       KeycloakService.auth.loggedIn = false;
       KeycloakService.auth.authz = null;
     });
+  }
+
+  profil(): void {
+    KeycloakService.auth.authz.accountManagement().success();
   }
 
 }

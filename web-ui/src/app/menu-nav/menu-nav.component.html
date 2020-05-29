@@ -8,12 +8,16 @@
         Profil
       </a></mat-toolbar> -->
     <mat-toolbar>
-        <p (click)="onProfil()"> <mat-icon>account_circle</mat-icon>
-          <br>Profil
-        </p>
-        <p (click)="logOut()">
+      <div> {{ getUserName() }}</div>
+      <div *ngIf="loginCheck();">
+      <!--<div *ngIf="loggedIn">-->
+         <mat-icon>account_circle</mat-icon>
+         <p (click)="this.keycloak.profil()">Profil</p>
+      </div>
+
+        <!--<p (click)="logOut()">
           <br>Log Out
-        </p>
+        </p>-->
     </mat-toolbar>
 
     <mat-nav-list>
@@ -40,6 +44,8 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>PickNCook</span>
+      <div *ngIf="loginCheck(); else elseBlock"> <p (click)="logOut()">Log Out</p></div>
+      <ng-template #elseBlock> <p (click)="onProfil()">Log In</p></ng-template>
     </mat-toolbar>
     <router-outlet></router-outlet>
     <!-- Add Content Here -->
