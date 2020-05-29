@@ -16,5 +16,9 @@
 }
 
 .item{
-  margin: 15px;
+  margin-right: 15px;
+}
+
+.mat-icon {
+  padding : 5px;
 }

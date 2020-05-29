@@ -2,7 +2,7 @@
   font-size : 20px;
 }
 
-.ingredients{
+.contenu{
   padding-top : 5px;
   font-size: 15px;
 }
@@ -10,8 +10,4 @@
 .box{
   display: flex;
   align-items: center;
-}
-
-.mat-icon {
-  padding : 5px;
 }

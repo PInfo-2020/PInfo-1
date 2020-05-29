@@ -87,6 +87,7 @@ public class FrigeServiceImplTest {
 		Fridge fridge = new Fridge();
 		fridge.setIngredients(ings);
 		fridge.setUserId("aosédv");
+		
 		fridgeService.create(fridge);
 		fridgeService.create(createFridge());
 		

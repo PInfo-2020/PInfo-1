@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@XmlRootElement
 @Table(name ="Recipe")
 public class Recipe {
 	@Id
@@ -29,7 +32,7 @@ public class Recipe {
 	private short nbPersons;
 	private short preparationTime;
 	private short difficulty;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy="recipeIng")
 	private List<Ingredient> ingredients;
 	private String preparation;
 
@@ -39,7 +42,7 @@ public class Recipe {
 	
 
 	private float grade;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy="recipe")
 	private List<Comment> comments;
 	
 	

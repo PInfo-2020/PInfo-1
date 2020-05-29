@@ -13,7 +13,7 @@
 	<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 				<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
 			<property name="javax.persistence.jdbc.url"
-		    	value="jdbc:h2:mem:RecipeDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE" />
+		    	value="jdbc:h2:mem:FridgeDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="sa" />
 								  		
@@ -27,6 +27,8 @@
 			
 			
 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+			<property name="javax.persistence.schema-generation.create-source" value="script"/>
+			<property name="javax.persistence.schema-generation.create-script-source" value="META-INF/fridge_test_data.sql" />  
 		</properties>
 	</persistence-unit>
 </persistence>
