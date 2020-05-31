@@ -61,7 +61,7 @@ public class FrigeServiceImplTest {
 		Ingredient ing = new Ingredient();
 		ing.setDetailsID(42);
 		ing.setQuantity((short)2);
-		ing.setExpiration(new java.util.Date());
+		ing.setExpiration(Date.valueOf("2020-10-26"));
 		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		Fridge fridge = new Fridge();
@@ -81,7 +81,7 @@ public class FrigeServiceImplTest {
 		Ingredient ing = new Ingredient();
 		ing.setDetailsID(42);
 		ing.setQuantity((short)2);
-		ing.setExpiration(new java.util.Date());
+		ing.setExpiration(Date.valueOf("2020-10-26"));
 		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		Fridge fridge = new Fridge();
@@ -117,7 +117,7 @@ public class FrigeServiceImplTest {
 		Ingredient ing = new Ingredient();
 		ing.setDetailsID(42);
 		ing.setQuantity((short)2);
-		ing.setExpiration(new java.util.Date());
+		ing.setExpiration(Date.valueOf("2020-10-26"));
 		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		fridge2.setIngredients(ings);
@@ -148,11 +148,11 @@ public class FrigeServiceImplTest {
 		Ingredient ing1 = new Ingredient();
 		ing1.setDetailsID(123);
 		ing1.setQuantity((short)12);
-		ing1.setExpiration(new java.util.Date());
+		ing1.setExpiration(Date.valueOf("2020-10-26"));
 		Ingredient ing2 = new Ingredient();
 		ing2.setDetailsID(124);
 		ing2.setQuantity((short)2);
-		ing2.setExpiration(new java.util.Date());
+		ing2.setExpiration(Date.valueOf("2020-10-26"));
 		ingredients.add(ing1);
 		ingredients.add(ing2);
 		return ingredients;

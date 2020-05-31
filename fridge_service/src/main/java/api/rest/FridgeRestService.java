@@ -52,7 +52,6 @@ public class FridgeRestService {
 	public void updateFridge(Fridge fridge, @Context HttpHeaders headers) {
 
 		//Keycloack+récupérer l'id user et mettre dans fridge
-		fridge.setUserId("monId");
 		fridgeService.updateFridge(fridge);
 	}
 

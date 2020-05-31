@@ -2,10 +2,12 @@ package domain.model;
 
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -41,7 +43,7 @@ public class Ingredient {
 	private Date expiration;
 	
 	@JsonBackReference
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Fridge_id")
 	private Fridge fridge;
 	

@@ -46,7 +46,7 @@ public class FridgeRestServiceIT {
 	//KeycloakService KeycloakService;
 
 	@Test
-	public void testPostRecipe() {
+	public void testPostFridge() {
 		
 		Fridge fridge = new Fridge();
 
@@ -63,18 +63,29 @@ public class FridgeRestServiceIT {
 		when().get("/testId").then().assertThat().body("ingredients.quantity", hasItems(5,10));
 
 	}
-//equalto avec le nom des champs fridge.fridgeId
+
+	
+	@Test
+	public void testPutFridge() {
+		
+		Fridge fridge = new Fridge();
+
+		fridge = createFridge();
+
+		with().contentType(ContentType.JSON).body(fridge).when().request("PUT","/").then().statusCode(204); //Test sur la modification du frigo pour l'id testId
+	}
+	
 	
 	private List<Ingredient> createListIngredients(){
 		List<Ingredient> ingredients = new ArrayList<Ingredient>();
 		Ingredient ing1 = new Ingredient();
 		ing1.setDetailsID(123);
 		ing1.setQuantity((short)12);
-		ing1.setExpiration(new java.util.Date());
+		ing1.setExpiration(Date.valueOf("2019-10-29"));
 		Ingredient ing2 = new Ingredient();
 		ing2.setDetailsID(124);
 		ing2.setQuantity((short)2);
-		ing2.setExpiration(new java.util.Date());
+		ing2.setExpiration(Date.valueOf("2020-08-26"));
 		ingredients.add(ing1);
 		ingredients.add(ing2);
 		return ingredients;

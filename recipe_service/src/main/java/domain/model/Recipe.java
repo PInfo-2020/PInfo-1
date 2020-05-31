@@ -44,7 +44,7 @@ public class Recipe {
 	private short difficulty;
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "recipeIng", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "recipeIng", fetch = FetchType.EAGER)
 	//@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy="recipeIng")
 	private List<Ingredient> ingredients;
 	private String preparation;
@@ -66,7 +66,7 @@ public class Recipe {
 	//private Set<Comment> comments;
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy = "recipe", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy = "recipe", fetch = FetchType.EAGER)
 	//@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy="recipe")
 	private List<Comment> comments;
 	

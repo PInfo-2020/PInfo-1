@@ -59,6 +59,7 @@ public class FridgeServiceImpl implements FridgeService {
 
 	
 	@Override
+	@Transactional
 	public void updateFridge(Fridge fridge) {
 		Fridge myFridge = getByUserId(fridge.getUserId());
 		myFridge.setIngredients(fridge.getIngredients());
