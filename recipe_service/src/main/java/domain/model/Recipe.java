@@ -23,6 +23,10 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+
 
 @Getter
 @Setter
@@ -43,7 +47,8 @@ public class Recipe {
 	private short difficulty;
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "recipeIng", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "recipeIng", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	//@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy="recipeIng")
 	private List<Ingredient> ingredients;
 	private String preparation;
@@ -56,17 +61,9 @@ public class Recipe {
 	private float grade;
 	
 	
-	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	//@JoinColumn(name = "Recipe_ID", nullable = true)
-	//private Set<Ingredient> ingredients;
-	
-	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	//@JoinColumn(name = "Recipe_ID", nullable = true)
-	//private Set<Comment> comments;
-	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy = "recipe", fetch = FetchType.LAZY)
-	//@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy="recipe")
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy = "recipe", fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Comment> comments;
 	
 	

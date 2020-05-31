@@ -78,11 +78,11 @@ public class RecipeRestServiceIT {
 	}
 
 	
-	//@Test
-	//public void testGetByUserId() {
+	@Test
+	public void testGetByUserId() {
 
-		//when().get("/user/autreId").then().body(containsString("Choux à la crème"));
-	//}
+		when().get("/user/autreId").then().body(containsString("Choux à la crème"));
+	}
 	
 	
 	
