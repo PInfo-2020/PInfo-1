@@ -62,7 +62,8 @@ public class RecipeServiceImpl implements RecipeService{
 		
 	}
 	
-	
+	@Override
+	@Transactional
 	public void addRecipe(String name, String picture, short nbPersons, short preparationTime, short difficulty, Map<Long, Short> ingredients, String preparation, String author) {
 
 		Recipe recipe = new Recipe();
@@ -112,6 +113,7 @@ public class RecipeServiceImpl implements RecipeService{
 	
 
 	@Override
+	@Transactional
 	public void addComment(long recipeId, Comment comment) {
 		Recipe recipe = get(recipeId);
 		
@@ -136,6 +138,7 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 	
 	@Override
+	@Transactional
 	public void deleteComment(long recipeId, long commentId) {
 		Recipe recipe = get(recipeId);
 		
