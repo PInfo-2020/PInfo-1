@@ -74,6 +74,13 @@ public class FrigeServiceImplTest {
 		
 		long id = fridge1.getId();
 		assertEquals(fridgeService.get(id), fridge1);
+		assertEquals(fridgeService.get(id).getId(),fridge1.getId());
+		assertEquals("aosédv", fridge1.getUserId());
+		assertEquals(42, fridge1.getIngredients().get(0).getDetailsID());
+		assertEquals(2, fridge1.getIngredients().get(0).getQuantity());
+		assertEquals(ing.getId(), fridge1.getIngredients().get(0).getId());
+		assertEquals(Date.valueOf("2020-10-26"), fridge1.getIngredients().get(0).getExpiration());
+		//assertEquals(fridge1, fridge1.getIngredients().get(0).getFridge()); //Il y a NULL dans fridge ??? 
 	}
 
 	@Test

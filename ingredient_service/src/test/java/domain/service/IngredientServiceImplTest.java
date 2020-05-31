@@ -51,12 +51,16 @@ public class IngredientServiceImplTest {
 	
 	@Test
 	void testget() {
-		ingredientService.create(getRandomIngredient());
+		ingredientService.create(createIngredient("patate", 12, "g", "légume"));
 		Ingredient ingredient = ingredientService.getAllIngredients().get(0);
 		assertNotNull(ingredient);
 		
 		long id = ingredient.getId();
 		assertEquals(ingredientService.get(id), ingredient);
+		assertEquals(12, ingredient.getAverageWeight());
+		assertEquals("légume", ingredient.getCategory());
+		assertEquals("patate", ingredient.getName());
+		assertEquals("g", ingredient.getUnity());
 	}
 	
 	//@Test

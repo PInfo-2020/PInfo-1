@@ -27,7 +27,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@XmlRootElement
 @Table(name ="Recipe")
 public class Recipe {
 	@Id

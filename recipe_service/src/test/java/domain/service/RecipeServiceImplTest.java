@@ -92,9 +92,11 @@ public class RecipeServiceImplTest {
 		System.out.println(recipes.get(2).getId());
 		
 		assertEquals("maRecette", recipe.getName());
-		assertEquals(returnedId,recipe.getId()); //ERROR ????????????????????????????
+		assertEquals(returnedId,recipe.getId());
 		assertEquals(listIng, recipe.getIngredients());
 		assertEquals(10, recipe.getIngredients().get(0).getQuantity());
+		assertEquals(ingredient1.getId(), recipe.getIngredients().get(0).getId());
+		//assertEquals(recipe, recipe.getIngredients().get(0).getRecipeIng()); //Il y a NULL dans recipeIng ??? 
 		assertEquals(5, recipe.getPreparationTime());
 		assertEquals(5, recipe.getDifficulty());
 		assertEquals(4, recipe.getNbPersons());
@@ -105,6 +107,8 @@ public class RecipeServiceImplTest {
 		assertEquals(4.5, recipe.getGrade());
 		assertEquals(listComment, recipe.getComments());
 		assertEquals(5, recipe.getComments().get(1).getGrade());
+		assertEquals("lasdfasdf", recipe.getComments().get(1).getUserID());
+		//assertEquals(recipe, recipe.getComments().get(1).getRecipe()); //Il y a NULL dans recipe ??? 
 	}
 	
 	@Test
@@ -240,6 +244,9 @@ public class RecipeServiceImplTest {
 		assertEquals(size-3,myRecipe.getComments().size());
 		assertEquals("bonjour je suis content", myRecipe.getComments().get(size-4).getText());
 		assertEquals(4,myRecipe.getGrade());
+		recipeService.deleteComment(myRecipe.getId(), comment2.getId());
+		recipeService.deleteComment(myRecipe.getId(), comment1.getId());
+		assertEquals(-1,myRecipe.getGrade());
 		
 	}
 	

@@ -32,7 +32,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Data
 @Entity
 public class Fridge {
 	@Id
