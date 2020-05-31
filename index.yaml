@@ -3,7 +3,7 @@ entries:
   pickncook:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-05-31T09:15:11.675296172Z"
+    created: "2020-05-31T10:28:57.354631519Z"
     dependencies:
     - name: nginx-ingress
       repository: https://kubernetes-charts.storage.googleapis.com
@@ -27,10 +27,10 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 7.2.9
     description: A Helm chart for Kubernetes
-    digest: e82e88b1772ff40dae70a4947a1ab7763e5a786f531003c2ae116eef19ba6a26
+    digest: 2751102b7fcce78776445f9e2586c7ee737eff19650622c4f05fd31eff7b2c79
     name: pickncook
     type: application
     urls:
     - pickncook-0.1.0.tgz
     version: 0.1.0
-generated: "2020-05-31T09:15:11.660700275Z"
+generated: "2020-05-31T10:28:57.333838682Z"
