@@ -7,7 +7,7 @@ DROP TABLE if exists Fridge cascade;
 DROP TABLE if exists Ingredient cascade;
 
 CREATE TABLE IF NOT EXISTS Fridge ( id bigint not null, primary key (id), userId varchar(255));
-CREATE TABLE IF NOT EXISTS Ingredient ( id bigint not null, primary key (id), detailsId bigint, quantity bigint, expiration varchar(255), Fridge_id long, foreign key (Fridge_Id) REFERENCES Fridge(id));
+CREATE TABLE IF NOT EXISTS Ingredient ( id bigint not null, primary key (id), detailsId bigint, quantity smallint, expiration varchar(255), Fridge_id long, foreign key (Fridge_Id) REFERENCES Fridge(id));
 CREATE TABLE IF NOT EXISTS FRIDGE_INGREDIENT (Fridge_id bigint, ingredients_id bigint);
 
 INSERT INTO Fridge (id, userId) VALUES (FRIDGE_SEQ.nextval,'testId');
