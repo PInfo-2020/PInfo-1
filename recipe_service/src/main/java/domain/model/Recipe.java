@@ -49,7 +49,6 @@ public class Recipe {
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "recipeIng", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
-	//@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy="recipeIng")
 	private List<Ingredient> ingredients;
 	private String preparation;
 

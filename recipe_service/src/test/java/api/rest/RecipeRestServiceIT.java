@@ -133,28 +133,63 @@ public class RecipeRestServiceIT {
 		assertEquals(3, myRecipe.getComments().get(0).getGrade());
 		assertEquals("moi", myRecipe.getComments().get(0).getUserID());
 		
-		
-		
-		/*when().get("/user/testId").then().body(containsString("Tarte aux citrons"));
-		when().get("/user/autreId").then().assertThat().body("author", hasItem("autreId"));
-		when().get("/user/autreId").then().assertThat().body("name", hasItem("Choux à la crème"));
-		when().get("/user/autreId").then().assertThat().body("picture", hasItem("monAutreImage"));
-		when().get("/user/autreId").then().assertThat().body("nbPersons", hasItem(2));
-		when().get("/user/autreId").then().assertThat().body("preparationTime", hasItem(15));
-		when().get("/user/autreId").then().assertThat().body("difficulty", hasItem(3));
-		when().get("/user/autreId").then().assertThat().body("preparation", hasItem("Prépare le choux"));
-		Date date = Date.valueOf("2020-04-24");
-		when().get("/user/autreId").then().assertThat().body("publicationDate", hasItem(date.getTime()));
-		when().get("/user/autreId").then().assertThat().body("grade", hasItem(3.0f));
-		when().get("/user/autreId").then().assertThat().body("ingredients.quantity", hasItems(3,42));
-		when().get("/user/autreId").then().assertThat().body("ingredients.detailsID", hasItems(2,3));
-		when().get("/user/autreId").then().assertThat().body("ingredients.RECIPE_ID", hasItems(2,2));
-		when().get("/user/autreId").then().assertThat().body("comments.text", equalTo("passable"));
-		when().get("/user/autreId").then().assertThat().body("comments.userID", equalTo("moi"));
-		when().get("/user/autreId").then().assertThat().body("comments.grade", equalTo(3));
-		when().get("/user/autreId").then().assertThat().body("comments.RECIPE_ID", equalTo(2));*/
 	}
 	
+	
+	@Test
+	public void testGetAll() {
+
+		List<Recipe> response = when().get("/recipes").then().extract().body().jsonPath().getList(".", Recipe.class);
+		
+		assertEquals(3,response.size()); // Le POST du premier test a déposé une recette, il y en a donc 3.
+		
+		Recipe Recipe1 = response.get(1);
+		Recipe Recipe2 = response.get(2);
+		
+		assertEquals("Tarte aux citrons", Recipe1.getName());
+		assertEquals("monImage", Recipe1.getPicture());
+		assertEquals(5, Recipe1.getNbPersons());
+		assertEquals(10, Recipe1.getPreparationTime());
+		assertEquals(5, Recipe1.getDifficulty());
+		assertEquals("Prépare la tarte", Recipe1.getPreparation());
+		assertEquals("testId", Recipe1.getAuthor());
+		assertEquals(4.5, Recipe1.getGrade());
+		assertEquals(Date.valueOf("2020-07-12"), Recipe1.getPublicationDate());
+		assertEquals(2, Recipe1.getIngredients().size());
+		assertEquals(4, Recipe1.getIngredients().get(0).getQuantity());
+		assertEquals(0, Recipe1.getIngredients().get(0).getDetailsID());
+		assertEquals(12, Recipe1.getIngredients().get(1).getQuantity());
+		assertEquals(1, Recipe1.getIngredients().get(1).getDetailsID());
+		assertEquals(3, Recipe1.getComments().size());
+		assertEquals("Pas mal", Recipe1.getComments().get(0).getText());
+		assertEquals(3, Recipe1.getComments().get(0).getGrade());
+		assertEquals("commentateur", Recipe1.getComments().get(0).getUserID());
+		assertEquals("Très bon", Recipe1.getComments().get(1).getText());
+		assertEquals(4, Recipe1.getComments().get(1).getGrade());
+		assertEquals("AutreCommentateur", Recipe1.getComments().get(1).getUserID());
+		assertEquals("Dégeulasse", Recipe1.getComments().get(2).getText());
+		assertEquals(1, Recipe1.getComments().get(2).getGrade());
+		assertEquals("randomGuy", Recipe1.getComments().get(2).getUserID());
+		
+		assertEquals("Choux à la crème", Recipe2.getName());
+		assertEquals("monAutreImage", Recipe2.getPicture());
+		assertEquals(2, Recipe2.getNbPersons());
+		assertEquals(15, Recipe2.getPreparationTime());
+		assertEquals(3, Recipe2.getDifficulty());
+		assertEquals("Prépare le choux", Recipe2.getPreparation());
+		assertEquals("autreId", Recipe2.getAuthor());
+		assertEquals(3, Recipe2.getGrade());
+		assertEquals(Date.valueOf("2020-04-24"), Recipe2.getPublicationDate());
+		assertEquals(2, Recipe2.getIngredients().size());
+		assertEquals(3, Recipe2.getIngredients().get(0).getQuantity());
+		assertEquals(2, Recipe2.getIngredients().get(0).getDetailsID());
+		assertEquals(42, Recipe2.getIngredients().get(1).getQuantity());
+		assertEquals(3, Recipe2.getIngredients().get(1).getDetailsID());
+		assertEquals(1, Recipe2.getComments().size());
+		assertEquals("passable", Recipe2.getComments().get(0).getText());
+		assertEquals(3, Recipe2.getComments().get(0).getGrade());
+		assertEquals("moi", Recipe2.getComments().get(0).getUserID());
+	}
 	
 	
 	/*

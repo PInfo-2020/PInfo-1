@@ -71,6 +71,8 @@ public class RecipeServiceImplTest {
 	void testCreation() {
 		
 		int size = recipeService.getAllRecipes().size();
+		System.out.println("LAAA");
+		System.out.println(size);
 		List<Ingredient> listIng = new ArrayList<Ingredient>();
 		Ingredient ingredient1 = createIngredient(50l, (short)10);
 		Ingredient ingredient2 = createIngredient(55l, (short)15);
