@@ -68,11 +68,21 @@ public class RecipeServiceImplTest {
 	}
 	
 	@Test
-	void testCreation() {
+	void testdelete() {
 		
 		int size = recipeService.getAllRecipes().size();
-		System.out.println("LAAA");
-		System.out.println(size);
+		recipeService.create(getRandomRecipe());
+		assertEquals(size+1, recipeService.getAllRecipes().size());
+		Recipe recipe = recipeService.getAllRecipes().get(0);
+		long id = recipe.getId();
+		recipeService.delete(id);
+		
+		assertEquals(size, recipeService.getAllRecipes().size());
+	}
+	
+	@Test
+	void testCreation() {
+		
 		List<Ingredient> listIng = new ArrayList<Ingredient>();
 		Ingredient ingredient1 = createIngredient(50l, (short)10);
 		Ingredient ingredient2 = createIngredient(55l, (short)15);
@@ -88,10 +98,6 @@ public class RecipeServiceImplTest {
 		
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipes.get(0);
-		System.out.println("ICI");
-		System.out.println(recipe.getId());
-		System.out.println(recipes.get(1).getId());
-		System.out.println(recipes.get(2).getId());
 		
 		assertEquals("maRecette", recipe.getName());
 		assertEquals(returnedId,recipe.getId());

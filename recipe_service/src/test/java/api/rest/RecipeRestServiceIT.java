@@ -22,7 +22,11 @@ import javax.json.JsonObject;
 
 import org.h2.util.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 
 import io.restassured.RestAssured;
@@ -45,40 +49,101 @@ public class RecipeRestServiceIT {
 	//@InjectMocks
 	//KeycloakService KeycloakService;
 
-	@Test
-	public void testPostRecipe() {
+	private static long idOfPostRecipe;
+	
+
+	
+	@Nested
+	@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+	class TestPost {
+
+
+		@Test
+		@Order(1)
+		public void testPostRecipe() {
+			
+			List<Ingredient> listIng = new ArrayList<Ingredient>();
+			Ingredient ingredient1 = createIngredient(50l, (short)10);
+			Ingredient ingredient2 = createIngredient(55l, (short)15);
+			listIng.add(ingredient1);
+			listIng.add(ingredient2);
+			Comment comment1 = createComment("bonjour je suis pas content", "asdfakasy", (short)1);
+			Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
+			List<Comment> listComment = new ArrayList<Comment>();
+			listComment.add(comment1);
+			listComment.add(comment2);
+			Recipe recipe = createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
+					"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment);
+					
+					
+					
+			// JsonObject recipejson = Json.createObjectBuilder()
+			// 		.add("name", "name")
+			// 		.add("picture", "picture")
+			// 		.add("nbPersons", 5)
+			// 		.add("preparationTime", 523)
+			// 		.add("difficulty", 642)
+			// 		.add("ingredients", Json.createArrayBuilder()
+			// 				.add(Json.createObjectBuilder()
+			// 						.add("quantity",296)
+			// 						.add("detailsID", 6))
+			// 				.add(Json.createObjectBuilder()
+			// 						.add("quantity",269)
+			// 						.add("detailsID", 834)))
+			// 		.add("preparation", "preparation")
+			// 		.add("author", "author")
+			// 		.add("publicationData",15400)
+			// 		.add("grade", 3.5)
+			// 		.add("comments", Json.createArrayBuilder()
+			// 				.add("comment"))
+			// 		.build();
+	
+			// long id = recipe.getId();
+			// given()
+			// .contentType(ContentType.JSON)
+			// .body(recipejson)
+			// .when()
+			// .post("/")
+			// .then()
+			// .statusCode(200);
+			String id_string = with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
+			//assertThat(id_string).isNotEmpty();
+			idOfPostRecipe = Long.parseLong(id_string);
+			System.out.println("DACCORD");
+			System.out.println(idOfPostRecipe);
+			
+		}
 		
-		Recipe recipe = new Recipe();
-		// JsonObject recipejson = Json.createObjectBuilder()
-		// 		.add("name", "name")
-		// 		.add("picture", "picture")
-		// 		.add("nbPersons", 5)
-		// 		.add("preparationTime", 523)
-		// 		.add("difficulty", 642)
-		// 		.add("ingredients", Json.createArrayBuilder()
-		// 				.add(Json.createObjectBuilder()
-		// 						.add("quantity",296)
-		// 						.add("detailsID", 6))
-		// 				.add(Json.createObjectBuilder()
-		// 						.add("quantity",269)
-		// 						.add("detailsID", 834)))
-		// 		.add("preparation", "preparation")
-		// 		.add("author", "author")
-		// 		.add("publicationData",15400)
-		// 		.add("grade", 3.5)
-		// 		.add("comments", Json.createArrayBuilder()
-		// 				.add("comment"))
-		// 		.build();
-		recipe = getRandomRecipe();
-		// long id = recipe.getId();
-		// given()
-		// .contentType(ContentType.JSON)
-		// .body(recipejson)
-		// .when()
-		// .post("/")
-		// .then()
-		// .statusCode(200);
-		with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200);
+        @Test
+        @Order(2)
+        public void testGetRecipeAfterPost() {
+        	Date date = new java.sql.Date(System.currentTimeMillis());
+        	long id = idOfPostRecipe;
+        	System.out.println("GORILLE");
+			System.out.println(id);
+    		when().get("/" + id).then().assertThat()
+    		.body("author", equalTo("aprfg"))
+    		.body("name", equalTo("maRecette"))
+    		.body("picture", equalTo("maPhoto"))
+    		.body("nbPersons", equalTo(4))
+    		.body("preparationTime", equalTo(5))
+    		.body("difficulty", equalTo(5))
+    		.body("preparation", equalTo("fais ceci cela"))
+    		//.body("publicationDate", equalTo(date.getTime()))
+    		.body("grade", equalTo(-1.0f))
+    		.body("ingredients.quantity", hasItems(10,15))
+    		.body("ingredients.detailsID", hasItems(50,55));
+        }
+        
+        @Test
+        @Order(3)
+        public void testDeleteRecipeAfterPost() {
+        	long id = idOfPostRecipe;
+        	System.out.println("SINGE");
+			System.out.println(id);
+        	when().delete("/" + id).then().statusCode(204);
+        }
+        
 	}
 
 	
@@ -141,10 +206,10 @@ public class RecipeRestServiceIT {
 
 		List<Recipe> response = when().get("/recipes").then().extract().body().jsonPath().getList(".", Recipe.class);
 		
-		assertEquals(3,response.size()); // Le POST du premier test a déposé une recette, il y en a donc 3.
+		assertEquals(2,response.size());
 		
-		Recipe Recipe1 = response.get(1);
-		Recipe Recipe2 = response.get(2);
+		Recipe Recipe1 = response.get(0);
+		Recipe Recipe2 = response.get(1);
 		
 		assertEquals("Tarte aux citrons", Recipe1.getName());
 		assertEquals("monImage", Recipe1.getPicture());
@@ -219,52 +284,40 @@ public class RecipeRestServiceIT {
 	
 */
 
-	private Ingredient getRandomIngredient() {
+	private Comment createComment(String text, String userID,short grade) {
+		Comment comment = new Comment();
+		comment.setText(text);
+		comment.setUserID(userID);
+		comment.setGrade(grade);
+		return comment;
+	}
+	
+	private Ingredient createIngredient(long detailsID, short quantity) {
 		Ingredient ingredient = new Ingredient();
-		ingredient.setDetailsID((long) (Math.random()*1000));
-		ingredient.setQuantity((short) (Math.random()*1000));
+		ingredient.setDetailsID(detailsID);
+		ingredient.setQuantity(quantity);
 		
 		return ingredient;
 	}
 	
-	private Comment getRandomComment() {
-		Comment comment = new Comment();
-		comment.setText(UUID.randomUUID().toString());
-		comment.setUserID(UUID.randomUUID().toString());
-		comment.setGrade((short)(Math.random() * ((5 - 0) + 1)));
-		
-		return comment;
-	}
-	
-	private Recipe getRandomRecipe() {
-		
-		List<Ingredient> listIng = new ArrayList<Ingredient>();
-		Ingredient ingredient1 = getRandomIngredient();
-		Ingredient ingredient2 = getRandomIngredient();
-		listIng.add(ingredient1);
-		listIng.add(ingredient2);
-		
-		Comment comment1 = getRandomComment();
-		Comment comment2 = getRandomComment();
-		List<Comment> listComment = new ArrayList<Comment>();
-		listComment.add(comment1);
-		listComment.add(comment2);
-		
-		Recipe i = new Recipe();
-		i.setName(UUID.randomUUID().toString());
-		i.setPreparationTime((short) (Math.random()*1000));
-		i.setDifficulty((short) (Math.random()*1000));
-		i.setNbPersons((short) (Math.random()*1000));
-		i.setPicture(UUID.randomUUID().toString());
-		i.setPreparation(UUID.randomUUID().toString());
-		i.setAuthor(UUID.randomUUID().toString());
-		i.setPublicationDate(Date.valueOf("2019-01-26"));
-		i.setGrade((float) (Math.random()*1000));
-		i.setComments(listComment);
-		i.setIngredients(listIng);
+	private Recipe createRecipe(String name, List<Ingredient> ingredients, short prepTime, short difficulty, short nbPersonnes,
+			String photo, String preparation, String auteur, Date date, float note, List<Comment> comments) {
 
-		
+		Recipe i = new Recipe();
+		i.setName(name);
+		i.setIngredients(ingredients);
+		i.setPreparationTime(prepTime);
+		i.setDifficulty(difficulty);
+		i.setNbPersons(nbPersonnes);
+		i.setPicture(photo);
+		i.setPreparation(preparation);
+		i.setAuthor(auteur);
+		i.setPublicationDate(date);
+		i.setGrade(note);
+		i.setComments(comments);
+
 		return i;
+
 	}
 	
 	

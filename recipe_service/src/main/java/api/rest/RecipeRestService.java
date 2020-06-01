@@ -1,6 +1,7 @@
 package api.rest;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -23,6 +24,7 @@ import org.postgresql.shaded.com.ongres.scram.common.message.ServerFinalMessage.
 import javax.ws.rs.core.HttpHeaders;
 
 import domain.model.Comment;
+import domain.model.Ingredient;
 import domain.model.Recipe;
 import domain.service.RecipeService;
 //import io.restassured.http.ContentType;
@@ -48,11 +50,24 @@ public class RecipeRestService {
 		//	String UserID = KeycloakService.getIdUser(token);
 		//	String idAuthor = recipe.getAuthor();
 		//	if (UserID == idAuthor) {
-				long id = RecipeService.create(recipe);
-				return id;
+			Date date = new java.sql.Date(System.currentTimeMillis());
+			recipe.setPublicationDate(date);
+			recipe.setGrade(-1);
+			List<Comment> comments = new ArrayList<Comment>();
+			recipe.setComments(comments);
+			
+			long id = RecipeService.create(recipe);
+			return id;
 		//	}
 		//}
 		//return 0;
+	}
+	
+	@Path("/{idrecipe}")
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteRecipe(@PathParam("idrecipe") Long idRecipe) {
+		RecipeService.delete(idRecipe);
 	}
 	
 	@Path("/{idrecipe}")
