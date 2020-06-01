@@ -4,6 +4,10 @@ package api.rest;
 import static io.restassured.RestAssured.when;
 import static io.restassured.RestAssured.with;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.Matchers.containsString;
 import io.restassured.http.ContentType;
 
@@ -79,9 +83,76 @@ public class RecipeRestServiceIT {
 
 	
 	@Test
-	public void testGetByUserId() {
+	public void testGetById() {
 
-		when().get("/user/autreId").then().body(containsString("Choux à la crème"));
+		when().get("/2").then().body(containsString("Choux à la crème"));
+		Date date = Date.valueOf("2020-07-12");
+		when().get("/1").then().assertThat()
+		.body("author", equalTo("testId"))
+		.body("name", equalTo("Tarte aux citrons"))
+		.body("picture", equalTo("monImage"))
+		.body("nbPersons", equalTo(5))
+		.body("preparationTime", equalTo(10))
+		.body("difficulty", equalTo(5))
+		.body("preparation", equalTo("Prépare la tarte"))
+		.body("publicationDate", equalTo(date.getTime()))
+		.body("grade", equalTo(4.5f))
+		.body("ingredients.quantity", hasItems(4,12))
+		.body("ingredients.detailsID", hasItems(0,1))
+		.body("comments.text", hasItems("Pas mal","Très bon", "Dégeulasse"))
+		.body("comments.userID", hasItems("commentateur","AutreCommentateur", "randomGuy"))
+		.body("comments.grade", hasItems(3,4,1));
+	}
+	
+	
+	@Test
+	public void testGetByUserId() {
+		
+		List<Recipe> response = when().get("/user/autreId").then().extract().body().jsonPath().getList(".", Recipe.class);
+		
+		assertEquals(1,response.size());
+		
+		Recipe myRecipe = response.get(0);
+		
+		assertEquals("Choux à la crème", myRecipe.getName());
+		assertEquals("monAutreImage", myRecipe.getPicture());
+		assertEquals(2, myRecipe.getNbPersons());
+		assertEquals(15, myRecipe.getPreparationTime());
+		assertEquals(3, myRecipe.getDifficulty());
+		assertEquals("Prépare le choux", myRecipe.getPreparation());
+		assertEquals("autreId", myRecipe.getAuthor());
+		assertEquals(3, myRecipe.getGrade());
+		assertEquals(Date.valueOf("2020-04-24"), myRecipe.getPublicationDate());
+		assertEquals(2, myRecipe.getIngredients().size());
+		assertEquals(3, myRecipe.getIngredients().get(0).getQuantity());
+		assertEquals(2, myRecipe.getIngredients().get(0).getDetailsID());
+		assertEquals(42, myRecipe.getIngredients().get(1).getQuantity());
+		assertEquals(3, myRecipe.getIngredients().get(1).getDetailsID());
+		assertEquals(1, myRecipe.getComments().size());
+		assertEquals("passable", myRecipe.getComments().get(0).getText());
+		assertEquals(3, myRecipe.getComments().get(0).getGrade());
+		assertEquals("moi", myRecipe.getComments().get(0).getUserID());
+		
+		
+		
+		/*when().get("/user/testId").then().body(containsString("Tarte aux citrons"));
+		when().get("/user/autreId").then().assertThat().body("author", hasItem("autreId"));
+		when().get("/user/autreId").then().assertThat().body("name", hasItem("Choux à la crème"));
+		when().get("/user/autreId").then().assertThat().body("picture", hasItem("monAutreImage"));
+		when().get("/user/autreId").then().assertThat().body("nbPersons", hasItem(2));
+		when().get("/user/autreId").then().assertThat().body("preparationTime", hasItem(15));
+		when().get("/user/autreId").then().assertThat().body("difficulty", hasItem(3));
+		when().get("/user/autreId").then().assertThat().body("preparation", hasItem("Prépare le choux"));
+		Date date = Date.valueOf("2020-04-24");
+		when().get("/user/autreId").then().assertThat().body("publicationDate", hasItem(date.getTime()));
+		when().get("/user/autreId").then().assertThat().body("grade", hasItem(3.0f));
+		when().get("/user/autreId").then().assertThat().body("ingredients.quantity", hasItems(3,42));
+		when().get("/user/autreId").then().assertThat().body("ingredients.detailsID", hasItems(2,3));
+		when().get("/user/autreId").then().assertThat().body("ingredients.RECIPE_ID", hasItems(2,2));
+		when().get("/user/autreId").then().assertThat().body("comments.text", equalTo("passable"));
+		when().get("/user/autreId").then().assertThat().body("comments.userID", equalTo("moi"));
+		when().get("/user/autreId").then().assertThat().body("comments.grade", equalTo(3));
+		when().get("/user/autreId").then().assertThat().body("comments.RECIPE_ID", equalTo(2));*/
 	}
 	
 	
