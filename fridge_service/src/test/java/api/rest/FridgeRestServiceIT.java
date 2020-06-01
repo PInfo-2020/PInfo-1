@@ -61,6 +61,10 @@ public class FridgeRestServiceIT {
 		when().get("/testId").then().body(containsString("10"));
 		when().get("/testId").then().assertThat().body("userId", equalTo("testId"));
 		when().get("/testId").then().assertThat().body("ingredients.quantity", hasItems(5,10));
+		when().get("/testId").then().assertThat().body("ingredients.detailsID", hasItems(47,48));
+		Date date1 = Date.valueOf("2020-07-12");
+		Date date2 = Date.valueOf("2020-08-26");
+		when().get("/testId").then().assertThat().body("ingredients.expiration", hasItems(date1.getTime(),date2.getTime()));
 
 	}
 

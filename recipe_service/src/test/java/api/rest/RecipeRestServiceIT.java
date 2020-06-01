@@ -109,18 +109,13 @@ public class RecipeRestServiceIT {
 			String id_string = with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
 			//assertThat(id_string).isNotEmpty();
 			idOfPostRecipe = Long.parseLong(id_string);
-			System.out.println("DACCORD");
-			System.out.println(idOfPostRecipe);
 			
 		}
 		
         @Test
         @Order(2)
         public void testGetRecipeAfterPost() {
-        	Date date = new java.sql.Date(System.currentTimeMillis());
         	long id = idOfPostRecipe;
-        	System.out.println("GORILLE");
-			System.out.println(id);
     		when().get("/" + id).then().assertThat()
     		.body("author", equalTo("aprfg"))
     		.body("name", equalTo("maRecette"))
@@ -129,7 +124,6 @@ public class RecipeRestServiceIT {
     		.body("preparationTime", equalTo(5))
     		.body("difficulty", equalTo(5))
     		.body("preparation", equalTo("fais ceci cela"))
-    		//.body("publicationDate", equalTo(date.getTime()))
     		.body("grade", equalTo(-1.0f))
     		.body("ingredients.quantity", hasItems(10,15))
     		.body("ingredients.detailsID", hasItems(50,55));
@@ -139,8 +133,6 @@ public class RecipeRestServiceIT {
         @Order(3)
         public void testDeleteRecipeAfterPost() {
         	long id = idOfPostRecipe;
-        	System.out.println("SINGE");
-			System.out.println(id);
         	when().delete("/" + id).then().statusCode(204);
         }
         
