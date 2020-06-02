@@ -61,7 +61,7 @@ public class Recipe {
 	
 	
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy = "recipe", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Comment.class, mappedBy = "recipe", fetch = FetchType.EAGER, orphanRemoval=true)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Comment> comments;
 	

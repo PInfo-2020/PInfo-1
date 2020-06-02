@@ -7,6 +7,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.Matchers.containsString;
 import io.restassured.http.ContentType;
@@ -50,6 +51,8 @@ public class RecipeRestServiceIT {
 	//KeycloakService KeycloakService;
 
 	private static long idOfPostRecipe;
+	
+	private static long idOfPostComment;
 	
 
 	
@@ -126,11 +129,38 @@ public class RecipeRestServiceIT {
     		.body("preparation", equalTo("fais ceci cela"))
     		.body("grade", equalTo(-1.0f))
     		.body("ingredients.quantity", hasItems(10,15))
-    		.body("ingredients.detailsID", hasItems(50,55));
+    		.body("ingredients.detailsID", hasItems(50,55))
+    		.body("comments", hasSize(0));
         }
+        
         
         @Test
         @Order(3)
+    	public void testPostComment() {
+        	long id = idOfPostRecipe;
+    		Comment comment =  createComment("dégueu", "méchant",(short) 5);
+
+    		when().get("/"+id).then().body("comments", hasSize(0));
+    		String idComment = with().contentType(ContentType.JSON).body(comment).when().request("POST","/"+id+"/comment").then().statusCode(200).extract().asString();
+    		idOfPostComment = Long.parseLong(idComment);
+    		when().get("/"+id).then().body("comments", hasSize(1));
+    		when().get("/"+id).then().assertThat().body("comments.userID", hasItems("méchant"));
+    		
+    	}
+        
+        @Test
+        @Order(4)
+    	public void testDeleteComment() {
+        	long id = idOfPostRecipe;
+    		long idComment = idOfPostComment;
+    		when().get("/"+id).then().body("comments", hasSize(1));
+    		with().delete("/"+id+"/comment/"+idComment).then().statusCode(204);
+    		with().get("/"+id).then().body("comments", hasSize(0));
+    		
+    	}
+        
+        @Test
+        @Order(5)
         public void testDeleteRecipeAfterPost() {
         	long id = idOfPostRecipe;
         	when().delete("/" + id).then().statusCode(204);
@@ -249,32 +279,15 @@ public class RecipeRestServiceIT {
 	}
 	
 	
-	/*
-	@Test
-	public void testPostComment() {
-		when().get("/1").then().body(containsString("Abricot"));
-		when().get("/1").then().body(containsString("vegan"));
-	}
-	@Test
-	public void testDeleteComment() {
-		
-		recipeService.create(getRandomRecipe());
-		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe myRecipe = recipes.get(0);
-		Comment comment1 = recipeService.createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-		Comment comment2 = recipeService.createComment("bonjour je suis content", "lasdfasdf", (short)5);
-		List<Comment> listComment = new ArrayList<Comment>();
-		listComment.add(comment1);
-		listComment.add(comment2);
-		myRecipe.setComments(listComment);
-		RecipeService.createComment(text, userID, grade);
-		RecipeRestService.deleteComment(idRecipe, idComment, headers);
-		
-		when().get("/1").then().body(containsString("Abricot"));
-		when().get("/1").then().body(containsString("vegan"));
-	}
 	
-*/
+	
+	
+	
+	
+	
+	
+
+
 
 	private Comment createComment(String text, String userID,short grade) {
 		Comment comment = new Comment();

@@ -37,7 +37,7 @@ public class Comment {
 	private short grade;
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "Recipe_id")
 	private Recipe recipe;
 	

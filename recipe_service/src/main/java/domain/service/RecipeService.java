@@ -14,7 +14,7 @@ public interface RecipeService {
 	Recipe get(Long id);
 	long create(Recipe recipe);
 	List<Recipe> getListRecipesFromUserId(String userId);
-	void addComment(long recipeId, Comment comment);
+	long addComment(long recipeId, Comment comment);
 	void deleteComment(long recipeId, long commentId);
 	Comment getComment(long recipeId, long commentId);
 	void addRecipe(String name, String picture, short nbPersons, short preparationTime, short difficulty, Map<Long, Short> ingredients, String preparation, String author);

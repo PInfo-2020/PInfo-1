@@ -201,7 +201,6 @@ public class RecipeServiceImplTest {
 		recipeService.create(r3);
 		recipeService.create(r4);
 		List<Recipe> recipeList = recipeService.getListRecipesFromUserId("moi");
-		System.out.println(recipeList);
 		
 		assertEquals("Salade de fruit", recipeList.get(2).getName());
 		assertEquals(size+3, recipeService.getListRecipesFromUserId("moi").size());
@@ -211,50 +210,46 @@ public class RecipeServiceImplTest {
 	@Test
 	void testAddComment() {
 		recipeService.create(getRandomRecipe());
-		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe myRecipe = recipes.get(0);
+        List<Recipe> recipes = recipeService.getAllRecipes();
+        Recipe myRecipe = recipes.get(0);
+
+        int size = myRecipe.getComments().size();
+        Comment comment = createComment("bonjour je ne suis pas content", "asdfakasy", (short)2);
+        Comment comment2 = createComment("bonjour je ne suis content", "AD<YX", (short)4);
+        recipeService.addComment(myRecipe.getId(), comment);
+        recipeService.addComment(myRecipe.getId(), comment2);
+        assertEquals(size+2,myRecipe.getComments().size());
+        assertEquals("bonjour je ne suis pas content", myRecipe.getComments().get(0).getText());
+        assertEquals(3,myRecipe.getGrade());
+
+    }
 		
-		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
-		List<Comment> listComment = new ArrayList<Comment>();
-		listComment.add(comment1);
-		listComment.add(comment2);
-		myRecipe.setComments(listComment);
-		int size = myRecipe.getComments().size();
-		
-		Comment comment = createComment("bonjour je ne suis pas content", "asdfakasy", (short)1);
-		recipeService.addComment(myRecipe.getId(), comment);
-		assertEquals(size+1,myRecipe.getComments().size());
-		assertEquals("bonjour je ne suis pas content", myRecipe.getComments().get(size).getText());
-		assertEquals(3,myRecipe.getGrade());
-		
-	}
+	
 	
 	@Test
 	void testDeleteComment() {
 		recipeService.create(getRandomRecipe());
-		recipeService.create(getRandomRecipe());
-		List<Recipe> recipes = recipeService.getAllRecipes();
-		Recipe myRecipe = recipes.get(1);
+        recipeService.create(getRandomRecipe());
+        List<Recipe> recipes = recipeService.getAllRecipes();
+        Recipe myRecipe = recipes.get(1);
 
 
-		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
-		Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
+        Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
+        Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
+        Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
 
-		recipeService.addComment(myRecipe.getId(), comment1);
-		recipeService.addComment(myRecipe.getId(), comment2);
-		recipeService.addComment(myRecipe.getId(), comment3);
-		int size = myRecipe.getComments().size();
-		recipeService.deleteComment(myRecipe.getId(), comment3.getId());
-		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0).getId());
-		recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0).getId());
-		assertEquals(size-3,myRecipe.getComments().size());
-		assertEquals("bonjour je suis content", myRecipe.getComments().get(size-4).getText());
-		assertEquals(4,myRecipe.getGrade());
-		recipeService.deleteComment(myRecipe.getId(), comment2.getId());
-		recipeService.deleteComment(myRecipe.getId(), comment1.getId());
-		assertEquals(-1,myRecipe.getGrade());
+        recipeService.addComment(myRecipe.getId(), comment1);
+        recipeService.addComment(myRecipe.getId(), comment2);
+        recipeService.addComment(myRecipe.getId(), comment3);
+        int size = myRecipe.getComments().size();
+        recipeService.deleteComment(myRecipe.getId(), comment3.getId());
+        recipeService.deleteComment(myRecipe.getId(), myRecipe.getComments().get(0).getId());
+        assertEquals(size-2,myRecipe.getComments().size());
+        assertEquals("bonjour je suis content", myRecipe.getComments().get(size-3).getText());
+        assertEquals(5,myRecipe.getGrade());
+        recipeService.deleteComment(myRecipe.getId(), comment2.getId());
+        assertEquals(-1,myRecipe.getGrade());
+
 		
 	}
 	
@@ -360,34 +355,35 @@ public class RecipeServiceImplTest {
 	}
 	
 	private Recipe getRandomRecipe() {
-		
-		List<Ingredient> listIng = new ArrayList<Ingredient>();
-		Ingredient ingredient1 = getRandomIngredient();
-		Ingredient ingredient2 = getRandomIngredient();
-		listIng.add(ingredient1);
-		listIng.add(ingredient2);
-		
-		Comment comment1 = getRandomComment();
-		Comment comment2 = getRandomComment();
-		List<Comment> listComment = new ArrayList<Comment>();
-		listComment.add(comment1);
-		listComment.add(comment2);
-		
-		Recipe i = new Recipe();
-		i.setName(UUID.randomUUID().toString());
-		i.setPreparationTime((short) (Math.random()*1000));
-		i.setDifficulty((short) (Math.random()*1000));
-		i.setNbPersons((short) (Math.random()*1000));
-		i.setPicture(UUID.randomUUID().toString());
-		i.setPreparation(UUID.randomUUID().toString());
-		i.setAuthor(UUID.randomUUID().toString());
-		i.setPublicationDate(Date.valueOf("2019-01-26"));
-		i.setGrade((float) (Math.random()*1000));
-		i.setComments(listComment);
-		i.setIngredients(listIng);
 
-		
-		return i;
-	}
+        List<Ingredient> listIng = new ArrayList<Ingredient>();
+        Ingredient ingredient1 = getRandomIngredient();
+        Ingredient ingredient2 = getRandomIngredient();
+        listIng.add(ingredient1);
+        listIng.add(ingredient2);
+
+        Comment comment1 = getRandomComment();
+        Comment comment2 = getRandomComment();
+        List<Comment> listComment = new ArrayList<Comment>();
+        listComment.add(comment1);
+        listComment.add(comment2);
+
+        Recipe i = new Recipe();
+        i.setName(UUID.randomUUID().toString());
+        i.setPreparationTime((short) (Math.random()*1000));
+        i.setDifficulty((short) (Math.random()*1000));
+        i.setNbPersons((short) (Math.random()*1000));
+        i.setPicture(UUID.randomUUID().toString());
+        i.setPreparation(UUID.randomUUID().toString());
+        i.setAuthor(UUID.randomUUID().toString());
+        i.setPublicationDate(Date.valueOf("2019-01-26"));
+        i.setGrade((float) -1);
+        List<Comment> comments = new ArrayList<Comment>();
+        i.setComments(comments);
+        i.setIngredients(listIng);
+
+
+        return i;
+    }
 
 }

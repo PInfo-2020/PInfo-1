@@ -81,17 +81,18 @@ public class RecipeRestService {
 	@Path("/{idrecipe}/comment")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
+	public long postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
 		/*
 		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
 			String idAuthor = comment.getUserID();
 			if (UserID == idAuthor) {
-				RecipeService.addComment(idRecipe,comment);
+				
 			}
 		}
 		*/
+		return RecipeService.addComment(idRecipe,comment);
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
@@ -106,8 +107,8 @@ public class RecipeRestService {
 			if (UserID == idAuthor) {
 				RecipeService.addComment(idRecipe,comment);
 			}
-		}
-		RecipeService.deleteComment(idRecipe,idComment);*/
+		}*/
+		RecipeService.deleteComment(idRecipe,idComment);
 	}
 	
 	

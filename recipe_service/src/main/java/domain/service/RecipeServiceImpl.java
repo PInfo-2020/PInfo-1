@@ -117,8 +117,9 @@ public class RecipeServiceImpl implements RecipeService{
 
 	@Override
 	@Transactional
-	public void addComment(long recipeId, Comment comment) {
+	public long addComment(long recipeId, Comment comment) {
 		Recipe recipe = get(recipeId);
+		comment.setRecipe(recipe);
 		
 		//Addition of the comment
 		List<Comment> commentList = recipe.getComments();
@@ -138,6 +139,8 @@ public class RecipeServiceImpl implements RecipeService{
 	    }
 	    
 		em.flush(); //Update of the recipe
+		
+		return comment.getId();
 	}
 	
 	@Override
@@ -153,7 +156,7 @@ public class RecipeServiceImpl implements RecipeService{
 	    		c1.remove();
 	    	}
 	    }
-		recipe.setComments(commentList);
+		
 		
 		//Update of recipe grade
 	    int total = 0;
@@ -167,7 +170,7 @@ public class RecipeServiceImpl implements RecipeService{
 		    recipe.setGrade(result);
 	    }else {
 	    	recipe.setGrade(-1);
-	    	recipe.setComments(null);
+	    	
 	    }
 		em.flush(); //Update of the recipe
 	}
