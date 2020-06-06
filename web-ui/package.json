@@ -33,7 +33,7 @@
     "@progress/kendo-theme-default": "^4.18.2",
     "@types/jquery": "^3.3.38",
     "angular": "^1.7.9",
-    "keycloak-angular": "^7.2.0",
+    "keycloak-angular": "^7.3.0",
     "keycloak-js": "^10.0.0",
     "rxjs": "^6.5.5",
     "rxjs-compat": "^6.5.5",

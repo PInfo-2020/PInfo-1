@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { KeycloakService } from './keycloak.service';
-
+import { KeycloakService } from 'keycloak-angular';
 @Injectable()
 export class KeycloakInterceptorService implements HttpInterceptor {
   constructor(
@@ -17,8 +16,8 @@ export class KeycloakInterceptorService implements HttpInterceptor {
           if (token) {
             request = request.clone({
               setHeaders: {
-                Authorization: `Bearer ${token}`
-              }
+                Authorization: `Bearer ${token}`,
+              },
             });
           }
           return next.handle(request);
@@ -31,5 +30,4 @@ export class KeycloakInterceptorService implements HttpInterceptor {
     const tokenPromise: Promise<string> = this.keycloakService.getToken();
     const tokenObservable: Observable<string> = from(tokenPromise);
     return tokenObservable;
-  }
-}
+}}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-upload-photo',

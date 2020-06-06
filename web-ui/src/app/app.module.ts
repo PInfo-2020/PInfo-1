@@ -2,11 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { KeycloakService } from './services/keycloak/keycloak.service';
-import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppInitService } from './app.init';
-
+import { KeycloakService, KeycloakAngularModule, KeycloakBearerInterceptor } from 'keycloak-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -24,13 +22,34 @@ import { MyFridgeModule } from './my-fridge/my-fridge.module';
 import { AddReceipeModule } from './add-receipe/add-receipe.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { environment } from 'src/environments/environment';
+import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
 
 declare var window: any;
 
-export function init_config(appLoadService: AppInitService, keycloak: KeycloakService) {
-  return () =>  appLoadService.init().then( () => {
-     console.info(window.config);
-     keycloak.init();
+
+export function init_config(appLoadService: AppInitService, keycloak: KeycloakService):() => Promise<any> {
+  return (): Promise<any> => appLoadService.init().then( () => {
+     console.info(window.config.keycloak.realm);
+     return new Promise(async (resolve, reject) => {
+      try {
+        await keycloak.init({
+           config: {
+              url: environment.keycloak.url,
+              realm:  environment.keycloak.realm,
+              clientId: environment.keycloak.clientId
+            },
+            initOptions: {
+              onLoad: 'check-sso',
+              checkLoginIframe: false
+            },
+            enableBearerInterceptor: false,
+          });
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
     },
    );
 }
@@ -57,25 +76,28 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
       MyFridgeModule,
       AddReceipeModule,
       InputsModule,
-      DropDownsModule
+      DropDownsModule,
+      KeycloakAngularModule,
+      HttpClientModule
    ],
    providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: KeycloakInterceptorService,
-      multi: true,
-    },
+
     AppInitService,
     {
       provide: APP_INITIALIZER,
       useFactory: init_config,
-      deps: [AppInitService, KeycloakService],
+      deps: [AppInitService,KeycloakService],
       multi: true,
     },
-    KeycloakService
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakInterceptorService,
+      multi: true,
+    }
    ],
    bootstrap: [
-      AppComponent
+      AppComponent,
+      MenuNavComponent
    ]
 })
 export class AppModule { }

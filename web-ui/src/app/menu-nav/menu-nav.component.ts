@@ -1,9 +1,11 @@
-import { KeycloakInterceptorService } from './../services/keycloak/keycloak.interceptor.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { KeycloakService } from './../services/keycloak/keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
+
+
 
 @Component({
   selector: 'app-menu-nav',
@@ -11,50 +13,37 @@ import { KeycloakService } from './../services/keycloak/keycloak.service';
   styleUrls: ['./menu-nav.component.css']
 })
 
-export class MenuNavComponent {
-
-
-  public loggedIn = false;
-
-  profileUrl = '/auth/realms/master/account/';
+export class MenuNavComponent implements OnInit {
+  userDetails: KeycloakProfile;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+      .pipe(
+        map(result => result.matches),
+        shareReplay()
+      );
 
-  constructor(private breakpointObserver: BreakpointObserver, public keycloak: KeycloakService) {}
+  constructor(private breakpointObserver: BreakpointObserver, public keycloak: KeycloakService) {
+  }
 
-  onProfil() {
-    console.log('fdp');
-    if (this.keycloak.isLoggedIn() === false) {
-      // console.log('je suis dedans , kyaaaaaa');
-      this.keycloak.login();
+  async ngOnInit() {
+    if (await this.keycloak.isLoggedIn()) {
+      console.log("prout")
+      this.userDetails = await this.keycloak.loadUserProfile();
     }
   }
-
-  logOut() {
-    if (this.keycloak.isLoggedIn() === true) {
-      // console.log('je sors , yemeteeeee');
-      this.keycloak.logout();
+  async profil() {
+    if (await this.keycloak.isLoggedIn()) {
+      this.keycloak.getKeycloakInstance().accountManagement();
     }
   }
-
-  /*ngAfterViewInit() {
-    this.loggedIn = this.loginCheck();
-  }*/
-
-  loginCheck(): boolean {
-    return this.keycloak.isLoggedIn();
+  async login(){
+    await this.keycloak.login({ redirectUri: document.baseURI+"my-fridge"});
   }
-
-  getUserName(): string {
-    return this.keycloak.getUsername();
+  async logout() {
+    await this.keycloak.logout(document.baseURI);
   }
-
-  returnUrl(): string {
-    return this.profileUrl;
+  async isLoggedIn(): Promise<boolean> {
+    return await this.keycloak.isLoggedIn();
   }
 
 

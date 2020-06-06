@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { numberSymbols } from '@progress/kendo-angular-intl';
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import { KeycloakService } from '../services/keycloak/keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
 
 interface Ingredients {
   [Key: string]: number;

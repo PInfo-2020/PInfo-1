@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-recipe-input',

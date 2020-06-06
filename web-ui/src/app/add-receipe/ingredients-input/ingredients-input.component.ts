@@ -3,8 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
-import { KeycloakService } from 'src/app/services/keycloak/keycloak.service';
-
+import { KeycloakService } from 'keycloak-angular'
 class AddedIngredient {
   name = '';
   quantity = '';
@@ -103,14 +102,9 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   getIngredients() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.url, headernode).toPromise().then(json => {
+
+      
+    this.http.get(this.url).toPromise().then(json => {
       console.log(json);
       this.addJsonToClass(json);
     });
