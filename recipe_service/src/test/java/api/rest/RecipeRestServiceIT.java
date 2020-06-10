@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.Matchers.containsString;
 import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,12 +39,16 @@ import domain.model.Ingredient;
 import domain.model.Recipe;
 import domain.service.RecipeService;
 
+
 public class RecipeRestServiceIT {
+
+
 
 	@BeforeAll
 	public static void setup() {
 		RestAssured.baseURI = "http://localhost:28080/recipe";
 		RestAssured.port = 8080;
+		RestAssured.defaultParser = Parser.JSON;
 	}
 	
 	
@@ -145,6 +150,8 @@ public class RecipeRestServiceIT {
     		idOfPostComment = Long.parseLong(idComment);
     		when().get("/"+id).then().body("comments", hasSize(1));
     		when().get("/"+id).then().assertThat().body("comments.userID", hasItems("méchant"));
+    		when().get("/"+id).then().assertThat().body("comments.text", hasItems("dégueu"));
+    		when().get("/"+id).then().assertThat().body("comments.grade", hasItems(5));
     		
     	}
         
@@ -163,7 +170,9 @@ public class RecipeRestServiceIT {
         @Order(5)
         public void testDeleteRecipeAfterPost() {
         	long id = idOfPostRecipe;
-        	when().delete("/" + id).then().statusCode(204);
+        	when().get("/" + id).then().assertThat().statusCode(200); //Content a response
+        	when().delete("/" + id).then().assertThat().statusCode(204);
+        	when().get("/" + id).then().assertThat().statusCode(204); //Doesn't content anything
         }
         
 	}
