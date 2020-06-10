@@ -12,9 +12,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+
 import domain.model.Fridge;
 import domain.model.Ingredient;
-import javax.transaction.Transactional;
+
 
 @ApplicationScoped
 public class FridgeServiceImpl implements FridgeService {
@@ -47,6 +48,7 @@ public class FridgeServiceImpl implements FridgeService {
 	@Transactional
 	public void create(Fridge fridge) {
 		em.persist(fridge);
+		em.flush();
 	}
 
 
@@ -62,14 +64,32 @@ public class FridgeServiceImpl implements FridgeService {
 	@Transactional
 	public void updateFridge(Fridge fridge) {
 		Fridge myFridge = getByUserId(fridge.getUserId());
-		myFridge.setIngredients(fridge.getIngredients());
+		myFridge.getIngredients().clear();
+		//List<Ingredient> ingredients = myFridge.getIngredients();
+		//Suppression des ingredients présents
+		//ListIterator<Ingredient> ing = ingredients.listIterator();
+	    //while(ing.hasNext()){
+	    	//ing.next();
+	    	//ing.remove();
+	    //}
+	    //em.flush();
+
+
+		List<Ingredient> newIngredients = fridge.getIngredients();
+		for(Ingredient ingr : newIngredients) {
+			ingr.setFridge(myFridge);
+		}
+			
+		myFridge.getIngredients().addAll(newIngredients);
 		em.flush();
 	}
 
 	@Override
+	@Transactional
 	public void deleteFridge(long id) {
 		Fridge fridge = em.find(Fridge.class, id);
 		em.remove(fridge);
+		em.flush();
 	}
 
 }

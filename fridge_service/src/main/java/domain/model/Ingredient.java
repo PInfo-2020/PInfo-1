@@ -42,7 +42,7 @@ public class Ingredient {
 	private Date expiration;
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "Fridge_id")
 	private Fridge fridge;
 	

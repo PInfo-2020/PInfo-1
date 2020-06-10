@@ -22,6 +22,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -40,6 +43,6 @@ public class Fridge {
 	private long id;
 	private String userId;
 	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "fridge", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "fridge", fetch = FetchType.EAGER, orphanRemoval=true)
 	private List<Ingredient> ingredients;
 }
