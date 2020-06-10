@@ -111,6 +111,26 @@ public class RecipeRestService {
 		RecipeService.deleteComment(idRecipe,idComment);
 	}
 	
+	@Path("/{idrecipe}/comment/{idcomment}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Comment getComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment) {
+		
+		return RecipeService.getComment(idRecipe,idComment);
+	}
+
+	@Path("/{idrecipe}/comments")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Comment> getComments(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment) {
+		
+		Recipe recipe = RecipeService.get(idRecipe);
+		
+	return recipe.getComments();
+	}
+	
+	
+	
 	
 	@Path("/user")
 	@GET

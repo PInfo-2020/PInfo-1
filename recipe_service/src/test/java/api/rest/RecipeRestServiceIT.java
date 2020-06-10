@@ -149,14 +149,39 @@ public class RecipeRestServiceIT {
     		String idComment = with().contentType(ContentType.JSON).body(comment).when().request("POST","/"+id+"/comment").then().statusCode(200).extract().asString();
     		idOfPostComment = Long.parseLong(idComment);
     		when().get("/"+id).then().body("comments", hasSize(1));
-    		when().get("/"+id).then().assertThat().body("comments.userID", hasItems("méchant"));
-    		when().get("/"+id).then().assertThat().body("comments.text", hasItems("dégueu"));
-    		when().get("/"+id).then().assertThat().body("comments.grade", hasItems(5));
+    		when().get("/"+id).then().assertThat()
+    		.body("comments.userID", hasItems("méchant"))
+    		.body("comments.text", hasItems("dégueu"))
+    		.body("comments.grade", hasItems(5));
     		
     	}
         
         @Test
         @Order(4)
+        public void testGetCommentAfterPost() {
+        	long id = idOfPostRecipe;
+        	long idComment = idOfPostComment;
+        	when().get("/"+id+"/comment/"+idComment).then().assertThat()
+        	.body("userID", equalTo("méchant"))
+        	.body("text", equalTo("dégueu"))
+        	.body("grade", equalTo(5));
+        }
+        
+        @Test
+        @Order(5)
+        public void testGetCommentsAfterPost() {
+        	long id = idOfPostRecipe;
+        	List<Comment> response = when().get("/"+id+"/comments").then().extract().body().jsonPath().getList(".", Comment.class);
+        	assertEquals(1,response.size());
+        	Comment myComment = response.get(0);
+        	assertEquals("méchant",myComment.getUserID());
+        	assertEquals("dégueu",myComment.getText());
+        	assertEquals(5,myComment.getGrade());
+        }
+        
+        
+        @Test
+        @Order(6)
     	public void testDeleteComment() {
         	long id = idOfPostRecipe;
     		long idComment = idOfPostComment;
@@ -167,7 +192,7 @@ public class RecipeRestServiceIT {
     	}
         
         @Test
-        @Order(5)
+        @Order(7)
         public void testDeleteRecipeAfterPost() {
         	long id = idOfPostRecipe;
         	when().get("/" + id).then().assertThat().statusCode(200); //Content a response
