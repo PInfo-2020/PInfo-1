@@ -162,6 +162,14 @@ public class RecipeRestService {
 
 		return RecipeService.getAllRecipes();
 	}
+	
+	@Path("/search/{mySearch}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch) {
+
+		return RecipeService.searchRecipes(mySearch);
+	}
 
 	
 }

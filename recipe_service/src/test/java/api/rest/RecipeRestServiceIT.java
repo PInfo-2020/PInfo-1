@@ -21,6 +21,11 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.h2.util.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
@@ -311,6 +316,57 @@ public class RecipeRestServiceIT {
 		assertEquals(3, Recipe2.getComments().get(0).getGrade());
 		assertEquals("moi", Recipe2.getComments().get(0).getUserID());
 	}
+	
+	@Test
+	public void testSearch() {
+		
+		List<Ingredient> listIng = new ArrayList<Ingredient>();
+		Ingredient ingredient1 = createIngredient(50l, (short)10);
+		Ingredient ingredient2 = createIngredient(55l, (short)15);
+		listIng.add(ingredient1);
+		listIng.add(ingredient2);
+		List<Comment> listComment = new ArrayList<Comment>();
+		
+		Recipe newRecipe = createRecipe("tarte aux fraises bernoise", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
+				"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment);
+		
+		List<Ingredient> listIng2 = new ArrayList<Ingredient>();
+		Ingredient ingredient3 = createIngredient(512l, (short)4);
+		Ingredient ingredient4 = createIngredient(12l, (short)152);
+		listIng2.add(ingredient3);
+		listIng2.add(ingredient4);
+		
+		Recipe newRecipe2 = createRecipe("tarte aux fraises suisse", listIng2, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
+				"moi", Date.valueOf("2020-03-28"), 4.7f, listComment);
+		
+		Recipe newRecipe3 = createRecipe("Chocolat noir", listIng2, (short)6, (short)4, (short)2, "maPhoto", "Prepare",
+				"moi", Date.valueOf("2016-03-28"), 2f, listComment);
+		
+		String id_string1 = with().contentType(ContentType.JSON).body(newRecipe).when().request("POST","/").then().statusCode(200).extract().asString();
+		idOfPostRecipe = Long.parseLong(id_string1);
+		
+		String id_string2 = with().contentType(ContentType.JSON).body(newRecipe2).when().request("POST","/").then().statusCode(200).extract().asString();
+		idOfPostRecipe = Long.parseLong(id_string2);
+		
+		String id_string3 = with().contentType(ContentType.JSON).body(newRecipe3).when().request("POST","/").then().statusCode(200).extract().asString();
+		idOfPostRecipe = Long.parseLong(id_string3);
+		
+		String mySearch1 = "Tartes à la fraises";
+		String mySearch2 = "poires aux truffes";
+		String mySearch3 = "chocolat";
+		List<Recipe> response1 = when().get("/search/" + mySearch1).then().extract().body().jsonPath().getList(".", Recipe.class);
+		when().get("/search/" + mySearch2).then().assertThat().statusCode(204);
+		List<Recipe> response3 = when().get("/search/" + mySearch3).then().extract().body().jsonPath().getList(".", Recipe.class);
+		
+		assertEquals(2,response1.size());
+		assertEquals(1,response3.size());
+		assertEquals(newRecipe3.getName(), response3.get(0).getName());
+		
+		
+	}
+
+
+
 	
 	
 	
