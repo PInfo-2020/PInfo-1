@@ -10,6 +10,6 @@ public interface FridgeService {
 	Fridge getByUserId(String userId);
 	void create(Fridge fridge);
 	List<Fridge> getAll();
-	void updateFridge(Fridge fridge);
+	Boolean updateFridge(Fridge fridge);
 	void deleteFridge(long id);
 }

@@ -1,5 +1,7 @@
 package api.rest;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,12 +17,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.FormParam;
-
-
 
 import domain.model.Fridge;
 import domain.service.FridgeService;
+import domain.service.KeycloakService;
 import lombok.var;   
 
 
@@ -32,27 +34,62 @@ public class FridgeRestService {
 	@Inject
 	private FridgeService fridgeService;
 	
-	@Path("/{iduser}")
+	@Inject
+	private KeycloakService KeycloakService;
+	
+	String UnauthorizedError = "There is no header or the token is not valid.";
+	
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Fridge getByUserId(@PathParam("iduser") String idUser) {
-
-		return fridgeService.getByUserId(idUser);
+	public Response getByUserId(@Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			Fridge fridge = fridgeService.getByUserId(UserID);
+			if(fridge != null) {
+				if(fridge.getUserId().equals(UserID)) {
+					return Response.status(Response.Status.OK).entity(fridge).build();
+				}
+				return Response.status(Response.Status.FORBIDDEN).entity("You don't have right to access this Fridge").build();
+			}
+			return Response.status(Response.Status.NOT_FOUND).entity("You don't have any fridge").build();
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity(UnauthorizedError).build();
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postFridge(Fridge fridge, @Context HttpHeaders headers) {
-		//Keaycloack + récupérer l'id user à mettre dans fridge
-		fridgeService.create(fridge);
+	public Response postFridge(Fridge fridge, @Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			fridge.setUserId(UserID);
+			fridgeService.create(fridge);
+			return Response.status(Response.Status.OK).entity("Fridge created.").build();
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity(UnauthorizedError).build();
 	}
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateFridge(Fridge fridge, @Context HttpHeaders headers) {
-
-		//Keycloack+récupérer l'id user et mettre dans fridge
-		fridgeService.updateFridge(fridge);
+	public Response updateFridge(Fridge fridge, @Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			fridge.setUserId(UserID);
+			if(fridgeService.updateFridge(fridge)!=false) {
+				Fridge userFridge = fridgeService.getByUserId(UserID);
+				if(userFridge.getUserId().equals(UserID)) {
+					return Response.status(Response.Status.OK).entity("Fridge updated.").build();
+				}
+				return Response.status(Response.Status.FORBIDDEN).entity("You don't have right to update this Fridge").build();
+			}
+			return Response.status(Response.Status.NOT_FOUND).entity("You don't have any fridge").build();
+		}
+	
+		return Response.status(Response.Status.UNAUTHORIZED).entity(UnauthorizedError).build();
+		
 	}
 
 

@@ -99,6 +99,7 @@ public class FrigeServiceImplTest {
 		fridgeService.create(createFridge());
 		
 		assertEquals(fridge, fridgeService.getByUserId("aosédv"));
+		assertEquals(null, fridgeService.getByUserId("APMXN"));
 	}
 	@Test
 	void testGetAll() {
@@ -130,9 +131,15 @@ public class FrigeServiceImplTest {
 		fridge2.setIngredients(ings);
 		fridge2.setUserId(fridge.getUserId());
 		
+		Fridge falseFridge = new Fridge();
+		falseFridge.setIngredients(ings);
+		falseFridge.setUserId("blabla");
+		
 		assertEquals(2, fridge.getIngredients().size());
 		fridgeService.updateFridge(fridge2);
 		assertEquals(1, fridge.getIngredients().size());
+		assertEquals(true,fridgeService.updateFridge(fridge2));
+		assertEquals(false,fridgeService.updateFridge(falseFridge));
 	}
 	
 	@Test

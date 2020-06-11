@@ -41,6 +41,9 @@ public class FridgeServiceImpl implements FridgeService {
 		Root<Fridge> c = criteria.from(Fridge.class);
 		criteria.select(c).where(builder.equal(c.get("userId"), userId));
 		
+		if(em.createQuery(criteria).getResultList().isEmpty()) {
+			return null;
+		}
 		return em.createQuery(criteria).getResultList().get(0);
 	}
 
@@ -62,17 +65,23 @@ public class FridgeServiceImpl implements FridgeService {
 	
 	@Override
 	@Transactional
-	public void updateFridge(Fridge fridge) {
+	public Boolean updateFridge(Fridge fridge) {
 		Fridge myFridge = getByUserId(fridge.getUserId());
-		myFridge.getIngredients().clear();
-
-		List<Ingredient> newIngredients = fridge.getIngredients();
-		for(Ingredient ingr : newIngredients) {
-			ingr.setFridge(myFridge);
+		if(myFridge == null) {
+			return false;
 		}
+		else {
+			myFridge.getIngredients().clear();
+
+			List<Ingredient> newIngredients = fridge.getIngredients();
+			for(Ingredient ingr : newIngredients) {
+				ingr.setFridge(myFridge);
+			}
 			
-		myFridge.getIngredients().addAll(newIngredients);
-		em.flush();
+			myFridge.getIngredients().addAll(newIngredients);
+			em.flush();
+			return true;
+		}
 	}
 
 	@Override
