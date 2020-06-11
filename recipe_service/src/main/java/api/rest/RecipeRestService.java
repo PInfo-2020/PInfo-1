@@ -18,6 +18,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.postgresql.shaded.com.ongres.scram.common.message.ServerFinalMessage.Error;
 
@@ -38,29 +39,27 @@ public class RecipeRestService {
 	@Inject
 	private RecipeService RecipeService;
 	
-	//@Inject
-	//private KeycloakService KeycloakService;
+	@Inject
+	private KeycloakService KeycloakService;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public long postRecipe(Recipe recipe) {
-		//if (KeycloakService.verifyAuthentification(headers,  new Date())) {
-		//	String token = KeycloakService.getToken(headers);
-		//	String UserID = KeycloakService.getIdUser(token);
-		//	String idAuthor = recipe.getAuthor();
-		//	if (UserID == idAuthor) {
-			Date date = new java.sql.Date(System.currentTimeMillis());
+	public Response postRecipe(Recipe recipe, @Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			recipe.setAuthor(UserID);
+			Date date = new Date(System.currentTimeMillis());
 			recipe.setPublicationDate(date);
 			recipe.setGrade(-1);
 			List<Comment> comments = new ArrayList<Comment>();
 			recipe.setComments(comments);
-			
 			long id = RecipeService.create(recipe);
-			return id;
-		//	}
-		//}
-		//return 0;
+			return Response.status(Response.Status.OK).entity(id).build();
+		
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
 	}
 	
 	@Path("/{idrecipe}")

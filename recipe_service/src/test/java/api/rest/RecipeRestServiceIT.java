@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.Matchers.containsString;
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.parsing.Parser;
 
 import java.sql.Date;
@@ -89,7 +90,6 @@ public class RecipeRestServiceIT {
 					"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment);
 					
 					
-					
 			// JsonObject recipejson = Json.createObjectBuilder()
 			// 		.add("name", "name")
 			// 		.add("picture", "picture")
@@ -110,7 +110,10 @@ public class RecipeRestServiceIT {
 			// 		.add("comments", Json.createArrayBuilder()
 			// 				.add("comment"))
 			// 		.build();
-	
+			String Bearer ="Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3WHZWQ2t2anBGYTlCMW1RVUVKLVAyRXYwa1RTMTh1US1zdm5vWEdRSzNnIn0.eyJqdGkiOiJiMjNkNGQ3ZC05ZTYxLTQ4MzgtOTEwZi01YTIzOGFiNGM0NDIiLCJleHAiOjE1OTA3NTc5OTEsIm5iZiI6MCwiaWF0IjoxNTkwNzU3OTMxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiOWRjMjY2MTgtZGUwNi00ODYyLWI5NDctNzk5ZmI1NTFkMmE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXNzbyIsIm5vbmNlIjoiZGJiZmM3MjItNGU4MC00M2VlLTkwMWItOTY2YjU0NGM0NmNmIiwiYXV0aF90aW1lIjoxNTkwNzU3OTMwLCJzZXNzaW9uX3N0YXRlIjoiMjk0MDBmNWYtMTUzMy00NTUxLWJlNjItYTMxOGMzMzczNTNiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJVc2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.YukZ4nb3kZBRmiwG7lYAI4LJY-ruBA2XXtg2uFWvybi6FIX2HsqMGo79vru2u0Rn8ko46VtsstV056Llop66w7r0hDql1TQm8mmcmktxdDf-JFFYj7e1exbIYXRwuV6ttVAUdahzCAnVM-4JUBTBMrAnSQC1UAB0XveN6l-6IBri-YKSgmn0lofPETiPPzpWDXpYuHDYI9QtoaNKOYhWQGfE1sl5PRsHCsm-qWTr3eoy2OtBkX1yclao2JY27RduS1gl8klSAPOAQDc0wJztRmdK1G79W2pPt0UHx6D34_8zk_mf0PKK5ybZ50bFYOCvIvaNuf3RgQLBJrNovvqplA";	
+			
+			Header header= new Header("Authorization",Bearer);
+			
 			// long id = recipe.getId();
 			// given()
 			// .contentType(ContentType.JSON)
@@ -119,7 +122,9 @@ public class RecipeRestServiceIT {
 			// .post("/")
 			// .then()
 			// .statusCode(200);
-			String id_string = with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
+			String id_string = with().contentType(ContentType.JSON).header(header).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
+			//String error = with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
+			
 			//assertThat(id_string).isNotEmpty();
 			idOfPostRecipe = Long.parseLong(id_string);
 			
@@ -130,7 +135,7 @@ public class RecipeRestServiceIT {
         public void testGetRecipeAfterPost() {
         	long id = idOfPostRecipe;
     		when().get("/" + id).then().assertThat()
-    		.body("author", equalTo("aprfg"))
+    		.body("author", equalTo("9dc26618-de06-4862-b947-799fb551d2a4"))
     		.body("name", equalTo("maRecette"))
     		.body("picture", equalTo("maPhoto"))
     		.body("nbPersons", equalTo(4))
@@ -336,19 +341,24 @@ public class RecipeRestServiceIT {
 		listIng2.add(ingredient3);
 		listIng2.add(ingredient4);
 		
+		String Bearer ="Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3WHZWQ2t2anBGYTlCMW1RVUVKLVAyRXYwa1RTMTh1US1zdm5vWEdRSzNnIn0.eyJqdGkiOiJiMjNkNGQ3ZC05ZTYxLTQ4MzgtOTEwZi01YTIzOGFiNGM0NDIiLCJleHAiOjE1OTA3NTc5OTEsIm5iZiI6MCwiaWF0IjoxNTkwNzU3OTMxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiOWRjMjY2MTgtZGUwNi00ODYyLWI5NDctNzk5ZmI1NTFkMmE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXNzbyIsIm5vbmNlIjoiZGJiZmM3MjItNGU4MC00M2VlLTkwMWItOTY2YjU0NGM0NmNmIiwiYXV0aF90aW1lIjoxNTkwNzU3OTMwLCJzZXNzaW9uX3N0YXRlIjoiMjk0MDBmNWYtMTUzMy00NTUxLWJlNjItYTMxOGMzMzczNTNiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJVc2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.YukZ4nb3kZBRmiwG7lYAI4LJY-ruBA2XXtg2uFWvybi6FIX2HsqMGo79vru2u0Rn8ko46VtsstV056Llop66w7r0hDql1TQm8mmcmktxdDf-JFFYj7e1exbIYXRwuV6ttVAUdahzCAnVM-4JUBTBMrAnSQC1UAB0XveN6l-6IBri-YKSgmn0lofPETiPPzpWDXpYuHDYI9QtoaNKOYhWQGfE1sl5PRsHCsm-qWTr3eoy2OtBkX1yclao2JY27RduS1gl8klSAPOAQDc0wJztRmdK1G79W2pPt0UHx6D34_8zk_mf0PKK5ybZ50bFYOCvIvaNuf3RgQLBJrNovvqplA";	
+		
+		Header header= new Header("Authorization",Bearer);
+		
+		
 		Recipe newRecipe2 = createRecipe("tarte aux fraises suisse", listIng2, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
 				"moi", Date.valueOf("2020-03-28"), 4.7f, listComment);
 		
 		Recipe newRecipe3 = createRecipe("Chocolat noir", listIng2, (short)6, (short)4, (short)2, "maPhoto", "Prepare",
 				"moi", Date.valueOf("2016-03-28"), 2f, listComment);
 		
-		String id_string1 = with().contentType(ContentType.JSON).body(newRecipe).when().request("POST","/").then().statusCode(200).extract().asString();
+		String id_string1 = with().contentType(ContentType.JSON).header(header).body(newRecipe).when().request("POST","/").then().statusCode(200).extract().asString();
 		idOfPostRecipe = Long.parseLong(id_string1);
 		
-		String id_string2 = with().contentType(ContentType.JSON).body(newRecipe2).when().request("POST","/").then().statusCode(200).extract().asString();
+		String id_string2 = with().contentType(ContentType.JSON).header(header).body(newRecipe2).when().request("POST","/").then().statusCode(200).extract().asString();
 		idOfPostRecipe = Long.parseLong(id_string2);
 		
-		String id_string3 = with().contentType(ContentType.JSON).body(newRecipe3).when().request("POST","/").then().statusCode(200).extract().asString();
+		String id_string3 = with().contentType(ContentType.JSON).header(header).body(newRecipe3).when().request("POST","/").then().statusCode(200).extract().asString();
 		idOfPostRecipe = Long.parseLong(id_string3);
 		
 		String mySearch1 = "Tartes à la fraises";
