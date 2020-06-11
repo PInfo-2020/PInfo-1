@@ -65,39 +65,6 @@ public class RecipeServiceImpl implements RecipeService{
 		em.flush();
 	}
 	
-	@Override
-	@Transactional
-	public void addRecipe(String name, String picture, short nbPersons, short preparationTime, short difficulty, Map<Long, Short> ingredients, String preparation, String author) {
-
-		Recipe recipe = new Recipe();
-		recipe.setName(name);
-		recipe.setPreparationTime(preparationTime);
-		recipe.setDifficulty(difficulty);
-		recipe.setNbPersons(nbPersons);
-		recipe.setPicture(picture);
-		recipe.setPreparation(preparation);
-		
-		recipe.setAuthor(author);
-
-		Date date = new java.sql.Date(System.currentTimeMillis());
-		recipe.setPublicationDate(date);
-		recipe.setGrade(-1);
-		List<Comment> comments = new ArrayList<Comment>();
-		recipe.setComments(null);
-		
-		List<Ingredient> ingredientList = new ArrayList<Ingredient>();
-		for (Map.Entry<Long,Short> entry : ingredients.entrySet()) {
-			Ingredient ing = new Ingredient();
-			ing.setDetailsID(entry.getKey());
-			ing.setQuantity(entry.getValue());
-			ingredientList.add(ing);
-		}
-		recipe.setIngredients(ingredientList);
-
-		create(recipe);
-
-	}
-	
 
 	
 	@Override

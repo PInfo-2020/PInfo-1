@@ -65,15 +65,6 @@ public class FridgeServiceImpl implements FridgeService {
 	public void updateFridge(Fridge fridge) {
 		Fridge myFridge = getByUserId(fridge.getUserId());
 		myFridge.getIngredients().clear();
-		//List<Ingredient> ingredients = myFridge.getIngredients();
-		//Suppression des ingredients présents
-		//ListIterator<Ingredient> ing = ingredients.listIterator();
-	    //while(ing.hasNext()){
-	    	//ing.next();
-	    	//ing.remove();
-	    //}
-	    //em.flush();
-
 
 		List<Ingredient> newIngredients = fridge.getIngredients();
 		for(Ingredient ingr : newIngredients) {

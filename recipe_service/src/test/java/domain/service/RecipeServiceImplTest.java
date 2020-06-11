@@ -119,66 +119,6 @@ public class RecipeServiceImplTest {
 		//assertEquals(recipe, recipe.getComments().get(1).getRecipe()); //Il y a NULL dans recipe ??? 
 	}
 	
-	@Test
-	void testAddRecipe() {
-		List<Recipe> recipes = recipeService.getAllRecipes();
-		int size = recipes.size();
-		
-		Map<Long,Short> ingredients = new HashMap<Long,Short>();
-		ingredients.put(375l, (short)12); 
-		ingredients.put(35321l, (short)1);
-		ingredients.put(24l, (short)42); 
-		ingredients.put(31l, (short)34);
-		
-		recipeService.addRecipe("Chocolat à la fraise", "monImage", (short)5, (short)10, (short)4, ingredients, "Prenez du chocolat et ajoutez des fraises", "asdflkjhacd");
-		List<Recipe> updateRecipes = recipeService.getAllRecipes();
-		
-		assertEquals(size+1, updateRecipes.size());
-		Recipe myRecipe = updateRecipes.get(size);
-		
-		assertEquals("Chocolat à la fraise", myRecipe.getName());
-		assertEquals("monImage", myRecipe.getPicture());
-		assertEquals(5, myRecipe.getNbPersons());
-		assertEquals(10, myRecipe.getPreparationTime());
-		assertEquals(4, myRecipe.getDifficulty());
-		assertEquals("Prenez du chocolat et ajoutez des fraises", myRecipe.getPreparation());
-		assertEquals("asdflkjhacd", myRecipe.getAuthor());
-		
-		assertEquals(-1, myRecipe.getGrade());
-		assertEquals(null, myRecipe.getComments());
-		Date date = new java.sql.Date(System.currentTimeMillis());
-		assertEquals(date.toString(), myRecipe.getPublicationDate().toString());
-		
-		assertEquals(4,myRecipe.getIngredients().size());
-		for(int i=0; i<4;i++) {
-			Ingredient ing = myRecipe.getIngredients().get(0);
-			if(ing.getQuantity() == 12) {
-				assertEquals(375, ing.getDetailsID());
-			}
-		}
-		for(int i=0; i<4;i++) {
-			Ingredient ing = myRecipe.getIngredients().get(1);
-			if(ing.getQuantity() == 1) {
-				assertEquals(35321l,ing.getDetailsID());
-			}
-		}
-		for(int i=0; i<4;i++) {
-			Ingredient ing = myRecipe.getIngredients().get(2);
-			if(ing.getQuantity() == 42) {
-				assertEquals(24, ing.getDetailsID());
-			}
-		}
-		for(int i=0; i<4;i++) {
-			Ingredient ing = myRecipe.getIngredients().get(3);
-			if(ing.getQuantity() == 34) {
-				assertEquals(31, ing.getDetailsID());
-			}
-		}
-
-		
-
-		
-	}
 	
 	@Test
 	void testgetListRecipebyUserId() {
