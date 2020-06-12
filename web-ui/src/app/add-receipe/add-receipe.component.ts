@@ -3,18 +3,19 @@ import { numberSymbols } from '@progress/kendo-angular-intl';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { KeycloakService } from 'keycloak-angular';
 
-interface Ingredients {
-  [Key: string]: number;
-}
-
 interface Recipe {
   name: string;
   picture: string;
   people: number;
   preaprationTime: number;
   difficulty: number;
-  ingredients: Ingredients;
+  ingredients: Array<IngredientToBeStringified>;
   preparation: string;
+}
+
+class IngredientToBeStringified {
+    quantity = '';
+    detailsID = '';
 }
 
 @Component({
@@ -33,7 +34,7 @@ export class AddReceipeComponent implements OnInit {
   timeEntered: number;
   recipeEntered: string;
   difficultyEntered: number;
-  ingredientsEntered: Ingredients;
+  ingredientsEntered: Array<IngredientToBeStringified>;
   peopleEntered: number;
   incorrectData: number;
   json: string;
@@ -58,6 +59,10 @@ export class AddReceipeComponent implements OnInit {
     this.peopleEntered = peopleEntered;
   }
 
+  onIngredientsChanged(jsonIngredient: Array<IngredientToBeStringified>) {
+      this.ingredientsEntered = jsonIngredient;
+  }
+
   verifyData() {
     this.incorrectData = 0;
   }
@@ -74,21 +79,21 @@ export class AddReceipeComponent implements OnInit {
     };
     this.json = JSON.stringify(this.recipe);
     console.log(this.json);
-    // tslint:disable-next-line: max-line-length
-    // this.http.post('api/v1/recipe', tempJson, {
-    //   headers: new HttpHeaders(
-    //     {'Access-Control-Allow-Origin':'*',
-    //     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    //      rejectUnauthorized: 'false' }),
-    //   reportProgress: true,
-    //   observe: 'events'
-    // }).subscribe(events => {
-    //   if (events.type === HttpEventType.Response) {
-    //     console.log(events.body);
-    //     alert('SUCCESS !!');
-    //   }
+    //tslint:disable-next-line: max-line-length
+    this.http.post('api/v1/recipe', this.json, {
+      headers: new HttpHeaders(
+        {'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+         rejectUnauthorized: 'false' }),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      if (events.type === HttpEventType.Response) {
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
 
-    // });
+    });
   }
 
   printErrors() {
