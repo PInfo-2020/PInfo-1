@@ -102,9 +102,14 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   getIngredients() {
-
-      
-    this.http.get(this.url).toPromise().then(json => {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.url, headernode).toPromise().then(json => {
       console.log(json);
       this.addJsonToClass(json);
     });
