@@ -17,6 +17,7 @@ export class DifficultyInputComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.changeDifficulty('7');
   }
 
 }

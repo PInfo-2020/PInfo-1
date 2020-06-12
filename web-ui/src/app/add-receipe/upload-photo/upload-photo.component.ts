@@ -40,11 +40,9 @@ export class UploadPhotoComponent implements OnInit {
     const formData = new FormData();
     formData.append('files', this.fileData);
 
-    this.fileUploadProgress = '0%';
-
     this.http
       .post(
-        'https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload',
+        'https://api.imgbb.com/1/upload?key=cba68c7b28823915fd3ddeea7cd241f4',
         formData,
         {
           reportProgress: true,
@@ -52,14 +50,8 @@ export class UploadPhotoComponent implements OnInit {
         }
       )
       .subscribe((events) => {
-        if (events.type === HttpEventType.UploadProgress) {
-          this.fileUploadProgress =
-            Math.round((events.loaded / events.total) * 100) + '%';
-          console.log(this.fileUploadProgress);
-        } else if (events.type === HttpEventType.Response) {
-          this.fileUploadProgress = '';
+        if (events.type === HttpEventType.Response) {
           console.log(events.body);
-          alert('SUCCESS !!');
         }
       });
     // ajout de la classe JS à HTML

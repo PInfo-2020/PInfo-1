@@ -27,7 +27,6 @@ export class MenuNavComponent implements OnInit {
 
   async ngOnInit() {
     if (await this.keycloak.isLoggedIn()) {
-      console.log("prout")
       this.userDetails = await this.keycloak.loadUserProfile();
     }
   }

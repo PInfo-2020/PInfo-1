@@ -14,7 +14,6 @@ import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { NameInputComponent } from './name-input/name-input.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { DifficultyInputComponent } from './difficulty-input/difficulty-input.component';
-import { TagsInputComponent } from './tags-input/tags-input.component';
 import { IngredientsInputComponent } from './ingredients-input/ingredients-input.component';
 
 
@@ -54,7 +53,6 @@ const routes: Routes = [
     NameInputComponent,
     TimeInputComponent,
     DifficultyInputComponent,
-    TagsInputComponent,
     DropDownsModule,
     IngredientsInputComponent,
   ],
@@ -63,7 +61,6 @@ const routes: Routes = [
     NameInputComponent,
     TimeInputComponent,
     DifficultyInputComponent,
-    TagsInputComponent,
     IngredientsInputComponent,
   ]
 })

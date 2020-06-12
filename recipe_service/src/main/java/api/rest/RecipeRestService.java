@@ -65,8 +65,19 @@ public class RecipeRestService {
 	@Path("/{idrecipe}")
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteRecipe(@PathParam("idrecipe") Long idRecipe) {
-		RecipeService.delete(idRecipe);
+	public Response deleteRecipe(@PathParam("idrecipe") Long idRecipe, @Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			Recipe recipe = RecipeService.get(idRecipe);
+			if (recipe.getAuthor().equals(UserID)) {
+				RecipeService.delete(idRecipe);
+				return Response.status(Response.Status.OK).build();
+			}
+			return Response.status(Response.Status.UNAUTHORIZED).entity("You don't have the rights to call this request.").build();
+			
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
 	}
 	
 	@Path("/{idrecipe}")
@@ -80,34 +91,35 @@ public class RecipeRestService {
 	@Path("/{idrecipe}/comment")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public long postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
-		/*
-		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
+	public Response postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
+		
+		if (KeycloakService.verifyAuthentification(headers)) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
-			String idAuthor = comment.getUserID();
-			if (UserID == idAuthor) {
-				
-			}
+			comment.setUserID(UserID);
+			long idComment = RecipeService.addComment(idRecipe,comment);
+			
+			return Response.status(Response.Status.OK).entity(idComment).build();
 		}
-		*/
-		return RecipeService.addComment(idRecipe,comment);
+		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
 	@DELETE
-	public void deleteComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment, @Context HttpHeaders headers) {
-		/*
-		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
+	public Response deleteComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment, @Context HttpHeaders headers) {
+		
+		if (KeycloakService.verifyAuthentification(headers)) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
 			Comment comment = RecipeService.getComment(idRecipe, idComment);
-			String idAuthor = comment.getUserID();
-			if (UserID == idAuthor) {
-				RecipeService.addComment(idRecipe,comment);
+			
+			if (UserID.equals(comment.getUserID())) {
+				RecipeService.deleteComment(idRecipe,idComment);
+				return  Response.status(Response.Status.OK).build();
 			}
-		}*/
-		RecipeService.deleteComment(idRecipe,idComment);
+			return Response.status(Response.Status.UNAUTHORIZED).entity("You don't have the rights to call this request.").build();
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
@@ -134,23 +146,22 @@ public class RecipeRestService {
 	@Path("/user")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUserID(@Context HttpHeaders headers) {
-		
-		String UserID = "Something has gone wrong. Wrong token.";
-		/*
-		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
+	public Response getMyRecipes(@Context HttpHeaders headers) {
+	
+		if (KeycloakService.verifyAuthentification(headers)) {
 			String token = KeycloakService.getToken(headers);
-			UserID = KeycloakService.getIdUser(token);
+			String UserID = KeycloakService.getIdUser(token);
+			List<Recipe> recipes = RecipeService.getListRecipesFromUserId(UserID);
+			return Response.status(Response.Status.OK).entity(recipes).build();
 		}
-		*/
-		return UserID;
+		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
 	}
 
 	@Path("/user/{iduser}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Recipe> getRecipesOfUserId(@PathParam("iduser") String idUser) {
-
+		
 		return RecipeService.getListRecipesFromUserId(idUser);
 	}
 	

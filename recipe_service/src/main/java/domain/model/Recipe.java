@@ -42,7 +42,7 @@ public class Recipe {
 	
 	private String name;
 	private String picture;
-	private short nbPersons;
+	private short people;
 	private short preparationTime;
 	private short difficulty;
 	

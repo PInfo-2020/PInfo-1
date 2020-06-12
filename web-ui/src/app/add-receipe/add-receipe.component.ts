@@ -11,11 +11,10 @@ interface Recipe {
   name: string;
   picture: string;
   people: number;
-  time: number;
+  preaprationTime: number;
   difficulty: number;
   ingredients: Ingredients;
   preparation: string;
-  userID: number;
 }
 
 @Component({
@@ -68,30 +67,28 @@ export class AddReceipeComponent implements OnInit {
       name: this.nameEntered,
       picture: this.pictureEntered,
       people: this.peopleEntered,
-      time: this.timeEntered,
+      preaprationTime: this.timeEntered,
       difficulty: this.difficultyEntered,
       ingredients: this.ingredientsEntered,
-      preparation: this.recipeEntered,
-      userID: 1                               // for testing
+      preparation: this.recipeEntered                              // for testing
     };
     this.json = JSON.stringify(this.recipe);
     console.log(this.json);
     // tslint:disable-next-line: max-line-length
-    const tempJson = {name: 'name', picture: 'picture', nbPersons: 5, preparationTime: 25, difficulty: 8, ingredients: [{quantity: 296, detailsID: 6}, {quantity: 269, detailsID: 834}], preparation: 'preparation', author: 'author', publicationDate: '2019-01-26', grade: 3, comments: [{text: 'monCommentaire', userID: 'userID', grade: 5}]};
-    this.http.post('api/v1/recipe', tempJson, {
-      headers: new HttpHeaders(
-        {'Access-Control-Allow-Origin':'*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-         rejectUnauthorized: 'false' }),
-      reportProgress: true,
-      observe: 'events'
-    }).subscribe(events => {
-      if (events.type === HttpEventType.Response) {
-        console.log(events.body);
-        alert('SUCCESS !!');
-      }
+    // this.http.post('api/v1/recipe', tempJson, {
+    //   headers: new HttpHeaders(
+    //     {'Access-Control-Allow-Origin':'*',
+    //     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    //      rejectUnauthorized: 'false' }),
+    //   reportProgress: true,
+    //   observe: 'events'
+    // }).subscribe(events => {
+    //   if (events.type === HttpEventType.Response) {
+    //     console.log(events.body);
+    //     alert('SUCCESS !!');
+    //   }
 
-    });
+    // });
   }
 
   printErrors() {
