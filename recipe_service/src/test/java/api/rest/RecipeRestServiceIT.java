@@ -97,36 +97,6 @@ public class RecipeRestServiceIT {
 			listComment.add(comment2);
 			Recipe recipe = createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
 					"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment);
-					
-					
-			// JsonObject recipejson = Json.createObjectBuilder()
-			// 		.add("name", "name")
-			// 		.add("picture", "picture")
-			// 		.add("People", 5)
-			// 		.add("preparationTime", 523)
-			// 		.add("difficulty", 642)
-			// 		.add("ingredients", Json.createArrayBuilder()
-			// 				.add(Json.createObjectBuilder()
-			// 						.add("quantity",296)
-			// 						.add("detailsID", 6))
-			// 				.add(Json.createObjectBuilder()
-			// 						.add("quantity",269)
-			// 						.add("detailsID", 834)))
-			// 		.add("preparation", "preparation")
-			// 		.add("author", "author")
-			// 		.add("publicationData",15400)
-			// 		.add("grade", 3.5)
-			// 		.add("comments", Json.createArrayBuilder()
-			// 				.add("comment"))
-			// 		.build();
-			// long id = recipe.getId();
-			// given()
-			// .contentType(ContentType.JSON)
-			// .body(recipejson)
-			// .when()
-			// .post("/")
-			// .then()
-			// .statusCode(200);
 			String id_string = with().contentType(ContentType.JSON).header(header).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
 			String error = with().contentType(ContentType.JSON).header(headerError).body(recipe).when().request("POST","/").then().statusCode(401).extract().asString();
 			assertEquals("There is no header or the token is not valid.",error);
@@ -167,6 +137,7 @@ public class RecipeRestServiceIT {
 			
 			List<Recipe> recipesOfOne = new ArrayList<Recipe>();
 			recipesOfOne.add(recipe);
+			assertEquals(recipes.size(), 1);
 			assertEquals(recipes.get(0).getPreparation(),recipesOfOne.get(0).getPreparation());
 			assertEquals(recipesOfOne.get(0).getAuthor(),recipes.get(0).getAuthor());
 			assertEquals(recipesOfOne.get(0).getDifficulty(),recipes.get(0).getDifficulty());
@@ -237,6 +208,11 @@ public class RecipeRestServiceIT {
     		assertEquals(error,"There is no header or the token is not valid.");
     		
     		
+    		with().get("/1").then().body("comments", hasSize(3));
+    		String error1 = with().contentType(ContentType.JSON).header(header).delete("/1/comment/1").then().statusCode(403).extract().asString();
+    		assertEquals(error1,"You don't have the rights to call this request.");
+    		with().get("/1").then().body("comments", hasSize(3));
+    		
     		with().get("/"+id).then().body("comments", hasSize(1));
     		with().contentType(ContentType.JSON).header(header).delete("/"+id+"/comment/"+idComment).then().statusCode(200);
     		with().get("/"+id).then().body("comments", hasSize(0));
@@ -248,7 +224,10 @@ public class RecipeRestServiceIT {
         public void testDeleteRecipeAfterPost() {
         	long id = idOfPostRecipe;
         	
-       
+        	String error1 = with().contentType(ContentType.JSON).header(header).delete("/1").then().assertThat().statusCode(403).extract().asString();
+			assertEquals(error1,"You don't have the rights to call this request.");
+    		
+        	
 			String error = with().contentType(ContentType.JSON).header(headerError).delete("/" + id).then().assertThat().statusCode(401).extract().asString();
 			assertEquals(error,"There is no header or the token is not valid.");
     		

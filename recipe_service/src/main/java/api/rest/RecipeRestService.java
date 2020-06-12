@@ -74,7 +74,7 @@ public class RecipeRestService {
 				RecipeService.delete(idRecipe);
 				return Response.status(Response.Status.OK).build();
 			}
-			return Response.status(Response.Status.UNAUTHORIZED).entity("You don't have the rights to call this request.").build();
+			return Response.status(Response.Status.FORBIDDEN).entity("You don't have the rights to call this request.").build();
 			
 		}
 		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
@@ -117,7 +117,7 @@ public class RecipeRestService {
 				RecipeService.deleteComment(idRecipe,idComment);
 				return  Response.status(Response.Status.OK).build();
 			}
-			return Response.status(Response.Status.UNAUTHORIZED).entity("You don't have the rights to call this request.").build();
+			return Response.status(Response.Status.FORBIDDEN).entity("You don't have the rights to call this request.").build();
 		}
 		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
 	}
