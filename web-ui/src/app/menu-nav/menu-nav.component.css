@@ -25,3 +25,13 @@
 .mat-icon {
   padding : 5px;
 }
+
+.profil{
+ align-content: center;
+ text-align : center;
+ padding-left: calc(50% - 28px);
+}
+
+.log{
+  padding-left: calc(80vw - 75px);
+}
