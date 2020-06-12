@@ -6,21 +6,16 @@
 <div class="ingredients">
     <kendo-autocomplete #list [data]="data" [filterable]="true" (valueChange)="SelectedAssetFromSTCombo($event)">
     </kendo-autocomplete>
-    <ul>
-        <li *ngFor="let ingredient of addedIngredients; let i = index">
-            <ul>
-                <li>{{ ingredient.name }}</li>
+        <div *ngFor="let ingredient of addedIngredients; let i = index">
+                <div>{{ ingredient.name }}
                 <!-- <li><input type="text" #quantity (keyup.enter)="changeName(quantity.value)" (blur)="changeName(quantity.value)" name="" id=""></li> -->
-                <li><input type="text" name="" id=""></li>
-                <li>{{ ingredient.unity }}</li>
-                <li>
-                    <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
-            <mat-icon>clear</mat-icon>
-          </button>
-                </li>
-            </ul>
-        </li>
-    </ul>
+                <input type="text" name="" id="">
+                {{ ingredient.unity }}
+                <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
+              </div>
 
 
 </div>
