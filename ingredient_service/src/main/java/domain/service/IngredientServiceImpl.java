@@ -33,13 +33,6 @@ public void create(Ingredient ingredient) {
 	em.persist(ingredient);
 }
 
-//@Override
-//public List<Ingredient> getAll() {
-//	CriteriaBuilder builder = em.getCriteriaBuilder();
-//	CriteriaQuery<Ingredient> criteria = builder.createQuery(Ingredient.class);
-//	criteria.from(Ingredient.class);
-//	return em.createQuery(criteria).getResultList();
-//}
 
 @Override
 public List<Ingredient> getAllIngredients() {
@@ -54,17 +47,6 @@ public List<Ingredient> getAllIngredients() {
 @Override
 public List<Object[]> getAllMinInfos(){ //Id, nom, unité
 	
-	//ArrayList<ArrayList<Object>> tab=new ArrayList<>();
-	//List<Ingredient> ingredients = getAllIngredients();
-	
-	//for (int i=0; i<ingredients.size(); i++) {
-	//	tab.add(new ArrayList<>());
-	//	tab.get(i).add(ingredients.get(i).getId());
-	//	tab.get(i).add(ingredients.get(i).getNom());
-	//	tab.get(i).add(ingredients.get(i).getUnite());
-	//}
-	
-	//return tab;
 	
 	CriteriaBuilder builder = em.getCriteriaBuilder();
 	CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
