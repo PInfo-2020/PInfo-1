@@ -107,7 +107,7 @@ public class RecipeServiceImplTest {
 		//assertEquals(recipe, recipe.getIngredients().get(0).getRecipeIng()); //Il y a NULL dans recipeIng ??? 
 		assertEquals(5, recipe.getPreparationTime());
 		assertEquals(5, recipe.getDifficulty());
-		assertEquals(4, recipe.getNbPersons());
+		assertEquals(4, recipe.getPeople());
 		assertEquals("maPhoto", recipe.getPicture());
 		assertEquals("fais ceci cela", recipe.getPreparation());
 		assertEquals("aprfg", recipe.getAuthor());
@@ -282,7 +282,7 @@ public class RecipeServiceImplTest {
 		i.setIngredients(ingredients);
 		i.setPreparationTime(prepTime);
 		i.setDifficulty(difficulty);
-		i.setNbPersons(nbPersonnes);
+		i.setPeople(nbPersonnes);
 		i.setPicture(photo);
 		i.setPreparation(preparation);
 		i.setAuthor(auteur);
@@ -312,7 +312,7 @@ public class RecipeServiceImplTest {
         i.setName(UUID.randomUUID().toString());
         i.setPreparationTime((short) (Math.random()*1000));
         i.setDifficulty((short) (Math.random()*1000));
-        i.setNbPersons((short) (Math.random()*1000));
+        i.setPeople((short) (Math.random()*1000));
         i.setPicture(UUID.randomUUID().toString());
         i.setPreparation(UUID.randomUUID().toString());
         i.setAuthor(UUID.randomUUID().toString());

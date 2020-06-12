@@ -65,6 +65,15 @@ public class RecipeRestServiceIT {
 	
 	private static long idOfPostComment;
 	
+	private static String idOfUser = "9dc26618-de06-4862-b947-799fb551d2a4";
+	
+	private static String Bearer ="Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3WHZWQ2t2anBGYTlCMW1RVUVKLVAyRXYwa1RTMTh1US1zdm5vWEdRSzNnIn0.eyJqdGkiOiJiMjNkNGQ3ZC05ZTYxLTQ4MzgtOTEwZi01YTIzOGFiNGM0NDIiLCJleHAiOjE1OTA3NTc5OTEsIm5iZiI6MCwiaWF0IjoxNTkwNzU3OTMxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiOWRjMjY2MTgtZGUwNi00ODYyLWI5NDctNzk5ZmI1NTFkMmE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXNzbyIsIm5vbmNlIjoiZGJiZmM3MjItNGU4MC00M2VlLTkwMWItOTY2YjU0NGM0NmNmIiwiYXV0aF90aW1lIjoxNTkwNzU3OTMwLCJzZXNzaW9uX3N0YXRlIjoiMjk0MDBmNWYtMTUzMy00NTUxLWJlNjItYTMxOGMzMzczNTNiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJVc2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.YukZ4nb3kZBRmiwG7lYAI4LJY-ruBA2XXtg2uFWvybi6FIX2HsqMGo79vru2u0Rn8ko46VtsstV056Llop66w7r0hDql1TQm8mmcmktxdDf-JFFYj7e1exbIYXRwuV6ttVAUdahzCAnVM-4JUBTBMrAnSQC1UAB0XveN6l-6IBri-YKSgmn0lofPETiPPzpWDXpYuHDYI9QtoaNKOYhWQGfE1sl5PRsHCsm-qWTr3eoy2OtBkX1yclao2JY27RduS1gl8klSAPOAQDc0wJztRmdK1G79W2pPt0UHx6D34_8zk_mf0PKK5ybZ50bFYOCvIvaNuf3RgQLBJrNovvqplA";	
+	private static String BearerError ="Bearer eyJthbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3WHZWQ2t2anBGYTlCMW1RVUVKLVAyRXYwa1RTMTh1US1zdm5vWEdRSzNnIn0.eyJqdGkiOiJiMjNkNGQ3ZC05ZTYxLTQ4MzgtOTEwZi01YTIzOGFiNGM0NDIiLCJleHAiOjE1OTA3NTc5OTEsIm5iZiI6MCwiaWF0IjoxNTkwNzU3OTMxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiOWRjMjY2MTgtZGUwNi00ODYyLWI5NDctNzk5ZmI1NTFkMmE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXNzbyIsIm5vbmNlIjoiZGJiZmM3MjItNGU4MC00M2VlLTkwMWItOTY2YjU0NGM0NmNmIiwiYXV0aF90aW1lIjoxNTkwNzU3OTMwLCJzZXNzaW9uX3N0YXRlIjoiMjk0MDBmNWYtMTUzMy00NTUxLWJlNjItYTMxOGMzMzczNTNiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJVc2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.YukZ4nb3kZBRmiwG7lYAI4LJY-ruBA2XXtg2uFWvybi6FIX2HsqMGo79vru2u0Rn8ko46VtsstV056Llop66w7r0hDql1TQm8mmcmktxdDf-JFFYj7e1exbIYXRwuV6ttVAUdahzCAnVM-4JUBTBMrAnSQC1UAB0XveN6l-6IBri-YKSgmn0lofPETiPPzpWDXpYuHDYI9QtoaNKOYhWQGfE1sl5PRsHCsm-qWTr3eoy2OtBkX1yclao2JY27RduS1gl8klSAPOAQDc0wJztRmdK1G79W2pPt0UHx6D34_8zk_mf0PKK5ybZ50bFYOCvIvaNuf3RgQLBJrNovvqplA";	
+	
+	private static Header header= new Header("Authorization",Bearer);
+	private static Header headerError= new Header("Authorization",BearerError);
+	
+	
 
 	
 	@Nested
@@ -93,7 +102,7 @@ public class RecipeRestServiceIT {
 			// JsonObject recipejson = Json.createObjectBuilder()
 			// 		.add("name", "name")
 			// 		.add("picture", "picture")
-			// 		.add("nbPersons", 5)
+			// 		.add("People", 5)
 			// 		.add("preparationTime", 523)
 			// 		.add("difficulty", 642)
 			// 		.add("ingredients", Json.createArrayBuilder()
@@ -110,10 +119,6 @@ public class RecipeRestServiceIT {
 			// 		.add("comments", Json.createArrayBuilder()
 			// 				.add("comment"))
 			// 		.build();
-			String Bearer ="Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3WHZWQ2t2anBGYTlCMW1RVUVKLVAyRXYwa1RTMTh1US1zdm5vWEdRSzNnIn0.eyJqdGkiOiJiMjNkNGQ3ZC05ZTYxLTQ4MzgtOTEwZi01YTIzOGFiNGM0NDIiLCJleHAiOjE1OTA3NTc5OTEsIm5iZiI6MCwiaWF0IjoxNTkwNzU3OTMxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiOWRjMjY2MTgtZGUwNi00ODYyLWI5NDctNzk5ZmI1NTFkMmE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXNzbyIsIm5vbmNlIjoiZGJiZmM3MjItNGU4MC00M2VlLTkwMWItOTY2YjU0NGM0NmNmIiwiYXV0aF90aW1lIjoxNTkwNzU3OTMwLCJzZXNzaW9uX3N0YXRlIjoiMjk0MDBmNWYtMTUzMy00NTUxLWJlNjItYTMxOGMzMzczNTNiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJVc2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.YukZ4nb3kZBRmiwG7lYAI4LJY-ruBA2XXtg2uFWvybi6FIX2HsqMGo79vru2u0Rn8ko46VtsstV056Llop66w7r0hDql1TQm8mmcmktxdDf-JFFYj7e1exbIYXRwuV6ttVAUdahzCAnVM-4JUBTBMrAnSQC1UAB0XveN6l-6IBri-YKSgmn0lofPETiPPzpWDXpYuHDYI9QtoaNKOYhWQGfE1sl5PRsHCsm-qWTr3eoy2OtBkX1yclao2JY27RduS1gl8klSAPOAQDc0wJztRmdK1G79W2pPt0UHx6D34_8zk_mf0PKK5ybZ50bFYOCvIvaNuf3RgQLBJrNovvqplA";	
-			
-			Header header= new Header("Authorization",Bearer);
-			
 			// long id = recipe.getId();
 			// given()
 			// .contentType(ContentType.JSON)
@@ -123,22 +128,23 @@ public class RecipeRestServiceIT {
 			// .then()
 			// .statusCode(200);
 			String id_string = with().contentType(ContentType.JSON).header(header).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
-			//String error = with().contentType(ContentType.JSON).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
+			String error = with().contentType(ContentType.JSON).header(headerError).body(recipe).when().request("POST","/").then().statusCode(401).extract().asString();
+			assertEquals("There is no header or the token is not valid.",error);
 			
-			//assertThat(id_string).isNotEmpty();
 			idOfPostRecipe = Long.parseLong(id_string);
 			
 		}
 		
+
         @Test
         @Order(2)
         public void testGetRecipeAfterPost() {
         	long id = idOfPostRecipe;
     		when().get("/" + id).then().assertThat()
-    		.body("author", equalTo("9dc26618-de06-4862-b947-799fb551d2a4"))
+    		.body("author", equalTo(idOfUser))
     		.body("name", equalTo("maRecette"))
     		.body("picture", equalTo("maPhoto"))
-    		.body("nbPersons", equalTo(4))
+    		.body("people", equalTo(4))
     		.body("preparationTime", equalTo(5))
     		.body("difficulty", equalTo(5))
     		.body("preparation", equalTo("fais ceci cela"))
@@ -148,65 +154,105 @@ public class RecipeRestServiceIT {
     		.body("comments", hasSize(0));
         }
         
+		@Test
+		@Order(3)
+		public void testGetMyRecipes() {
+			
+			String error = with().contentType(ContentType.JSON).header(headerError).get("/user").then().assertThat().statusCode(401).extract().asString();
+
+			assertEquals(error,"There is no header or the token is not valid.");
+			
+			List<Recipe> recipes = with().contentType(ContentType.JSON).header(header).get("/user").then().assertThat().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
+			Recipe recipe = when().get("/" + idOfPostRecipe).then().assertThat().statusCode(200).extract().as(Recipe.class);
+			
+			List<Recipe> recipesOfOne = new ArrayList<Recipe>();
+			recipesOfOne.add(recipe);
+			assertEquals(recipes.get(0).getPreparation(),recipesOfOne.get(0).getPreparation());
+			assertEquals(recipesOfOne.get(0).getAuthor(),recipes.get(0).getAuthor());
+			assertEquals(recipesOfOne.get(0).getDifficulty(),recipes.get(0).getDifficulty());
+			assertEquals(recipesOfOne.get(0).getPeople(),recipes.get(0).getPeople());
+			assertEquals(recipesOfOne.get(0).getName(),recipes.get(0).getName());
+			assertEquals(recipesOfOne.get(0).getPicture(),recipes.get(0).getPicture());
+			assertEquals(recipesOfOne.get(0).getPreparationTime(),recipes.get(0).getPreparationTime());
+			assertEquals(recipesOfOne.get(0).getId(),recipes.get(0).getId());
+			assertEquals(recipesOfOne.get(0).getPublicationDate(),recipes.get(0).getPublicationDate());
+			assertEquals(recipesOfOne.get(0).getGrade(),recipes.get(0).getGrade());
+			
+		}
+		
         
         @Test
-        @Order(3)
+        @Order(4)
     	public void testPostComment() {
         	long id = idOfPostRecipe;
     		Comment comment =  createComment("dégueu", "méchant",(short) 5);
 
+		
     		when().get("/"+id).then().body("comments", hasSize(0));
-    		String idComment = with().contentType(ContentType.JSON).body(comment).when().request("POST","/"+id+"/comment").then().statusCode(200).extract().asString();
+    		String error = with().contentType(ContentType.JSON).header(headerError).body(comment).when().request("POST","/"+id+"/comment").then().statusCode(401).extract().asString();
+    		assertEquals(error, "There is no header or the token is not valid.");
+    		String idComment = with().contentType(ContentType.JSON).header(header).body(comment).when().request("POST","/"+id+"/comment").then().statusCode(200).extract().asString();
     		idOfPostComment = Long.parseLong(idComment);
     		when().get("/"+id).then().body("comments", hasSize(1));
     		when().get("/"+id).then().assertThat()
-    		.body("comments.userID", hasItems("méchant"))
+    		.body("comments.userID", hasItems(idOfUser))
     		.body("comments.text", hasItems("dégueu"))
     		.body("comments.grade", hasItems(5));
     		
     	}
         
         @Test
-        @Order(4)
+        @Order(5)
         public void testGetCommentAfterPost() {
         	long id = idOfPostRecipe;
         	long idComment = idOfPostComment;
         	when().get("/"+id+"/comment/"+idComment).then().assertThat()
-        	.body("userID", equalTo("méchant"))
+        	.body("userID", equalTo(idOfUser))
         	.body("text", equalTo("dégueu"))
         	.body("grade", equalTo(5));
         }
         
         @Test
-        @Order(5)
+        @Order(6)
         public void testGetCommentsAfterPost() {
         	long id = idOfPostRecipe;
         	List<Comment> response = when().get("/"+id+"/comments").then().extract().body().jsonPath().getList(".", Comment.class);
         	assertEquals(1,response.size());
         	Comment myComment = response.get(0);
-        	assertEquals("méchant",myComment.getUserID());
+        	assertEquals(idOfUser,myComment.getUserID());
         	assertEquals("dégueu",myComment.getText());
         	assertEquals(5,myComment.getGrade());
         }
         
         
         @Test
-        @Order(6)
+        @Order(7)
     	public void testDeleteComment() {
         	long id = idOfPostRecipe;
     		long idComment = idOfPostComment;
-    		when().get("/"+id).then().body("comments", hasSize(1));
-    		with().delete("/"+id+"/comment/"+idComment).then().statusCode(204);
+    		
+    	
+    		String error = with().contentType(ContentType.JSON).header(headerError).delete("/"+id+"/comment/"+idComment).then().statusCode(401).extract().asString();
+    		assertEquals(error,"There is no header or the token is not valid.");
+    		
+    		
+    		with().get("/"+id).then().body("comments", hasSize(1));
+    		with().contentType(ContentType.JSON).header(header).delete("/"+id+"/comment/"+idComment).then().statusCode(200);
     		with().get("/"+id).then().body("comments", hasSize(0));
     		
     	}
         
         @Test
-        @Order(7)
+        @Order(8)
         public void testDeleteRecipeAfterPost() {
         	long id = idOfPostRecipe;
+        	
+       
+			String error = with().contentType(ContentType.JSON).header(headerError).delete("/" + id).then().assertThat().statusCode(401).extract().asString();
+			assertEquals(error,"There is no header or the token is not valid.");
+    		
         	when().get("/" + id).then().assertThat().statusCode(200); //Content a response
-        	when().delete("/" + id).then().assertThat().statusCode(204);
+        	with().contentType(ContentType.JSON).header(header).delete("/" + id).then().assertThat().statusCode(200);
         	when().get("/" + id).then().assertThat().statusCode(204); //Doesn't content anything
         }
         
@@ -222,7 +268,7 @@ public class RecipeRestServiceIT {
 		.body("author", equalTo("testId"))
 		.body("name", equalTo("Tarte aux citrons"))
 		.body("picture", equalTo("monImage"))
-		.body("nbPersons", equalTo(5))
+		.body("people", equalTo(5))
 		.body("preparationTime", equalTo(10))
 		.body("difficulty", equalTo(5))
 		.body("preparation", equalTo("Prépare la tarte"))
@@ -236,6 +282,7 @@ public class RecipeRestServiceIT {
 	}
 	
 	
+	
 	@Test
 	public void testGetByUserId() {
 		
@@ -247,7 +294,7 @@ public class RecipeRestServiceIT {
 		
 		assertEquals("Choux à la crème", myRecipe.getName());
 		assertEquals("monAutreImage", myRecipe.getPicture());
-		assertEquals(2, myRecipe.getNbPersons());
+		assertEquals(2, myRecipe.getPeople());
 		assertEquals(15, myRecipe.getPreparationTime());
 		assertEquals(3, myRecipe.getDifficulty());
 		assertEquals("Prépare le choux", myRecipe.getPreparation());
@@ -279,7 +326,7 @@ public class RecipeRestServiceIT {
 		
 		assertEquals("Tarte aux citrons", Recipe1.getName());
 		assertEquals("monImage", Recipe1.getPicture());
-		assertEquals(5, Recipe1.getNbPersons());
+		assertEquals(5, Recipe1.getPeople());
 		assertEquals(10, Recipe1.getPreparationTime());
 		assertEquals(5, Recipe1.getDifficulty());
 		assertEquals("Prépare la tarte", Recipe1.getPreparation());
@@ -304,7 +351,7 @@ public class RecipeRestServiceIT {
 		
 		assertEquals("Choux à la crème", Recipe2.getName());
 		assertEquals("monAutreImage", Recipe2.getPicture());
-		assertEquals(2, Recipe2.getNbPersons());
+		assertEquals(2, Recipe2.getPeople());
 		assertEquals(15, Recipe2.getPreparationTime());
 		assertEquals(3, Recipe2.getDifficulty());
 		assertEquals("Prépare le choux", Recipe2.getPreparation());
@@ -341,11 +388,6 @@ public class RecipeRestServiceIT {
 		listIng2.add(ingredient3);
 		listIng2.add(ingredient4);
 		
-		String Bearer ="Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3WHZWQ2t2anBGYTlCMW1RVUVKLVAyRXYwa1RTMTh1US1zdm5vWEdRSzNnIn0.eyJqdGkiOiJiMjNkNGQ3ZC05ZTYxLTQ4MzgtOTEwZi01YTIzOGFiNGM0NDIiLCJleHAiOjE1OTA3NTc5OTEsIm5iZiI6MCwiaWF0IjoxNTkwNzU3OTMxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvbWFzdGVyIiwiYXVkIjpbIm1hc3Rlci1yZWFsbSIsImFjY291bnQiXSwic3ViIjoiOWRjMjY2MTgtZGUwNi00ODYyLWI5NDctNzk5ZmI1NTFkMmE0IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXNzbyIsIm5vbmNlIjoiZGJiZmM3MjItNGU4MC00M2VlLTkwMWItOTY2YjU0NGM0NmNmIiwiYXV0aF90aW1lIjoxNTkwNzU3OTMwLCJzZXNzaW9uX3N0YXRlIjoiMjk0MDBmNWYtMTUzMy00NTUxLWJlNjItYTMxOGMzMzczNTNiIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJVc2VyIiwib2ZmbGluZV9hY2Nlc3MiLCJhZG1pbiIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsibWFzdGVyLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.YukZ4nb3kZBRmiwG7lYAI4LJY-ruBA2XXtg2uFWvybi6FIX2HsqMGo79vru2u0Rn8ko46VtsstV056Llop66w7r0hDql1TQm8mmcmktxdDf-JFFYj7e1exbIYXRwuV6ttVAUdahzCAnVM-4JUBTBMrAnSQC1UAB0XveN6l-6IBri-YKSgmn0lofPETiPPzpWDXpYuHDYI9QtoaNKOYhWQGfE1sl5PRsHCsm-qWTr3eoy2OtBkX1yclao2JY27RduS1gl8klSAPOAQDc0wJztRmdK1G79W2pPt0UHx6D34_8zk_mf0PKK5ybZ50bFYOCvIvaNuf3RgQLBJrNovvqplA";	
-		
-		Header header= new Header("Authorization",Bearer);
-		
-		
 		Recipe newRecipe2 = createRecipe("tarte aux fraises suisse", listIng2, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
 				"moi", Date.valueOf("2020-03-28"), 4.7f, listComment);
 		
@@ -353,13 +395,13 @@ public class RecipeRestServiceIT {
 				"moi", Date.valueOf("2016-03-28"), 2f, listComment);
 		
 		String id_string1 = with().contentType(ContentType.JSON).header(header).body(newRecipe).when().request("POST","/").then().statusCode(200).extract().asString();
-		idOfPostRecipe = Long.parseLong(id_string1);
+		long id_1 = Long.parseLong(id_string1);
 		
 		String id_string2 = with().contentType(ContentType.JSON).header(header).body(newRecipe2).when().request("POST","/").then().statusCode(200).extract().asString();
-		idOfPostRecipe = Long.parseLong(id_string2);
+		long id_2 = Long.parseLong(id_string2);
 		
 		String id_string3 = with().contentType(ContentType.JSON).header(header).body(newRecipe3).when().request("POST","/").then().statusCode(200).extract().asString();
-		idOfPostRecipe = Long.parseLong(id_string3);
+		long id_3 = Long.parseLong(id_string3);
 		
 		String mySearch1 = "Tartes à la fraises";
 		String mySearch2 = "poires aux truffes";
@@ -371,16 +413,13 @@ public class RecipeRestServiceIT {
 		assertEquals(2,response1.size());
 		assertEquals(1,response3.size());
 		assertEquals(newRecipe3.getName(), response3.get(0).getName());
-		
-		
+		with().contentType(ContentType.JSON).header(header).delete("/" + id_1).then().assertThat().statusCode(200);
+		with().contentType(ContentType.JSON).header(header).delete("/" + id_2).then().assertThat().statusCode(200);
+		with().contentType(ContentType.JSON).header(header).delete("/" + id_3).then().assertThat().statusCode(200);
 	}
 
 
 
-	
-	
-	
-	
 	
 	
 	
@@ -413,7 +452,7 @@ public class RecipeRestServiceIT {
 		i.setIngredients(ingredients);
 		i.setPreparationTime(prepTime);
 		i.setDifficulty(difficulty);
-		i.setNbPersons(nbPersonnes);
+		i.setPeople(nbPersonnes);
 		i.setPicture(photo);
 		i.setPreparation(preparation);
 		i.setAuthor(auteur);
