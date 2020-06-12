@@ -30,8 +30,10 @@
  align-content: center;
  text-align : center;
  padding-left: calc(50% - 28px);
+ padding-top:20px;
 }
 
 .log{
-  padding-left: calc(80vw - 75px);
+  padding-left: calc(90% - 75px);
+  padding-top:10px;
 }
