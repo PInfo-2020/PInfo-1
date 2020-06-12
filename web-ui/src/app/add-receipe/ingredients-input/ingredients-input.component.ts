@@ -131,6 +131,13 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     this.addedIngredients.splice(index, 1);
   }
 
+  changeQuantity(quantity: string, id: string) {
+    for (const ingredient of this.addedIngredients) {
+      if (ingredient.id === parseInt(id)) {
+        ingredient.quantity = quantity;
+      }
+    }
+  }
  }
 
 
