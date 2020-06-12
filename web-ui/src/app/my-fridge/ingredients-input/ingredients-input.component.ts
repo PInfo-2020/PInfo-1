@@ -1,8 +1,9 @@
-import { NgModule, AfterViewInit } from '@angular/core';
+import { NgModule, AfterViewInit, Output, EventEmitter  } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
+import { KeycloakService } from 'keycloak-angular'
 
 class AddedIngredient {
   name = '';
@@ -28,6 +29,15 @@ class Ingredient {
   }
 }
 
+class IngredientToBeStringified {
+  quantity = '';
+  detailsID = '';
+  constructor(quantity, detailsID) {
+    this.quantity = quantity;
+    this.detailsID = detailsID;
+  }
+}
+
 @Component({
   selector: 'app-ingredients-input',
   templateUrl: './ingredients-input.component.html',
@@ -39,7 +49,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   @ViewChild('list') list;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,  public keycloak: KeycloakService) { }
 
   public listIngredient: Array<string> = [];
 
@@ -49,7 +59,9 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   public addedIngredients: Array<AddedIngredient> = [];
 
-  // private json: Array<Array<string>>;
+  public ingredientsToBeStringified: Array<IngredientToBeStringified> = [];
+
+  @Output() changedIngredients = new EventEmitter<Array<IngredientToBeStringified>>();
 
   url = 'api/v1/ingredients/minInfos';
 
@@ -104,13 +116,12 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       });
   }
 
-  addIngredient(name) { }
-
-
   getIngredients() {
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.url, headernode).toPromise().then(json => {
@@ -118,18 +129,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       this.addJsonToClass(json);
     });
   }
-
-    /*
-    let post_message = data;
-    let header_node = {
-        headers: new HttpHeaders(
-            { 'Accept': 'application/json' },
-            { 'rejectUnauthorized': 'false' })
-        };
-
-    return this.http.post('https://ip/createdata', post_message, header_node).toPromise();
-}
-  */
 
   addJsonToClass(json) {
     let ingr;
@@ -143,19 +142,34 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     }
   }
 
+
   onRemove(index) {
     console.log('index : ', index);
     console.log('this.addedIngredients : ', this.addedIngredients[index]);
     this.addedIngredients.splice(index, 1);
   }
 
-  onAdd(index) {
-    const input = (document.getElementById('quantity') as HTMLInputElement).value;
-    this.addedIngredients[index].quantity = input;
-    console.log('index : ', index);
-    console.log('this.addedIngredients : ', this.addedIngredients[index].name, this.addedIngredients[index].quantity);
+  changeQuantity(quantity: string, id: string) {
+    for (const ingredient of this.addedIngredients) {
+      if (parseInt(ingredient.id) === parseInt(id)) {
+        ingredient.quantity = quantity;
+      }
+    }
+    this.changeIngredients();
   }
 
+  changeIngredients() {
+    this.ingredientsToBeStringified = [];
+    for (const ingred of this.addedIngredients) {
+      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.quantity, ingred.id));
+    }
+    this.changedIngredients.emit(this.ingredientsToBeStringified);
+  }
+
+  onAdd(index) {
+    console.log('index : ', index);
+    console.log('ingredient this.addedIngredients.quantity : ',this.addedIngredients[index].name, this.addedIngredients[index].quantity);
+    //envoyer
+    this.addedIngredients.splice(index, 1);
+  }
  }
-
-
