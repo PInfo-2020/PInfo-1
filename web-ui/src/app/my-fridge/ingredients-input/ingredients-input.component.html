@@ -1,29 +1,25 @@
 <div class="box">
-  <label class = "section" for="ingredients">Ingrédients à ajouter :</label>
+  <mat-icon> fastfood</mat-icon>
+  <label class="section" for="ingredients">Ingrédients à ajouter :</label>
 </div>
 
 <div class="ingredients">
-  <kendo-autocomplete
-      #list
-      [data]="data"
-      [filterable]="true"
-      (valueChange)="SelectedAssetFromSTCombo($event)"
-  >
+  <kendo-autocomplete #list [data]="data" [filterable]="true" (valueChange)="SelectedAssetFromSTCombo($event)">
   </kendo-autocomplete>
   <div *ngFor="let ingredient of addedIngredients; let i = index">
-      <div>{{ ingredient.name }} :
-      <input type="text" name="" id="quantity">
-      {{ ingredient.unity }}
-      <button mat-icon-button color="black" aria-label="Valider l'ingrédient" (click)="onAdd(i)">
-        <mat-icon>check</mat-icon>
-      </button>
-        <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
-          <mat-icon>clear</mat-icon>
-        </button>
+      <div>{{ ingredient.name }}
+          <input type="text" id="{{ ingredient.id }}" #quantity (keyup.enter)="changeQuantity(quantity.value, quantity.id)" (blur)="changeQuantity(quantity.value, quantity.id)" name="" id=""> {{ ingredient.unity }}
+          <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
+                <mat-icon>clear</mat-icon>
+              </button>
+              <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onAdd(i)">
+                <mat-icon>check</mat-icon>
+              </button>
       </div>
   </div>
-</div>
 
+
+</div>
 
 
 

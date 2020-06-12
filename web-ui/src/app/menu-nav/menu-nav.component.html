@@ -8,14 +8,14 @@
         Profil
       </a></mat-toolbar> -->
     <mat-toolbar>
- 
-      <div *ngIf="userDetails else elseUser"> {{userDetails.username }}</div>
-      <ng-template #elseUser> <div>Guest</div></ng-template>
-      <div *ngIf="userDetails">
+      <div class="profil" *ngIf="userDetails; else elseUser">
       <!--<div *ngIf="loggedIn">-->
          <mat-icon>account_circle</mat-icon>
-         <p (click)="profil()">Profil</p>
+         <p (click)="profil()">{{userDetails.username }}</p>
       </div>
+      <ng-template #elseUser>
+        <div class="profil">Guest</div>
+      </ng-template>
 
         <!--<p (click)="logOut()">
           <br>Log Out
@@ -47,8 +47,10 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>PickNCook</span>
-      <div *ngIf="userDetails; else elseBlock"><p (click)="logout()">Log Out</p></div>
-      <ng-template #elseBlock> <p (click)="login()">Log In</p></ng-template>
+      <div class="log" *ngIf="userDetails; else elseBlock">
+        <p (click)="logout()">Log Out</p>
+      </div>
+      <ng-template #elseBlock> <p class="log" (click)="login()">Log In</p></ng-template>
     </mat-toolbar>
     <router-outlet></router-outlet>
     <!-- Add Content Here -->

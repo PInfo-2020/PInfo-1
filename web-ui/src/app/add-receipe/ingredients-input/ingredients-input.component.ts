@@ -1,4 +1,4 @@
-import { NgModule, AfterViewInit } from '@angular/core';
+import { NgModule, AfterViewInit, Output, EventEmitter  } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
@@ -28,6 +28,15 @@ class Ingredient {
   }
 }
 
+class IngredientToBeStringified {
+  quantity = '';
+  detailsID = '';
+  constructor(quantity, detailsID) {
+    this.quantity = quantity;
+    this.detailsID = detailsID;
+  }
+}
+
 @Component({
   selector: 'app-ingredients-input',
   templateUrl: './ingredients-input.component.html',
@@ -49,7 +58,9 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   public addedIngredients: Array<AddedIngredient> = [];
 
-  // private json: Array<Array<string>>;
+  public ingredientsToBeStringified: Array<IngredientToBeStringified> = [];
+
+  @Output() changedIngredients = new EventEmitter<Array<IngredientToBeStringified>>();
 
   url = 'api/v1/ingredients/minInfos';
 
@@ -133,10 +144,19 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   changeQuantity(quantity: string, id: string) {
     for (const ingredient of this.addedIngredients) {
-      if (ingredient.id === parseInt(id)) {
+      if (parseInt(ingredient.id) === parseInt(id)) {
         ingredient.quantity = quantity;
       }
     }
+    this.changeIngredients();
+  }
+
+  changeIngredients() {
+    this.ingredientsToBeStringified = [];
+    for (const ingred of this.addedIngredients) {
+      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.quantity, ingred.id));
+    }
+    this.changedIngredients.emit(this.ingredientsToBeStringified);
   }
  }
 
