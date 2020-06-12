@@ -58,6 +58,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if(this.addedIngredients.length === 0) {
     console.log(ingre);
 
     let alreadyIn = 0;
@@ -78,9 +79,14 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         }
       }
     }
+    console.log('longueur' , this.addedIngredients.length);
     console.log( 'Added Ingredients :' );
     console.log(this.addedIngredients);
+  } else {
+    return;
   }
+  }
+
 
   ngOnInit() {
     this.getIngredients();
@@ -137,11 +143,17 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   onRemove(index) {
     console.log('index : ', index);
     console.log('this.addedIngredients : ', this.addedIngredients[index]);
     this.addedIngredients.splice(index, 1);
+  }
+
+  onAdd(index) {
+    const input = (document.getElementById('quantity') as HTMLInputElement).value;
+    this.addedIngredients[index].quantity = input;
+    console.log('index : ', index);
+    console.log('this.addedIngredients : ', this.addedIngredients[index].name, this.addedIngredients[index].quantity);
   }
 
  }

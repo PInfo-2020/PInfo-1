@@ -18,6 +18,7 @@ export class PeopleInputComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.changePeople('4')
   }
 
 }
