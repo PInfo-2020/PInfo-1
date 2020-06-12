@@ -7,15 +7,15 @@ interface Recipe {
   name: string;
   picture: string;
   people: number;
-  preaprationTime: number;
+  preparationTime: number;
   difficulty: number;
   ingredients: Array<IngredientToBeStringified>;
   preparation: string;
 }
 
 class IngredientToBeStringified {
-    quantity = '';
-    detailsID = '';
+    quantity: number;
+    detailsID: number;
 }
 
 @Component({
@@ -72,7 +72,7 @@ export class AddReceipeComponent implements OnInit {
       name: this.nameEntered,
       picture: this.pictureEntered,
       people: this.peopleEntered,
-      preaprationTime: this.timeEntered,
+      preparationTime: this.timeEntered,
       difficulty: this.difficultyEntered,
       ingredients: this.ingredientsEntered,
       preparation: this.recipeEntered                              // for testing
@@ -82,7 +82,8 @@ export class AddReceipeComponent implements OnInit {
     //tslint:disable-next-line: max-line-length
     this.http.post('api/v1/recipe', this.json, {
       headers: new HttpHeaders(
-        {'Access-Control-Allow-Origin':'*',
+        {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
          rejectUnauthorized: 'false' }),
       reportProgress: true,
