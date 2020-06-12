@@ -12,9 +12,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+
 import domain.model.Fridge;
 import domain.model.Ingredient;
-import javax.transaction.Transactional;
+
 
 @ApplicationScoped
 public class FridgeServiceImpl implements FridgeService {
@@ -40,6 +41,9 @@ public class FridgeServiceImpl implements FridgeService {
 		Root<Fridge> c = criteria.from(Fridge.class);
 		criteria.select(c).where(builder.equal(c.get("userId"), userId));
 		
+		if(em.createQuery(criteria).getResultList().isEmpty()) {
+			return null;
+		}
 		return em.createQuery(criteria).getResultList().get(0);
 	}
 
@@ -47,6 +51,7 @@ public class FridgeServiceImpl implements FridgeService {
 	@Transactional
 	public void create(Fridge fridge) {
 		em.persist(fridge);
+		em.flush();
 	}
 
 
@@ -59,16 +64,32 @@ public class FridgeServiceImpl implements FridgeService {
 
 	
 	@Override
-	public void updateFridge(Fridge fridge) {
+	@Transactional
+	public Boolean updateFridge(Fridge fridge) {
 		Fridge myFridge = getByUserId(fridge.getUserId());
-		myFridge.setIngredients(fridge.getIngredients());
-		em.flush();
+		if(myFridge == null) {
+			return false;
+		}
+		else {
+			myFridge.getIngredients().clear();
+
+			List<Ingredient> newIngredients = fridge.getIngredients();
+			for(Ingredient ingr : newIngredients) {
+				ingr.setFridge(myFridge);
+			}
+			
+			myFridge.getIngredients().addAll(newIngredients);
+			em.flush();
+			return true;
+		}
 	}
 
 	@Override
+	@Transactional
 	public void deleteFridge(long id) {
 		Fridge fridge = em.find(Fridge.class, id);
 		em.remove(fridge);
+		em.flush();
 	}
 
 }

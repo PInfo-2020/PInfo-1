@@ -37,15 +37,11 @@ public class KeycloakServiceImpl implements KeycloakService {
 	}
 
 	@Override
-	public boolean verifyAuthentification(HttpHeaders headers, Date now) {
+	public boolean verifyAuthentification(HttpHeaders headers) {
 		String token = getToken(headers);
 		if(token != null && getIdUser(token) != null) {
-			DecodedJWT jwt = JWT.decode(token);
-			Date issuedAt = jwt.getIssuedAt();
-			Date notBefore = jwt.getNotBefore();
-			Date expiresAt = jwt.getExpiresAt();
-			return now.after(notBefore) && now.after(issuedAt) && now.before(expiresAt);
-		}
+			return true;
+					}
 		return false;
 	}
 

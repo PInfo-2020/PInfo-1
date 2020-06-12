@@ -61,7 +61,7 @@ public class FrigeServiceImplTest {
 		Ingredient ing = new Ingredient();
 		ing.setDetailsID(42);
 		ing.setQuantity((short)2);
-		ing.setExpiration(new java.util.Date());
+		ing.setExpiration(Date.valueOf("2020-10-26"));
 		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		Fridge fridge = new Fridge();
@@ -74,6 +74,13 @@ public class FrigeServiceImplTest {
 		
 		long id = fridge1.getId();
 		assertEquals(fridgeService.get(id), fridge1);
+		assertEquals(fridgeService.get(id).getId(),fridge1.getId());
+		assertEquals("aosédv", fridge1.getUserId());
+		assertEquals(42, fridge1.getIngredients().get(0).getDetailsID());
+		assertEquals(2, fridge1.getIngredients().get(0).getQuantity());
+		assertEquals(ing.getId(), fridge1.getIngredients().get(0).getId());
+		assertEquals(Date.valueOf("2020-10-26"), fridge1.getIngredients().get(0).getExpiration());
+		//assertEquals(fridge1, fridge1.getIngredients().get(0).getFridge()); //Il y a NULL dans fridge ??? 
 	}
 
 	@Test
@@ -81,16 +88,18 @@ public class FrigeServiceImplTest {
 		Ingredient ing = new Ingredient();
 		ing.setDetailsID(42);
 		ing.setQuantity((short)2);
-		ing.setExpiration(new java.util.Date());
+		ing.setExpiration(Date.valueOf("2020-10-26"));
 		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		Fridge fridge = new Fridge();
 		fridge.setIngredients(ings);
 		fridge.setUserId("aosédv");
+		
 		fridgeService.create(fridge);
 		fridgeService.create(createFridge());
 		
 		assertEquals(fridge, fridgeService.getByUserId("aosédv"));
+		assertEquals(null, fridgeService.getByUserId("APMXN"));
 	}
 	@Test
 	void testGetAll() {
@@ -116,15 +125,21 @@ public class FrigeServiceImplTest {
 		Ingredient ing = new Ingredient();
 		ing.setDetailsID(42);
 		ing.setQuantity((short)2);
-		ing.setExpiration(new java.util.Date());
+		ing.setExpiration(Date.valueOf("2020-10-26"));
 		List<Ingredient> ings = new ArrayList<Ingredient>();
 		ings.add(ing);
 		fridge2.setIngredients(ings);
 		fridge2.setUserId(fridge.getUserId());
 		
+		Fridge falseFridge = new Fridge();
+		falseFridge.setIngredients(ings);
+		falseFridge.setUserId("blabla");
+		
 		assertEquals(2, fridge.getIngredients().size());
 		fridgeService.updateFridge(fridge2);
 		assertEquals(1, fridge.getIngredients().size());
+		assertEquals(true,fridgeService.updateFridge(fridge2));
+		assertEquals(false,fridgeService.updateFridge(falseFridge));
 	}
 	
 	@Test
@@ -147,11 +162,11 @@ public class FrigeServiceImplTest {
 		Ingredient ing1 = new Ingredient();
 		ing1.setDetailsID(123);
 		ing1.setQuantity((short)12);
-		ing1.setExpiration(new java.util.Date());
+		ing1.setExpiration(Date.valueOf("2020-10-26"));
 		Ingredient ing2 = new Ingredient();
 		ing2.setDetailsID(124);
 		ing2.setQuantity((short)2);
-		ing2.setExpiration(new java.util.Date());
+		ing2.setExpiration(Date.valueOf("2020-10-26"));
 		ingredients.add(ing1);
 		ingredients.add(ing2);
 		return ingredients;

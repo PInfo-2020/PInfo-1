@@ -15,13 +15,18 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 import lombok.Getter;
@@ -30,16 +35,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Data
 @Entity
 public class Fridge {
 	@Id
 	@SequenceGenerator(name = "FRIDGE_SEQ", sequenceName = "FRIDGE_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FRIDGE_SEQ")
-	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String userId;
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL, targetEntity=Ingredient.class, mappedBy = "fridge", fetch = FetchType.EAGER, orphanRemoval=true)
 	private List<Ingredient> ingredients;
 }

@@ -51,7 +51,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   // private json: Array<Array<string>>;
 
-  url = 'https://www.pickncook.ch/api/v1/ingredients/minInfos';
+  url = 'api/v1/ingredients/minInfos';
 
   public SelectedAssetFromSTCombo(ingre) {
     if (!this.listIngredient.includes(ingre)) {

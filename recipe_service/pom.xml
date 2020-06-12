@@ -128,6 +128,16 @@
 			<version>${hibernate-entitymanager.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.5.6-Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.6</version>
+		</dependency>
 
 
 		<dependency>
@@ -294,7 +304,7 @@
 				</dependencies>
 				<configuration>
 					<driver>org.h2.Driver</driver>
-					<url>jdbc:h2:${java.io.tmpdir}/target/IngredientDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
+					<url>jdbc:h2:${java.io.tmpdir}/target/RecipeDB;AUTO_SERVER=TRUE;AUTO_SERVER=TRUE</url>
 					<username>sa</username>
 					<password>sa</password>
 					<autocommit>true</autocommit>
@@ -315,7 +325,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 		</plugins>
 	</build>
 </project>

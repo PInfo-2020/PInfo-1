@@ -2,10 +2,12 @@ package domain.model;
 
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -21,26 +23,27 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Data
 @Entity
 public class Ingredient {
 	@Id
 	@SequenceGenerator(name = "INGREDIENT_SEQ", sequenceName = "INGREDIENT_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INGREDIENT_SEQ")
-	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private long detailsID;
 	private short quantity;
 	private Date expiration;
 	
-	@ManyToOne
-	@JoinColumn(name = "fridgeId")
+	@JsonBackReference
+	@ManyToOne()
+	@JoinColumn(name = "Fridge_id")
 	private Fridge fridge;
 	
 }

@@ -1,6 +1,7 @@
 package api.rest;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -17,12 +18,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.postgresql.shaded.com.ongres.scram.common.message.ServerFinalMessage.Error;
 
 import javax.ws.rs.core.HttpHeaders;
 
 import domain.model.Comment;
+import domain.model.Ingredient;
 import domain.model.Recipe;
 import domain.service.RecipeService;
 //import io.restassured.http.ContentType;
@@ -36,23 +39,34 @@ public class RecipeRestService {
 	@Inject
 	private RecipeService RecipeService;
 	
-	//@Inject
-	//private KeycloakService KeycloakService;
+	@Inject
+	private KeycloakService KeycloakService;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public long postRecipe(Recipe recipe) {
-		//if (KeycloakService.verifyAuthentification(headers,  new Date())) {
-		//	String token = KeycloakService.getToken(headers);
-		//	String UserID = KeycloakService.getIdUser(token);
-		//	String idAuthor = recipe.getAuthor();
-		//	if (UserID == idAuthor) {
-				long id = RecipeService.create(recipe);
-				return id;
-		//	}
-		//}
-		//return 0;
+	public Response postRecipe(Recipe recipe, @Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			recipe.setAuthor(UserID);
+			Date date = new Date(System.currentTimeMillis());
+			recipe.setPublicationDate(date);
+			recipe.setGrade(-1);
+			List<Comment> comments = new ArrayList<Comment>();
+			recipe.setComments(comments);
+			long id = RecipeService.create(recipe);
+			return Response.status(Response.Status.OK).entity(id).build();
+		
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
+	}
+	
+	@Path("/{idrecipe}")
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteRecipe(@PathParam("idrecipe") Long idRecipe) {
+		RecipeService.delete(idRecipe);
 	}
 	
 	@Path("/{idrecipe}")
@@ -66,17 +80,18 @@ public class RecipeRestService {
 	@Path("/{idrecipe}/comment")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
+	public long postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
 		/*
 		if (KeycloakService.verifyAuthentification(headers,  new Date())) {
 			String token = KeycloakService.getToken(headers);
 			String UserID = KeycloakService.getIdUser(token);
 			String idAuthor = comment.getUserID();
 			if (UserID == idAuthor) {
-				RecipeService.addComment(idRecipe,comment);
+				
 			}
 		}
 		*/
+		return RecipeService.addComment(idRecipe,comment);
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
@@ -91,9 +106,29 @@ public class RecipeRestService {
 			if (UserID == idAuthor) {
 				RecipeService.addComment(idRecipe,comment);
 			}
-		}
-		RecipeService.deleteComment(idRecipe,idComment);*/
+		}*/
+		RecipeService.deleteComment(idRecipe,idComment);
 	}
+	
+	@Path("/{idrecipe}/comment/{idcomment}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Comment getComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment) {
+		
+		return RecipeService.getComment(idRecipe,idComment);
+	}
+
+	@Path("/{idrecipe}/comments")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Comment> getComments(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment) {
+		
+		Recipe recipe = RecipeService.get(idRecipe);
+		
+	return recipe.getComments();
+	}
+	
+	
 	
 	
 	@Path("/user")
@@ -111,7 +146,7 @@ public class RecipeRestService {
 		return UserID;
 	}
 
-	@Path("/{iduser}")
+	@Path("/user/{iduser}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Recipe> getRecipesOfUserId(@PathParam("iduser") String idUser) {
@@ -127,14 +162,13 @@ public class RecipeRestService {
 		return RecipeService.getAllRecipes();
 	}
 	
-	
+	@Path("/search/{mySearch}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public int getTest() {
-		
-		
-		return 1;
+	public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch) {
+
+		return RecipeService.searchRecipes(mySearch);
 	}
-	
+
 	
 }

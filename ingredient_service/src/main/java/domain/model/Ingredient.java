@@ -25,7 +25,6 @@ import lombok.Getter;
 @Getter
 @Setter
 @Entity
-@Data
 @Table(name ="Ingredient")
 public class Ingredient {
 	@Id
