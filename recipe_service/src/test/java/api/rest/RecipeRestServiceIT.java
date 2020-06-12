@@ -177,7 +177,8 @@ public class RecipeRestServiceIT {
 			assertEquals(recipesOfOne.get(0).getId(),recipes.get(0).getId());
 			assertEquals(recipesOfOne.get(0).getPublicationDate(),recipes.get(0).getPublicationDate());
 			assertEquals(recipesOfOne.get(0).getGrade(),recipes.get(0).getGrade());
-			
+			assertEquals(recipesOfOne.get(0).getComments().size(),recipes.get(0).getComments().size());
+			assertEquals(recipesOfOne.get(0).getIngredients().size(),recipes.get(0).getIngredients().size());
 		}
 		
         
