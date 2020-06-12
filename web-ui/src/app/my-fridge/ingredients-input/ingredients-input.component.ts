@@ -102,6 +102,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getIngredients();
+    this.getFridge();
   }
 
   ngAfterViewInit() {
@@ -128,6 +129,16 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       console.log(json);
       this.addJsonToClass(json);
     });
+  }
+
+  getFridge() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
   }
 
   addJsonToClass(json) {
