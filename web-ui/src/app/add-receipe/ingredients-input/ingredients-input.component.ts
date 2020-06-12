@@ -98,9 +98,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       });
   }
 
-  addIngredient(name) { }
-
-
   getIngredients() {
     const headernode = {
       headers: new HttpHeaders(
@@ -114,18 +111,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       this.addJsonToClass(json);
     });
   }
-
-    /*
-    let post_message = data;
-    let header_node = {
-        headers: new HttpHeaders(
-            { 'Accept': 'application/json' },
-            { 'rejectUnauthorized': 'false' })
-        };
-
-    return this.http.post('https://ip/createdata', post_message, header_node).toPromise();
-}
-  */
 
   addJsonToClass(json) {
     let ingr;
