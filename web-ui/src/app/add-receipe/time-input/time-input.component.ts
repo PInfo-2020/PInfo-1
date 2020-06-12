@@ -18,6 +18,7 @@ export class TimeInputComponent implements OnInit {
 
 
   ngOnInit() {
+    this.changeTime('10');
   }
 
 }

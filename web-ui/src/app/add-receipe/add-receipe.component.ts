@@ -10,7 +10,7 @@ interface Ingredients {
 interface Recipe {
   name: string;
   picture: string;
-  nbPersons: number;
+  people: number;
   preaprationTime: number;
   difficulty: number;
   ingredients: Ingredients;
@@ -66,7 +66,7 @@ export class AddReceipeComponent implements OnInit {
     this.recipe = {
       name: this.nameEntered,
       picture: this.pictureEntered,
-      nbPersons: this.peopleEntered,
+      people: this.peopleEntered,
       preaprationTime: this.timeEntered,
       difficulty: this.difficultyEntered,
       ingredients: this.ingredientsEntered,
