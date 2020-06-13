@@ -72,7 +72,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if(this.addedIngredients.length === 0) {
+
     console.log(ingre);
 
     let alreadyIn = 0;
@@ -96,9 +96,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     console.log('longueur' , this.addedIngredients.length);
     console.log( 'Added Ingredients :' );
     console.log(this.addedIngredients);
-  } else {
-    return;
-  }
   }
 
 
@@ -175,15 +172,15 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   createJSON() {
     /*this.newIngredient = {
-      name:
+      name: this.addedIngredients[index].name
       quantity:
       unity:
       id:
     };
     this.json = JSON.stringify(this.newIngredient);
-    console.log(this.json);
+    console.log(this.json);*/
     //tslint:disable-next-line: max-line-length
-    this.http.post('??????', this.json, {
+    this.http.get('api/v1/fridges/fridge', {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -194,10 +191,10 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     }).subscribe(events => {
       if (events.type === HttpEventType.Response) {
         console.log(events.body);
-        alert('SUCCESS !!');
+        //alert('SUCCESS !!');
       }
 
-    });*/
+    })
   }
 
   printErrors() {
