@@ -63,6 +63,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   @Output() changedIngredients = new EventEmitter<Array<IngredientToBeStringified>>();
 
+  incorrectData: number;
+
   url = 'api/v1/ingredients/minInfos';
 
   public SelectedAssetFromSTCombo(ingre) {
@@ -102,7 +104,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getIngredients();
-    this.getFridge();
+    //this.getFridge();
   }
 
   ngAfterViewInit() {
@@ -129,16 +131,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       console.log(json);
       this.addJsonToClass(json);
     });
-  }
-
-  getFridge() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
   }
 
   addJsonToClass(json) {
@@ -177,10 +169,52 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     this.changedIngredients.emit(this.ingredientsToBeStringified);
   }
 
+  verifyData() {
+    this.incorrectData = 0;
+  }
+
+  createJSON() {
+    /*this.newIngredient = {
+      name:
+      quantity:
+      unity:
+      id:
+    };
+    this.json = JSON.stringify(this.newIngredient);
+    console.log(this.json);
+    //tslint:disable-next-line: max-line-length
+    this.http.post('??????', this.json, {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+         rejectUnauthorized: 'false' }),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      if (events.type === HttpEventType.Response) {
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
+
+    });*/
+  }
+
+  printErrors() {
+
+  }
+
   onAdd(index) {
     console.log('index : ', index);
-    console.log('ingredient this.addedIngredients.quantity : ',this.addedIngredients[index].name, this.addedIngredients[index].quantity);
-    //envoyer
-    this.addedIngredients.splice(index, 1);
+    console.log('ingredient this.addedIngredients.quantity : ', this.addedIngredients[index].name, this.addedIngredients[index].quantity);
+
+    this.verifyData();
+    if (this.incorrectData === 0) {
+      this.createJSON();
+      this.addedIngredients.splice(index, 1);
+    } else {
+      this.printErrors();
+    }
   }
  }
+
