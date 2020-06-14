@@ -49,61 +49,17 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   // private json: Array<Array<string>>;
 
-  url = 'api/v1/ingredients/minInfos';
-
-  public SelectedAssetFromSTCombo(ingre) {
-    if (!this.listIngredient.includes(ingre)) {
-      return;
-    }
-
-    console.log(ingre);
-
-    let alreadyIn = 0;
-
-    for (const ingredient of this.addedIngredients) {
-      if (ingredient.name === ingre) {
-        alreadyIn = 1;
-      }
-    }
-    let newIngr;
-
-    if (alreadyIn === 0)  {
-      for (const ingred of this.ingredients) {
-        if (ingred.name === ingre) {
-          console.log('Ingred : ', ingred);
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
-          this.addedIngredients.push(newIngr);
-        }
-      }
-    }
-    console.log( 'Added Ingredients :' );
-    console.log(this.addedIngredients);
-  }
+  url = 'api/v1/fridge';
 
   ngOnInit() {
-    this.getIngredients();
+    this.getFridge();
   }
 
-  ngAfterViewInit() {
-    const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-
-    this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
-      .do(() => this.list.loading = true)
-      .map((data) =>  data.filter(contains(value))))
-      .subscribe(x => {
-          this.data = x;
-          this.list.loading = false;
-      });
-  }
-
-  addIngredient(name) { }
-
-
-  getIngredients() {
+  getFridge() {
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
@@ -112,18 +68,6 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
       this.addJsonToClass(json);
     });
   }
-
-    /*
-    let post_message = data;
-    let header_node = {
-        headers: new HttpHeaders(
-            { 'Accept': 'application/json' },
-            { 'rejectUnauthorized': 'false' })
-        };
-
-    return this.http.post('https://ip/createdata', post_message, header_node).toPromise();
-}
-  */
 
   addJsonToClass(json) {
     let ingr;
@@ -137,13 +81,8 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
     }
   }
 
-
-  onRemove(index) {
-    console.log('index : ', index);
-    console.log('this.addedIngredients : ', this.addedIngredients[index]);
-    this.addedIngredients.splice(index, 1);
+  ngAfterViewInit() {
   }
-
  }
 
 

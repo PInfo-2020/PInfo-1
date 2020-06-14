@@ -19,11 +19,13 @@ class AddedIngredient {
 }
 
 class AddedIngredientToFridge {
-  quantity = 0;
   detailsID = 0;
-  constructor(quantity,id) {
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.quantity = quantity;
       this.detailsID = id;
+      this.expiration = expiration;
   }
 }
 
@@ -39,9 +41,9 @@ class Ingredient {
 }
 
 class IngredientToBeStringified {
-  quantity = 0;
   detailsID = 0;
-  constructor(quantity, detailsID) {
+  quantity = 0;
+  constructor(detailsID, quantity) {
     this.quantity = quantity;
     this.detailsID = detailsID;
   }
@@ -102,7 +104,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         if (ingred.name === ingre) {
           console.log('Ingred : ', ingred);
           newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
-          newIngrFridge = new AddedIngredientToFridge(0, ingred.id);
+          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '2020-02-02');
           this.addedIngredients.push(newIngr);
           this.addedIngredientsFridge.push(newIngrFridge);
         }
@@ -118,6 +120,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getIngredients();
   }
+
 
   ngAfterViewInit() {
     const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
@@ -196,9 +199,10 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   createJSON() {
     console.log(this.addedIngredientsFridge);
     this.json = JSON.stringify(this.addedIngredientsFridge);
-    console.log(this.json);
+    let json = '{"ingredients":'.concat(this.json).concat("}");
+    console.log(json);
     //tslint:disable-next-line: max-line-length
-    this.http.post('api/v1/fridge', this.json, {
+    this.http.put('api/v1/fridge', json, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -225,7 +229,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (this.incorrectData === 0) {
       alert('Okeeeeeey');
       this.createJSON();
-      //this.addedIngredients.splice(index, 1);
     } else {
       this.printErrors();
     }
