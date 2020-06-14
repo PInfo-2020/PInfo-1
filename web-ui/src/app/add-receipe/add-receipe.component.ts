@@ -63,8 +63,47 @@ export class AddReceipeComponent implements OnInit {
       this.ingredientsEntered = jsonIngredient;
   }
 
+  isInteger(value) {
+    let x;
+    if (isNaN(value)) {
+      return false;
+    }
+    x = parseFloat(value);
+    return (x | 0) === x;
+  }
+
   verifyData() {
     this.incorrectData = 0;
+    
+    // Recipe can not be empty
+    if (this.nameEntered.length === 0) {
+      this.incorrectData = 1;
+    }
+
+    // Time has to be positive integer and non zero
+    if (!this.isInteger(this.timeEntered) || this.timeEntered <= 0) {
+      this.incorrectData = 1;
+    }
+
+    // Difficulty must be an integer between 1 and 10
+    if (!this.isInteger(this.difficultyEntered) || this.difficultyEntered < 1 || this.difficultyEntered > 10) {
+      this.incorrectData = 1;
+    }
+
+    // People has to be positive integer and non zero
+    if (!this.isInteger(this.peopleEntered) || this.peopleEntered <= 0) {
+      this.incorrectData = 1;
+    }
+
+    // There has to be ingredients
+    if (this.ingredientsEntered.length === 0) {
+      this.incorrectData = 1;
+    }
+
+    // Recipe can not be empty
+    if (this.recipeEntered.length === 0) {
+      this.incorrectData = 1;
+    }
   }
 
   createJSON() {
