@@ -36,8 +36,6 @@
     <module>fridge_service</module>  
 	<module>user_service</module>
 	<module>recipe_service</module>
-	<module>shopping_list_service</module>
-	<module>recipe_list_service</module>
 
   </modules>
     
