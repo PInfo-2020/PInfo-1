@@ -4,3 +4,7 @@
 <div class="box">
   <p> il va falloir tout lister les ingrédients que y a dans le fridge ici</p>
 </div>
+<div *ngFor="let ingredient of listIngredient; let i = index">
+  <div>{{ ingredient }}
+  </div>
+</div>

@@ -5,26 +5,24 @@ import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 import { KeycloakService } from 'keycloak-angular'
 class AddedIngredient {
-  name = '';
-  quantity = '';
-  unity = '';
   id = '';
-  constructor(name, quantity, id, unity) {
-      this.name = name;
-      this.quantity = quantity;
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.id = id;
-      this.unity = unity;
+      this.quantity = quantity;
+      this.expiration = expiration;
   }
 }
 
 class Ingredient {
   id = '';
-  name = '';
-  unity = '';
-  constructor(id, name, unity) {
+  quantity = '';
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.id = id;
-      this.name = name;
-      this.unity = unity;
+      this.quantity = quantity;
+      this.expiration = expiration;
   }
 }
 
@@ -65,7 +63,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
       };
     this.http.get(this.url, headernode).toPromise().then(json => {
       console.log(json);
-      this.addJsonToClass(json);
+      this.addJsonToClass(json['ingredients']);
     });
   }
 
@@ -73,15 +71,27 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
     let ingr;
 
     for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
+      console.log(ingredient)
+      ingr = new Ingredient(ingredient['detailsID'], ingredient['quantity'], ingredient['expiration']);
+      console.log(ingr)
       this.ingredients.push(ingr);
     }
     for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient.name);
+      this.listIngredient.push(ingredient.id, ingredient.quantity, ingredient.expiration);
+      console.log(this.listIngredient)
     }
   }
 
   ngAfterViewInit() {
+    const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+
+    this.list.asObservable().switchMap(value => Observable.from([this.listIngredient])
+      .do(() => this.list.loading = true)
+      .map((data) =>  data.filter(contains(value))))
+      .subscribe(x => {
+          this.data = x;
+          this.list.loading = false;
+      });
   }
  }
 
