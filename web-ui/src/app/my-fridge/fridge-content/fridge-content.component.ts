@@ -5,26 +5,24 @@ import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 import { KeycloakService } from 'keycloak-angular'
 class AddedIngredient {
-  name = '';
-  quantity = '';
-  unity = '';
   id = '';
-  constructor(name, quantity, id, unity) {
-      this.name = name;
-      this.quantity = quantity;
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.id = id;
-      this.unity = unity;
+      this.quantity = quantity;
+      this.expiration = expiration;
   }
 }
 
 class Ingredient {
   id = '';
-  name = '';
-  unity = '';
-  constructor(id, name, unity) {
+  quantity = '';
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.id = id;
-      this.name = name;
-      this.unity = unity;
+      this.quantity = quantity;
+      this.expiration = expiration;
   }
 }
 
@@ -49,45 +47,45 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   // private json: Array<Array<string>>;
 
-  url = 'api/v1/ingredients/minInfos';
-
-  public SelectedAssetFromSTCombo(ingre) {
-    if (!this.listIngredient.includes(ingre)) {
-      return;
-    }
-
-    console.log(ingre);
-
-    let alreadyIn = 0;
-
-    for (const ingredient of this.addedIngredients) {
-      if (ingredient.name === ingre) {
-        alreadyIn = 1;
-      }
-    }
-    let newIngr;
-
-    if (alreadyIn === 0)  {
-      for (const ingred of this.ingredients) {
-        if (ingred.name === ingre) {
-          console.log('Ingred : ', ingred);
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
-          this.addedIngredients.push(newIngr);
-        }
-      }
-    }
-    console.log( 'Added Ingredients :' );
-    console.log(this.addedIngredients);
-  }
+  url = 'api/v1/fridge';
 
   ngOnInit() {
-    this.getIngredients();
+    this.getFridge();
+  }
+
+  getFridge() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.url, headernode).toPromise().then(json => {
+      console.log(json);
+      this.addJsonToClass(json['ingredients']);
+    });
+  }
+
+  addJsonToClass(json) {
+    let ingr;
+
+    for (const ingredient of json) {
+      console.log(ingredient)
+      ingr = new Ingredient(ingredient['detailsID'], ingredient['quantity'], ingredient['expiration']);
+      console.log(ingr)
+      this.ingredients.push(ingr);
+    }
+    for (const ingredient of this.ingredients) {
+      this.listIngredient.push(ingredient.id, ingredient.quantity, ingredient.expiration);
+      console.log(this.listIngredient)
+    }
   }
 
   ngAfterViewInit() {
     const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
-    this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
+    this.list.asObservable().switchMap(value => Observable.from([this.listIngredient])
       .do(() => this.list.loading = true)
       .map((data) =>  data.filter(contains(value))))
       .subscribe(x => {
@@ -95,55 +93,6 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
           this.list.loading = false;
       });
   }
-
-  addIngredient(name) { }
-
-
-  getIngredients() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.url, headernode).toPromise().then(json => {
-      console.log(json);
-      this.addJsonToClass(json);
-    });
-  }
-
-    /*
-    let post_message = data;
-    let header_node = {
-        headers: new HttpHeaders(
-            { 'Accept': 'application/json' },
-            { 'rejectUnauthorized': 'false' })
-        };
-
-    return this.http.post('https://ip/createdata', post_message, header_node).toPromise();
-}
-  */
-
-  addJsonToClass(json) {
-    let ingr;
-
-    for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
-      this.ingredients.push(ingr);
-    }
-    for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient.name);
-    }
-  }
-
-
-  onRemove(index) {
-    console.log('index : ', index);
-    console.log('this.addedIngredients : ', this.addedIngredients[index]);
-    this.addedIngredients.splice(index, 1);
-  }
-
  }
 
 

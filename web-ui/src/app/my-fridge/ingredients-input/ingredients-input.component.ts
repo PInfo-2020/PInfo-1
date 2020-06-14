@@ -19,11 +19,13 @@ class AddedIngredient {
 }
 
 class AddedIngredientToFridge {
-  quantity = 0;
   detailsID = 0;
-  constructor(quantity,id) {
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.quantity = quantity;
       this.detailsID = id;
+      this.expiration = expiration;
   }
 }
 
@@ -39,9 +41,9 @@ class Ingredient {
 }
 
 class IngredientToBeStringified {
-  quantity = 0;
   detailsID = 0;
-  constructor(quantity, detailsID) {
+  quantity = 0;
+  constructor(detailsID, quantity) {
     this.quantity = quantity;
     this.detailsID = detailsID;
   }
@@ -78,14 +80,13 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   json: string;
 
-  url = 'api/v1/ingredients/minInfos';
+  urlMinInfo = 'api/v1/ingredients/minInfos';
+  urlFridge = 'api/v1/fridge';
 
   public SelectedAssetFromSTCombo(ingre) {
     if (!this.listIngredient.includes(ingre)) {
       return;
     }
-
-    console.log(ingre);
 
     let alreadyIn = 0;
 
@@ -100,24 +101,20 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
-          console.log('Ingred : ', ingred);
           newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
-          newIngrFridge = new AddedIngredientToFridge(0, ingred.id);
+          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '2020-02-02');
           this.addedIngredients.push(newIngr);
           this.addedIngredientsFridge.push(newIngrFridge);
         }
       }
     }
-    console.log('longueur' , this.addedIngredients.length);
-    console.log( 'Added Ingredients :' );
-    console.log(this.addedIngredients);
-    console.log(this.addedIngredientsFridge);
   }
 
 
   ngOnInit() {
     this.getIngredients();
   }
+
 
   ngAfterViewInit() {
     const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
@@ -139,8 +136,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
-    this.http.get(this.url, headernode).toPromise().then(json => {
-      console.log(json);
+    this.http.get(this.urlMinInfo, headernode).toPromise().then(json => {
       this.addJsonToClass(json);
     });
   }
@@ -159,8 +155,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   onRemove(index) {
-    console.log('index : ', index);
-    console.log('this.addedIngredients : ', this.addedIngredients[index]);
     this.addedIngredients.splice(index, 1);
   }
 
@@ -171,14 +165,12 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       }
     }
     this.changeIngredients();
-    console.log('this.addedIngredients : ', this.addedIngredients);
     for (const ingredient of this.addedIngredientsFridge) {
       if (ingredient.detailsID === parseInt(id)) {
         ingredient.quantity = parseInt(quantity);
       }
     }
     this.changeIngredients();
-    console.log('this.addedIngredients : ', this.addedIngredientsFridge);
   }
 
   changeIngredients() {
@@ -193,12 +185,18 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     this.incorrectData = 0;
   }
 
-  createJSON() {
-    console.log(this.addedIngredientsFridge);
+  ChangeFridge(){
+    this.getFridge();
+  }
+  createJSON(json) {
+    console.log('Ingredient a ajouter : ', this.addedIngredientsFridge);
     this.json = JSON.stringify(this.addedIngredientsFridge);
-    console.log(this.json);
+    console.log('Ingredient a ajouter (json) : ', this.json);
+    console.log('Frigo initial : ', json['ingredients']);
+    const NewJson = '{"ingredients":'.concat(this.addedIngredientsFridge).concat(json['ingredients']).concat('}');
+    console.log('Nouveau Frigo : ', NewJson);
     //tslint:disable-next-line: max-line-length
-    this.http.post('api/v1/fridge', this.json, {
+    this.http.put('api/v1/fridge', NewJson, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -212,7 +210,21 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         //alert('SUCCESS !!');
       }
 
-    })
+    });
+  }
+
+  getFridge() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.urlFridge, headernode).toPromise().then(json => {
+      console.log(json);
+      this.createJSON(json);
+    });
   }
 
   printErrors() {
@@ -223,9 +235,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     console.log('this.addedIngredients : ', this.addedIngredients);
     this.verifyData();
     if (this.incorrectData === 0) {
-      alert('Okeeeeeey');
-      this.createJSON();
-      //this.addedIngredients.splice(index, 1);
+      this.ChangeFridge();
     } else {
       this.printErrors();
     }

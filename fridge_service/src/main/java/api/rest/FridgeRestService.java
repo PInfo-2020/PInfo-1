@@ -53,7 +53,10 @@ public class FridgeRestService {
 				}
 				return Response.status(Response.Status.FORBIDDEN).entity("You don't have right to access this Fridge").build();
 			}
-			return Response.status(Response.Status.NOT_FOUND).entity("You don't have any fridge").build();
+			Fridge myFridge = new Fridge();
+			myFridge.setUserId(UserID);
+			fridgeService.create(myFridge);
+			return Response.status(Response.Status.OK).entity(myFridge).build();
 		}
 		return Response.status(Response.Status.UNAUTHORIZED).entity(UnauthorizedError).build();
 	}
