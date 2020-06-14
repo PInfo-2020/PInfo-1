@@ -348,7 +348,7 @@ public class RecipeRestServiceIT {
 		assertEquals(3, Recipe2.getComments().get(0).getGrade());
 		assertEquals("moi", Recipe2.getComments().get(0).getUserID());
 	}
-	
+	/*
 	@Test
 	public void testSearch() {
 		
@@ -401,7 +401,7 @@ public class RecipeRestServiceIT {
 
 
 	
-	
+	*/
 	
 	
 	

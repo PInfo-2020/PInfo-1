@@ -47,5 +47,6 @@ public class IngredientRestService {
 		return baseInfos;
 	}
 
+	//TODO function recup list nom ingredient d'apres liste id
 
 }
