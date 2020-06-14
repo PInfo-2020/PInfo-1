@@ -37,6 +37,17 @@ public class IngredientRestServiceIT {
 	}
 	
 	@Test
+	public void testGetIdName() {
+		when().get("/idName").then().body(containsString("Abricot, sucré, conserve"));
+		List<List<String>> response = new ArrayList<>();
+		response = when().get("/idName").then().extract().body().as(response.getClass());
+		
+		assertEquals(3,response.size());
+		
+		assertEquals("Abricot", response.get(0).get(1));
+	}
+	
+	@Test
 	public void testGetIngedients() {
 		when().get("/").then().body(containsString("Abricot, sucré, conserve"));
 		

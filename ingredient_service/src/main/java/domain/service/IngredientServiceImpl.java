@@ -57,6 +57,19 @@ public List<Object[]> getAllMinInfos(){ //Id, nom, unité
 	
 }
 
+@Override
+public List<Object[]> getIdName(){ //Id, nom, unité
+	
+	
+	CriteriaBuilder builder = em.getCriteriaBuilder();
+	CriteriaQuery<Object[]> criteria = builder.createQuery(Object[].class);
+	Root<Ingredient> c = criteria.from(Ingredient.class);
+	criteria.multiselect(c.get("id"), c.get("name"));
+	
+	return em.createQuery(criteria).getResultList();
+	
+}
+
 
 
 }

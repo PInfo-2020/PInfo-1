@@ -63,12 +63,6 @@ public class IngredientServiceImplTest {
 		assertEquals("g", ingredient.getUnity());
 	}
 	
-	//@Test
-	//void testSize() {
-	//	List<Ingredient> ingredients = ingredientService.getAllIngredients();
-	//	int size = ingredients.size();
-	//	assertEquals(nextval('INGREDIENT_SEQ'), size);
-	//}
 	
 	@Test
 	void testgetAllMinInfos() {
@@ -78,7 +72,21 @@ public class IngredientServiceImplTest {
 		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
 		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
 		List<Object[]> tab = ingredientService.getAllMinInfos();
+		assertEquals(size+4, tab.size());
 		assertEquals("pâtes", tab.get(size+2)[1]);
+		assertEquals("g", tab.get(size+2)[2]);
+	}
+	
+	@Test
+	void testgetIdName() {
+		int size = ingredientService.getAllIngredients().size();
+		ingredientService.create(createIngredient("patate", 12, "g", "légume"));
+		ingredientService.create(createIngredient("carrote", 120, "g", "légume"));
+		ingredientService.create(createIngredient("pâtes", 0, "g", "feculent"));
+		ingredientService.create(createIngredient("riz", 0, "g", "feculent"));
+		List<Object[]> tab = ingredientService.getIdName();
+		assertEquals(size+4, tab.size());
+		assertEquals("riz", tab.get(size+3)[1]);
 	}
 
 		

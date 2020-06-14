@@ -46,7 +46,15 @@ public class IngredientRestService {
 		
 		return baseInfos;
 	}
+	
+	@Path("/idName")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Object[]> getIdName() {
+		List<Object[]> IdName = ingredientService.getIdName();
+		
+		return IdName;
+	}
 
-	//TODO function recup list nom ingredient d'apres liste id
 
 }
