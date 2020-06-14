@@ -186,14 +186,16 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   ChangeFridge(){
+    console.log("ca passe encore");
     this.getFridge();
   }
-  createJSON(json) {
+  createJSON() {
+    console.log("ca passe le dernier");
     console.log('Ingredient a ajouter : ', this.addedIngredientsFridge);
     this.json = JSON.stringify(this.addedIngredientsFridge);
     console.log('Ingredient a ajouter (json) : ', this.json);
-    console.log('Frigo initial : ', json['ingredients']);
-    const NewJson = '{"ingredients":'.concat(this.addedIngredientsFridge).concat(json['ingredients']).concat('}');
+    //console.log('Frigo initial : ', json['ingredients']);
+    const NewJson = '{"ingredients":'.concat(this.json).concat('}');
     console.log('Nouveau Frigo : ', NewJson);
     //tslint:disable-next-line: max-line-length
     this.http.put('api/v1/fridge', NewJson, {
@@ -214,6 +216,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   getFridge() {
+    console.log("ca passe toujours");
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
@@ -221,9 +224,10 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
+      console.log("url : ", this.urlFridge);
     this.http.get(this.urlFridge, headernode).toPromise().then(json => {
       console.log(json);
-      this.createJSON(json);
+      this.createJSON();
     });
   }
 
@@ -235,6 +239,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     console.log('this.addedIngredients : ', this.addedIngredients);
     this.verifyData();
     if (this.incorrectData === 0) {
+      console.log("ca passe");
       this.ChangeFridge();
     } else {
       this.printErrors();

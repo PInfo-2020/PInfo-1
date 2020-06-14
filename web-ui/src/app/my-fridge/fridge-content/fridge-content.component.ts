@@ -50,7 +50,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
   url = 'api/v1/fridge';
 
   ngOnInit() {
-    this.getFridge();
+    //this.getFridge();
   }
 
   getFridge() {
