@@ -18,6 +18,15 @@ class AddedIngredient {
   }
 }
 
+class AddedIngredientToFridge {
+  quantity = 0;
+  detailsID = 0;
+  constructor(quantity,id) {
+      this.quantity = quantity;
+      this.detailsID = id;
+  }
+}
+
 class Ingredient {
   id = '';
   name = '';
@@ -30,8 +39,8 @@ class Ingredient {
 }
 
 class IngredientToBeStringified {
-  quantity = '';
-  detailsID = '';
+  quantity = 0;
+  detailsID = 0;
   constructor(quantity, detailsID) {
     this.quantity = quantity;
     this.detailsID = detailsID;
@@ -59,11 +68,15 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   public addedIngredients: Array<AddedIngredient> = [];
 
+  public addedIngredientsFridge: Array<AddedIngredientToFridge> = [];
+
   public ingredientsToBeStringified: Array<IngredientToBeStringified> = [];
 
   @Output() changedIngredients = new EventEmitter<Array<IngredientToBeStringified>>();
 
   incorrectData: number;
+
+  json: string;
 
   url = 'api/v1/ingredients/minInfos';
 
@@ -71,7 +84,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (!this.listIngredient.includes(ingre)) {
       return;
     }
-
 
     console.log(ingre);
 
@@ -83,25 +95,28 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       }
     }
     let newIngr;
+    let newIngrFridge;
 
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
           console.log('Ingred : ', ingred);
           newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
+          newIngrFridge = new AddedIngredientToFridge(0, ingred.id);
           this.addedIngredients.push(newIngr);
+          this.addedIngredientsFridge.push(newIngrFridge);
         }
       }
     }
     console.log('longueur' , this.addedIngredients.length);
     console.log( 'Added Ingredients :' );
     console.log(this.addedIngredients);
+    console.log(this.addedIngredientsFridge);
   }
 
 
   ngOnInit() {
     this.getIngredients();
-    //this.getFridge();
   }
 
   ngAfterViewInit() {
@@ -120,7 +135,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
@@ -156,6 +171,14 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       }
     }
     this.changeIngredients();
+    console.log('this.addedIngredients : ', this.addedIngredients);
+    for (const ingredient of this.addedIngredientsFridge) {
+      if (ingredient.detailsID === parseInt(id)) {
+        ingredient.quantity = parseInt(quantity);
+      }
+    }
+    this.changeIngredients();
+    console.log('this.addedIngredients : ', this.addedIngredientsFridge);
   }
 
   changeIngredients() {
@@ -171,16 +194,11 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   createJSON() {
-    /*this.newIngredient = {
-      name: this.addedIngredients[index].name
-      quantity:
-      unity:
-      id:
-    };
-    this.json = JSON.stringify(this.newIngredient);
-    console.log(this.json);*/
+    console.log(this.addedIngredientsFridge);
+    this.json = JSON.stringify(this.addedIngredientsFridge);
+    console.log(this.json);
     //tslint:disable-next-line: max-line-length
-    this.http.get('api/v1/fridges/fridge', {
+    this.http.post('api/v1/fridge', this.json, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -201,14 +219,13 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   }
 
-  onAdd(index) {
-    console.log('index : ', index);
-    console.log('ingredient this.addedIngredients.quantity : ', this.addedIngredients[index].name, this.addedIngredients[index].quantity);
-
+  onAdd() {
+    console.log('this.addedIngredients : ', this.addedIngredients);
     this.verifyData();
     if (this.incorrectData === 0) {
+      alert('Okeeeeeey');
       this.createJSON();
-      this.addedIngredients.splice(index, 1);
+      //this.addedIngredients.splice(index, 1);
     } else {
       this.printErrors();
     }
