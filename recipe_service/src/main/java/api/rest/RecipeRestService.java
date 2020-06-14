@@ -1,9 +1,11 @@
 package api.rest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -176,10 +178,16 @@ public class RecipeRestService {
 	@Path("/search/{mySearch}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch) {
+	public List<Object> getSearchedRecipes(@PathParam("mySearch") String mySearch) {
 
-		return RecipeService.searchRecipes(mySearch);
+		Map<Long, String> idNom = new HashMap<Long, String>();
+		
+		// TODO call mininfos 
+		//
+		
+		return RecipeService.searchRecipes(mySearch,idNom);
 	}
-
+	
+	
 	
 }

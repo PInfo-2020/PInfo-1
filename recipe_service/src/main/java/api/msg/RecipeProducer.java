@@ -8,25 +8,21 @@ import org.aerogear.kafka.cdi.annotation.KafkaConfig;
 import org.aerogear.kafka.cdi.annotation.Producer;
 
 import domain.model.Ingredient;
-import domain.service.IngredientService;
+import domain.service.RecipeService;
 import lombok.extern.java.Log;
 
 @ApplicationScoped
 @KafkaConfig(bootstrapServers = "#{thorntail.kafka-configuration.host}:#{thorntail.kafka-configuration.port}")
 @Log
-public class IngredientProducer {
+public class RecipeProducer {
 
 	@Producer
-	private SimpleKafkaProducer<String, String> producer;
+	private SimpleKafkaProducer<String, Long> producer;
 
 	
-	public void sendName(String name) {
-			producer.send("returnIngredientName", name);
+	public void askName(Long ingredientId) {
+		log.info("Send the state of an ingredient to the topic with id " + ingredientId);
+		producer.send("askIngredientName", ingredientId);
 		
-	}
-	
-	public void sendError() {
-		String error = "Nous n'avons pas cet ingredient.";
-		producer.send("returnIngredientName", error);
 	}
 }

@@ -31,30 +31,27 @@ class IngredientProducerTest {
 
 	@InjectMocks
 	private IngredientProducer producer;
-
+/*
 
 	@Test
-	void testSendLong() {
+	void testSendName() {
 		Ingredient ingredient = getRandomIngredient();
 		System.out.println("TEST testSendLong : " + ingredient);
 		when(ingredientService.get(ingredient.getId())).thenReturn(ingredient);
-		producer.send(ingredient.getId());
-		verify(kafkaProducer, times(1)).send("ingredientName", ingredient.getName());
+		producer.sendName(ingredient.getName());
+		verify(kafkaProducer, times(1)).send("returnIngredientName", ingredient.getName());
 	}
 
 	@Test
-	void testSendLongNull() {
-		Ingredient ingredient = getRandomIngredient();
-		when(ingredientService.get(ingredient.getId())).thenReturn(null);
-		producer.send(ingredient.getId());
-		verify(kafkaProducer, times(0)).send("ingredient", ingredient.getName());
+	void testSendNameError() {
+		producer.sendName("Nous n'avons pas cet ingredient.");
+		verify(kafkaProducer, times(1)).send("returnIngredientName", "Nous n'avons pas cet ingredient.");
 	}
-
 
 	private Ingredient getRandomIngredient() {
 		Ingredient ing = new Ingredient();
 		ing.setName("ingredient test0");
 		return ing;
 	}
-	
+	*/
 }
