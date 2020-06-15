@@ -2,7 +2,7 @@
   <mat-icon> fastfood</mat-icon>
   <label class="section" for="ingredients">Ingrédients à ajouter :</label>
 </div>
-
+<div>
 <div class="ingredients">
   <kendo-autocomplete #list [data]="data" [filterable]="true" (valueChange)="SelectedAssetFromSTCombo($event)">
   </kendo-autocomplete>
@@ -12,15 +12,13 @@
           <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
                 <mat-icon>clear</mat-icon>
               </button>
-              <button mat-icon-button color="black" aria-label="Ajouter l'ingrédient" (click)="onAdd(i)">
-                <mat-icon>check</mat-icon>
-              </button>
       </div>
-  </div>
-
-
+    </div>
 </div>
-
+<button mat-icon-button color="black" aria-label="Ajouter l'ingrédient" (click)="onAdd()">
+  Ajouter les Ingredients <mat-icon>check</mat-icon>
+</button>
+</div>
 
 
 

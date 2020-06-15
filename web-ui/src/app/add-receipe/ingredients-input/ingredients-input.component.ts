@@ -69,9 +69,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (!this.listIngredient.includes(ingre)) {
       return;
     }
-
-    console.log(ingre);
-
     let alreadyIn = 0;
 
     for (const ingredient of this.addedIngredients) {
@@ -84,14 +81,11 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
-          console.log('Ingred : ', ingred);
           newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
           this.addedIngredients.push(newIngr);
         }
       }
     }
-    console.log( 'Added Ingredients :' );
-    console.log(this.addedIngredients);
   }
 
   ngOnInit() {
@@ -119,7 +113,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.url, headernode).toPromise().then(json => {
-      console.log(json);
       this.addJsonToClass(json);
     });
   }
@@ -137,8 +130,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   onRemove(index) {
-    console.log('index : ', index);
-    console.log('this.addedIngredients : ', this.addedIngredients[index]);
     this.addedIngredients.splice(index, 1);
   }
 
@@ -154,7 +145,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   changeIngredients() {
     this.ingredientsToBeStringified = [];
     for (const ingred of this.addedIngredients) {
-      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.quantity, ingred.id));
+      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.quantity.trim(), ingred.id));
     }
     this.changedIngredients.emit(this.ingredientsToBeStringified);
   }

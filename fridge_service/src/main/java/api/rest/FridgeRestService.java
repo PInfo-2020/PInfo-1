@@ -53,6 +53,26 @@ public class FridgeRestService {
 				}
 				return Response.status(Response.Status.FORBIDDEN).entity("You don't have right to access this Fridge").build();
 			}
+			Fridge myFridge = new Fridge();
+			myFridge.setUserId(UserID);
+			fridgeService.create(myFridge);
+			return Response.status(Response.Status.OK).entity(myFridge).build();
+		}
+		return Response.status(Response.Status.UNAUTHORIZED).entity(UnauthorizedError).build();
+	}
+	
+	@Path("/ingredientIds")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getIngredientsIds(@Context HttpHeaders headers) {
+		if (KeycloakService.verifyAuthentification(headers)) {
+			String token = KeycloakService.getToken(headers);
+			String UserID = KeycloakService.getIdUser(token);
+			Fridge fridge = fridgeService.getByUserId(UserID);
+			if(fridge != null) {
+				List<Long> listIds = fridgeService.getIngredientsId(fridge);
+				return Response.status(Response.Status.OK).entity(listIds).build();
+			}
 			return Response.status(Response.Status.NOT_FOUND).entity("You don't have any fridge").build();
 		}
 		return Response.status(Response.Status.UNAUTHORIZED).entity(UnauthorizedError).build();

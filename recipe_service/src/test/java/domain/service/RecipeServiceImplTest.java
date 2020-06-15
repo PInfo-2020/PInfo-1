@@ -1,5 +1,6 @@
 package domain.service;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import domain.model.Comment;
@@ -15,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 import java.sql.Date;
@@ -220,29 +222,107 @@ public class RecipeServiceImplTest {
 	
 	@Test
 	void testSearchRecipes() {
+		
+		Map<Long, String> idNom = new HashMap<Long, String>();
+		idNom.put(20l, "fraise");
+		idNom.put(21l, "banane");
+		idNom.put(22l, "chocolat");
+		idNom.put(23l, "poire");
+		idNom.put(24l, "truffe");
+		idNom.put(25l, "abricot");
+		
+		
 		Recipe newRecipe = getRandomRecipe();
 		newRecipe.setName("tarte aux fraises bernoise");
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(20);
+		ing.setQuantity((short)43);
+		Ingredient ing2 = getRandomIngredient();
+		List<Ingredient> ingredients = new ArrayList<>();
+		ingredients.add(ing);
+		ingredients.add(ing2);
+		
+		newRecipe.setIngredients(ingredients);
 		Recipe newRecipe2 = getRandomRecipe();
 		newRecipe2.setName("tarte aux fraises suisse");
+		newRecipe2.setIngredients(ingredients);
+		
+		Recipe newRecipe3 = getRandomRecipe();
+		newRecipe3.setName("Glace à l'abricot");
+		
+		
+		Ingredient ing3 = new Ingredient();
+		ing3.setDetailsID(22);
+		ing3.setQuantity((short) 4);
+		Ingredient ing4 = new Ingredient();
+		ing4.setDetailsID(25);
+		ing4.setQuantity((short) 50);
+		
+		List<Ingredient> newIngredients = new ArrayList<>();
+		newIngredients.add(ing3);
+		newIngredients.add(ing4);
+		newRecipe3.setIngredients(newIngredients);
+		
+		Recipe newRecipe4 = getRandomRecipe();
+		newRecipe4.setName("Glace à l'abricot remasterisée");
+		List<Ingredient> otherIngredients = new ArrayList<>();
+		otherIngredients.add(ing4);
+		newRecipe4.setIngredients(otherIngredients);
+		
+		
+		
 		recipeService.create(newRecipe);
 		recipeService.create(newRecipe2);
+		recipeService.create(newRecipe3);
+		recipeService.create(newRecipe4);
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		int size = recipes.size();
-		Recipe myRecipe = recipes.get(size-1);
+		Recipe myRecipe = recipes.get(size-3);
 		
-		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises");
-		List<Recipe> foundRecipes2 = recipeService.searchRecipes("poires aux truffes");
+		List<Object> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", idNom, Collections.emptyList());
+		System.out.println("BABABA");
+		System.out.println(foundRecipes1);
+		List<Object> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", idNom, Collections.emptyList());
 		
-
-		assertEquals(2,foundRecipes1.size());
-		assertEquals(myRecipe, foundRecipes1.get(1));
-		assertEquals(null, foundRecipes2);
+		List<Recipe> rcp1 = (List) foundRecipes1.get(0);
+		List<String> wordsNotFound = (List) foundRecipes1.get(2);
+		
+		assertEquals(2,rcp1.size());
+		assertEquals(myRecipe, rcp1.get(1));
+		assertEquals(true, foundRecipes1.get(1));
+		assertEquals(true, wordsNotFound.isEmpty());
+		
+		assertNull(foundRecipes2);
+		
+		
+		List<Object> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", idNom, Collections.emptyList());
+		System.out.println("MAMA");
+		System.out.println(foundRecipes3);
+		System.out.println(newRecipe3.getIngredients().get(1).getDetailsID());
+		
+		List<Recipe> rcp3 = (List) foundRecipes3.get(0);
+		List<String> wordsNotFound3 = (List) foundRecipes3.get(2);
+		List<String> myList = new ArrayList<>();
+		myList.add("noir");
+		
+		assertEquals(1,rcp3.size()); //Only the 3rd recipe, not the 4th which doesn't have chocolate
+		assertEquals(false, foundRecipes3.get(1));
+		assertEquals(myList, wordsNotFound3);
+		List<Long> frigo = new ArrayList<>();
+		frigo.add((long) 25);
+		List<Object> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
+		List<Recipe> rcp4 = (List<Recipe>) foundRecipes4.get(0);
+		assertEquals(rcp4.size(), 1);
+		frigo.add((long) 22);
+		List<Object> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
+		List<Recipe> rcp5 = (List<Recipe>) foundRecipes5.get(0);
+		assertEquals(rcp5.size(), 2);
 	}
 	
 	
 	private Ingredient getRandomIngredient() {
 		Ingredient ingredient = new Ingredient();
-		ingredient.setDetailsID((long) (Math.random()*1000));
+		ingredient.setDetailsID((long) 1);
 		ingredient.setQuantity((short) (Math.random()*1000));
 		
 		return ingredient;

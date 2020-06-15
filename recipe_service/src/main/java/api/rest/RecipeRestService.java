@@ -1,9 +1,11 @@
 package api.rest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -91,7 +93,7 @@ public class RecipeRestService {
 	@Path("/{idrecipe}/comment")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
+	public Response postComment(@PathParam("idrecipe") Long idRecipe,Comment comment, @Context HttpHeaders headers) {
 		
 		if (KeycloakService.verifyAuthentification(headers)) {
 			String token = KeycloakService.getToken(headers);
@@ -176,10 +178,14 @@ public class RecipeRestService {
 	@Path("/search/{mySearch}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch) {
+	public List<Object> getSearchedRecipes(@PathParam("mySearch") String mySearch, Map<Long, String> idNom, List<Long> idIngredientFromFridge ) {
 
-		return RecipeService.searchRecipes(mySearch);
+		
+		
+		
+		return RecipeService.searchRecipes(mySearch,idNom, idIngredientFromFridge);
 	}
+	
 
 	
 }

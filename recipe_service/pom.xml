@@ -112,6 +112,10 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.aerogear.kafka</groupId>
+			<artifactId>kafka-cdi-extension</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.jdbc.driver.version}</version>

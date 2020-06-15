@@ -5,26 +5,35 @@ import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 import { KeycloakService } from 'keycloak-angular'
 class AddedIngredient {
-  name = '';
-  quantity = '';
-  unity = '';
   id = '';
-  constructor(name, quantity, id, unity) {
-      this.name = name;
-      this.quantity = quantity;
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.id = id;
-      this.unity = unity;
+      this.quantity = quantity;
+      this.expiration = expiration;
   }
 }
 
 class Ingredient {
   id = '';
-  name = '';
-  unity = '';
-  constructor(id, name, unity) {
+  quantity = '';
+  expiration = '';
+  constructor(id, quantity, expiration) {
       this.id = id;
-      this.name = name;
-      this.unity = unity;
+      this.quantity = quantity;
+      this.expiration = expiration;
+  }
+}
+
+class IngredientInFridge {
+  detailsID = 0;
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
+      this.quantity = quantity;
+      this.detailsID = id;
+      this.expiration = expiration;
   }
 }
 
@@ -47,103 +56,91 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   public addedIngredients: Array<AddedIngredient> = [];
 
+  public ingredientsInFridge: Array<IngredientInFridge> = [];
+
   // private json: Array<Array<string>>;
 
-  url = 'api/v1/ingredients/minInfos';
-
-  public SelectedAssetFromSTCombo(ingre) {
-    if (!this.listIngredient.includes(ingre)) {
-      return;
-    }
-
-    console.log(ingre);
-
-    let alreadyIn = 0;
-
-    for (const ingredient of this.addedIngredients) {
-      if (ingredient.name === ingre) {
-        alreadyIn = 1;
-      }
-    }
-    let newIngr;
-
-    if (alreadyIn === 0)  {
-      for (const ingred of this.ingredients) {
-        if (ingred.name === ingre) {
-          console.log('Ingred : ', ingred);
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
-          this.addedIngredients.push(newIngr);
-        }
-      }
-    }
-    console.log( 'Added Ingredients :' );
-    console.log(this.addedIngredients);
-  }
+  urlFridge = 'api/v1/fridge';
 
   ngOnInit() {
-    this.getIngredients();
+    this.getFridge();
   }
 
-  ngAfterViewInit() {
-    const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+  getFridge() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.urlFridge, headernode).toPromise().then(json => {
+      this.createClassFromJSON(json);
+    });
+  }
 
-    this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
+  createClassFromJSON(json) {
+    let ingr;
+    for (const ingredient of json['ingredients']) {
+      var date_not_formatted = new Date(ingredient.expiration);
+      var formatted_string = date_not_formatted.getFullYear() + '-';
+      if (date_not_formatted.getMonth() < 9) {
+        formatted_string += '0';
+      }
+      formatted_string += (date_not_formatted.getMonth() + 1);
+      formatted_string += '-';
+
+      if(date_not_formatted.getDate() < 10) {
+        formatted_string += '0';
+      }
+      formatted_string += date_not_formatted.getDate();
+      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formatted_string);
+      this.ingredientsInFridge.push(ingr);
+    }
+    //this.createNewFridge(this.ingredientsInFridge);
+   }
+
+  ngAfterViewInit() {
+    /*const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+
+    this.list.asObservable().switchMap(value => Observable.from([this.listIngredient])
       .do(() => this.list.loading = true)
       .map((data) =>  data.filter(contains(value))))
       .subscribe(x => {
           this.data = x;
           this.list.loading = false;
-      });
+      });*/
   }
-
-  addIngredient(name) { }
-
-
-  getIngredients() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.url, headernode).toPromise().then(json => {
-      console.log(json);
-      this.addJsonToClass(json);
-    });
-  }
-
-    /*
-    let post_message = data;
-    let header_node = {
-        headers: new HttpHeaders(
-            { 'Accept': 'application/json' },
-            { 'rejectUnauthorized': 'false' })
-        };
-
-    return this.http.post('https://ip/createdata', post_message, header_node).toPromise();
-}
-  */
-
-  addJsonToClass(json) {
-    let ingr;
-
-    for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
-      this.ingredients.push(ingr);
-    }
-    for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient.name);
-    }
-  }
-
 
   onRemove(index) {
-    console.log('index : ', index);
-    console.log('this.addedIngredients : ', this.addedIngredients[index]);
-    this.addedIngredients.splice(index, 1);
+    console.log('avant : ',  this.ingredientsInFridge);
+    this.ingredientsInFridge.splice(index, 1);
+    console.log('apres : ',  this.ingredientsInFridge);
+    this.createNewFridge(this.ingredientsInFridge);
   }
 
+  createNewFridge(Fridge) {
+    const fridgeTemp = JSON.stringify(Fridge);
+    console.log('FrigoTemp : ', fridgeTemp);
+    const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
+    console.log('Nouveau Frigo : ', NewJson);
+    //tslint:disable-next-line: max-line-length
+    this.http.put('api/v1/fridge', NewJson, {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        rejectUnauthorized: 'false' }),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      if (events.type === HttpEventType.Response) {
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
+
+    });
+  }
  }
 
 

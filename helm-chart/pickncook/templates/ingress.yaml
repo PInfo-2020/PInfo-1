@@ -1,6 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
+  annotations:
   name: {{ include "pickncook.fullname" . }}.ingress-static
   namespace: {{ .Release.Namespace }} 
   labels:

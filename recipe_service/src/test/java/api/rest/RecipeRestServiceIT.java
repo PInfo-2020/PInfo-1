@@ -16,7 +16,9 @@ import io.restassured.parsing.Parser;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -348,7 +350,7 @@ public class RecipeRestServiceIT {
 		assertEquals(3, Recipe2.getComments().get(0).getGrade());
 		assertEquals("moi", Recipe2.getComments().get(0).getUserID());
 	}
-	
+/*
 	@Test
 	public void testSearch() {
 		
@@ -386,6 +388,15 @@ public class RecipeRestServiceIT {
 		String mySearch1 = "Tartes à la fraises";
 		String mySearch2 = "poires aux truffes";
 		String mySearch3 = "chocolat";
+		Map<Long, String> idNom = new HashMap<Long, String>();
+		idNom.put(20l, "fraise");
+		idNom.put(21l, "banane");
+		idNom.put(22l, "chocolat");
+		idNom.put(23l, "poire");
+		idNom.put(24l, "truffe");
+		idNom.put(25l, "abricot");
+		
+		List<Long> idIngredientFromFridge = new ArrayList<>();
 		List<Recipe> response1 = when().get("/search/" + mySearch1).then().extract().body().jsonPath().getList(".", Recipe.class);
 		when().get("/search/" + mySearch2).then().assertThat().statusCode(204);
 		List<Recipe> response3 = when().get("/search/" + mySearch3).then().extract().body().jsonPath().getList(".", Recipe.class);
@@ -398,9 +409,8 @@ public class RecipeRestServiceIT {
 		with().contentType(ContentType.JSON).header(header).delete("/" + id_3).then().assertThat().statusCode(200);
 	}
 
+*/
 
-
-	
 	
 	
 	

@@ -101,6 +101,8 @@ public class FrigeServiceImplTest {
 		assertEquals(fridge, fridgeService.getByUserId("aosédv"));
 		assertEquals(null, fridgeService.getByUserId("APMXN"));
 	}
+	
+	
 	@Test
 	void testGetAll() {
 		List<Fridge> fridge = fridgeService.getAll();
@@ -113,7 +115,33 @@ public class FrigeServiceImplTest {
 	}
 	
 	
-	
+	@Test
+	void testGetIngredientsId() {
+		Ingredient ing = new Ingredient();
+		ing.setDetailsID(42);
+		ing.setQuantity((short)2);
+		ing.setExpiration(Date.valueOf("2020-10-26"));
+		Ingredient ing2 = new Ingredient();
+		ing2.setDetailsID(12);
+		ing2.setQuantity((short)17);
+		ing2.setExpiration(Date.valueOf("2020-10-27"));
+		List<Ingredient> ings = new ArrayList<Ingredient>();
+		ings.add(ing);
+		ings.add(ing2);
+		Fridge fridge = new Fridge();
+		Fridge fridge2 = new Fridge();
+		fridge.setIngredients(ings);
+		fridge.setUserId("aosédv");
+		fridge2.setUserId("fsy");
+		
+		fridgeService.create(fridge);
+		fridgeService.create(fridge2);
+		
+		List<Long> myList = Arrays.asList(42l, 12l);
+		List<Long> emptyList = new ArrayList<>();
+		assertEquals(myList, fridgeService.getIngredientsId(fridge));
+		assertEquals(emptyList, fridgeService.getIngredientsId(fridge2));
+	}
 	
 	@Test
 	void testUpdateFridge() {
@@ -141,6 +169,10 @@ public class FrigeServiceImplTest {
 		assertEquals(true,fridgeService.updateFridge(fridge2));
 		assertEquals(false,fridgeService.updateFridge(falseFridge));
 	}
+	
+	
+	
+	
 	
 	@Test
 	void testDelete() {
