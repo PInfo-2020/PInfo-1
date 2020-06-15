@@ -1,5 +1,6 @@
 package domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -82,6 +83,20 @@ public class FridgeServiceImpl implements FridgeService {
 			em.flush();
 			return true;
 		}
+	}
+	
+	@Override
+	public List<Long> getIngredientsId(Fridge fridge){
+		List<Long> listIds = new ArrayList<>();
+		List<Ingredient> ingredients = fridge.getIngredients();
+		if (! (ingredients == null)) {
+			for (Ingredient ingredient : ingredients) {
+				listIds.add(ingredient.getDetailsID());
+			}
+		}
+			
+		return listIds;
+
 	}
 
 	@Override

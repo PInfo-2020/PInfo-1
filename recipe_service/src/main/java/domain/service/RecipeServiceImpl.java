@@ -261,19 +261,23 @@ public class RecipeServiceImpl implements RecipeService{
 					notFound.add(currentWord);
 				}else{
 					bigTable.add(littleTable);
+
 				}
+
 			}
-			
 			
 			for (Recipe currentRecipe : allRecipes) {
 				List<Ingredient> currentIngredients = currentRecipe.getIngredients();
-		    	boolean missSomething = false;
+				boolean missSomething = false;
 		    	for(List<Long> smallTable :bigTable) {
+			    	boolean hasIt = false;
 		    		for (Ingredient ingredient : currentIngredients) {
-		
-			    		if (!(smallTable.contains(ingredient.getDetailsID()))) {
-			    			missSomething = true;
+			    		if (smallTable.contains(ingredient.getDetailsID())) {
+			    			hasIt = true;
 			    		}
+		    		}
+		    		if(!(hasIt)) {
+		    			missSomething = true;
 		    		}
 		    	}
 				
