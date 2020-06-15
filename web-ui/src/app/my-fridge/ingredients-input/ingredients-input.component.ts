@@ -207,6 +207,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     this.verifyData();
     if (this.incorrectData === 0) {
       this.ChangeFridge();
+      this.addedIngredients.splice(0, this.addedIngredients.length);
     } else {
       this.printErrors();
     }
@@ -256,7 +257,15 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     console.log("ca passe le dernier");
     console.log('Ingredient a ajouter : ', this.addedIngredientsFridge);
     console.log('Frigo initial : ', Fridge);
-    const fridgeTemp = JSON.stringify(Fridge.concat(this.addedIngredientsFridge))
+    for (const ingredient of Fridge) {
+      for (const ingredientAdd of this.addedIngredientsFridge) {
+        if (ingredient.detailsID === ingredientAdd.detailsID) {
+          ingredient.quantity += ingredientAdd.quantity;
+          this.addedIngredientsFridge.splice(this.addedIngredientsFridge.indexOf(ingredientAdd), 1);
+        }
+      }
+    }
+    const fridgeTemp = JSON.stringify(Fridge.concat(this.addedIngredientsFridge));
     console.log('FrigoTemp : ', fridgeTemp);
     const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
     console.log('Nouveau Frigo : ', NewJson);
@@ -281,5 +290,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   printErrors() {
 
   }
+
+
  }
 
