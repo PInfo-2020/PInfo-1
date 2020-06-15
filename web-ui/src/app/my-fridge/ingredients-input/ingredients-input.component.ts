@@ -40,6 +40,17 @@ class Ingredient {
   }
 }
 
+class IngredientInFridge {
+  detailsID = 0;
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
+      this.quantity = quantity;
+      this.detailsID = id;
+      this.expiration = expiration;
+  }
+}
+
 class IngredientToBeStringified {
   detailsID = 0;
   quantity = 0;
@@ -64,7 +75,11 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   public listIngredient: Array<string> = [];
 
+  public listIngredientFridge: Array<string> = [];
+
   public ingredients: Array<Ingredient> = [];
+
+  public ingredientsInFridge: Array<IngredientInFridge> = [];
 
   public data: Array<string> = [];
 
@@ -185,38 +200,25 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     this.incorrectData = 0;
   }
 
-  ChangeFridge(){
-    console.log("ca passe encore");
-    this.getFridge();
-  }
-  createJSON() {
-    console.log("ca passe le dernier");
-    console.log('Ingredient a ajouter : ', this.addedIngredientsFridge);
-    this.json = JSON.stringify(this.addedIngredientsFridge);
-    console.log('Ingredient a ajouter (json) : ', this.json);
-    //console.log('Frigo initial : ', json['ingredients']);
-    const NewJson = '{"ingredients":'.concat(this.json).concat('}');
-    console.log('Nouveau Frigo : ', NewJson);
-    //tslint:disable-next-line: max-line-length
-    this.http.put('api/v1/fridge', NewJson, {
-      headers: new HttpHeaders(
-        {'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-         rejectUnauthorized: 'false' }),
-      reportProgress: true,
-      observe: 'events'
-    }).subscribe(events => {
-      if (events.type === HttpEventType.Response) {
-        console.log(events.body);
-        //alert('SUCCESS !!');
-      }
 
-    });
+
+  onAdd() {
+    console.log('this.addedIngredients : ', this.addedIngredients);
+    this.verifyData();
+    if (this.incorrectData === 0) {
+      this.ChangeFridge();
+      this.addedIngredients.splice(0, this.addedIngredients.length);
+    } else {
+      this.printErrors();
+    }
+  }
+
+
+  ChangeFridge(){
+    this.getFridge();
   }
 
   getFridge() {
-    console.log("ca passe toujours");
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
@@ -224,10 +226,64 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
-      console.log("url : ", this.urlFridge);
     this.http.get(this.urlFridge, headernode).toPromise().then(json => {
-      console.log(json);
-      this.createJSON();
+      this.createClassFromJSON(json);
+    });
+  }
+
+  createClassFromJSON(json) {
+    let ingr;
+    for (const ingredient of json['ingredients']) {
+      var date_not_formatted = new Date(ingredient.expiration);
+      var formatted_string = date_not_formatted.getFullYear() + '-';
+      if (date_not_formatted.getMonth() < 9) {
+        formatted_string += '0';
+      }
+      formatted_string += (date_not_formatted.getMonth() + 1);
+      formatted_string += '-';
+
+      if(date_not_formatted.getDate() < 10) {
+        formatted_string += '0';
+      }
+      formatted_string += date_not_formatted.getDate();
+      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formatted_string);
+      this.ingredientsInFridge.push(ingr);
+    }
+    this.createNewFridge(this.ingredientsInFridge);
+   }
+
+
+   createNewFridge(Fridge) {
+    console.log("ca passe le dernier");
+    console.log('Ingredient a ajouter : ', this.addedIngredientsFridge);
+    console.log('Frigo initial : ', Fridge);
+    for (const ingredient of Fridge) {
+      for (const ingredientAdd of this.addedIngredientsFridge) {
+        if (ingredient.detailsID === ingredientAdd.detailsID) {
+          ingredient.quantity += ingredientAdd.quantity;
+          this.addedIngredientsFridge.splice(this.addedIngredientsFridge.indexOf(ingredientAdd), 1);
+        }
+      }
+    }
+    const fridgeTemp = JSON.stringify(Fridge.concat(this.addedIngredientsFridge));
+    console.log('FrigoTemp : ', fridgeTemp);
+    const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
+    console.log('Nouveau Frigo : ', NewJson);
+    //tslint:disable-next-line: max-line-length
+    this.http.put('api/v1/fridge', NewJson, {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        rejectUnauthorized: 'false' }),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      if (events.type === HttpEventType.Response) {
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
+
     });
   }
 
@@ -235,15 +291,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   }
 
-  onAdd() {
-    console.log('this.addedIngredients : ', this.addedIngredients);
-    this.verifyData();
-    if (this.incorrectData === 0) {
-      console.log("ca passe");
-      this.ChangeFridge();
-    } else {
-      this.printErrors();
-    }
-  }
+
  }
 
