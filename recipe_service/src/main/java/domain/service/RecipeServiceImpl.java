@@ -225,8 +225,8 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		List<String> notFound = new ArrayList<String>();
 		boolean foundInRecipeName = false;
-		List<Recipe> allRecipes = getAllRecipes();
 		List<Recipe> foundRecipes = new ArrayList<Recipe>();
+		List<Recipe> allRecipes = getAllRecipes();
 		
 		for (Recipe currentRecipe : allRecipes) {
 			boolean missSomething = false;
