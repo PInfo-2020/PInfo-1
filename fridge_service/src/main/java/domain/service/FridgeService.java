@@ -12,4 +12,5 @@ public interface FridgeService {
 	List<Fridge> getAll();
 	Boolean updateFridge(Fridge fridge);
 	void deleteFridge(long id);
+	List<Long> getIngredientsId(Fridge fridge);
 }

@@ -17,6 +17,7 @@ import io.restassured.parsing.Parser;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -85,9 +86,18 @@ public class FridgeRestServiceIT {
 			.body("userId", equalTo(idOfSecondUser))
 			.body("ingredients", equalTo(null));
 	    }
+	    
+	    @Test
+	    @Order(3)
+	    public void testGetIngredientsIdsNotExists() { //The user doesn't have any fridge yet
+			Header header= new Header("Authorization",Bearer);
+			
+			String response = with().contentType(ContentType.JSON).header(header).when().request("GET","/ingredientIds").then().statusCode(404).assertThat().extract().asString();
+			assertEquals(response, "You don't have any fridge");
+	    }
 		
 		@Test
-		@Order(3)
+		@Order(4)
 		public void testPostFridge() {
 			
 			Header header= new Header("Authorization",Bearer);
@@ -100,7 +110,7 @@ public class FridgeRestServiceIT {
 		}
 		
         @Test
-        @Order(4)
+        @Order(5)
         public void testGetFridgeAfterPost() {
     		Date date1 = Date.valueOf("2019-10-29");
     		Date date2 = Date.valueOf("2020-08-26");
@@ -113,7 +123,20 @@ public class FridgeRestServiceIT {
         }
         
         @Test
-        @Order(5)
+        @Order(6)
+        public void testGetIngredientIdsAfterPost() {
+        	List<Long> ids = new ArrayList<>();
+        	ids.add(123l);
+        	ids.add(124l);
+    		Header header= new Header("Authorization",Bearer);
+    		List response = with().header(header).when().request("GET","/ingredientIds").then().extract().body().as(ids.getClass());
+    		assertEquals(response.size(),ids.size());
+    		assertEquals(response.get(0).toString(), ids.get(0).toString());
+    		assertEquals(response.get(1).toString(), ids.get(1).toString());
+        }
+        
+        @Test
+        @Order(7)
         public void testPutFridge() {
         	Fridge fridge = new Fridge();
 
@@ -125,7 +148,7 @@ public class FridgeRestServiceIT {
         }
         
         @Test
-        @Order(6)
+        @Order(8)
         public void testGetFridgeAfterPut() {
     		Date date1 = Date.valueOf("2021-03-02");
     		Date date2 = Date.valueOf("2020-10-12");
@@ -168,6 +191,13 @@ public class FridgeRestServiceIT {
 		Header header= new Header("Authorization",badBearer);
 
 		String response = with().contentType(ContentType.JSON).header(header).body(fridge).when().request("PUT","/").then().statusCode(401).extract().asString();
+		assertEquals(response, "There is no header or the token is not valid.");
+    }
+    
+    @Test
+    public void testGetIngredientsIdUnhautorized() {
+		Header header= new Header("Authorization",badBearer);
+		String response = with().header(header).when().request("GET","/ingredientIds").then().statusCode(401).extract().asString();
 		assertEquals(response, "There is no header or the token is not valid.");
     }
     
