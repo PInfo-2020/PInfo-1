@@ -1,58 +1,23 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
-
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat-core();
-
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 // define a real custom palette (using http://mcg.mbitson.com)
-$palette: (
-  50 : #e6eeeb,
-  100 : #9da9aa,
-  200 : #4a8d8e,
-  300 : #317256,
-  400 : #14774c,
-  500 : #0c0b0a,
-  600 : #2c6a4f,
-  700 : #255f45,
-  800 : #1f553c,
-  900 : #13422b,
-  A100 : #7fffbd,
-  A200 : #4cffa3,
-  A400 : #19ff89,
-  A700 : #00fe7c,
-  contrast: (
-      50 : #000000,
-      100 : #000000,
-      200 : #000000,
-      300 : #000000,
-      400 : #ffffff,
-      500 : #ffffff,
-      600 : #ffffff,
-      700 : #ffffff,
-      800 : #ffffff,
-      900 : #ffffff,
-      A100 : #000000,
-      A200 : #000000,
-      A400 : #000000,
-      A700 : #000000,
-  )
-);
-
+$palette: ( 50: #e6eeeb, 100: #9da9aa, 200: #4a8d8e, 300: #317256, 400: #14774c, 500: #0c0b0a, 600: #2c6a4f, 700: #255f45, 800: #1f553c, 900: #13422b, A100: #7fffbd, A200: #4cffa3, A400: #19ff89, A700: #00fe7c, contrast: ( 50: #000000, 100: #000000, 200: #000000, 300: #000000, 400: #ffffff, 500: #ffffff, 600: #ffffff, 700: #ffffff, 800: #ffffff, 900: #ffffff, A100: #000000, A200: #000000, A400: #000000, A700: #000000, ));
 // mandatory stuff for theming
-$palette-primary: mat-palette($palette,400);
-$palette-accent:  mat-palette($palette);
-
+$palette-primary: mat-palette($palette, 400);
+$palette-accent : mat-palette($palette);
 // include the custom theme components into a theme object
 $theme: mat-light-theme($palette-primary, $palette-accent);
-
 // include the custom theme object into the angular material theme
 @include angular-material-theme($theme);
-
+[hidden] {
+    display: none !important;
+}
