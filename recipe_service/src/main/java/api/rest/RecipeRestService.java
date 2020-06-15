@@ -93,7 +93,7 @@ public class RecipeRestService {
 	@Path("/{idrecipe}/comment")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postComment(@PathParam("idrecipe") Long idRecipe, Comment comment, @Context HttpHeaders headers) {
+	public Response postComment(@PathParam("idrecipe") Long idRecipe,Comment comment, @Context HttpHeaders headers) {
 		
 		if (KeycloakService.verifyAuthentification(headers)) {
 			String token = KeycloakService.getToken(headers);
@@ -178,16 +178,14 @@ public class RecipeRestService {
 	@Path("/search/{mySearch}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object> getSearchedRecipes(@PathParam("mySearch") String mySearch) {
+	public List<Object> getSearchedRecipes(@PathParam("mySearch") String mySearch, Map<Long, String> idNom, List<Long> idIngredientFromFridge ) {
 
-		Map<Long, String> idNom = new HashMap<Long, String>();
 		
-		// TODO call mininfos 
-		//
 		
-		return RecipeService.searchRecipes(mySearch,idNom);
+		
+		return RecipeService.searchRecipes(mySearch,idNom, idIngredientFromFridge);
 	}
 	
-	
+
 	
 }

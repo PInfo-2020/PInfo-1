@@ -26,6 +26,17 @@ class Ingredient {
   }
 }
 
+class IngredientInFridge {
+  detailsID = 0;
+  quantity = 0;
+  expiration = '';
+  constructor(id, quantity, expiration) {
+      this.quantity = quantity;
+      this.detailsID = id;
+      this.expiration = expiration;
+  }
+}
+
 @Component({
   selector: 'app-fridge-content',
   templateUrl: './fridge-content.component.html',
@@ -45,12 +56,14 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   public addedIngredients: Array<AddedIngredient> = [];
 
+  public ingredientsInFridge: Array<IngredientInFridge> = [];
+
   // private json: Array<Array<string>>;
 
-  url = 'api/v1/fridge';
+  urlFridge = 'api/v1/fridge';
 
   ngOnInit() {
-    //this.getFridge();
+    this.getFridge();
   }
 
   getFridge() {
@@ -61,29 +74,34 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
-    this.http.get(this.url, headernode).toPromise().then(json => {
-      console.log(json);
-      this.addJsonToClass(json['ingredients']);
+    this.http.get(this.urlFridge, headernode).toPromise().then(json => {
+      this.createClassFromJSON(json);
     });
   }
 
-  addJsonToClass(json) {
+  createClassFromJSON(json) {
     let ingr;
+    for (const ingredient of json['ingredients']) {
+      var date_not_formatted = new Date(ingredient.expiration);
+      var formatted_string = date_not_formatted.getFullYear() + '-';
+      if (date_not_formatted.getMonth() < 9) {
+        formatted_string += '0';
+      }
+      formatted_string += (date_not_formatted.getMonth() + 1);
+      formatted_string += '-';
 
-    for (const ingredient of json) {
-      console.log(ingredient)
-      ingr = new Ingredient(ingredient['detailsID'], ingredient['quantity'], ingredient['expiration']);
-      console.log(ingr)
-      this.ingredients.push(ingr);
+      if(date_not_formatted.getDate() < 10) {
+        formatted_string += '0';
+      }
+      formatted_string += date_not_formatted.getDate();
+      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formatted_string);
+      this.ingredientsInFridge.push(ingr);
     }
-    for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient.id, ingredient.quantity, ingredient.expiration);
-      console.log(this.listIngredient)
-    }
-  }
+    //this.createNewFridge(this.ingredientsInFridge);
+   }
 
   ngAfterViewInit() {
-    const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    /*const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
     this.list.asObservable().switchMap(value => Observable.from([this.listIngredient])
       .do(() => this.list.loading = true)
@@ -91,7 +109,37 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
       .subscribe(x => {
           this.data = x;
           this.list.loading = false;
-      });
+      });*/
+  }
+
+  onRemove(index) {
+    console.log('avant : ',  this.ingredientsInFridge);
+    this.ingredientsInFridge.splice(index, 1);
+    console.log('apres : ',  this.ingredientsInFridge);
+    this.createNewFridge(this.ingredientsInFridge);
+  }
+
+  createNewFridge(Fridge) {
+    const fridgeTemp = JSON.stringify(Fridge);
+    console.log('FrigoTemp : ', fridgeTemp);
+    const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
+    console.log('Nouveau Frigo : ', NewJson);
+    //tslint:disable-next-line: max-line-length
+    this.http.put('api/v1/fridge', NewJson, {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        rejectUnauthorized: 'false' }),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      if (events.type === HttpEventType.Response) {
+        console.log(events.body);
+        alert('SUCCESS !!');
+      }
+
+    });
   }
  }
 

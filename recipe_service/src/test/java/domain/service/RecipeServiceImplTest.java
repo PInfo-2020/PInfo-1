@@ -1,5 +1,6 @@
 package domain.service;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import domain.model.Comment;
@@ -278,10 +279,10 @@ public class RecipeServiceImplTest {
 		int size = recipes.size();
 		Recipe myRecipe = recipes.get(size-3);
 		
-		List<Object> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", idNom);
+		List<Object> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", idNom, Collections.emptyList());
 		System.out.println("BABABA");
 		System.out.println(foundRecipes1);
-		List<Object> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", idNom);
+		List<Object> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", idNom, Collections.emptyList());
 		
 		List<Recipe> rcp1 = (List) foundRecipes1.get(0);
 		List<String> wordsNotFound = (List) foundRecipes1.get(2);
@@ -294,7 +295,7 @@ public class RecipeServiceImplTest {
 		assertNull(foundRecipes2);
 		
 		
-		List<Object> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", idNom);
+		List<Object> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", idNom, Collections.emptyList());
 		System.out.println("MAMA");
 		System.out.println(foundRecipes3);
 		System.out.println(newRecipe3.getIngredients().get(1).getDetailsID());
@@ -307,7 +308,15 @@ public class RecipeServiceImplTest {
 		assertEquals(1,rcp3.size()); //Only the 3rd recipe, not the 4th which doesn't have chocolate
 		assertEquals(false, foundRecipes3.get(1));
 		assertEquals(myList, wordsNotFound3);
-		
+		List<Long> frigo = new ArrayList<>();
+		frigo.add((long) 25);
+		List<Object> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
+		List<Recipe> rcp4 = (List<Recipe>) foundRecipes4.get(0);
+		assertEquals(rcp4.size(), 1);
+		frigo.add((long) 22);
+		List<Object> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
+		List<Recipe> rcp5 = (List<Recipe>) foundRecipes5.get(0);
+		assertEquals(rcp5.size(), 2);
 	}
 	
 	
