@@ -311,11 +311,11 @@ public class RecipeServiceImplTest {
 		List<Long> frigo = new ArrayList<>();
 		frigo.add((long) 25);
 		List<Object> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
-		List<Recipe> rcp4 = (List<Recipe>) foundRecipes3.get(0);
+		List<Recipe> rcp4 = (List<Recipe>) foundRecipes4.get(0);
 		assertEquals(rcp4.size(), 1);
 		frigo.add((long) 22);
 		List<Object> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
-		List<Recipe> rcp5 = (List<Recipe>) foundRecipes3.get(0);
+		List<Recipe> rcp5 = (List<Recipe>) foundRecipes5.get(0);
 		assertEquals(rcp5.size(), 2);
 	}
 	
