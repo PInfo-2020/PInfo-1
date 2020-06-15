@@ -17,18 +17,33 @@ class AddedIngredient {
 
 class Ingredient {
   id = '';
-  quantity = '';
-  expiration = '';
-  constructor(id, quantity, expiration) {
+  name = '';
+  //unity = '';
+  constructor(id, name) {
       this.id = id;
+      this.name = name;
+      //this.unity = unity;
+  }
+}
+
+class IngredientInFridgeName {
+  id = '';
+  name = '';
+  quantity = '';
+  //unity = '';
+  expiration = '';
+  constructor(id, name, quantity,expiration) {
+      this.id = id;
+      this.name = name;
       this.quantity = quantity;
+      //this.unity = unity;
       this.expiration = expiration;
   }
 }
 
 class IngredientInFridge {
-  detailsID = 0;
-  quantity = 0;
+  detailsID = '';
+  quantity = '';
   expiration = '';
   constructor(id, quantity, expiration) {
       this.quantity = quantity;
@@ -46,9 +61,11 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   @ViewChild('list') list;
 
-  constructor(private http: HttpClient,  public keycloak: KeycloakService) { }
+  constructor(private http: HttpClient,  public keycloak: KeycloakService) {
 
-  public listIngredient: Array<string> = [];
+  }
+
+  public listIngredient: Array<Ingredient> = [];
 
   public ingredients: Array<Ingredient> = [];
 
@@ -58,11 +75,15 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   public ingredientsInFridge: Array<IngredientInFridge> = [];
 
+  public ingredientsInFridgeName: Array<IngredientInFridgeName> = [];
+
   // private json: Array<Array<string>>;
 
+  urlMinInfo = 'api/v1/ingredients/idName';
   urlFridge = 'api/v1/fridge';
 
   ngOnInit() {
+    this.getIngredients();
     this.getFridge();
   }
 
@@ -81,6 +102,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   createClassFromJSON(json) {
     let ingr;
+    let ingred;
     for (const ingredient of json['ingredients']) {
       var date_not_formatted = new Date(ingredient.expiration);
       var formatted_string = date_not_formatted.getFullYear() + '-';
@@ -95,7 +117,18 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
       }
       formatted_string += date_not_formatted.getDate();
       ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formatted_string);
+      const test = this.listIngredient;
       this.ingredientsInFridge.push(ingr);
+      console.log('Coucou', this.listIngredient);
+      for (const ingredientName of this.listIngredient) {
+        console.log('Salut')
+        if (ingredientName.id === ingredient.detailsID) {
+          // tslint:disable-next-line: max-line-length
+          ingred = new IngredientInFridgeName(ingredient.detailsID, ingredientName.name, ingredient.quantity, formatted_string);
+          this.ingredientsInFridgeName.push(ingred);
+        }
+      }
+      console.log('raté')
     }
     //this.createNewFridge(this.ingredientsInFridge);
    }
@@ -141,6 +174,46 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
     });
   }
- }
+
+  getIngredients() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.urlMinInfo, headernode).toPromise().then(json => {
+      this.addJsonToClass(json);
+    });
+  }
+
+  addJsonToClass(json) {
+    let ingr;
+
+    for (const ingredient of json) {
+      ingr = new Ingredient(ingredient[0], ingredient[1]);
+      this.ingredients.push(ingr);
+    }
+    for (const ingredient of this.ingredients) {
+      this.listIngredient.push(ingredient);
+    }
+  }
+
+
+  changeQuantity(quantity: string, id: string) {
+    for (const ingredient of this.ingredientsInFridge) {
+      if (parseInt(ingredient.detailsID) === parseInt(id)) {
+        ingredient.quantity = quantity;
+      }
+      if (parseInt(ingredient.quantity) <= 0)
+      {
+        const index = this.ingredientsInFridge.indexOf(ingredient);
+        this.ingredientsInFridge.splice(index, 1);
+      }
+    }
+    this.createNewFridge(this.ingredientsInFridge);
+    }
+  }
 
 
