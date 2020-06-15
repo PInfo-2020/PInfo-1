@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 import { KeycloakService } from 'keycloak-angular'
+
 class AddedIngredient {
   name = '';
   quantity = '';
@@ -134,7 +135,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       this.listIngredient.push(ingredient.name);
     }
   }
-
 
   onRemove(index) {
     console.log('index : ', index);

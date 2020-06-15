@@ -1,3 +1,19 @@
-<p>
-  dashboard works!
-</p>
+
+<div>
+  <!--<mat-label> Recherche </mat-label>-->
+    <input type="text" #keyword (keyup.enter)="changeKeywordAndSearch(keyword.value)" (blur)="changeKeyword(keyword.value)"placeholder="Ex. : tomate, pizza">
+  <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="onSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
+  <p></p>
+  <button mat-raised-button (click)="onSearch()">Mes Ingredients</button>
+
+<div *ngFor="let recipe of filteredRecipes; let i = index">
+  <div>{{ recipe.name }} {{ recipe.time }} min  {{ recipe.difficulty }} /10
+      <button mat-icon-button color="black" aria-label="Voir la Recette" (click)="onClick(i)">
+            <mat-icon>forward</mat-icon>
+          </button>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+</div>
