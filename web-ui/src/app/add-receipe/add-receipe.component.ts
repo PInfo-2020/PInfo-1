@@ -72,38 +72,55 @@ export class AddReceipeComponent implements OnInit {
     return (x | 0) === x;
   }
 
+  areIngredientsQuantitiesLegit() {
+    for (const ingredient of this.ingredientsEntered) {
+      if (! this.isInteger(ingredient.quantity) || ingredient.quantity <= 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   verifyData() {
     this.incorrectData = 0;
     
     // Recipe can not be empty
-    if (this.nameEntered.length === 0) {
+    if (! this.nameEntered || ! this.nameEntered.trim()) {
+      console.log('name error');
       this.incorrectData = 1;
     }
 
     // Time has to be positive integer and non zero
     if (!this.isInteger(this.timeEntered) || this.timeEntered <= 0) {
+      console.log('time error');
       this.incorrectData = 1;
     }
 
     // Difficulty must be an integer between 1 and 10
     if (!this.isInteger(this.difficultyEntered) || this.difficultyEntered < 1 || this.difficultyEntered > 10) {
+      console.log('difficulty error');
       this.incorrectData = 1;
     }
 
     // People has to be positive integer and non zero
     if (!this.isInteger(this.peopleEntered) || this.peopleEntered <= 0) {
+      console.log('people erro');
       this.incorrectData = 1;
     }
 
     // There has to be ingredients
-    if (this.ingredientsEntered.length === 0) {
+    if (! this.ingredientsEntered || ! this.areIngredientsQuantitiesLegit()) {
+      console.log('ingr error');
       this.incorrectData = 1;
     }
 
     // Recipe can not be empty
-    if (this.recipeEntered.length === 0) {
+    if (! this.recipeEntered || ! this.recipeEntered.trim()) {
+      console.log('recipe error');
       this.incorrectData = 1;
     }
+
+    console.log('is not ok ? :', this.incorrectData);
   }
 
   createJSON() {
@@ -119,6 +136,7 @@ export class AddReceipeComponent implements OnInit {
     this.json = JSON.stringify(this.recipe);
     console.log(this.json);
     //tslint:disable-next-line: max-line-length
+    /*
     this.http.post('api/v1/recipe', this.json, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
@@ -134,6 +152,7 @@ export class AddReceipeComponent implements OnInit {
       }
 
     });
+    */
   }
 
   printErrors() {
