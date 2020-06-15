@@ -1,3 +1,23 @@
-<p>
-  My receipes works
-</p>
+<div *ngIf="recipeList.length > 0">
+    <div class="box">
+        Voici la liste des recettes que vous nous avez partagé, vous pouvez cliquer sur l'une d'entre elle pour la consulter
+    </div>
+    <div *ngFor="let recipe of recipeList; let i = index" class="simpleRecipe">
+        <div (click)='redirectToRecipe(recipe.id)' id='recipe'>
+            <div class="simpleRecipeDiv">
+                <img src="https://miro.medium.com/max/746/1*5aL4dPHXvvaDnAQxmMRLug.png" alt=recipe.name style="height:120px;">
+            </div>
+            <div class="simpleRecipeDiv">
+                {{ recipe.name }}
+                <br>
+                <br>
+                <br> Note : {{ recipe.grade }} Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="recipeList.length === 0">
+    <div class="box">
+        Vous n'avez pas encore créé de recette, mais vous pouvez le faire en cliquant sur le bouton "Ajouter une recette" dans le menu à gauche
+    </div>
+</div>
