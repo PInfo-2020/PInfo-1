@@ -1,11 +1,9 @@
 <div class="box">
   <label class = "section" for="contenu">Contenu de mon frigo :</label>
 </div>
-<div class="box">
-  <p> il va falloir tout lister les ingrédients que y a dans le fridge ici</p>
-</div>
-<div *ngFor="let ingredient of ingredientsInFridge; let i = index">
-  <div>{{ ingredient.detailsID }} {{ ingredient.quantity }} {{ ingredient.expiration }}
+<div *ngFor="let ingredient of ingredientsInFridgeName; let i = index">
+  <div>{{ ingredient.name }}
+    <input type="number" id="{{ ingredient.id }}" #quantity (keyup.enter)="changeQuantity(quantity.value, quantity.id)" (blur)="changeQuantity(quantity.value, quantity.id)" name="" id="" value="{{ ingredient.quantity }}">
     <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
       <mat-icon>clear</mat-icon>
     </button>

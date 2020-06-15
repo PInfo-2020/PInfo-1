@@ -116,7 +116,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
+          const unity = ingred.unity.split("/")[0];
+          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity);
           newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '2020-02-02');
           this.addedIngredients.push(newIngr);
           this.addedIngredientsFridge.push(newIngrFridge);
