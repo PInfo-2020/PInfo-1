@@ -1,5 +1,6 @@
 <div id="add-recipe">
     <app-name-input (changedName)="onNameChanged($event)"></app-name-input>
+    <mat-icon [hidden]="dataVerification.name" color="warn">warning</mat-icon>
     <p></p>
     <app-upload-photo></app-upload-photo>
     <p></p>
@@ -11,20 +12,25 @@
         <!-- Nombre de personnes -->
         <div class="item">
             <app-people-input (changedPeople)="onPeopleChanged($event)"></app-people-input>
+            <mat-icon [hidden]="dataVerification.people" color="warn">warning</mat-icon>
         </div>
         <!-- Temps de préparation -->
         <div class="item">
             <app-time-input (changedTime)="onTimeChanged($event)"></app-time-input>
+            <mat-icon [hidden]="dataVerification.time" color="warn">warning</mat-icon>
         </div>
         <!-- Difficulté de la recette -->
         <div class="item">
             <app-difficulty-input (changedDifficulty)="onDifficultyChanged($event)"></app-difficulty-input>
+            <mat-icon [hidden]="dataVerification.difficulty" color="warn">warning</mat-icon>
         </div>
     </div>
     <p></p>
     <app-ingredients-input (changedIngredients)="onIngredientsChanged($event)"></app-ingredients-input>
+    <mat-icon [hidden]="dataVerification.ingredients" color="warn">warning</mat-icon>
     <p></p>
     <app-recipe-input (changedRecipe)="onRecipeChanged($event)"></app-recipe-input>
+    <mat-icon [hidden]="dataVerification.preparation" color="warn">warning</mat-icon>
     <p></p>
     <button mat-raised-button (click)="publishRecipe()" color="primary">Publier</button>
 </div>

@@ -13,6 +13,15 @@ interface Recipe {
   preparation: string;
 }
 
+class DataVerification {
+  name = true;
+  time = true;
+  difficulty = true;
+  people = true;
+  ingredients = true;
+  preparation = true;
+}
+
 class IngredientToBeStringified {
     quantity: number;
     detailsID: number;
@@ -36,8 +45,8 @@ export class AddReceipeComponent implements OnInit {
   difficultyEntered: number;
   ingredientsEntered: Array<IngredientToBeStringified>;
   peopleEntered: number;
-  incorrectData: number;
   json: string;
+  dataVerification = new DataVerification();
 
   onNameChanged(nameEntered: string) {
     this.nameEntered = nameEntered;
@@ -82,45 +91,45 @@ export class AddReceipeComponent implements OnInit {
   }
 
   verifyData() {
-    this.incorrectData = 0;
-    
+    for (const booleanValue in this.dataVerification) {
+      this.dataVerification[booleanValue] = true;
+    }
     // Recipe can not be empty
     if (! this.nameEntered || ! this.nameEntered.trim()) {
-      console.log('name error');
-      this.incorrectData = 1;
+      this.dataVerification.name = false;
     }
 
     // Time has to be positive integer and non zero
     if (!this.isInteger(this.timeEntered) || this.timeEntered <= 0) {
-      console.log('time error');
-      this.incorrectData = 1;
+      this.dataVerification.time = false;
     }
 
     // Difficulty must be an integer between 1 and 10
     if (!this.isInteger(this.difficultyEntered) || this.difficultyEntered < 1 || this.difficultyEntered > 10) {
-      console.log('difficulty error');
-      this.incorrectData = 1;
+      this.dataVerification.difficulty = false;
     }
 
     // People has to be positive integer and non zero
     if (!this.isInteger(this.peopleEntered) || this.peopleEntered <= 0) {
-      console.log('people erro');
-      this.incorrectData = 1;
+      this.dataVerification.people = false;
     }
 
     // There has to be ingredients
     if (! this.ingredientsEntered || ! this.areIngredientsQuantitiesLegit()) {
-      console.log('ingr error');
-      this.incorrectData = 1;
+      this.dataVerification.ingredients = false;
     }
 
     // Recipe can not be empty
     if (! this.recipeEntered || ! this.recipeEntered.trim()) {
-      console.log('recipe error');
-      this.incorrectData = 1;
+      this.dataVerification.preparation = false;
     }
 
-    console.log('is not ok ? :', this.incorrectData);
+    for (const booleanValue in this.dataVerification) {
+      if (!this.dataVerification[booleanValue]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   createJSON() {
@@ -134,9 +143,7 @@ export class AddReceipeComponent implements OnInit {
       preparation: this.recipeEntered                              // for testing
     };
     this.json = JSON.stringify(this.recipe);
-    console.log(this.json);
     //tslint:disable-next-line: max-line-length
-    /*
     this.http.post('api/v1/recipe', this.json, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
@@ -147,24 +154,16 @@ export class AddReceipeComponent implements OnInit {
       observe: 'events'
     }).subscribe(events => {
       if (events.type === HttpEventType.Response) {
-        console.log(events.body);
-        alert('SUCCESS !!');
+        // Rediriger vers la page de la recette !
       }
-
     });
-    */
-  }
-
-  printErrors() {
-
   }
 
   publishRecipe() {
-    this.verifyData();
-    if (this.incorrectData === 0) {
+    if (this.verifyData()) {
       this.createJSON();
     } else {
-      this.printErrors();
+      alert('Il y a au moins une erreur dans les données que vous avez entré, veuillez corriger chaque input où vous voyez une petit icone');
     }
   }
 

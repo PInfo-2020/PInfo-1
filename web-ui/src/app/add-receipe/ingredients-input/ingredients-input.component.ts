@@ -80,7 +80,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
-          console.log('Ingred : ', ingred);
           newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
           this.addedIngredients.push(newIngr);
         }
