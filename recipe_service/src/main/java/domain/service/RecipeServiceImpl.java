@@ -214,7 +214,7 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	
 	@Override
-	public List<Object> searchRecipes(String search, Map<Long, String> idNom){
+	public List<Object> searchRecipes(String search, Map<Long, String> idNom, List<Long> idIngredientFromFridge){
 		List<String> words = cleanSearch(search);
 		
 		// a faire dans searchRecipes
@@ -225,8 +225,8 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		List<String> notFound = new ArrayList<String>();
 		boolean foundInRecipeName = false;
-		List<Recipe> allRecipes = getAllRecipes();
 		List<Recipe> foundRecipes = new ArrayList<Recipe>();
+		List<Recipe> allRecipes = getAllRecipes();
 		
 		for (Recipe currentRecipe : allRecipes) {
 			boolean missSomething = false;
@@ -287,6 +287,23 @@ public class RecipeServiceImpl implements RecipeService{
 			}
 		}
 		if(! foundRecipes.isEmpty()) {
+			if(!(idIngredientFromFridge.isEmpty())) {
+				boolean hasIt = true;
+				List<Recipe> temp = foundRecipes;
+				for(Recipe recipe : temp) {
+					List<Ingredient> currentIngredients = recipe.getIngredients();
+	
+		    		for (Ingredient ingredient : currentIngredients) {
+			    		if (!(idIngredientFromFridge.contains(ingredient.getDetailsID()))) {
+			    			hasIt = false;
+			    			
+			    		}
+		    		}
+					if(!(hasIt)) {
+						foundRecipes.remove(recipe);
+					}
+				}
+			}
 			List<Object> result = new ArrayList<>();
 			result.add(foundRecipes);
 			result.add(foundInRecipeName);
