@@ -90,11 +90,11 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getIngredients();
+    // console.log(this.ingredients);
   }
 
   ngAfterViewInit() {
     const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-
     this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
       .do(() => this.list.loading = true)
       .map((data) =>  data.filter(contains(value))))
@@ -108,7 +108,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };

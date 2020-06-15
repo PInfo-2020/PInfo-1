@@ -24,6 +24,9 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { environment } from 'src/environments/environment';
 import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
+import { ViewRecipeModule } from './view-recipe/view-recipe.module';
+
+
 
 declare var window: any;
 
@@ -78,7 +81,8 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
       InputsModule,
       DropDownsModule,
       KeycloakAngularModule,
-      HttpClientModule
+      HttpClientModule,
+      ViewRecipeModule
    ],
    providers: [
 
@@ -86,7 +90,7 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
     {
       provide: APP_INITIALIZER,
       useFactory: init_config,
-      deps: [AppInitService,KeycloakService],
+      deps: [AppInitService, KeycloakService],
       multi: true,
     },
     {

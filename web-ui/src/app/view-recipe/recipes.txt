@@ -1,0 +1,42 @@
+[{"id":1, "name":"Cake choco", "picture":null, "people":4, "preparationTime":10, "difficulty":7, "ingredients":[{"id":1,"quantity":100,"detailsID":99}, {"id":2,"quantity":100,"detailsID":39}, {"id":3,"quantity":2,"detailsID":330}], "preparation":"Mélange et bouffe salope", "author":"8f59174b-bb06-46de-8782-cc9a49d7a6c5", "publicationDate":1592179200000, "grade":-1, "comments":[]}, {"id":2, "name":"Salade de fruits", "picture":null, "people":4, "preparationTime":5, "difficulty":1, "ingredients":[{"id":4,"quantity":100,"detailsID":28}, {"id":5,"quantity":100,"detailsID":201}, {"id":6,"quantity":5,"detailsID":313}], "preparation":"Salade de fruits, jolie, jolie, jolie ...", "author":"8f59174b-bb06-46de-8782-cc9a49d7a6c5","publicationDate":1592179200000, "grade":-1, "comments":[]}]
+
+
+
+[{
+  "id":1,
+  "name":"Cake choco",
+  "picture":null,
+  "people":4,
+  "preparationTime":10,
+  "difficulty":7,
+  "ingredients":
+  [
+    {"id":1,"quantity":100,"detailsID":99},
+    {"id":2,"quantity":100,"detailsID":39},
+    {"id":3,"quantity":2,"detailsID":330}
+  ],
+  "preparation":"Mélange et bouffe salope",
+  "author":"8f59174b-bb06-46de-8782-cc9a49d7a6c5",
+  "publicationDate":1592179200000,
+  "grade":-1,
+  "comments":[]
+},
+{
+  "id":2,
+  "name":"Salade de fruits",
+  "picture":null,
+  "people":4,
+  "preparationTime":5,
+  "difficulty":1,
+  "ingredients":
+  [
+    {"id":4,"quantity":100,"detailsID":28},
+    {"id":5,"quantity":100,"detailsID":201},
+    {"id":6,"quantity":5,"detailsID":313}
+  ],
+  "preparation":"Salade de fruits, jolie, jolie, jolie ...",
+  "author":"8f59174b-bb06-46de-8782-cc9a49d7a6c5","publicationDate":1592179200000,
+  "grade":-1,
+  "comments":[]
+}
+]
