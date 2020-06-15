@@ -33,7 +33,6 @@ declare var window: any;
 
 export function init_config(appLoadService: AppInitService, keycloak: KeycloakService):() => Promise<any> {
   return (): Promise<any> => appLoadService.init().then( () => {
-     console.info(window.config.keycloak.realm);
      return new Promise(async (resolve, reject) => {
       try {
         await keycloak.init({
