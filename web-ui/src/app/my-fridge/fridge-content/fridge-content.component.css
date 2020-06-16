@@ -11,3 +11,7 @@
   display: flex;
   align-items: center;
 }
+
+#ingredient div{
+  float:left;
+}

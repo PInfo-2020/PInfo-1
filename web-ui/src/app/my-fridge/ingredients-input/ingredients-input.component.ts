@@ -1,20 +1,24 @@
+import { FridgeContentComponent } from './../fridge-content/fridge-content.component';
 import { NgModule, AfterViewInit, Output, EventEmitter  } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
+// tslint:disable-next-line: import-blacklist
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
-import { KeycloakService } from 'keycloak-angular'
+import { KeycloakService } from 'keycloak-angular';
 
 class AddedIngredient {
   name = '';
   quantity = '';
   unity = '';
+  expiration = '';
   id = '';
-  constructor(name, quantity, id, unity) {
+  constructor(name, quantity, id, unity, expiration) {
       this.name = name;
       this.quantity = quantity;
       this.id = id;
       this.unity = unity;
+      this.expiration = expiration;
   }
 }
 
@@ -33,10 +37,12 @@ class Ingredient {
   id = '';
   name = '';
   unity = '';
-  constructor(id, name, unity) {
+  expiration = '';
+  constructor(id, name, unity, expiration) {
       this.id = id;
       this.name = name;
       this.unity = unity;
+      this.expiration = expiration;
   }
 }
 
@@ -54,9 +60,11 @@ class IngredientInFridge {
 class IngredientToBeStringified {
   detailsID = 0;
   quantity = 0;
-  constructor(detailsID, quantity) {
+  expiration = '';
+  constructor(expiration, detailsID, quantity) {
     this.quantity = quantity;
     this.detailsID = detailsID;
+    this.expiration = expiration;
   }
 }
 
@@ -64,7 +72,8 @@ class IngredientToBeStringified {
   selector: 'app-ingredients-input',
   templateUrl: './ingredients-input.component.html',
   styleUrls: ['./ingredients-input.component.css']
-})
+}
+)
 
 
 export class IngredientsInputComponent implements OnInit, AfterViewInit {
@@ -98,6 +107,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   urlMinInfo = 'api/v1/ingredients/minInfos';
   urlFridge = 'api/v1/fridge';
 
+
+
   public SelectedAssetFromSTCombo(ingre) {
     if (!this.listIngredient.includes(ingre)) {
       return;
@@ -116,9 +127,9 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
-          const unity = ingred.unity.split("/")[0];
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity);
-          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '2020-02-02');
+          const unity = ingred.unity.split('/')[0];
+          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity, '');
+          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '');
           this.addedIngredients.push(newIngr);
           this.addedIngredientsFridge.push(newIngrFridge);
         }
@@ -161,7 +172,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     let ingr;
 
     for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
+      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2], null);
       this.ingredients.push(ingr);
     }
     for (const ingredient of this.ingredients) {
@@ -176,14 +187,58 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   changeQuantity(quantity: string, id: string) {
     for (const ingredient of this.addedIngredients) {
+      // tslint:disable-next-line: radix
       if (parseInt(ingredient.id) === parseInt(id)) {
         ingredient.quantity = quantity;
       }
     }
     this.changeIngredients();
     for (const ingredient of this.addedIngredientsFridge) {
+      // tslint:disable-next-line: radix
       if (ingredient.detailsID === parseInt(id)) {
+        // tslint:disable-next-line: radix
         ingredient.quantity = parseInt(quantity);
+      }
+    }
+    this.changeIngredients();
+  }
+
+  changeDate(date: Date, id: string) {
+    for (const ingredient of this.addedIngredients) {
+      // tslint:disable-next-line: radix
+      if (parseInt(ingredient.id) === parseInt(id.split('/')[0])) {
+          const dateNotFormatted = new Date(date);
+          let formattedString = dateNotFormatted.getFullYear() + '-';
+          if (dateNotFormatted.getMonth() < 9) {
+            formattedString += '0';
+          }
+          formattedString += (dateNotFormatted.getMonth() + 1);
+          formattedString += '-';
+
+          if (dateNotFormatted.getDate() < 10) {
+            formattedString += '0';
+         }
+          formattedString += dateNotFormatted.getDate();
+          ingredient.expiration = formattedString;
+      }
+    }
+    this.changeIngredients();
+    for (const ingredient of this.addedIngredientsFridge) {
+      // tslint:disable-next-line: radix
+      if (ingredient.detailsID === parseInt(id)) {
+        const dateNotFormatted = new Date(date);
+        let formattedString = dateNotFormatted.getFullYear() + '-';
+        if (dateNotFormatted.getMonth() < 9) {
+          formattedString += '0';
+        }
+        formattedString += (dateNotFormatted.getMonth() + 1);
+        formattedString += '-';
+
+        if (dateNotFormatted.getDate() < 10) {
+          formattedString += '0';
+        }
+        formattedString += dateNotFormatted.getDate();
+        ingredient.expiration = formattedString;
       }
     }
     this.changeIngredients();
@@ -192,7 +247,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   changeIngredients() {
     this.ingredientsToBeStringified = [];
     for (const ingred of this.addedIngredients) {
-      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.quantity, ingred.id));
+      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.expiration, ingred.quantity, ingred.id));
     }
     this.changedIngredients.emit(this.ingredientsToBeStringified);
   }
@@ -204,7 +259,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   onAdd() {
-    console.log('this.addedIngredients : ', this.addedIngredients);
     this.verifyData();
     if (this.incorrectData === 0) {
       this.ChangeFridge();
@@ -215,7 +269,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
 
-  ChangeFridge(){
+  ChangeFridge() {
     this.getFridge();
   }
 
@@ -234,20 +288,20 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   createClassFromJSON(json) {
     let ingr;
-    for (const ingredient of json['ingredients']) {
-      var date_not_formatted = new Date(ingredient.expiration);
-      var formatted_string = date_not_formatted.getFullYear() + '-';
-      if (date_not_formatted.getMonth() < 9) {
-        formatted_string += '0';
+    for (const ingredient of json.ingredients) {
+      const dateNotFormatted = new Date(ingredient.expiration);
+      let formattedString = dateNotFormatted.getFullYear() + '-';
+      if (dateNotFormatted.getMonth() < 9) {
+        formattedString += '0';
       }
-      formatted_string += (date_not_formatted.getMonth() + 1);
-      formatted_string += '-';
+      formattedString += (dateNotFormatted.getMonth() + 1);
+      formattedString += '-';
 
-      if(date_not_formatted.getDate() < 10) {
-        formatted_string += '0';
+      if (dateNotFormatted.getDate() < 10) {
+        formattedString += '0';
       }
-      formatted_string += date_not_formatted.getDate();
-      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formatted_string);
+      formattedString += dateNotFormatted.getDate();
+      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
       this.ingredientsInFridge.push(ingr);
     }
     this.createNewFridge(this.ingredientsInFridge);
@@ -255,9 +309,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
    createNewFridge(Fridge) {
-    console.log("ca passe le dernier");
-    console.log('Ingredient a ajouter : ', this.addedIngredientsFridge);
-    console.log('Frigo initial : ', Fridge);
     for (const ingredient of Fridge) {
       for (const ingredientAdd of this.addedIngredientsFridge) {
         if (ingredient.detailsID === ingredientAdd.detailsID) {
@@ -270,7 +321,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     console.log('FrigoTemp : ', fridgeTemp);
     const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
     console.log('Nouveau Frigo : ', NewJson);
-    //tslint:disable-next-line: max-line-length
+    // tslint:disable-next-line: max-line-length
     this.http.put('api/v1/fridge', NewJson, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
@@ -291,7 +342,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   printErrors() {
 
   }
-
 
  }
 
