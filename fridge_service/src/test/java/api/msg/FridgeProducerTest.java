@@ -23,7 +23,7 @@ import domain.model.Fridge;
 import domain.service.FridgeService;
 
 @ExtendWith(MockitoExtension.class)
-public class FridgeProducerTest {
+class FridgeProducerTest {
 
 	@Mock
 	private SimpleKafkaProducer<String, List<Ingredient>> kafkaProducer;

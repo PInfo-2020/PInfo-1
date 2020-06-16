@@ -58,8 +58,7 @@ public class FridgeServiceImpl implements FridgeService {
 
 	@Override
 	public List<Fridge> getAll() {
-		List<Fridge> fridges = em.createQuery("select g from Fridge g",Fridge.class).getResultList();
-		return fridges;
+		return  em.createQuery("select g from Fridge g",Fridge.class).getResultList();
 	}
 
 
@@ -89,7 +88,7 @@ public class FridgeServiceImpl implements FridgeService {
 	public List<Long> getIngredientsId(Fridge fridge){
 		List<Long> listIds = new ArrayList<>();
 		List<Ingredient> ingredients = fridge.getIngredients();
-		if (! (ingredients == null)) {
+		if (ingredients != null) {
 			for (Ingredient ingredient : ingredients) {
 				listIds.add(ingredient.getDetailsID());
 			}

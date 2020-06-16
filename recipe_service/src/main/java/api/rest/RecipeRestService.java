@@ -14,6 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,55 +33,56 @@ import domain.service.KeycloakService;
 public class RecipeRestService {
 	
 	@Inject
-	private RecipeService RecipeService;
+	private RecipeService recipeService;
 	
 	@Inject
-	private KeycloakService KeycloakService;
+	private KeycloakService keycloakService;
+	
+	private static String unauthorizedError = "There is no header or the token is not valid.";
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postRecipe(Recipe recipe, @Context HttpHeaders headers) {
-		if (KeycloakService.verifyAuthentification(headers)) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			recipe.setAuthor(UserID);
+		if (keycloakService.verifyAuthentification(headers)) {
+			String token = keycloakService.getToken(headers);
+			String userID = keycloakService.getIdUser(token);
+			recipe.setAuthor(userID);
 			Date date = new Date(System.currentTimeMillis());
 			recipe.setPublicationDate(date);
 			recipe.setGrade(-1);
-			List<Comment> comments = new ArrayList<Comment>();
+			List<Comment> comments = new ArrayList<>();
 			recipe.setComments(comments);
-			long id = RecipeService.create(recipe);
+			long id = recipeService.create(recipe);
 			return Response.status(Response.Status.OK).entity(id).build();
 		
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
+		return Response.status(Response.Status.UNAUTHORIZED).entity(unauthorizedError).build();
 	}
 	
 	@Path("/{idrecipe}")
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteRecipe(@PathParam("idrecipe") Long idRecipe, @Context HttpHeaders headers) {
-		if (KeycloakService.verifyAuthentification(headers)) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			Recipe recipe = RecipeService.get(idRecipe);
-			if (recipe.getAuthor().equals(UserID)) {
-				RecipeService.delete(idRecipe);
+		if (keycloakService.verifyAuthentification(headers)) {
+			String token = keycloakService.getToken(headers);
+			String userID = keycloakService.getIdUser(token);
+			Recipe recipe = recipeService.get(idRecipe);
+			if (recipe.getAuthor().equals(userID)) {
+				recipeService.delete(idRecipe);
 				return Response.status(Response.Status.OK).build();
 			}
 			return Response.status(Response.Status.FORBIDDEN).entity("You don't have the rights to call this request.").build();
 			
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
+		return Response.status(Response.Status.UNAUTHORIZED).entity(unauthorizedError).build();
 	}
 	
 	@Path("/{idrecipe}")
     @GET
 	@Produces(MediaType.APPLICATION_JSON)
     public Recipe getRecipe(@PathParam("idrecipe") Long idRecipe) {
-    	Recipe recipe = RecipeService.get(idRecipe);
-        return recipe;
+        return recipeService.get(idRecipe);
     }
 	
 	@Path("/{idrecipe}/comment")
@@ -88,33 +90,33 @@ public class RecipeRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postComment(@PathParam("idrecipe") Long idRecipe,Comment comment, @Context HttpHeaders headers) {
 		
-		if (KeycloakService.verifyAuthentification(headers)) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			comment.setUserID(UserID);
-			long idComment = RecipeService.addComment(idRecipe,comment);
+		if (keycloakService.verifyAuthentification(headers)) {
+			String token = keycloakService.getToken(headers);
+			String userID = keycloakService.getIdUser(token);
+			comment.setUserID(userID);
+			long idComment = recipeService.addComment(idRecipe,comment);
 			
 			return Response.status(Response.Status.OK).entity(idComment).build();
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
+		return Response.status(Response.Status.UNAUTHORIZED).entity(unauthorizedError).build();
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
 	@DELETE
 	public Response deleteComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment, @Context HttpHeaders headers) {
 		
-		if (KeycloakService.verifyAuthentification(headers)) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			Comment comment = RecipeService.getComment(idRecipe, idComment);
+		if (keycloakService.verifyAuthentification(headers)) {
+			String token = keycloakService.getToken(headers);
+			String userID = keycloakService.getIdUser(token);
+			Comment comment = recipeService.getComment(idRecipe, idComment);
 			
-			if (UserID.equals(comment.getUserID())) {
-				RecipeService.deleteComment(idRecipe,idComment);
+			if (userID.equals(comment.getUserID())) {
+				recipeService.deleteComment(idRecipe,idComment);
 				return  Response.status(Response.Status.OK).build();
 			}
 			return Response.status(Response.Status.FORBIDDEN).entity("You don't have the rights to call this request.").build();
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
+		return Response.status(Response.Status.UNAUTHORIZED).entity(unauthorizedError).build();
 	}
 	
 	@Path("/{idrecipe}/comment/{idcomment}")
@@ -122,7 +124,7 @@ public class RecipeRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Comment getComment(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment) {
 		
-		return RecipeService.getComment(idRecipe,idComment);
+		return recipeService.getComment(idRecipe,idComment);
 	}
 
 	@Path("/{idrecipe}/comments")
@@ -130,9 +132,7 @@ public class RecipeRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Comment> getComments(@PathParam("idrecipe") Long idRecipe,@PathParam("idcomment") Long idComment) {
 		
-		Recipe recipe = RecipeService.get(idRecipe);
-		
-	return recipe.getComments();
+	return recipeService.get(idRecipe).getComments();
 	}
 	
 	
@@ -143,13 +143,13 @@ public class RecipeRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMyRecipes(@Context HttpHeaders headers) {
 	
-		if (KeycloakService.verifyAuthentification(headers)) {
-			String token = KeycloakService.getToken(headers);
-			String UserID = KeycloakService.getIdUser(token);
-			List<Recipe> recipes = RecipeService.getListRecipesFromUserId(UserID);
+		if (keycloakService.verifyAuthentification(headers)) {
+			String token = keycloakService.getToken(headers);
+			String userID = keycloakService.getIdUser(token);
+			List<Recipe> recipes = recipeService.getListRecipesFromUserId(userID);
 			return Response.status(Response.Status.OK).entity(recipes).build();
 		}
-		return Response.status(Response.Status.UNAUTHORIZED).entity("There is no header or the token is not valid.").build();
+		return Response.status(Response.Status.UNAUTHORIZED).entity(unauthorizedError).build();
 	}
 
 	@Path("/user/{iduser}")
@@ -157,7 +157,7 @@ public class RecipeRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Recipe> getRecipesOfUserId(@PathParam("iduser") String idUser) {
 		
-		return RecipeService.getListRecipesFromUserId(idUser);
+		return recipeService.getListRecipesFromUserId(idUser);
 	}
 	
 	@Path("/recipes")
@@ -165,19 +165,16 @@ public class RecipeRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Recipe> getAllRecipes() {
 
-		return RecipeService.getAllRecipes();
+		return recipeService.getAllRecipes();
 	}
 	
 	@Path("/search/{mySearch}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch, List<Long> idIngredientFromFridge ) {
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch,@QueryParam("id") List<Long> idIngredientFromFridge ) {
 
-		
-		
-		
-		return RecipeService.searchRecipes(mySearch, idIngredientFromFridge);
-	}
+        return recipeService.searchRecipes(mySearch, idIngredientFromFridge);
+    }
 	
 
 	

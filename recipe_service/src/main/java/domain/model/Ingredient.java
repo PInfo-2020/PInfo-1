@@ -24,11 +24,8 @@ public class Ingredient {
 	@Id
 	@SequenceGenerator(name = "INGREDIENT_SEQ", sequenceName = "INGREDIENT_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "INGREDIENT_SEQ")
-	//@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	 
-    //@ManyToOne
-    //private Recipe recipeIng;
 	private short quantity;
 	private long detailsID;
 	

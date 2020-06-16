@@ -16,8 +16,7 @@ public class KeycloakServiceImpl implements KeycloakService {
 	public String getToken(HttpHeaders headers) {
 		try {
 			String header = headers.getRequestHeader("Authorization").get(0);
-			String token = header.replaceFirst("Bearer" + " ", "");
-			return token;
+			return header.replaceFirst("Bearer" + " ", "");
 		
 		} catch (Exception e) {
 			return null;
@@ -28,8 +27,7 @@ public class KeycloakServiceImpl implements KeycloakService {
 	public String getIdUser(String token) {
 		try {
 			DecodedJWT jwt = JWT.decode(token);
-			String userId = jwt.getSubject();
-			return userId;
+			return jwt.getSubject();
 		} catch (JWTDecodeException e) {
 			return null;
 		}
@@ -38,10 +36,8 @@ public class KeycloakServiceImpl implements KeycloakService {
 	@Override
 	public boolean verifyAuthentification(HttpHeaders headers) {
 		String token = getToken(headers);
-		if(token != null && getIdUser(token) != null) {
-			return true;
-					}
-		return false;
+		return (token != null && getIdUser(token) != null);
+				
 	}
 
 }

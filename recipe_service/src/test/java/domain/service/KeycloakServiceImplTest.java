@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 @ExtendWith(MockitoExtension.class)
-public class KeycloakServiceImplTest {
+class KeycloakServiceImplTest {
 	
 	@InjectMocks
 	private KeycloakServiceImpl kcService;
@@ -33,7 +33,7 @@ public class KeycloakServiceImplTest {
 
 
 	@Test
-	public void verifyAuthentificationTest() {
+	void verifyAuthentificationTest() {
 		// If there is an authentification header
 		headers.clear();
 		headers.add(Bearer);
@@ -53,13 +53,13 @@ public class KeycloakServiceImplTest {
 	}
 	
 	@Test
-	public void getIdUserTest() {
+	void getIdUserTest() {
 		String user = kcService.getIdUser(token);
 		Assertions.assertEquals(idOfUser, user);
 	}
 	
 	@Test
-	public void getTokenTest() {
+	void getTokenTest() {
 		headers.clear();
 		headers.add(Bearer);
 		when(httpHeaders.getRequestHeader("Authorization")).thenReturn(headers);

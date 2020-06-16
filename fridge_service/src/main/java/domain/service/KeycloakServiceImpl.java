@@ -16,8 +16,7 @@ public class KeycloakServiceImpl implements KeycloakService {
 	public String getToken(HttpHeaders headers) {
 		try {
 			String header = headers.getRequestHeader("Authorization").get(0);
-			String token = header.replaceFirst("Bearer" + " ", "");
-			return token;
+			return header.replaceFirst("Bearer" + " ", "");
 		
 		} catch (Exception e) {
 			return null;

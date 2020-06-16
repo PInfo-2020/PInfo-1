@@ -22,7 +22,7 @@ import eu.drus.jpa.unit.api.JpaUnit;
 
 @ExtendWith(JpaUnit.class)
 @ExtendWith(MockitoExtension.class)
-public class IngredientServiceImplTest {
+class IngredientServiceImplTest {
 	@Spy
 	@PersistenceContext(unitName = "IngredientPUTest")
 	EntityManager em;

@@ -13,7 +13,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -106,7 +105,6 @@ public class RecipeServiceImplTest {
 		assertEquals(listIng, recipe.getIngredients());
 		assertEquals(10, recipe.getIngredients().get(0).getQuantity());
 		assertEquals(ingredient1.getId(), recipe.getIngredients().get(0).getId());
-		//assertEquals(recipe, recipe.getIngredients().get(0).getRecipeIng()); //Il y a NULL dans recipeIng ??? 
 		assertEquals(5, recipe.getPreparationTime());
 		assertEquals(5, recipe.getDifficulty());
 		assertEquals(4, recipe.getPeople());
@@ -118,7 +116,6 @@ public class RecipeServiceImplTest {
 		assertEquals(listComment, recipe.getComments());
 		assertEquals(5, recipe.getComments().get(1).getGrade());
 		assertEquals("lasdfasdf", recipe.getComments().get(1).getUserID());
-		//assertEquals(recipe, recipe.getComments().get(1).getRecipe()); //Il y a NULL dans recipe ??? 
 	}
 	
 	
@@ -279,23 +276,23 @@ public class RecipeServiceImplTest {
 		assertEquals(myRecipe, foundRecipes1.get(1));
 
 		
-		assertNull(foundRecipes2);
+		assertEquals(0,foundRecipes2.size());
 		
 		
 		List<Recipe> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", Collections.emptyList());
 
 		
-		assertNull(foundRecipes3); //Only the 3rd recipe, not the 4th which doesn't have chocolate
+		assertEquals(0,foundRecipes3.size()); //Only the 3rd recipe, not the 4th which doesn't have chocolate
 
 		List<Long> frigo = new ArrayList<>();
 		frigo.add((long) 25);
 		List<Recipe> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot",  frigo);
 
-		assertEquals(foundRecipes4.size(), 1);
+		assertEquals(1,foundRecipes4.size());
 		frigo.add((long) 22);
 		List<Recipe> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot",  frigo);
 
-		assertEquals(foundRecipes5.size(), 2);
+		assertEquals(2,foundRecipes5.size());
 	}
 	
 	

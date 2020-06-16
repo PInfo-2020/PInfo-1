@@ -1,14 +1,13 @@
 package api.msg;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
 
 import org.aerogear.kafka.SimpleKafkaProducer;
 import org.aerogear.kafka.cdi.annotation.KafkaConfig;
 import org.aerogear.kafka.cdi.annotation.Producer;
 
-import domain.model.Ingredient;
-import domain.service.RecipeService;
+
 import lombok.extern.java.Log;
 
 @ApplicationScoped
