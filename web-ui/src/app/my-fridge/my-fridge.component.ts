@@ -8,9 +8,10 @@ import { KeycloakService } from 'keycloak-angular';
 })
 export class MyFridgeComponent implements OnInit {
 
+
   constructor(public keycloak: KeycloakService) { }
+
 
   ngOnInit() {
   }
-
 }

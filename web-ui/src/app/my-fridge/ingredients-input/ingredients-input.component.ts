@@ -107,6 +107,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   urlMinInfo = 'api/v1/ingredients/minInfos';
   urlFridge = 'api/v1/fridge';
 
+
+
   public SelectedAssetFromSTCombo(ingre) {
     if (!this.listIngredient.includes(ingre)) {
       return;
@@ -340,7 +342,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   printErrors() {
 
   }
-
 
  }
 

@@ -33,8 +33,7 @@ public class IngredientRestService {
 	@Path("/minInfos")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Object[]> getMinInfos() {
-		
+	public List<Object[]> getMinInfos() {		
 		return ingredientService.getAllMinInfos();
 	}
 	
@@ -42,8 +41,7 @@ public class IngredientRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Object[]> getIdName() {
-		return ingredientService.getIdName();
-	
+		return ingredientService.getIdName();	
 	}
 
 

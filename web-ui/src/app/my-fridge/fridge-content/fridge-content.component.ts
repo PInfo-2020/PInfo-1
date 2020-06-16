@@ -1,9 +1,10 @@
-import { NgModule, AfterViewInit } from '@angular/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgModule, AfterViewInit, Input, SimpleChange } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 // import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 import { KeycloakService } from 'keycloak-angular';
+
 class AddedIngredient {
   id = '';
   quantity = 0;
@@ -78,14 +79,41 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
 
   public ingredientsInFridgeName: Array<IngredientInFridgeName> = [];
 
+  public isOutdated: Array<boolean> = [];
+
   // private json: Array<Array<string>>;
 
-  urlMinInfo = 'api/v1/ingredients/idName';
+  urlMinInfo = 'api/v1/ingredients/minInfos';
   urlFridge = 'api/v1/fridge';
 
   ngOnInit() {
     this.getIngredients();
-    this.getFridge();
+  }
+
+
+  getIngredients() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.urlMinInfo, headernode).toPromise().then(json => {
+      this.addJsonToClass(json);
+    }).then(json => {this.getFridge(); });
+  }
+
+  addJsonToClass(json) {
+    let ingr;
+
+    for (const ingredient of json) {
+      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
+      this.ingredients.push(ingr);
+    }
+    for (const ingredient of this.ingredients) {
+      this.listIngredient.push(ingredient);
+    }
   }
 
   getFridge() {
@@ -104,7 +132,8 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
   createClassFromJSON(json) {
     let ingr;
     let ingred;
-    for (const ingredient of json.ingredients) {
+    let unit;
+    for (const ingredient of json.ingredients.sort()) {
       const dateNotFormatted = new Date(ingredient.expiration);
       let formattedString = dateNotFormatted.getFullYear() + '-';
       if (dateNotFormatted.getMonth() < 9) {
@@ -117,6 +146,10 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
         formattedString += '0';
       }
       formattedString += dateNotFormatted.getDate();
+      let today = new Date();
+      if (dateNotFormatted < today) {
+        this.isOutdated[ingredient.detailsID] = true;
+      }
       ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
       const test = this.listIngredient;
       this.ingredientsInFridge.push(ingr);
@@ -125,7 +158,8 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
         console.log('Dans for');
         if (ingredientName.id === ingredient.detailsID) {
           // tslint:disable-next-line: max-line-length
-          ingred = new IngredientInFridgeName(ingredient.detailsID, ingredientName.name, ingredient.quantity, ingredient.unity , formattedString);
+          unit = ingredientName.unity.split('/')[0];
+          ingred = new IngredientInFridgeName(ingredient.detailsID, ingredientName.name, ingredient.quantity, unit , formattedString);
           this.ingredientsInFridgeName.push(ingred);
         }
       }
@@ -160,31 +194,6 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
       }
 
     });
-  }
-
-  getIngredients() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.urlMinInfo, headernode).toPromise().then(json => {
-      this.addJsonToClass(json);
-    });
-  }
-
-  addJsonToClass(json) {
-    let ingr;
-
-    for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], null);
-      this.ingredients.push(ingr);
-    }
-    for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient);
-    }
   }
 
 

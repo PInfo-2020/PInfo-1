@@ -12,10 +12,6 @@
   align-items: center;
 }
 
-.ok {
-  background: green;
-}
-
-.nok {
-  background: red;
+#ingredient div{
+  float:left;
 }
