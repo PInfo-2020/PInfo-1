@@ -19,9 +19,7 @@ public class RecipeConsumer {
 
 	@Consumer(topics = "returnIngredientName", groupId = "pinfo-microservices")
 	public void askedName(String name) {
-		if(name != "Nous n'avons pas cet ingredient.") {
-			
-		}
+		
 	}
 }
 
