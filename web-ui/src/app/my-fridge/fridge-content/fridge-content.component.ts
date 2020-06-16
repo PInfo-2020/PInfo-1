@@ -1,9 +1,9 @@
 import { NgModule, AfterViewInit } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+// import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
-import { KeycloakService } from 'keycloak-angular'
+import { KeycloakService } from 'keycloak-angular';
 class AddedIngredient {
   id = '';
   quantity = 0;
@@ -18,11 +18,11 @@ class AddedIngredient {
 class Ingredient {
   id = '';
   name = '';
-  //unity = '';
-  constructor(id, name) {
+  unity = '';
+  constructor(id, name, unity) {
       this.id = id;
       this.name = name;
-      //this.unity = unity;
+      this.unity = unity;
   }
 }
 
@@ -30,13 +30,13 @@ class IngredientInFridgeName {
   id = '';
   name = '';
   quantity = '';
-  //unity = '';
+  unity = '';
   expiration = '';
-  constructor(id, name, quantity,expiration) {
+  constructor(id, name, quantity, unity, expiration) {
       this.id = id;
       this.name = name;
       this.quantity = quantity;
-      //this.unity = unity;
+      this.unity = unity;
       this.expiration = expiration;
   }
 }
@@ -57,7 +57,7 @@ class IngredientInFridge {
   templateUrl: './fridge-content.component.html',
   styleUrls: ['./fridge-content.component.css']
 })
-export class FridgeContentComponent implements OnInit , AfterViewInit{
+export class FridgeContentComponent implements OnInit , AfterViewInit {
 
   @ViewChild('list') list;
 
@@ -103,34 +103,34 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
   createClassFromJSON(json) {
     let ingr;
     let ingred;
-    for (const ingredient of json['ingredients']) {
-      var date_not_formatted = new Date(ingredient.expiration);
-      var formatted_string = date_not_formatted.getFullYear() + '-';
-      if (date_not_formatted.getMonth() < 9) {
-        formatted_string += '0';
+    for (const ingredient of json.ingredients) {
+      const dateNotFormatted = new Date(ingredient.expiration);
+      let formattedString = dateNotFormatted.getFullYear() + '-';
+      if (dateNotFormatted.getMonth() < 9) {
+        formattedString += '0';
       }
-      formatted_string += (date_not_formatted.getMonth() + 1);
-      formatted_string += '-';
+      formattedString += (dateNotFormatted.getMonth() + 1);
+      formattedString += '-';
 
-      if(date_not_formatted.getDate() < 10) {
-        formatted_string += '0';
+      if (dateNotFormatted.getDate() < 10) {
+        formattedString += '0';
       }
-      formatted_string += date_not_formatted.getDate();
-      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formatted_string);
+      formattedString += dateNotFormatted.getDate();
+      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
       const test = this.listIngredient;
       this.ingredientsInFridge.push(ingr);
-      console.log('Coucou', this.listIngredient);
+      console.log('this.listIngredient', this.listIngredient);
       for (const ingredientName of this.listIngredient) {
-        console.log('Salut')
+        console.log('Dans for');
         if (ingredientName.id === ingredient.detailsID) {
           // tslint:disable-next-line: max-line-length
-          ingred = new IngredientInFridgeName(ingredient.detailsID, ingredientName.name, ingredient.quantity, formatted_string);
+          ingred = new IngredientInFridgeName(ingredient.detailsID, ingredientName.name, ingredient.quantity, ingredient.unity , formattedString);
           this.ingredientsInFridgeName.push(ingred);
         }
       }
-      console.log('raté')
+      console.log('raté');
     }
-    //this.createNewFridge(this.ingredientsInFridge);
+    // this.createNewFridge(this.ingredientsInFridge);
    }
 
   ngAfterViewInit() {
@@ -157,7 +157,6 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
     console.log('FrigoTemp : ', fridgeTemp);
     const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
     console.log('Nouveau Frigo : ', NewJson);
-    //tslint:disable-next-line: max-line-length
     this.http.put('api/v1/fridge', NewJson, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',
@@ -192,7 +191,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
     let ingr;
 
     for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1]);
+      ingr = new Ingredient(ingredient[0], ingredient[1], null);
       this.ingredients.push(ingr);
     }
     for (const ingredient of this.ingredients) {
@@ -203,11 +202,12 @@ export class FridgeContentComponent implements OnInit , AfterViewInit{
 
   changeQuantity(quantity: string, id: string) {
     for (const ingredient of this.ingredientsInFridge) {
+      // tslint:disable-next-line: radix
       if (parseInt(ingredient.detailsID) === parseInt(id)) {
         ingredient.quantity = quantity;
       }
-      if (parseInt(ingredient.quantity) <= 0)
-      {
+      // tslint:disable-next-line: radix
+      if (parseInt(ingredient.quantity) <= 0) {
         const index = this.ingredientsInFridge.indexOf(ingredient);
         this.ingredientsInFridge.splice(index, 1);
       }
