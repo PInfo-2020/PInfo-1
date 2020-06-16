@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import domain.model.Ingredient;
 import io.restassured.RestAssured;
 
-public class IngredientRestServiceIT {
+class IngredientRestServiceIT {
 
 	@BeforeAll
 	public static void setup() {

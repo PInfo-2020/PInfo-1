@@ -28,6 +28,7 @@ public class Comment {
 	 
 	private String text;
 	private String userID;
+	private String userName;
 	private short grade;
 	
 	@JsonBackReference

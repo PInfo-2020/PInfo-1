@@ -74,8 +74,8 @@ class RecipeRestServiceIT {
             Ingredient ingredient2 = createIngredient(55l, (short)15);
             listIng.add(ingredient1);
             listIng.add(ingredient2);
-            Comment comment1 = createComment("bonjour je suis pas content", "asdfakasy", (short)1);
-            Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
+            Comment comment1 = createComment("bonjour je suis pas content", "asdfakasy","myName", (short)1);
+            Comment comment2 = createComment("bonjour je suis content", "lasdfasdf","yourName", (short)5);
             List<Comment> listComment = new ArrayList<Comment>();
             listComment.add(comment1);
             listComment.add(comment2);
@@ -143,7 +143,7 @@ class RecipeRestServiceIT {
         @Order(4)
         void testPostComment() {
             long id = idOfPostRecipe;
-            Comment comment =  createComment("dégueu", "méchant",(short) 5);
+            Comment comment =  createComment("dégueu", "méchant","myBadName",(short) 5);
  
        
             when().get("/"+id).then().body("comments", hasSize(0));
@@ -154,6 +154,7 @@ class RecipeRestServiceIT {
             when().get("/"+id).then().body("comments", hasSize(1));
             when().get("/"+id).then().assertThat()
             .body("comments.userID", hasItems(idOfUser))
+            .body("comments.userName", hasItems("myBadName"))
             .body("comments.text", hasItems("dégueu"))
             .body("comments.grade", hasItems(5));
            
@@ -166,6 +167,7 @@ class RecipeRestServiceIT {
             long idComment = idOfPostComment;
             when().get("/"+id+"/comment/"+idComment).then().assertThat()
             .body("userID", equalTo(idOfUser))
+            .body("userName", equalTo("myBadName"))
             .body("text", equalTo("dégueu"))
             .body("grade", equalTo(5));
         }
@@ -178,6 +180,7 @@ class RecipeRestServiceIT {
             assertEquals(1,response.size());
             Comment myComment = response.get(0);
             assertEquals(idOfUser,myComment.getUserID());
+            assertEquals("myBadName",myComment.getUserName());
             assertEquals("dégueu",myComment.getText());
             assertEquals(5,myComment.getGrade());
         }
@@ -245,6 +248,7 @@ class RecipeRestServiceIT {
         .body("ingredients.detailsID", hasItems(0,1))
         .body("comments.text", hasItems("Pas mal","Très bon", "Dégeulasse"))
         .body("comments.userID", hasItems("commentateur","AutreCommentateur", "randomGuy"))
+        .body("comments.userName", hasItems("commentateurName","AutreCommentateurName", "randomGuyName"))
         .body("comments.grade", hasItems(3,4,1));
     }
    
@@ -278,6 +282,7 @@ class RecipeRestServiceIT {
         assertEquals("passable", myRecipe.getComments().get(0).getText());
         assertEquals(3, myRecipe.getComments().get(0).getGrade());
         assertEquals("moi", myRecipe.getComments().get(0).getUserID());
+        assertEquals("myName", myRecipe.getComments().get(0).getUserName());
        
     }
    
@@ -317,6 +322,7 @@ class RecipeRestServiceIT {
         assertEquals("Dégeulasse", Recipe1.getComments().get(2).getText());
         assertEquals(1, Recipe1.getComments().get(2).getGrade());
         assertEquals("randomGuy", Recipe1.getComments().get(2).getUserID());
+        assertEquals("randomGuyName", Recipe1.getComments().get(2).getUserName());
        
         assertEquals("Choux à la crème", Recipe2.getName());
         assertEquals("monAutreImage", Recipe2.getPicture());
@@ -337,6 +343,7 @@ class RecipeRestServiceIT {
         assertEquals("passable", Recipe2.getComments().get(0).getText());
         assertEquals(3, Recipe2.getComments().get(0).getGrade());
         assertEquals("moi", Recipe2.getComments().get(0).getUserID());
+        assertEquals("myName", Recipe2.getComments().get(0).getUserName());
     }
  
  
@@ -421,10 +428,11 @@ class RecipeRestServiceIT {
  
  
  
-    private Comment createComment(String text, String userID,short grade) {
+    private Comment createComment(String text, String userID, String userName, short grade) {
         Comment comment = new Comment();
         comment.setText(text);
         comment.setUserID(userID);
+        comment.setUserName(userName);
         comment.setGrade(grade);
         return comment;
     }

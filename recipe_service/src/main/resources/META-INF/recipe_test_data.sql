@@ -11,7 +11,7 @@ DROP TABLE if exists Comment cascade;
 
 CREATE TABLE IF NOT EXISTS Recipe ( id bigint not null, primary key (id), name varchar(255), picture varchar(255), people smallint, preparationTime smallint, difficulty smallint, preparation varchar(255), authorId varchar(255), authorName varchar(255), publicationDate varchar(255), grade float);
 CREATE TABLE IF NOT EXISTS Ingredient ( id bigint not null, primary key (id), quantity smallint, detailsID bigint, RECIPE_ID long, foreign key (RECIPE_ID) REFERENCES Recipe(id) );
-CREATE TABLE IF NOT EXISTS Comment ( id bigint not null, primary key (id), text varchar(255), userID varchar(255), grade smallint, RECIPE_ID long, foreign key (RECIPE_ID) REFERENCES Recipe(id));
+CREATE TABLE IF NOT EXISTS Comment ( id bigint not null, primary key (id), text varchar(255), userID varchar(255), userName varchar(255), grade smallint, RECIPE_ID long, foreign key (RECIPE_ID) REFERENCES Recipe(id));
 
 
 
@@ -23,7 +23,7 @@ INSERT INTO Ingredient (id, quantity, detailsID, RECIPE_ID) VALUES  (INGREDIENT_
 INSERT INTO Ingredient  (id, quantity, detailsID, RECIPE_ID) VALUES  (INGREDIENT_SEQ.nextval,3,2,2);
 INSERT INTO Ingredient (id, quantity, detailsID, RECIPE_ID) VALUES  (INGREDIENT_SEQ.nextval,42,3,2);
 
-INSERT INTO Comment (id, text, userID, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval, 'Pas mal', 'commentateur',3,1);
-INSERT INTO Comment (id, text, userID, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval, 'Très bon', 'AutreCommentateur',4,1);
-INSERT INTO Comment (id, text, userID, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval,'Dégeulasse', 'randomGuy',1,1);
-INSERT INTO Comment (id, text, userID, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval,'passable', 'moi',3,2);
+INSERT INTO Comment (id, text, userID, userName, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval, 'Pas mal', 'commentateur', 'commentateurName',3,1);
+INSERT INTO Comment (id, text, userID, userName, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval, 'Très bon', 'AutreCommentateur','AutreCommentateurName',4,1);
+INSERT INTO Comment (id, text, userID, userName, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval,'Dégeulasse', 'randomGuy','randomGuyName',1,1);
+INSERT INTO Comment (id, text, userID, userName, grade, RECIPE_ID) VALUES  (COMMENT_SEQ.nextval,'passable', 'moi','myName',3,2);

@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 
 import java.sql.Date;
@@ -32,7 +32,7 @@ import eu.drus.jpa.unit.api.JpaUnit;
 
 @ExtendWith(JpaUnit.class)
 @ExtendWith(MockitoExtension.class)
-public class RecipeServiceImplTest {
+class RecipeServiceImplTest {
 	
 	@Spy
 	@PersistenceContext(unitName = "RecipePUTest")
@@ -89,8 +89,8 @@ public class RecipeServiceImplTest {
 		Ingredient ingredient2 = createIngredient(55l, (short)15);
 		listIng.add(ingredient1);
 		listIng.add(ingredient2);
-		Comment comment1 = createComment("bonjour je suis pas content", "asdfakasy", (short)1);
-		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
+		Comment comment1 = createComment("bonjour je suis pas content", "asdfakasy", "myName", (short)1);
+		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf","name", (short)5);
 		List<Comment> listComment = new ArrayList<Comment>();
 		listComment.add(comment1);
 		listComment.add(comment2);
@@ -117,6 +117,7 @@ public class RecipeServiceImplTest {
 		assertEquals(listComment, recipe.getComments());
 		assertEquals(5, recipe.getComments().get(1).getGrade());
 		assertEquals("lasdfasdf", recipe.getComments().get(1).getUserID());
+		assertEquals("name", recipe.getComments().get(1).getUserName());
 	}
 	
 	
@@ -154,8 +155,8 @@ public class RecipeServiceImplTest {
         Recipe myRecipe = recipes.get(0);
 
         int size = myRecipe.getComments().size();
-        Comment comment = createComment("bonjour je ne suis pas content", "asdfakasy", (short)2);
-        Comment comment2 = createComment("bonjour je ne suis content", "AD<YX", (short)4);
+        Comment comment = createComment("bonjour je ne suis pas content", "asdfakasy", "myName", (short)2);
+        Comment comment2 = createComment("bonjour je ne suis content", "AD<YX", "name", (short)4);
         recipeService.addComment(myRecipe.getId(), comment);
         recipeService.addComment(myRecipe.getId(), comment2);
         assertEquals(size+2,myRecipe.getComments().size());
@@ -174,9 +175,9 @@ public class RecipeServiceImplTest {
         Recipe myRecipe = recipes.get(1);
 
 
-        Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-        Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
-        Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
+        Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy","myName", (short)3);
+        Comment comment2 = createComment("bonjour je suis content", "lasdfasdf","otherName", (short)5);
+        Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy","name", (short)1);
 
         recipeService.addComment(myRecipe.getId(), comment1);
         recipeService.addComment(myRecipe.getId(), comment2);
@@ -201,9 +202,9 @@ public class RecipeServiceImplTest {
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe myRecipe = recipes.get(1);
 		
-		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy", (short)3);
-		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf", (short)5);
-		Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy", (short)1);
+		Comment comment1 = createComment("bonjour c'est moyen", "asdfakasy","myName", (short)3);
+		Comment comment2 = createComment("bonjour je suis content", "lasdfasdf","otherName", (short)5);
+		Comment comment3 = createComment("bonjour je ne suis pas content", "asdfasy","name", (short)1);
 
 		recipeService.addComment(myRecipe.getId(), comment1);
 		recipeService.addComment(myRecipe.getId(), comment2);
@@ -309,16 +310,18 @@ public class RecipeServiceImplTest {
 		Comment comment = new Comment();
 		comment.setText(UUID.randomUUID().toString());
 		comment.setUserID(UUID.randomUUID().toString());
+		comment.setUserName(UUID.randomUUID().toString());
 		comment.setGrade((short)(Math.random() * ((5 - 0) + 1)));
 		
 		return comment;
 	}
 	
 
-	private Comment createComment(String text, String userID,short grade) {
+	private Comment createComment(String text, String userID, String userName, short grade) {
 		Comment comment = new Comment();
 		comment.setText(text);
 		comment.setUserID(userID);
+		comment.setUserName(userName);
 		comment.setGrade(grade);
 		return comment;
 	}
