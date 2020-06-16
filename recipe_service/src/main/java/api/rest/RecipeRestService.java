@@ -47,7 +47,7 @@ public class RecipeRestService {
 		if (keycloakService.verifyAuthentification(headers)) {
 			String token = keycloakService.getToken(headers);
 			String userID = keycloakService.getIdUser(token);
-			recipe.setAuthor(userID);
+			recipe.setAuthorId(userID);
 			Date date = new Date(System.currentTimeMillis());
 			recipe.setPublicationDate(date);
 			recipe.setGrade(-1);
@@ -68,7 +68,7 @@ public class RecipeRestService {
 			String token = keycloakService.getToken(headers);
 			String userID = keycloakService.getIdUser(token);
 			Recipe recipe = recipeService.get(idRecipe);
-			if (recipe.getAuthor().equals(userID)) {
+			if (recipe.getAuthorId().equals(userID)) {
 				recipeService.delete(idRecipe);
 				return Response.status(Response.Status.OK).build();
 			}

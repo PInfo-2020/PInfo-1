@@ -75,7 +75,7 @@ public class RecipeServiceImpl implements RecipeService{
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Recipe> criteria = builder.createQuery(Recipe.class);
 		Root<Recipe> c = criteria.from(Recipe.class);
-		criteria.select(c).where(builder.equal(c.get("author"), userId));
+		criteria.select(c).where(builder.equal(c.get("authorId"), userId));
 		
 		return em.createQuery(criteria).getResultList();
 		

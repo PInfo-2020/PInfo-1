@@ -1,11 +1,8 @@
 package api.msg;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import org.aerogear.kafka.cdi.annotation.Consumer;
 import org.aerogear.kafka.cdi.annotation.KafkaConfig;
-
-import domain.service.RecipeService;
 
 
 

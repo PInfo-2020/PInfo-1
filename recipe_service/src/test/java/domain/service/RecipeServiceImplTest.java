@@ -95,7 +95,7 @@ public class RecipeServiceImplTest {
 		listComment.add(comment1);
 		listComment.add(comment2);
 		long returnedId = recipeService.create(createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
-				"aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment));
+				"aprfg", "authorName", Date.valueOf("2019-01-26"), 4.5f, listComment));
 		
 		List<Recipe> recipes = recipeService.getAllRecipes();
 		Recipe recipe = recipes.get(0);
@@ -110,7 +110,8 @@ public class RecipeServiceImplTest {
 		assertEquals(4, recipe.getPeople());
 		assertEquals("maPhoto", recipe.getPicture());
 		assertEquals("fais ceci cela", recipe.getPreparation());
-		assertEquals("aprfg", recipe.getAuthor());
+		assertEquals("aprfg", recipe.getAuthorId());
+		assertEquals("authorName", recipe.getAuthorName());
 		assertEquals(Date.valueOf("2019-01-26"), recipe.getPublicationDate());
 		assertEquals(4.5, recipe.getGrade());
 		assertEquals(listComment, recipe.getComments());
@@ -126,10 +127,10 @@ public class RecipeServiceImplTest {
 		Recipe r2 = getRandomRecipe();
 		Recipe r3 = getRandomRecipe();
 		Recipe r4 = getRandomRecipe();
-		r1.setAuthor("moi");
-		r2.setAuthor("moi");
-		r3.setAuthor("toi");
-		r4.setAuthor("moi");
+		r1.setAuthorId("moi");
+		r2.setAuthorId("moi");
+		r3.setAuthorId("toi");
+		r4.setAuthorId("moi");
 		r1.setName("canard laqué");
 		r2.setName("toutre à la framboise");
 		r3.setName("Fondue au chocolat");
@@ -330,18 +331,19 @@ public class RecipeServiceImplTest {
 		return ingredient;
 	}
 	
-	private Recipe createRecipe(String name, List<Ingredient> ingredients, short prepTime, short difficulty, short nbPersonnes,
-			String photo, String preparation, String auteur, Date date, float note, List<Comment> comments) {
+	private Recipe createRecipe(String name, List<Ingredient> ingredients, short prepTime, short difficulty, short people,
+			String photo, String preparation, String authorId, String authorName, Date date, float note, List<Comment> comments) {
 
 		Recipe i = new Recipe();
 		i.setName(name);
 		i.setIngredients(ingredients);
 		i.setPreparationTime(prepTime);
 		i.setDifficulty(difficulty);
-		i.setPeople(nbPersonnes);
+		i.setPeople(people);
 		i.setPicture(photo);
 		i.setPreparation(preparation);
-		i.setAuthor(auteur);
+		i.setAuthorId(authorId);
+		i.setAuthorName(authorName);
 		i.setPublicationDate(date);
 		i.setGrade(note);
 		i.setComments(comments);
@@ -371,7 +373,8 @@ public class RecipeServiceImplTest {
         i.setPeople((short) (Math.random()*1000));
         i.setPicture(UUID.randomUUID().toString());
         i.setPreparation(UUID.randomUUID().toString());
-        i.setAuthor(UUID.randomUUID().toString());
+        i.setAuthorId(UUID.randomUUID().toString());
+        i.setAuthorName(UUID.randomUUID().toString());
         i.setPublicationDate(Date.valueOf("2019-01-26"));
         i.setGrade((float) -1);
         List<Comment> comments = new ArrayList<Comment>();

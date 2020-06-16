@@ -80,7 +80,7 @@ class RecipeRestServiceIT {
             listComment.add(comment1);
             listComment.add(comment2);
             Recipe recipe = createRecipe("maRecette", listIng, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
-                    "aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment);
+                    "aprfg","myName", Date.valueOf("2019-01-26"), 4.5f, listComment);
             String id_string = with().contentType(ContentType.JSON).header(header).body(recipe).when().request("POST","/").then().statusCode(200).extract().asString();
             String error = with().contentType(ContentType.JSON).header(headerError).body(recipe).when().request("POST","/").then().statusCode(401).extract().asString();
             assertEquals("There is no header or the token is not valid.",error);
@@ -95,7 +95,8 @@ class RecipeRestServiceIT {
         void testGetRecipeAfterPost() {
             long id = idOfPostRecipe;
             when().get("/" + id).then().assertThat()
-            .body("author", equalTo(idOfUser))
+            .body("authorId", equalTo(idOfUser))
+            .body("authorName", equalTo("myName"))
             .body("name", equalTo("maRecette"))
             .body("picture", equalTo("maPhoto"))
             .body("people", equalTo(4))
@@ -123,7 +124,8 @@ class RecipeRestServiceIT {
             recipesOfOne.add(recipe);
             assertEquals(1,recipes.size());
             assertEquals(recipes.get(0).getPreparation(),recipesOfOne.get(0).getPreparation());
-            assertEquals(recipesOfOne.get(0).getAuthor(),recipes.get(0).getAuthor());
+            assertEquals(recipesOfOne.get(0).getAuthorId(),recipes.get(0).getAuthorId());
+            assertEquals(recipesOfOne.get(0).getAuthorName(),recipes.get(0).getAuthorName());
             assertEquals(recipesOfOne.get(0).getDifficulty(),recipes.get(0).getDifficulty());
             assertEquals(recipesOfOne.get(0).getPeople(),recipes.get(0).getPeople());
             assertEquals(recipesOfOne.get(0).getName(),recipes.get(0).getName());
@@ -229,7 +231,8 @@ class RecipeRestServiceIT {
         when().get("/2").then().body(containsString("Choux à la crème"));
         Date date = Date.valueOf("2020-07-12");
         when().get("/1").then().assertThat()
-        .body("author", equalTo("testId"))
+        .body("authorId", equalTo("testId"))
+        .body("authorName", equalTo("testName"))
         .body("name", equalTo("Tarte aux citrons"))
         .body("picture", equalTo("monImage"))
         .body("people", equalTo(5))
@@ -262,7 +265,8 @@ class RecipeRestServiceIT {
         assertEquals(15, myRecipe.getPreparationTime());
         assertEquals(3, myRecipe.getDifficulty());
         assertEquals("Prépare le choux", myRecipe.getPreparation());
-        assertEquals("autreId", myRecipe.getAuthor());
+        assertEquals("autreId", myRecipe.getAuthorId());
+        assertEquals("autreName", myRecipe.getAuthorName());
         assertEquals(3, myRecipe.getGrade());
         assertEquals(Date.valueOf("2020-04-24"), myRecipe.getPublicationDate());
         assertEquals(2, myRecipe.getIngredients().size());
@@ -294,7 +298,8 @@ class RecipeRestServiceIT {
         assertEquals(10, Recipe1.getPreparationTime());
         assertEquals(5, Recipe1.getDifficulty());
         assertEquals("Prépare la tarte", Recipe1.getPreparation());
-        assertEquals("testId", Recipe1.getAuthor());
+        assertEquals("testId", Recipe1.getAuthorId());
+        assertEquals("testName", Recipe1.getAuthorName());
         assertEquals(4.5, Recipe1.getGrade());
         assertEquals(Date.valueOf("2020-07-12"), Recipe1.getPublicationDate());
         assertEquals(2, Recipe1.getIngredients().size());
@@ -319,7 +324,8 @@ class RecipeRestServiceIT {
         assertEquals(15, Recipe2.getPreparationTime());
         assertEquals(3, Recipe2.getDifficulty());
         assertEquals("Prépare le choux", Recipe2.getPreparation());
-        assertEquals("autreId", Recipe2.getAuthor());
+        assertEquals("autreId", Recipe2.getAuthorId());
+        assertEquals("autreName", Recipe2.getAuthorName());
         assertEquals(3, Recipe2.getGrade());
         assertEquals(Date.valueOf("2020-04-24"), Recipe2.getPublicationDate());
         assertEquals(2, Recipe2.getIngredients().size());
@@ -346,12 +352,12 @@ class RecipeRestServiceIT {
         List<Comment> listComment = new ArrayList<Comment>();
        
         Recipe newRecipe = createRecipe("tarte aux fraises bernoise", ingredients, (short)5, (short)5, (short)4, "maPhoto", "fais ceci cela",
-                "aprfg", Date.valueOf("2019-01-26"), 4.5f, listComment);
+                "aprfg", "myName", Date.valueOf("2019-01-26"), 4.5f, listComment);
         newRecipe.setName("tarte aux fraises bernoise");
        
        
         Recipe newRecipe2 = createRecipe("tarte aux fraises suisse", ingredients, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
-                "moi", Date.valueOf("2020-03-28"), 4.7f, listComment);
+                "moi", "myName", Date.valueOf("2020-03-28"), 4.7f, listComment);
        
         Ingredient ing3 = new Ingredient();
         ing3.setDetailsID(22);
@@ -365,13 +371,13 @@ class RecipeRestServiceIT {
         newIngredients.add(ing4);
        
         Recipe newRecipe3 = createRecipe("Glace à l'abricot", newIngredients, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
-                "moi", Date.valueOf("2020-03-28"), 4.7f, listComment);
+                "moi", "myName", Date.valueOf("2020-03-28"), 4.7f, listComment);
        
         List<Ingredient> otherIngredients = new ArrayList<>();
         otherIngredients.add(ing4);
        
         Recipe newRecipe4 = createRecipe("Glace à l'abricot remasterisée", otherIngredients, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
-                "moi", Date.valueOf("2020-03-28"), 4.7f, listComment);
+                "moi", "myName", Date.valueOf("2020-03-28"), 4.7f, listComment);
      
         String id_string1 = with().contentType(ContentType.JSON).header(header).body(newRecipe).when().request("POST","/").then().statusCode(200).extract().asString();
         long id_1 = Long.parseLong(id_string1);
@@ -431,18 +437,19 @@ class RecipeRestServiceIT {
         return ingredient;
     }
    
-    private Recipe createRecipe(String name, List<Ingredient> ingredients, short prepTime, short difficulty, short nbPersonnes,
-            String photo, String preparation, String auteur, Date date, float note, List<Comment> comments) {
+    private Recipe createRecipe(String name, List<Ingredient> ingredients, short prepTime, short difficulty, short people,
+            String photo, String preparation, String authorId, String authorName, Date date, float note, List<Comment> comments) {
  
         Recipe i = new Recipe();
         i.setName(name);
         i.setIngredients(ingredients);
         i.setPreparationTime(prepTime);
         i.setDifficulty(difficulty);
-        i.setPeople(nbPersonnes);
+        i.setPeople(people);
         i.setPicture(photo);
         i.setPreparation(preparation);
-        i.setAuthor(auteur);
+        i.setAuthorId(authorId);
+        i.setAuthorName(authorName);
         i.setPublicationDate(date);
         i.setGrade(note);
         i.setComments(comments);

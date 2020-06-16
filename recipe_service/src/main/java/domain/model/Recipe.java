@@ -48,7 +48,8 @@ public class Recipe {
 	private List<Ingredient> ingredients;
 	private String preparation;
 
-	private String author;
+	private String authorId;
+	private String authorName;
 
 	private Date publicationDate;
 	
