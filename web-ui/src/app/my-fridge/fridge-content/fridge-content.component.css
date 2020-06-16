@@ -11,3 +11,11 @@
   display: flex;
   align-items: center;
 }
+
+.ok {
+  background: green;
+}
+
+.nok {
+  background: red;
+}

@@ -52,6 +52,7 @@ class IngredientInFridge {
   }
 }
 
+
 @Component({
   selector: 'app-fridge-content',
   templateUrl: './fridge-content.component.html',
@@ -128,27 +129,14 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
           this.ingredientsInFridgeName.push(ingred);
         }
       }
-      console.log('raté');
     }
-    // this.createNewFridge(this.ingredientsInFridge);
    }
 
   ngAfterViewInit() {
-    /*const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-
-    this.list.asObservable().switchMap(value => Observable.from([this.listIngredient])
-      .do(() => this.list.loading = true)
-      .map((data) =>  data.filter(contains(value))))
-      .subscribe(x => {
-          this.data = x;
-          this.list.loading = false;
-      });*/
   }
 
   onRemove(index) {
-    console.log('avant : ',  this.ingredientsInFridge);
     this.ingredientsInFridge.splice(index, 1);
-    console.log('apres : ',  this.ingredientsInFridge);
     this.createNewFridge(this.ingredientsInFridge);
   }
 
