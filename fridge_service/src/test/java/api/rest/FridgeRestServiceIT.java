@@ -43,7 +43,7 @@ import domain.model.Fridge;
 import domain.model.Ingredient;
 import domain.service.FridgeService;
 
-public class FridgeRestServiceIT {
+class FridgeRestServiceIT {
 
 	@BeforeAll
 	public static void setup() {
@@ -67,7 +67,7 @@ public class FridgeRestServiceIT {
 	    
 	    @Test
 	    @Order(1)
-	    public void testPutNotExists() {
+	    void testPutNotExists() {
 	    	Fridge fridge = new Fridge();
 
 			fridge = createOtherFridge();
@@ -79,7 +79,7 @@ public class FridgeRestServiceIT {
 		
 	    @Test
 	    @Order(2)
-	    public void testGetNotExists() { //The user doesn't have any fridge yet
+	    void testGetNotExists() { //The user doesn't have any fridge yet
 			Header header= new Header("Authorization",secondBearer);
 			
 			with().header(header).when().request("GET","/").then().statusCode(200).assertThat()
@@ -89,7 +89,7 @@ public class FridgeRestServiceIT {
 	    
 	    @Test
 	    @Order(3)
-	    public void testGetIngredientsIdsNotExists() { //The user doesn't have any fridge yet
+	    void testGetIngredientsIdsNotExists() { //The user doesn't have any fridge yet
 			Header header= new Header("Authorization",Bearer);
 			
 			String response = with().contentType(ContentType.JSON).header(header).when().request("GET","/ingredientIds").then().statusCode(404).assertThat().extract().asString();
@@ -98,7 +98,7 @@ public class FridgeRestServiceIT {
 		
 		@Test
 		@Order(4)
-		public void testPostFridge() {
+		void testPostFridge() {
 			
 			Header header= new Header("Authorization",Bearer);
 			Fridge fridge = new Fridge();
@@ -111,7 +111,7 @@ public class FridgeRestServiceIT {
 		
         @Test
         @Order(5)
-        public void testGetFridgeAfterPost() {
+        void testGetFridgeAfterPost() {
     		Date date1 = Date.valueOf("2019-10-29");
     		Date date2 = Date.valueOf("2020-08-26");
     		Header header= new Header("Authorization",Bearer);
@@ -124,7 +124,7 @@ public class FridgeRestServiceIT {
         
         @Test
         @Order(6)
-        public void testGetIngredientIdsAfterPost() {
+        void testGetIngredientIdsAfterPost() {
         	List<Long> ids = new ArrayList<>();
         	ids.add(123l);
         	ids.add(124l);
@@ -137,7 +137,7 @@ public class FridgeRestServiceIT {
         
         @Test
         @Order(7)
-        public void testPutFridge() {
+        void testPutFridge() {
         	Fridge fridge = new Fridge();
 
     		fridge = createOtherFridge();
@@ -149,7 +149,7 @@ public class FridgeRestServiceIT {
         
         @Test
         @Order(8)
-        public void testGetFridgeAfterPut() {
+        void testGetFridgeAfterPut() {
     		Date date1 = Date.valueOf("2021-03-02");
     		Date date2 = Date.valueOf("2020-10-12");
     		Header header= new Header("Authorization",Bearer);
@@ -165,7 +165,7 @@ public class FridgeRestServiceIT {
 	
 	
 	@Test
-	public void testPostUnhautorized() {
+	void testPostUnhautorized() {
 		
 		Header header= new Header("Authorization",badBearer);
 		Fridge fridge = new Fridge();
@@ -177,14 +177,14 @@ public class FridgeRestServiceIT {
 	}
 	
     @Test
-    public void testGetUnhautorized() {
+    void testGetUnhautorized() {
 		Header header= new Header("Authorization",badBearer);
 		String response = with().header(header).when().request("GET","/").then().statusCode(401).extract().asString();
 		assertEquals("There is no header or the token is not valid.",response);
     }
     
     @Test
-    public void testPutUnhautorized() {
+    void testPutUnhautorized() {
     	Fridge fridge = new Fridge();
 
 		fridge = createOtherFridge();
@@ -195,7 +195,7 @@ public class FridgeRestServiceIT {
     }
     
     @Test
-    public void testGetIngredientsIdUnhautorized() {
+    void testGetIngredientsIdUnhautorized() {
 		Header header= new Header("Authorization",badBearer);
 		String response = with().header(header).when().request("GET","/ingredientIds").then().statusCode(401).extract().asString();
 		assertEquals("There is no header or the token is not valid.",response);

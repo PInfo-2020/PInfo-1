@@ -24,11 +24,8 @@ public class Comment {
 	@Id
 	@SequenceGenerator(name = "COMMENT_SEQ", sequenceName = "COMMENT_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMMENT_SEQ")
-	//@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	 
-    //@ManyToOne
-    //private Recipe recipe;
 	private String text;
 	private String userID;
 	private short grade;

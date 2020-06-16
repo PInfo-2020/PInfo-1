@@ -24,7 +24,7 @@ public class IngredientRestServiceIT {
 	}
 
 	@Test
-	public void testGetMinInfos() {
+	void testGetMinInfos() {
 		when().get("/minInfos").then().body(containsString("Abricot, sucré, conserve"));
 		List<List<String>> response = new ArrayList<>();
 		response = when().get("/minInfos").then().extract().body().as(response.getClass());
@@ -36,7 +36,7 @@ public class IngredientRestServiceIT {
 	}
 	
 	@Test
-	public void testGetIdName() {
+	void testGetIdName() {
 		when().get("/idName").then().body(containsString("Abricot, sucré, conserve"));
 		List<List<String>> response = new ArrayList<>();
 		response = when().get("/idName").then().extract().body().as(response.getClass());
@@ -47,7 +47,7 @@ public class IngredientRestServiceIT {
 	}
 	
 	@Test
-	public void testGetIngedients() {
+	void testGetIngedients() {
 		when().get("/").then().body(containsString("Abricot, sucré, conserve"));
 		
 		List<Ingredient> response = when().get("/").then().extract().body().jsonPath().getList(".", Ingredient.class);

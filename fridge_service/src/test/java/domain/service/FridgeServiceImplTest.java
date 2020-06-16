@@ -45,7 +45,7 @@ import eu.drus.jpa.unit.api.JpaUnit;
 
 @ExtendWith(JpaUnit.class)
 @ExtendWith(MockitoExtension.class)
-public class FrigeServiceImplTest {
+class FridgeServiceImplTest {
 	
 	@Spy
 	@PersistenceContext(unitName = "FridgePUTest")

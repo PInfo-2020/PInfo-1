@@ -14,12 +14,10 @@ import domain.service.RecipeService;
 
 public class RecipeConsumer {
 
-	@Inject
-	private RecipeService recipeService;
-
+	
 	@Consumer(topics = "returnIngredientName", groupId = "pinfo-microservices")
-	public void askedName(String name) {
-		
+	public String askedName(String name) {
+		return name;
 	}
 }
 

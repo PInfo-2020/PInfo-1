@@ -97,7 +97,7 @@ public class FridgeRestService {
 			String token = keycloakService.getToken(headers);
 			String userID = keycloakService.getIdUser(token);
 			fridge.setUserId(userID);
-			if(fridgeService.updateFridge(fridge)) {
+			if(Boolean.TRUE.equals(fridgeService.updateFridge(fridge))) {
 				Fridge userFridge = fridgeService.getByUserId(userID);
 				if(userFridge.getUserId().equals(userID)) {
 					return Response.status(Response.Status.OK).entity("Fridge updated.").build();

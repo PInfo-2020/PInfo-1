@@ -34,7 +34,6 @@
   <modules>
   	<module>ingredient_service</module>
     <module>fridge_service</module>  
-	<module>user_service</module>
 	<module>recipe_service</module>
 
   </modules>

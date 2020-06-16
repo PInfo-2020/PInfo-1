@@ -11,9 +11,9 @@ import domain.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 
 import javax.persistence.EntityManager;
@@ -53,16 +53,15 @@ public class RecipeServiceImpl implements RecipeService{
 	public long create(Recipe recipe) {
 		em.persist(recipe);
 		em.flush();
-		long id = recipe.getId();
-		
-		return id;
+
+		return recipe.getId();
 		
 	}
 	
 	@Override
 	@Transactional
-	public void delete(long id_recipe) {
-		Recipe recipe = get(id_recipe);
+	public void delete(long idRecipe) {
+		Recipe recipe = get(idRecipe);
 		em.remove(recipe);
 		em.flush();
 	}
@@ -172,7 +171,7 @@ public class RecipeServiceImpl implements RecipeService{
 		search = search.toLowerCase();
 
 		//Parse of the string
-		List<String> words = new ArrayList<String>(Arrays.asList(search.split(" ")));
+		List<String> words = new ArrayList<>(Arrays.asList(search.split(" ")));
 		
 		//delete last s of the words
 		for (int i = 0; i < words.size(); i++) {
@@ -215,7 +214,7 @@ public class RecipeServiceImpl implements RecipeService{
 		List<String> words = cleanSearch(search);
 		
 			
-		List<Recipe> foundRecipes = new ArrayList<Recipe>();
+		List<Recipe> foundRecipes = new ArrayList<>();
 		List<Recipe> allRecipes = getAllRecipes();
 		
 		//recherche dans nom recette
@@ -260,7 +259,7 @@ public class RecipeServiceImpl implements RecipeService{
 			
 			return foundRecipes;
 		}
-		return null;
+		return Collections.emptyList();
 	}
 
 
