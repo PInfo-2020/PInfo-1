@@ -4,16 +4,12 @@ import { MyFridgeComponent } from './my-fridge/my-fridge.component';
 import { CanAuthenticationGuard } from './services/keycloak/keycloak-auth-gard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ViewRecipeComponent } from './view-recipe/view-recipe.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/dashboard',
-    pathMatch: 'full'
-  },
-  {
-    path: 'fridge',
-    redirectTo: '/my-fridge',
     pathMatch: 'full'
   },
   {
@@ -29,6 +25,10 @@ const routes: Routes = [
     component: AddReceipeComponent,
     canActivate: [CanAuthenticationGuard],
     data: { roles: ['User'] }
+  },
+  {
+    path: 'view-recipe/:id',
+    component: ViewRecipeComponent
   }
 ];
 
