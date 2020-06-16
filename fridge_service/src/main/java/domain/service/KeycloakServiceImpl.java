@@ -1,12 +1,11 @@
 package domain.service;
-import java.util.Date;
+
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.HttpHeaders;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 @ApplicationScoped
@@ -29,8 +28,7 @@ public class KeycloakServiceImpl implements KeycloakService {
 	public String getIdUser(String token) {
 		try {
 			DecodedJWT jwt = JWT.decode(token);
-			String userId = jwt.getSubject();
-			return userId;
+			return jwt.getSubject();
 		} catch (JWTDecodeException e) {
 			return null;
 		}
@@ -39,10 +37,8 @@ public class KeycloakServiceImpl implements KeycloakService {
 	@Override
 	public boolean verifyAuthentification(HttpHeaders headers) {
 		String token = getToken(headers);
-		if(token != null && getIdUser(token) != null) {
-			return true;
-		}
-		return false;
+
+		return token != null && getIdUser(token) != null;
 	}
 
 }

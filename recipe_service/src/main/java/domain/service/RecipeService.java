@@ -1,11 +1,8 @@
 package domain.service;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 import domain.model.Comment;
-import domain.model.Ingredient;
 import domain.model.Recipe;
 
 
@@ -17,6 +14,6 @@ public interface RecipeService {
 	long addComment(long recipeId, Comment comment);
 	void deleteComment(long recipeId, long commentId);
 	Comment getComment(long recipeId, long commentId);
-	List<Object> searchRecipes(String search, Map<Long, String> idNom, List<Long> idIngredientFromFridge);
+	List<Recipe> searchRecipes(String search, List<Long> idIngredientFromFridge);
 	void delete(long id_recipe);
 }

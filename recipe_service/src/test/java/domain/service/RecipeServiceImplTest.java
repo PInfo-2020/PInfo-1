@@ -1,7 +1,7 @@
 package domain.service;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+
 
 import domain.model.Comment;
 import domain.model.Ingredient;
@@ -9,7 +9,7 @@ import domain.model.Recipe;
 
 
 import java.util.List;
-import java.util.Map;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -223,14 +223,6 @@ public class RecipeServiceImplTest {
 	@Test
 	void testSearchRecipes() {
 		
-		Map<Long, String> idNom = new HashMap<Long, String>();
-		idNom.put(20l, "fraise");
-		idNom.put(21l, "banane");
-		idNom.put(22l, "chocolat");
-		idNom.put(23l, "poire");
-		idNom.put(24l, "truffe");
-		idNom.put(25l, "abricot");
-		
 		
 		Recipe newRecipe = getRandomRecipe();
 		newRecipe.setName("tarte aux fraises bernoise");
@@ -279,44 +271,31 @@ public class RecipeServiceImplTest {
 		int size = recipes.size();
 		Recipe myRecipe = recipes.get(size-3);
 		
-		List<Object> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", idNom, Collections.emptyList());
-		System.out.println("BABABA");
-		System.out.println(foundRecipes1);
-		List<Object> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", idNom, Collections.emptyList());
+		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", Collections.emptyList());
+		List<Recipe> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", Collections.emptyList());
 		
-		List<Recipe> rcp1 = (List) foundRecipes1.get(0);
-		List<String> wordsNotFound = (List) foundRecipes1.get(2);
-		
-		assertEquals(2,rcp1.size());
-		assertEquals(myRecipe, rcp1.get(1));
-		assertEquals(true, foundRecipes1.get(1));
-		assertEquals(true, wordsNotFound.isEmpty());
+
+		assertEquals(2,foundRecipes1.size());
+		assertEquals(myRecipe, foundRecipes1.get(1));
+
 		
 		assertNull(foundRecipes2);
 		
 		
-		List<Object> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", idNom, Collections.emptyList());
-		System.out.println("MAMA");
-		System.out.println(foundRecipes3);
-		System.out.println(newRecipe3.getIngredients().get(1).getDetailsID());
+		List<Recipe> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", Collections.emptyList());
+
 		
-		List<Recipe> rcp3 = (List) foundRecipes3.get(0);
-		List<String> wordsNotFound3 = (List) foundRecipes3.get(2);
-		List<String> myList = new ArrayList<>();
-		myList.add("noir");
-		
-		assertEquals(1,rcp3.size()); //Only the 3rd recipe, not the 4th which doesn't have chocolate
-		assertEquals(false, foundRecipes3.get(1));
-		assertEquals(myList, wordsNotFound3);
+		assertNull(foundRecipes3); //Only the 3rd recipe, not the 4th which doesn't have chocolate
+
 		List<Long> frigo = new ArrayList<>();
 		frigo.add((long) 25);
-		List<Object> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
-		List<Recipe> rcp4 = (List<Recipe>) foundRecipes4.get(0);
-		assertEquals(rcp4.size(), 1);
+		List<Recipe> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot",  frigo);
+
+		assertEquals(foundRecipes4.size(), 1);
 		frigo.add((long) 22);
-		List<Object> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot", idNom, frigo);
-		List<Recipe> rcp5 = (List<Recipe>) foundRecipes5.get(0);
-		assertEquals(rcp5.size(), 2);
+		List<Recipe> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot",  frigo);
+
+		assertEquals(foundRecipes5.size(), 2);
 	}
 	
 	

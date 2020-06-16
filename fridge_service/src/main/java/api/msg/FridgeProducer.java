@@ -23,11 +23,11 @@ public class FridgeProducer {
 	private SimpleKafkaProducer<String, List<Ingredient>> producer;
 
 	@Inject
-	private FridgeService FridgeService;
+	private FridgeService fridgeService;
 
 	public void sendIngredients(String userId) {
 		log.info("Send the ingredients of the fridge of user with id " + userId);
-		Fridge fridge = FridgeService.getByUserId(userId);
+		Fridge fridge = fridgeService.getByUserId(userId);
 		if(fridge!= null) {
 			List<Ingredient> ingredients = fridge.getIngredients();
 			if (ingredients != null) {

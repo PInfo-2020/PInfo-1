@@ -74,7 +74,7 @@ public class FridgeRestServiceIT {
 			Header header= new Header("Authorization",Bearer);
 
 			String response = with().contentType(ContentType.JSON).header(header).body(fridge).when().request("PUT","/").then().statusCode(404).extract().asString();
-			assertEquals(response, "You don't have any fridge");
+			assertEquals("You don't have any fridge",response);
 	    }
 		
 	    @Test
@@ -93,7 +93,7 @@ public class FridgeRestServiceIT {
 			Header header= new Header("Authorization",Bearer);
 			
 			String response = with().contentType(ContentType.JSON).header(header).when().request("GET","/ingredientIds").then().statusCode(404).assertThat().extract().asString();
-			assertEquals(response, "You don't have any fridge");
+			assertEquals( "You don't have any fridge", response);
 	    }
 		
 		@Test
@@ -106,7 +106,7 @@ public class FridgeRestServiceIT {
 			fridge = createFridge();
 
 			String response = with().contentType(ContentType.JSON).header(header).body(fridge).when().request("POST","/").then().statusCode(200).extract().asString();
-			assertEquals(response,"Fridge created.");
+			assertEquals("Fridge created.",response);
 		}
 		
         @Test
@@ -144,7 +144,7 @@ public class FridgeRestServiceIT {
     		Header header= new Header("Authorization",Bearer);
 
     		String response = with().contentType(ContentType.JSON).header(header).body(fridge).when().request("PUT","/").then().statusCode(200).extract().asString();
-    		assertEquals(response,"Fridge updated.");
+    		assertEquals("Fridge updated.",response);
         }
         
         @Test
@@ -173,14 +173,14 @@ public class FridgeRestServiceIT {
 		fridge = createFridge();
 
 		String response = with().contentType(ContentType.JSON).header(header).body(fridge).when().request("POST","/").then().statusCode(401).extract().asString();
-		assertEquals(response, "There is no header or the token is not valid.");
+		assertEquals( "There is no header or the token is not valid.",response);
 	}
 	
     @Test
     public void testGetUnhautorized() {
 		Header header= new Header("Authorization",badBearer);
 		String response = with().header(header).when().request("GET","/").then().statusCode(401).extract().asString();
-		assertEquals(response, "There is no header or the token is not valid.");
+		assertEquals("There is no header or the token is not valid.",response);
     }
     
     @Test
@@ -191,14 +191,14 @@ public class FridgeRestServiceIT {
 		Header header= new Header("Authorization",badBearer);
 
 		String response = with().contentType(ContentType.JSON).header(header).body(fridge).when().request("PUT","/").then().statusCode(401).extract().asString();
-		assertEquals(response, "There is no header or the token is not valid.");
+		assertEquals("There is no header or the token is not valid.",response);
     }
     
     @Test
     public void testGetIngredientsIdUnhautorized() {
 		Header header= new Header("Authorization",badBearer);
 		String response = with().header(header).when().request("GET","/ingredientIds").then().statusCode(401).extract().asString();
-		assertEquals(response, "There is no header or the token is not valid.");
+		assertEquals("There is no header or the token is not valid.",response);
     }
     
     

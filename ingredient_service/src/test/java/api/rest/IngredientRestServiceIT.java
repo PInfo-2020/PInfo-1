@@ -4,7 +4,6 @@ package api.rest;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.containsString;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

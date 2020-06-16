@@ -1,11 +1,9 @@
 
 package domain.service;
 
-import java.sql.Date;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
-import java.lang.Character;
+import javax.enterprise.context.ApplicationScoped;
+
 
 import domain.model.Comment;
 import domain.model.Ingredient;
@@ -16,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.UUID;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +23,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
-import api.msg.RecipeProducer;
 
 
 @ApplicationScoped
@@ -214,20 +211,14 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	
 	@Override
-	public List<Object> searchRecipes(String search, Map<Long, String> idNom, List<Long> idIngredientFromFridge){
+	public List<Recipe> searchRecipes(String search, List<Long> idIngredientFromFridge){
 		List<String> words = cleanSearch(search);
 		
-		// a faire dans searchRecipes
-				// getrecipes
-				// on a une liste de recipe. on regarde pour chaque recette si un 
-				// ingrédient correspnd a la list d'id précédente. si oui, into the result
-				
-		
-		List<String> notFound = new ArrayList<String>();
-		boolean foundInRecipeName = false;
+			
 		List<Recipe> foundRecipes = new ArrayList<Recipe>();
 		List<Recipe> allRecipes = getAllRecipes();
 		
+		//recherche dans nom recette
 		for (Recipe currentRecipe : allRecipes) {
 			boolean missSomething = false;
     		String currentName = currentRecipe.getName();
@@ -242,73 +233,32 @@ public class RecipeServiceImpl implements RecipeService{
 			
 			if(!(missSomething)) {
 				foundRecipes.add(currentRecipe);
-				foundInRecipeName = true;
 			}
 	    }
-		if(foundRecipes.isEmpty()) {
-			List<List<Long>> bigTable = new ArrayList<>();
-			for (String currentWord : words) {
-				boolean added = false;
-				List<Long> littleTable = new ArrayList<>();
-				for (Map.Entry<Long, String> entry : idNom.entrySet()) {
-					String name = entry.getValue().toLowerCase();
-					if(name.contains(currentWord)) {
-						littleTable.add(entry.getKey());
-						added = true;
-					}
-				}
-				if(!(added)) {
-					notFound.add(currentWord);
-				}else{
-					bigTable.add(littleTable);
-
-				}
-
-			}
-			
-			for (Recipe currentRecipe : allRecipes) {
-				List<Ingredient> currentIngredients = currentRecipe.getIngredients();
-				boolean missSomething = false;
-		    	for(List<Long> smallTable :bigTable) {
-			    	boolean hasIt = false;
-		    		for (Ingredient ingredient : currentIngredients) {
-			    		if (smallTable.contains(ingredient.getDetailsID())) {
-			    			hasIt = true;
-			    		}
-		    		}
-		    		if(!(hasIt)) {
-		    			missSomething = true;
-		    		}
-		    	}
-				
-				if(!(missSomething)) {
-					foundRecipes.add(currentRecipe);
-				}
-			}
-		}
+		
 		if(! foundRecipes.isEmpty()) {
 			if(!(idIngredientFromFridge.isEmpty())) {
-				boolean hasIt = true;
-				List<Recipe> temp = foundRecipes;
-				for(Recipe recipe : temp) {
+				
+				
+				ListIterator<Recipe> i = foundRecipes.listIterator();
+				while (i.hasNext()) {
+					boolean hasIt = true;
+					Recipe recipe = i.next();
 					List<Ingredient> currentIngredients = recipe.getIngredients();
 	
 		    		for (Ingredient ingredient : currentIngredients) {
 			    		if (!(idIngredientFromFridge.contains(ingredient.getDetailsID()))) {
-			    			hasIt = false;
-			    			
+			    			hasIt = false;	
 			    		}
 		    		}
 					if(!(hasIt)) {
-						foundRecipes.remove(recipe);
+						i.remove();
 					}
 				}
 			}
-			List<Object> result = new ArrayList<>();
-			result.add(foundRecipes);
-			result.add(foundInRecipeName);
-			result.add(notFound);
-			return result;
+			
+			
+			return foundRecipes;
 		}
 		return null;
 	}
