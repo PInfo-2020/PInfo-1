@@ -162,6 +162,11 @@ class RecipeServiceImplTest {
         assertEquals(size+2,myRecipe.getComments().size());
         assertEquals("bonjour je ne suis pas content", myRecipe.getComments().get(0).getText());
         assertEquals(3,myRecipe.getGrade());
+        Comment newComment = createComment("Je change mon commentaire et ma note", "asdfakasy", "myName", (short)5);
+        recipeService.addComment(myRecipe.getId(), newComment);
+        assertEquals(size+2,myRecipe.getComments().size());
+        assertEquals("Je change mon commentaire et ma note", myRecipe.getComments().get(0).getText());
+        assertEquals(4.5,myRecipe.getGrade());
 
     }
 		

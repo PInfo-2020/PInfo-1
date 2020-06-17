@@ -143,7 +143,7 @@ class RecipeRestServiceIT {
         @Order(4)
         void testPostComment() {
             long id = idOfPostRecipe;
-            Comment comment =  createComment("dégueu", "méchant","myBadName",(short) 5);
+            Comment comment =  createComment("dégueu", "méchant","myBadName",(short) 3);
  
        
             when().get("/"+id).then().body("comments", hasSize(0));
@@ -156,8 +156,17 @@ class RecipeRestServiceIT {
             .body("comments.userID", hasItems(idOfUser))
             .body("comments.userName", hasItems("myBadName"))
             .body("comments.text", hasItems("dégueu"))
-            .body("comments.grade", hasItems(5));
-           
+            .body("comments.grade", hasItems(3));
+            
+            Comment newComment =  createComment("meilleur", "méchant","myBadName",(short) 4);
+            String newIdComment = with().contentType(ContentType.JSON).header(header).body(newComment).when().request("POST","/"+id+"/comment").then().statusCode(200).extract().asString();
+            idOfPostComment = Long.parseLong(newIdComment);
+            when().get("/"+id).then().body("comments", hasSize(1));
+            when().get("/"+id).then().assertThat()
+            .body("comments.userID", hasItems(idOfUser))
+            .body("comments.userName", hasItems("myBadName"))
+            .body("comments.text", hasItems("meilleur"))
+            .body("comments.grade", hasItems(4));
         }
        
         @Test
@@ -168,8 +177,8 @@ class RecipeRestServiceIT {
             when().get("/"+id+"/comment/"+idComment).then().assertThat()
             .body("userID", equalTo(idOfUser))
             .body("userName", equalTo("myBadName"))
-            .body("text", equalTo("dégueu"))
-            .body("grade", equalTo(5));
+            .body("text", equalTo("meilleur"))
+            .body("grade", equalTo(4));
         }
        
         @Test
@@ -181,8 +190,8 @@ class RecipeRestServiceIT {
             Comment myComment = response.get(0);
             assertEquals(idOfUser,myComment.getUserID());
             assertEquals("myBadName",myComment.getUserName());
-            assertEquals("dégueu",myComment.getText());
-            assertEquals(5,myComment.getGrade());
+            assertEquals("meilleur",myComment.getText());
+            assertEquals(4,myComment.getGrade());
         }
        
        

@@ -91,7 +91,20 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		//Addition of the comment
 		List<Comment> commentList = recipe.getComments();
-		commentList.add(comment);
+		//If the user has already commented this recipe, we modify this comment
+		Boolean commentExists = false;
+		long idOfComment = -1;
+		for(Comment myComment: commentList) {
+			if(myComment.getUserID().equals(comment.getUserID())) {
+				commentExists = true;
+				myComment.setText(comment.getText());
+				myComment.setGrade(comment.getGrade());
+				idOfComment = myComment.getId();
+			}
+		}
+		if(!commentExists) {
+			commentList.add(comment);
+		}
 		recipe.setComments(commentList);
 		
 		//Update of recipe grade
@@ -107,7 +120,9 @@ public class RecipeServiceImpl implements RecipeService{
 	    }
 	    
 		em.flush(); //Update of the recipe
-		
+		if(commentExists) {
+			return idOfComment;
+		}
 		return comment.getId();
 	}
 	
