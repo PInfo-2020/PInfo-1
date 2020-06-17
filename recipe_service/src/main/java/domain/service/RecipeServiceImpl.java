@@ -104,7 +104,7 @@ public class RecipeServiceImpl implements RecipeService{
 				idOfComment = myComment.getId();
 			}
 		}
-		if(commentExists == false) {
+		if(Boolean.FALSE.equals(commentExists)) {
 			commentList.add(comment);
 		}
 		recipe.setComments(commentList);
@@ -122,7 +122,7 @@ public class RecipeServiceImpl implements RecipeService{
 	    }
 	    
 		em.flush(); //Update of the recipe
-		if(commentExists == true) {
+		if(Boolean.TRUE.equals(commentExists)) {
 			return idOfComment;
 		}
 		return comment.getId();
@@ -279,11 +279,11 @@ public class RecipeServiceImpl implements RecipeService{
 		    					hasItWithEnoughQuantity = true;
 		    				}
 		    			}
-			    		if (hasItWithEnoughQuantity == false) {
+			    		if (Boolean.FALSE.equals(hasItWithEnoughQuantity)) {
 			    			hasEverythingWithEnoughQuantity = false;	
 			    		}
 		    		}
-					if(hasEverythingWithEnoughQuantity == false) {
+					if(Boolean.FALSE.equals(hasEverythingWithEnoughQuantity)) {
 						i.remove();
 					}
 				}

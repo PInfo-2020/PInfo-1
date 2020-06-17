@@ -2,7 +2,6 @@ package domain.service;
 
 import javax.ws.rs.core.HttpHeaders;
 
-import com.auth0.jwt.interfaces.Claim;
 
 
 public interface KeycloakService {

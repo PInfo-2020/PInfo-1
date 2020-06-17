@@ -7,7 +7,6 @@ import javax.ws.rs.core.HttpHeaders;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 @ApplicationScoped
