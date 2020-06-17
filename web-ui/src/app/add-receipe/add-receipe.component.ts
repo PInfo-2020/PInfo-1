@@ -69,6 +69,10 @@ export class AddReceipeComponent implements OnInit {
     this.peopleEntered = peopleEntered;
   }
 
+  onPictureUploaded(pictureURL: string) {
+    this.pictureEntered = pictureURL;
+  }
+
   onIngredientsChanged(jsonIngredient: Array<IngredientToBeStringified>) {
       this.ingredientsEntered = jsonIngredient;
   }

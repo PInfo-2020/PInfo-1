@@ -2,7 +2,7 @@
     <app-name-input (changedName)="onNameChanged($event)"></app-name-input>
     <mat-icon [hidden]="dataVerification.name" color="warn">warning</mat-icon>
     <p></p>
-    <app-upload-photo></app-upload-photo>
+    <app-upload-photo (uploadedPicture)="onPictureUploaded($event)"></app-upload-photo>
     <p></p>
     <div class="box">
         <mat-icon>info</mat-icon>

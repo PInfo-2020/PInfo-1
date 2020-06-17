@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter  } from '@angular/core';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
@@ -14,6 +14,8 @@ export class UploadPhotoComponent implements OnInit {
   fileUploadProgress: string = null;
   uploadedFilePath: string = null;
   constructor(private http: HttpClient, public keycloak: KeycloakService) {}
+
+  @Output() uploadedPicture = new EventEmitter<string>();
 
   ngOnInit() {}
 
@@ -38,23 +40,17 @@ export class UploadPhotoComponent implements OnInit {
 
   onSubmit() {
     const formData = new FormData();
-    formData.append('files', this.fileData);
+    formData.append('image', this.fileData);
 
-    this.http
-      .post(
-        'https://api.imgbb.com/1/upload?key=cba68c7b28823915fd3ddeea7cd241f4',
+    this.http.post(
+        'https://api.imgbb.com/1/upload?key=c70dbd9e119e56021692e926752a23cd',
         formData,
-        {
-          headers: new HttpHeaders(
-            {'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-             rejectUnauthorized: 'false' }),
-          reportProgress: false,
+        {reportProgress: false,
           observe: 'events'
         })
       .subscribe((events) => {
         if (events.type === HttpEventType.Response) {
-          console.log(events.body);
+          this.uploadedPicture.emit(events.body.data.display_url);
         }
       });
     // ajout de la classe JS à HTML

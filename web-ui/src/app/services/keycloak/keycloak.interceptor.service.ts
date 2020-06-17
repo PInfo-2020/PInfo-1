@@ -10,7 +10,8 @@ export class KeycloakInterceptorService implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.keycloakService.isLoggedIn()) {
+    const specialUrl = 'https://api.imgbb.com/1/upload?key=c70dbd9e119e56021692e926752a23cd';
+    if (this.keycloakService.isLoggedIn() && !(request.url === specialUrl)) {
       return this.getUserToken().pipe(
         mergeMap((token) => {
           if (token) {
