@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { numberSymbols } from '@progress/kendo-angular-intl';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { KeycloakService } from 'keycloak-angular';
+import { Router } from '@angular/router';
 
 interface Recipe {
   name: string;
@@ -35,7 +36,7 @@ class IngredientToBeStringified {
 
 export class AddReceipeComponent implements OnInit {
 
-  constructor(public keycloak: KeycloakService, private http: HttpClient) { }
+  constructor(public keycloak: KeycloakService, private http: HttpClient, private router: Router) { }
 
   recipe: Recipe;
   nameEntered: string;
@@ -154,6 +155,10 @@ export class AddReceipeComponent implements OnInit {
       observe: 'events'
     }).subscribe(events => {
       if (events.type === HttpEventType.Response) {
+        const id = events.body;
+        if (this.isInteger(id)) {
+          this.router.navigate(['/view-recipe/' + id]);
+        }
         // Rediriger vers la page de la recette !
       }
     });
@@ -163,6 +168,7 @@ export class AddReceipeComponent implements OnInit {
     if (this.verifyData()) {
       this.createJSON();
     } else {
+      // tslint:disable-next-line: max-line-length
       alert('Il y a au moins une erreur dans les données que vous avez entré, veuillez corriger chaque input où vous voyez une petit icone');
     }
   }

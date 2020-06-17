@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 class SimpleRecipe {
   name: string;
@@ -27,7 +28,7 @@ class SimpleRecipe {
 })
 
 export class MyReceipesComponent implements OnInit {
-  constructor(public keycloak: KeycloakService, private http: HttpClient) { }
+  constructor(public keycloak: KeycloakService, private http: HttpClient, private router: Router) { }
   public recipeList: Array<SimpleRecipe> = [];
 
   addJsonToClass(json) {
@@ -53,9 +54,19 @@ export class MyReceipesComponent implements OnInit {
     });
   }
 
+  isInteger(value) {
+    let x;
+    if (isNaN(value)) {
+      return false;
+    }
+    x = parseFloat(value);
+    return (x | 0) === x;
+  }
+
   redirectToRecipe(recipeId) {
-    // A la place du print, rediriger vers la page de la recette
-    console.log(recipeId);
+    if (this.isInteger(recipeId)) {
+      this.router.navigate(['/view-recipe/' + recipeId]);
+    }
   }
 
   ngOnInit() {

@@ -22,7 +22,7 @@
     "@angular/material": "^9.2.4",
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
-    "@angular/router": "~9.1.11",
+    "@angular/router": "^9.1.11",
     "@progress/kendo-angular-common": "^1.0.0",
     "@progress/kendo-angular-dropdowns": "^4.2.7",
     "@progress/kendo-angular-inputs": "^6.6.0",
