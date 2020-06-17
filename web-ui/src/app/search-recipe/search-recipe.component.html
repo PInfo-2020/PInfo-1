@@ -7,7 +7,9 @@
   </button>
   <div>
   <mat-checkbox (change)="onToggle($event)" labelPosition="before">Utiliser mes ingrédients : </mat-checkbox>
+  <div *ngIf='fridgeIsEmpty'> Vous n'avez pas encore entré d'ingrédient dans votre frigo !</div>
 </div>
+<div *ngIf='filteredRecipesIsEmpty'> Aucun Résultats</div>
 <div *ngFor="let recipe of filteredRecipes; let i = index">
   <div>{{ recipe.name }} {{ recipe.time }} min  {{ recipe.difficulty }} /10
       <button mat-icon-button color="black" aria-label="Voir la Recette" (click)="onClick(i)">
@@ -19,13 +21,17 @@
 <div *ngFor="let recipe of recipeList; let i = index" class="simpleRecipe">
   <div (click)='redirectToRecipe(recipe.id)' id='recipe'>
       <div class="simpleRecipeDiv">
-          <img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;">
+          <div *ngIf='recipe.picture'><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
       </div>
       <div class="simpleRecipeDiv">
           {{ recipe.name }}
           <br>
           <br>
-          <br> Note : {{ recipe.grade }} Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
+          <br>
+          Note :
+          <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
+          <p *ngIf = 'recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
+          Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
       </div>
   </div>
 </div>

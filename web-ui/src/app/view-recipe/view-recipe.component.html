@@ -29,7 +29,7 @@
       <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
     </div>
   </div>
-  <button mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier mes ingrédients </button>
+  <button mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier que j'ai les ingrédients nécéssaires </button>
   <br>
   <p> Préparation : {{ recipe.preparation }}</p>
   <div *ngIf='hasAllIngredients'>
@@ -39,6 +39,7 @@
   <p>Commentaires</p>
   <input type="text" #comment (keyup.enter)="changeComment(comment.value)" (blur)="changeComment(comment.value)"placeholder="Dites ce que vous pensez de cette recette">
   <br>
+  Note :
   <input type="text" #grade (keyup.enter)="changeGrade(grade.value)" (blur)="changeGrade(grade.value)"placeholder="1-5">
   <button mat-raised-button color="black" aria-label="Publier le commentaire" (click)="onPublish()"> Publier
   </button>
@@ -46,6 +47,6 @@
     <mat-divider></mat-divider>
     {{ comment.text }}
     <br>
-    {{ comment.grade }}/5, publié par : {{ comment.userName }}
+    Note : {{ comment.grade }}/5, publié par : {{ comment.userName }}
   </div>
 </div>

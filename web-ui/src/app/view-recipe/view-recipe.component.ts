@@ -171,11 +171,16 @@ export class ViewRecipeComponent implements OnInit {
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.urlFridge, headernode).toPromise().then(json => {
-      if (json === []) {
-
+      const temp: any = json;
+      if (this.isEmpty(temp.ingredients)) {
+      } else {
+        this.createClassFromJSON(json);
       }
-      this.createClassFromJSON(json);
     });
+  }
+
+  isEmpty(obj) {
+    return Object.keys(obj).length === 0;
   }
 
   createClassFromJSON(json) {

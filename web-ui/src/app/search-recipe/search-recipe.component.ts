@@ -72,6 +72,10 @@ export class SearchRecipeComponent implements OnInit {
 
   public fridgeIngredientsOnly = false;
 
+  public fridgeIsEmpty: boolean;
+
+  public filteredRecipesIsEmpty: boolean;
+
   urlFridge = 'api/v1/fridge';
 
   urlSearchPrefix = 'api/v1/recipe/search/';
@@ -90,8 +94,18 @@ export class SearchRecipeComponent implements OnInit {
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.urlFridge, headernode).toPromise().then(json => {
-      this.addJsonToClass(json);
+      const temp: any = json;
+      if (this.isEmpty(temp.ingredients)) {
+        this.fridgeIsEmpty = true;
+      } else {
+        this.fridgeIsEmpty = false;
+        this.addJsonToClass(json);
+      }
     }).then(json => {this.search(); });
+  }
+
+  isEmpty(obj) {
+    return Object.keys(obj).length === 0;
   }
 
   addJsonToClass(json) {
@@ -117,7 +131,9 @@ export class SearchRecipeComponent implements OnInit {
     } else {
       this.search();
     }
-  } else {console.log('ERREUR')}
+  } else {
+    console.log('ERREUR');
+  }
   }
 
   search() {
@@ -132,6 +148,13 @@ export class SearchRecipeComponent implements OnInit {
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.urlSearch, headernode).toPromise().then(json => {
+      // filteredRecipesIsEmpty
+      const temp: any = json;
+      if (this.isEmpty(temp)) {
+        this.filteredRecipesIsEmpty = true;
+      } else {
+        this.filteredRecipesIsEmpty = false;
+      }
       this.recipeFromJsonToClass(json);
     });
   }
@@ -159,6 +182,7 @@ export class SearchRecipeComponent implements OnInit {
 
   onToggle(event) {
     this.fridgeIngredientsOnly = event.checked;
+    this.fridgeIsEmpty = false;
   }
 
   isInteger(value) {
