@@ -14,7 +14,7 @@
     <mat-icon class="v-align-middle">hourglass_empty</mat-icon>
     <span class="v-align-middle"><span class="bold">Temps de préparation</span> : {{ recipe.preparationTime }} min, <mat-icon class="v-align-middle">graphic_eq</mat-icon> <span class="bold">Difficulté</span> : {{ recipe.difficulty }}/10</span>
   </div>
-  <div>
+  <div class="">
     <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
 </div>
   <div *ngFor="let ingredient of ingredientRecipe">
