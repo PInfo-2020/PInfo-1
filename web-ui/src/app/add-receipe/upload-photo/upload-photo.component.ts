@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -45,10 +45,13 @@ export class UploadPhotoComponent implements OnInit {
         'https://api.imgbb.com/1/upload?key=cba68c7b28823915fd3ddeea7cd241f4',
         formData,
         {
-          reportProgress: true,
-          observe: 'events',
-        }
-      )
+          headers: new HttpHeaders(
+            {'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+             rejectUnauthorized: 'false' }),
+          reportProgress: false,
+          observe: 'events'
+        })
       .subscribe((events) => {
         if (events.type === HttpEventType.Response) {
           console.log(events.body);
