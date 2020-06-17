@@ -3,6 +3,7 @@ import { identifierModuleUrl } from '@angular/compiler';
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 import { HttpHeaders, HttpClient, HttpEventType } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 
 class Ingredient {
   id: number;
@@ -28,12 +29,38 @@ class IngredientRecipe {
   }
 }
 
-class Comment{
+class Comment {
   text: string;
   grade: number;
   constructor(text, grade) {
     this.text = text;
     this.grade = grade;
+  }
+}
+
+class IngredientInFridge {
+  detailsID = '';
+  quantity = '';
+  expiration = '';
+  constructor(id, quantity, expiration) {
+      this.quantity = quantity;
+      this.detailsID = id;
+      this.expiration = expiration;
+  }
+}
+
+class IngredientInFridgeName {
+  id = '';
+  name = '';
+  quantity = '';
+  unity = '';
+  expiration = '';
+  constructor(id, name, quantity, unity, expiration) {
+      this.id = id;
+      this.name = name;
+      this.quantity = quantity;
+      this.unity = unity;
+      this.expiration = expiration;
   }
 }
 
@@ -45,17 +72,23 @@ class Comment{
 
 export class ViewRecipeComponent implements OnInit {
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, public keycloak: KeycloakService) { }
 
   urlBase = 'api/v1/recipe/';
 
   urlIngredients = 'api/v1/ingredients/minInfos';
+
+  urlFridge = 'api/v1/fridge';
 
   public id: string;
 
   public allIngredients: Array<Ingredient> = [];
 
   public ingredientRecipe: Array<IngredientRecipe> = [];
+
+  public ingredientsInFridge: Array<IngredientInFridge> = [];
+
+  public ingredientsInFridgeName: Array<IngredientInFridgeName> = [];
 
   public recipe: any;
 
@@ -69,12 +102,14 @@ export class ViewRecipeComponent implements OnInit {
 
   public json: string;
 
+  public isOutdated: Array<boolean> = [];
+
+  public checkFridge = false;
+
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    console.log(this.id);
+    // console.log(this.id);
     this.getIngredients();
-
-
   }
 
   getIngredients() {
@@ -93,6 +128,7 @@ export class ViewRecipeComponent implements OnInit {
   }
 
   addJsonIngredientsToClass(json) {
+    // this.allIngredients = [];
     let ingr;
 
     for (const ingredient of json) {
@@ -111,10 +147,61 @@ export class ViewRecipeComponent implements OnInit {
       };
     this.http.get(url, headernode).toPromise().then(json => {
       this.addJsonRecipeIngredientsToClass(json);
+      this.getFridge();
       this.recipe = json;
-      console.log('recipe', this.recipe);
+      // console.log('recipe', this.recipe);
       // console.log(this.ingredientRecipe);
     });
+  }
+
+  getFridge() {
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.urlFridge, headernode).toPromise().then(json => {
+      this.createClassFromJSON(json);
+    });
+  }
+
+  createClassFromJSON(json) {
+    let ingr;
+    let ingred;
+    let unit;
+    for (const ingredient of json.ingredients) {
+      const dateNotFormatted = new Date(ingredient.expiration);
+      let formattedString = dateNotFormatted.getFullYear() + '-';
+      if (dateNotFormatted.getMonth() < 9) {
+        formattedString += '0';
+      }
+      formattedString += (dateNotFormatted.getMonth() + 1);
+      formattedString += '-';
+
+      if (dateNotFormatted.getDate() < 10) {
+        formattedString += '0';
+      }
+      formattedString += dateNotFormatted.getDate();
+      const today = new Date();
+      if (dateNotFormatted < today) {
+        this.isOutdated[ingredient.detailsID] = true;
+      }
+      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
+      const test = this.allIngredients;
+      this.ingredientsInFridge.push(ingr);
+      // console.log('this.listIngredient', this.allIngredients);
+      for (const ingredientName of this.allIngredients) {
+        // console.log('Dans for');
+        if (ingredientName.id === ingredient.detailsID) {
+          // tslint:disable-next-line: max-line-length
+          unit = ingredientName.unity.split('/')[0];
+          ingred = new IngredientInFridgeName(ingredient.detailsID, ingredientName.name, ingredient.quantity, unit , formattedString);
+          this.ingredientsInFridgeName.push(ingred);
+        }
+      }
+    }
   }
 
   addJsonRecipeIngredientsToClass(recipe) {
@@ -128,7 +215,7 @@ export class ViewRecipeComponent implements OnInit {
     let count = 0;
 
     for (const ingredient of ingredients) {
-      console.log(ingredient);
+      // console.log(ingredient);
       idIng = ingredient.detailsID;
       quantity = ingredient.quantity;
       // console.log('all ingredients', this.allIngredients);
@@ -149,6 +236,14 @@ export class ViewRecipeComponent implements OnInit {
     }
   }
 
+  onVerify() {
+    for (const myIngr in this.ingredientRecipe) {
+
+
+    }
+
+  }
+
   getComments() {
     const headernode = {
       headers: new HttpHeaders(
@@ -159,17 +254,17 @@ export class ViewRecipeComponent implements OnInit {
       };
     this.http.get(this.urlBase + this.id + '/comments', headernode).toPromise().then(json => {
       this.comments = json;
-      console.log(this.comments);
+      // console.log(this.comments);
     });
   }
 
   changeComment(text) {
     if (text === '') {
-      console.log('comment shit');
+      // console.log('comment shit');
       this.text = null;
     }
     this.text = text;
-    console.log('comment ok');
+    // console.log('comment ok');
   }
 
   isInteger(value) {
@@ -178,18 +273,21 @@ export class ViewRecipeComponent implements OnInit {
       return false;
     }
     x = parseFloat(value);
+    // tslint:disable-next-line: no-bitwise
     return (x | 0) === x;
   }
 
   changeGrade(grade) {
     if (this.isInteger(grade) || grade < 0 || grade > 5) {
       this.grade = grade;
-      console.log('grade ok');
+      // console.log('grade ok');
     } else {
       this.grade = null;
-      console.log('grade shit');
+      // console.log('grade shit');
     }
   }
+
+
 
   onPublish() {
     if (this.comment !== null && this.grade !== null) {
@@ -197,7 +295,7 @@ export class ViewRecipeComponent implements OnInit {
         text: this.text,
         grade: this.grade
       };
-      console.log(this.comment);
+      // console.log(this.comment);
 
       this.json = JSON.stringify(this.comment);
       this.http.post(this.urlBase + this.id + '/comment', this.json, {
@@ -210,17 +308,15 @@ export class ViewRecipeComponent implements OnInit {
       observe: 'events'
       }).subscribe(events => {
         if (events.type === HttpEventType.Response) {
-          // Rediriger vers la page de la recette !
+          this.reload();
         }
       });
-    // this.ngOnInit();
-
-    } else {
+        } else {
       alert('Veuillez mettre un comentaire et une note correcte');
     }
   }
 
-
-
-
+  reload() {
+    location.reload();
+  }
 }

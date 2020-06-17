@@ -268,6 +268,10 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     }
   }
 
+  reload() {
+    location.reload();
+  }
+
 
   ChangeFridge() {
     this.getFridge();
@@ -334,6 +338,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       if (events.type === HttpEventType.Response) {
         console.log(events.body);
         alert('SUCCESS !!');
+        // this.reload();
       }
 
     });

@@ -3,12 +3,12 @@
   <br>
   <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
   <p *ngIf = 'recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
-  <p> Auteur : {{ recipe.author }} </p>
+  <p> Auteur : {{ recipe.authorName }} </p>
   <p> Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}}</p>
   <p> Pour {{ recipe.people }} personnes</p>
   <p> Temps de préparation : {{ recipe.preparationTime }} min </p>
   <p> Difficulté : {{ recipe.difficulty }}/10 </p>
-  <p> Ingrédients : </p>
+  <p> Ingrédients : </p> <button mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier mes ingrédients </button>
   <div *ngFor="let ingredient of ingredientRecipe">
     {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
   </div>
@@ -19,12 +19,12 @@
   <input type="text" #comment (keyup.enter)="changeComment(comment.value)" (blur)="changeComment(comment.value)"placeholder="Dites ce que vous pensez de cette recette">
   <br>
   <input type="text" #grade (keyup.enter)="changeGrade(grade.value)" (blur)="changeGrade(grade.value)"placeholder="1-5">
-  <button mat-raised-button color="black" aria-label="Voir la Recette" (click)="onPublish()"> Publier
+  <button mat-raised-button color="black" aria-label="Publier le commentaire" (click)="onPublish()"> Publier
   </button>
   <div *ngFor="let comment of comments;">
     <mat-divider></mat-divider>
     {{ comment.text }}
     <br>
-    {{ comment.grade }}/5
+    {{ comment.grade }}/5, publié par : {{ comment.userName }}
   </div>
 </div>

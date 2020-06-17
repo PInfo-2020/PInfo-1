@@ -11,6 +11,7 @@ export class MyFridgeComponent implements OnInit {
 
   constructor(public keycloak: KeycloakService) { }
 
+  public clickedEvent: Event;
 
   ngOnInit() {
   }

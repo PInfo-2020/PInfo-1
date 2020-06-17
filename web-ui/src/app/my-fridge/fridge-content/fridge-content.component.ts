@@ -1,4 +1,4 @@
-import { NgModule, AfterViewInit, Input, SimpleChange } from '@angular/core';
+import { NgModule, AfterViewInit, Input, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 // import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
@@ -61,11 +61,11 @@ class IngredientInFridge {
 })
 export class FridgeContentComponent implements OnInit , AfterViewInit {
 
-  @ViewChild('list') list;
-
   constructor(private http: HttpClient,  public keycloak: KeycloakService) {
 
   }
+
+  @ViewChild('list') list;
 
   public listIngredient: Array<Ingredient> = [];
 
@@ -89,7 +89,6 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
   ngOnInit() {
     this.getIngredients();
   }
-
 
   getIngredients() {
     const headernode = {
@@ -133,7 +132,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
     let ingr;
     let ingred;
     let unit;
-    for (const ingredient of json.ingredients.sort()) {
+    for (const ingredient of json.ingredients) {
       const dateNotFormatted = new Date(ingredient.expiration);
       let formattedString = dateNotFormatted.getFullYear() + '-';
       if (dateNotFormatted.getMonth() < 9) {
@@ -164,7 +163,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
         }
       }
     }
-   }
+  }
 
   ngAfterViewInit() {
   }
@@ -172,6 +171,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
   onRemove(index) {
     this.ingredientsInFridge.splice(index, 1);
     this.createNewFridge(this.ingredientsInFridge);
+    // this.eventClicked.emit(event);
   }
 
   createNewFridge(Fridge) {
@@ -191,6 +191,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
       if (events.type === HttpEventType.Response) {
         console.log(events.body);
         alert('SUCCESS !!');
+        // this.reload();
       }
 
     });
