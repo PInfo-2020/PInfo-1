@@ -104,7 +104,7 @@ public class RecipeServiceImpl implements RecipeService{
 				idOfComment = myComment.getId();
 			}
 		}
-		if(!commentExists) {
+		if(commentExists == false) {
 			commentList.add(comment);
 		}
 		recipe.setComments(commentList);
@@ -122,7 +122,7 @@ public class RecipeServiceImpl implements RecipeService{
 	    }
 	    
 		em.flush(); //Update of the recipe
-		if(commentExists) {
+		if(commentExists == true) {
 			return idOfComment;
 		}
 		return comment.getId();
@@ -258,7 +258,7 @@ public class RecipeServiceImpl implements RecipeService{
 		if(! foundRecipes.isEmpty()) {
 			if(!(idIngredientFromFridge.isEmpty())) {
 				
-				Map<Long,Long> idQuantity = new HashMap<Long, Long>();
+				Map<Long,Long> idQuantity = new HashMap<>();
 				Iterator<Long> idi = idIngredientFromFridge.iterator();
 				Iterator<Long> quantityi = idQuantityFromFridge.iterator();
 				while (idi.hasNext() && quantityi.hasNext()) {
@@ -279,11 +279,11 @@ public class RecipeServiceImpl implements RecipeService{
 		    					hasItWithEnoughQuantity = true;
 		    				}
 		    			}
-			    		if (!hasItWithEnoughQuantity) {
+			    		if (hasItWithEnoughQuantity == false) {
 			    			hasEverythingWithEnoughQuantity = false;	
 			    		}
 		    		}
-					if(!(hasEverythingWithEnoughQuantity)) {
+					if(hasEverythingWithEnoughQuantity == false) {
 						i.remove();
 					}
 				}

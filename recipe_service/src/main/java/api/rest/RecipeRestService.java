@@ -48,7 +48,9 @@ public class RecipeRestService {
 		if (keycloakService.verifyAuthentification(headers)) {
 			String token = keycloakService.getToken(headers);
 			String userID = keycloakService.getIdUser(token);
+			String userName = keycloakService.getNameUser(token);
 			recipe.setAuthorId(userID);
+			recipe.setAuthorName(userName);
 			Date date = new Date(System.currentTimeMillis());
 			recipe.setPublicationDate(date);
 			recipe.setGrade(-1);
@@ -94,7 +96,9 @@ public class RecipeRestService {
 		if (keycloakService.verifyAuthentification(headers)) {
 			String token = keycloakService.getToken(headers);
 			String userID = keycloakService.getIdUser(token);
+			String userName = keycloakService.getNameUser(token);
 			comment.setUserID(userID);
+			comment.setUserName(userName);
 			long idComment = recipeService.addComment(idRecipe,comment);
 			
 			return Response.status(Response.Status.OK).entity(idComment).build();
@@ -179,7 +183,6 @@ public class RecipeRestService {
 		}
 		List<Recipe> recipes = recipeService.searchRecipes(mySearch, idIngredientFromFridge, idQuantityFromFridge);
 		return Response.status(Response.Status.OK).entity(recipes).build();
-        //return recipeService.searchRecipes(mySearch, idIngredientFromFridge, idQuantityFromFridge);
     }
 	
 

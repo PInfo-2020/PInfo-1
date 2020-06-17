@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.auth0.jwt.interfaces.Claim;
+
 
 @ExtendWith(MockitoExtension.class)
 class KeycloakServiceImplTest {
@@ -56,6 +58,12 @@ class KeycloakServiceImplTest {
 	void getIdUserTest() {
 		String user = kcService.getIdUser(token);
 		Assertions.assertEquals(idOfUser, user);
+	}
+	
+	@Test
+	void getNameUserTest() {
+		String name = kcService.getNameUser(token);
+		Assertions.assertEquals("admin", name);
 	}
 	
 	@Test
