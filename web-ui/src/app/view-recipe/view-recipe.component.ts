@@ -189,19 +189,29 @@ export class ViewRecipeComponent implements OnInit {
     let unit;
     for (const ingredient of json.ingredients) {
       const dateNotFormatted = new Date(ingredient.expiration);
+      const today = new Date();
+      let compareExpiration = dateNotFormatted.getFullYear();
+      let compareToday = today.getFullYear();
       let formattedString = dateNotFormatted.getFullYear() + '-';
       if (dateNotFormatted.getMonth() < 9) {
         formattedString += '0';
+        compareExpiration*10;
+        compareToday*10;
       }
       formattedString += (dateNotFormatted.getMonth() + 1);
+      compareExpiration += (dateNotFormatted.getMonth() + 1);
+      compareToday += (today.getMonth() + 1);
       formattedString += '-';
 
       if (dateNotFormatted.getDate() < 10) {
         formattedString += '0';
+        compareExpiration*10;
+        compareToday*10;
       }
       formattedString += dateNotFormatted.getDate();
-      const today = new Date();
-      if (dateNotFormatted < today) {
+      compareExpiration += dateNotFormatted.getDate();
+      compareToday += today.getDate();
+      if (compareExpiration < compareToday) {
         this.isOutdated[ingredient.detailsID] = true;
       }
       ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);

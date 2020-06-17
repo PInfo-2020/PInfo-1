@@ -100,14 +100,21 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   @Output() changedIngredients = new EventEmitter<Array<IngredientToBeStringified>>();
 
+  public dateToday = '';
+
   incorrectData: number;
 
   json: string;
+
+  @ViewChild('list') listValue: any;
 
   urlMinInfo = 'api/v1/ingredients/minInfos';
   urlFridge = 'api/v1/fridge';
 
 
+  ngOnInit() {
+    this.getIngredients();
+  }
 
   public SelectedAssetFromSTCombo(ingre) {
     if (!this.listIngredient.includes(ingre)) {
@@ -128,24 +135,19 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
           const unity = ingred.unity.split('/')[0];
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity, '');
-          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '');
+          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity, this.dateToday);
+          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, this.dateToday);
           this.addedIngredients.push(newIngr);
           this.addedIngredientsFridge.push(newIngrFridge);
+          this.listValue.text = '';
         }
       }
     }
   }
 
 
-  ngOnInit() {
-    this.getIngredients();
-  }
-
-
   ngAfterViewInit() {
     const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-
     this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
       .do(() => this.list.loading = true)
       .map((data) =>  data.filter(contains(value))))
@@ -156,6 +158,18 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   getIngredients() {
+    const today = new Date();
+    this.dateToday = today.getFullYear() + '-';
+    if (today.getMonth() < 9) {
+        this.dateToday += '0';
+      }
+    this.dateToday += (today.getMonth() + 1);
+    this.dateToday += '-';
+    if (today.getDate() < 10) {
+        this.dateToday += '0';
+      }
+    this.dateToday += today.getDate();
+
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,
@@ -170,9 +184,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   addJsonToClass(json) {
     let ingr;
-
     for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2], null);
+      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2], this.dateToday);
       this.ingredients.push(ingr);
     }
     for (const ingredient of this.ingredients) {
@@ -259,6 +272,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   onAdd() {
+    console.log(this.addedIngredients);
     this.verifyData();
     if (this.incorrectData === 0) {
       this.ChangeFridge();
@@ -292,7 +306,9 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   createClassFromJSON(json) {
     let ingr;
+    this.ingredientsInFridge = [];
     for (const ingredient of json.ingredients) {
+      console.log(ingredient.expiration);
       const dateNotFormatted = new Date(ingredient.expiration);
       let formattedString = dateNotFormatted.getFullYear() + '-';
       if (dateNotFormatted.getMonth() < 9) {
@@ -322,6 +338,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
       }
     }
     const fridgeTemp = JSON.stringify(Fridge.concat(this.addedIngredientsFridge));
+    this.addedIngredientsFridge = [];
     console.log('FrigoTemp : ', fridgeTemp);
     const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
     console.log('Nouveau Frigo : ', NewJson);
@@ -334,13 +351,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         rejectUnauthorized: 'false' }),
       reportProgress: true,
       observe: 'events'
-    }).subscribe(events => {
-      if (events.type === HttpEventType.Response) {
-        console.log(events.body);
-        alert('SUCCESS !!');
-        // this.reload();
-      }
-
     });
   }
 

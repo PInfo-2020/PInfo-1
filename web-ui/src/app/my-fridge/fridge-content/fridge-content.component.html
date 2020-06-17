@@ -4,7 +4,7 @@
 <div *ngFor="let ingredient of ingredientsInFridgeName; let i = index" id="ingredient">
   <div>
     {{ ingredient.name }}
-    <input type="number" id="{{ ingredient.id }}" #quantity (keyup.enter)="changeQuantity(quantity.value, quantity.id)" (blur)="changeQuantity(quantity.value, quantity.id)" name="" id="" value="{{ ingredient.quantity }}">
+    <input type="number" min="0" id="{{ ingredient.id }}" #quantity (keyup.enter)="changeQuantity(quantity.value, quantity.id)" (blur)="changeQuantity(quantity.value, quantity.id)" name="" id="" value="{{ ingredient.quantity }}">
     {{ ingredient.unity }}
     Expiration :
   </div>

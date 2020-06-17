@@ -124,6 +124,7 @@ export class SearchRecipeComponent implements OnInit {
   }
 
   onSearch() {
+    this.keywordIngr = '';
     if (this.keyword) {
     this.urlSearch = this.urlSearchPrefix + this.keyword ;
     if (this.fridgeIngredientsOnly) {
