@@ -1,22 +1,18 @@
 <div class="box">
-  <mat-icon> insert_photo</mat-icon>
-  <label class = "section" for="recipe">Photo de votre recette :</label>
+    <mat-icon> insert_photo</mat-icon>
+    <label class="section" for="recipe">Photo de votre recette :</label>
 </div>
 <div class="container">
-  <div class="row">
-      <div class="col-md-6 offset-md-3">
-          <div class="form-group">
-            <input class="input-file" type="file" id="photo" name="image" (change)="fileProgress($event)" />
-            <label color="primary" for="photo" class="input-file-trigger" tabindex="0"><mat-icon>add_circle_outline</mat-icon></label>
-          </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <input class="input-file" type="file" id="photo" name="image" (change)="fileProgress($event)" />
+                <label color="primary" for="photo" class="input-file-trigger" tabindex="0"><mat-icon>add_circle_outline</mat-icon></label>
+            </div>
 
-          <div class="image-preview">
-              <img class="sizeImage" *ngIf="previewUrl" [src]="previewUrl"/>
-          </div>
-
-          <div class="form-group">
-              <button mat-raised-button   (click)="onSubmit()" color="primary">Submit</button>
-          </div>
-      </div>
-  </div>
+            <div class="image-preview">
+                <img class="sizeImage" *ngIf="previewUrl" [src]="previewUrl" />
+            </div>
+        </div>
+    </div>
 </div>

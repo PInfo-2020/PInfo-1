@@ -1,9 +1,10 @@
-import { NgModule, AfterViewInit, Output, EventEmitter  } from '@angular/core';
+import { NgModule, AfterViewInit, Output, EventEmitter, ElementRef  } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { NON_BINDABLE_ATTR } from '@angular/compiler/src/render3/view/util';
 import { KeycloakService } from 'keycloak-angular'
+import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
 class AddedIngredient {
   name = '';
@@ -63,6 +64,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   @Output() changedIngredients = new EventEmitter<Array<IngredientToBeStringified>>();
 
+  @ViewChild('list') listValue: any;
+
   url = 'api/v1/ingredients/minInfos';
 
   public SelectedAssetFromSTCombo(ingre) {
@@ -83,6 +86,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         if (ingred.name === ingre) {
           newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
           this.addedIngredients.push(newIngr);
+          this.listValue.text = '';
         }
       }
     }

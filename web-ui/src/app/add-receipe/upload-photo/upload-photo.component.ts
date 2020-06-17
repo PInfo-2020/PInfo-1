@@ -22,6 +22,7 @@ export class UploadPhotoComponent implements OnInit {
   fileProgress(fileInput: any) {
     this.fileData = fileInput.target.files[0] as File;
     this.preview();
+    this.onSubmit();
   }
 
   preview() {

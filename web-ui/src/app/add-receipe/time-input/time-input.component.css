@@ -1,10 +1,10 @@
 label {
-  padding: 5px;
+    padding: 5px;
 }
 
 input {
-  border-radius: 4px;
-  border: 2px solid #7c7c7c;
-  padding: 5px 10px;
-  width: 25px;
+    border-radius: 4px;
+    border: 2px solid #7c7c7c;
+    padding: 5px 10px;
+    width: 40px;
 }
