@@ -4,6 +4,25 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { stringify } from 'querystring';
+import { Router } from '@angular/router';
+
+class SimpleRecipe {
+  name: string;
+  time: number;
+  difficulty: number;
+  picture: string;
+  grade: number;
+  id: number;
+
+  constructor(name, time, difficulty, picture, grade, id) {
+    this.name = name;
+    this.time = time;
+    this.difficulty = difficulty;
+    this.picture = picture;
+    this.grade = grade;
+    this.id = id;
+  }
+}
 
 class Recipe {
   id: number;
@@ -37,32 +56,29 @@ class Ingredient {
 
 export class SearchRecipeComponent implements OnInit {
 
-  constructor(private http: HttpClient, public keycloak: KeycloakService) { }
-
-  public recipes: Array<Recipe> = [];
+  constructor(private http: HttpClient, public keycloak: KeycloakService, private router: Router) { }
 
   public filteredRecipes: Array<Recipe> = [];
-
-  public ingredients: any = [];
 
   public myIngredients: Array<Ingredient> = [];
 
   public myIngredientsArray: Array<string> = [];
 
-  public keyword = '';
+  public recipeList: Array<SimpleRecipe> = [];
 
-  urlRecipes = 'api/v1/recipe/recipes';
+  public keyword: string;
 
-  urlIngr = 'api/v1/ingredients/idName';
+  public keywordIngr = '';
+
+  public fridgeIngredientsOnly = false;
+
+  urlFridge = 'api/v1/fridge';
 
   urlSearchPrefix = 'api/v1/recipe/search/';
 
   urlSearch = '';
 
   ngOnInit() {
-    this.getRecipes();
-    this.filteredRecipes = this.recipes;
-    // this.onSearch('test');
   }
 
   getIngredients() {
@@ -73,38 +89,16 @@ export class SearchRecipeComponent implements OnInit {
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
            rejectUnauthorized: 'false' })
       };
-    this.http.get(this.urlIngr, headernode).toPromise().then(json => {
-      console.log(json);
-      // ingredients = json;
-    });
+    this.http.get(this.urlFridge, headernode).toPromise().then(json => {
+      this.addJsonToClass(json);
+    }).then(json => {this.search(); });
   }
 
-  getRecipes() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.urlRecipes, headernode).toPromise().then(json => {
-      console.log(json);
-      // parsing function
-    });
-  }
-
-  sendRecipes(e) {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.post(this.urlSearch, headernode).toPromise().then(json => {
-      console.log(json);
-      // parsing function
-    });
+  addJsonToClass(json) {
+    this.keywordIngr = '?';
+    for (const ingredient of json.ingredients) {
+      this.keywordIngr = this.keywordIngr + 'id=' + ingredient.detailsID + '&quantity=' + ingredient.quantity + '&';
+    }
   }
 
   onClick(i) {
@@ -116,9 +110,40 @@ export class SearchRecipeComponent implements OnInit {
   }
 
   onSearch() {
-    this.urlSearch = this.urlSearchPrefix + this.keyword;
-    console.log(this.urlSearch);
+    if (this.keyword) {
+    this.urlSearch = this.urlSearchPrefix + this.keyword ;
+    if (this.fridgeIngredientsOnly) {
+        this.getIngredients();
+    } else {
+      this.search();
+    }
+  } else {console.log('ERREUR')}
+  }
 
+  search() {
+    this.recipeList = [];
+    this.urlSearch = this.urlSearch + this.keywordIngr ;
+    console.log(this.urlSearch);
+    const headernode = {
+      headers: new HttpHeaders(
+          { Accept: 'application/json' ,
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+           rejectUnauthorized: 'false' })
+      };
+    this.http.get(this.urlSearch, headernode).toPromise().then(json => {
+      this.recipeFromJsonToClass(json);
+    });
+  }
+
+  recipeFromJsonToClass(json) {
+    let recipe;
+
+    for (const userRecipe of json) {
+      // tslint:disable-next-line: max-line-length
+      recipe = new SimpleRecipe(userRecipe.name, userRecipe.preparationTime, userRecipe.difficulty, userRecipe.picture, userRecipe.grade, userRecipe.id);
+      this.recipeList.push(recipe);
+    }
   }
 
   changeKeywordAndSearch(kw: string) {
@@ -126,7 +151,7 @@ export class SearchRecipeComponent implements OnInit {
     this.onSearch();
   }
 
-  myFridgeFilter() {
+  /*myFridgeFilter() {
     let ingrFlag = 0;
     let bool;
 
@@ -136,11 +161,30 @@ export class SearchRecipeComponent implements OnInit {
          bool = this.myIngredientsArray.includes('ingr');
       }
     }
-  }
+  }*/
 
   myIngredientsToArray() {
     for (const ingr of this.myIngredients) {
       this.myIngredientsArray.push(ingr.name);
+    }
+  }
+
+  onToggle(event) {
+    this.fridgeIngredientsOnly = event.checked;
+  }
+
+  isInteger(value) {
+    let x;
+    if (isNaN(value)) {
+      return false;
+    }
+    x = parseFloat(value);
+    return (x | 0) === x;
+  }
+
+  redirectToRecipe(recipeId) {
+    if (this.isInteger(recipeId)) {
+      this.router.navigate(['/view-recipe/' + recipeId]);
     }
   }
 

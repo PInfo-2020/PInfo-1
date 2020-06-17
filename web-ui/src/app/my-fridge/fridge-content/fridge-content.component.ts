@@ -108,10 +108,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
 
     for (const ingredient of json) {
       ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2]);
-      this.ingredients.push(ingr);
-    }
-    for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient);
+      this.listIngredient.push(ingr);
     }
   }
 
@@ -145,16 +142,14 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
         formattedString += '0';
       }
       formattedString += dateNotFormatted.getDate();
-      let today = new Date();
+      const today = new Date();
       if (dateNotFormatted < today) {
         this.isOutdated[ingredient.detailsID] = true;
       }
       ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
       const test = this.listIngredient;
       this.ingredientsInFridge.push(ingr);
-      console.log('this.listIngredient', this.listIngredient);
       for (const ingredientName of this.listIngredient) {
-        console.log('Dans for');
         if (ingredientName.id === ingredient.detailsID) {
           // tslint:disable-next-line: max-line-length
           unit = ingredientName.unity.split('/')[0];
@@ -187,13 +182,8 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
         rejectUnauthorized: 'false' }),
       reportProgress: true,
       observe: 'events'
-    }).subscribe(events => {
-      if (events.type === HttpEventType.Response) {
-        console.log(events.body);
-        alert('SUCCESS !!');
-        // this.reload();
-      }
-
+    }).toPromise().then(json => {
+      this.getIngredients();
     });
   }
 

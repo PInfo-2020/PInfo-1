@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,6 +14,8 @@ import { MenuNavComponent } from './menu-nav/menu-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule} from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -70,6 +73,9 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
       LayoutModule,
       MatToolbarModule,
       MatButtonModule,
+      MatCheckboxModule,
+      FormsModule,
+      ReactiveFormsModule,
       MatSidenavModule,
       MatIconModule,
       MatListModule,

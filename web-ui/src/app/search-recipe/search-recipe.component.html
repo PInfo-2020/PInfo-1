@@ -1,13 +1,13 @@
 
 <div>
   <!--<mat-label> Recherche </mat-label>-->
-    <input type="text" #keyword (keyup.enter)="changeKeywordAndSearch(keyword.value)" (blur)="changeKeyword(keyword.value)"placeholder="Ex. : tomate, pizza">
+    <input type="text" onkeypress="javascript: return String.fromCharCode(event.charCode).match('[\\\\!@#$\/%^&*(),.?<>|{}:;\']') === null" #keyword (keyup.enter)="changeKeywordAndSearch(keyword.value)" (blur)="changeKeyword(keyword.value)"placeholder="Ex. : tomate, pizza">
   <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="onSearch()">
     <mat-icon>search</mat-icon>
   </button>
-  <p></p>
-  <button mat-raised-button (click)="onSearch()">Mes Ingredients</button>
-
+  <div>
+  <mat-checkbox (change)="onToggle($event)" labelPosition="before">Utiliser mes ingrédients : </mat-checkbox>
+</div>
 <div *ngFor="let recipe of filteredRecipes; let i = index">
   <div>{{ recipe.name }} {{ recipe.time }} min  {{ recipe.difficulty }} /10
       <button mat-icon-button color="black" aria-label="Voir la Recette" (click)="onClick(i)">
@@ -15,5 +15,18 @@
           </button>
   </div>
   <mat-divider></mat-divider>
+</div>
+<div *ngFor="let recipe of recipeList; let i = index" class="simpleRecipe">
+  <div (click)='redirectToRecipe(recipe.id)' id='recipe'>
+      <div class="simpleRecipeDiv">
+          <img src="https://miro.medium.com/max/746/1*5aL4dPHXvvaDnAQxmMRLug.png" alt=recipe.name style="height:120px;">
+      </div>
+      <div class="simpleRecipeDiv">
+          {{ recipe.name }}
+          <br>
+          <br>
+          <br> Note : {{ recipe.grade }} Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
+      </div>
+  </div>
 </div>
 </div>
