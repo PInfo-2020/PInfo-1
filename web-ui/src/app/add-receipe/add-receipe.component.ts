@@ -173,7 +173,7 @@ export class AddReceipeComponent implements OnInit {
       this.createJSON();
     } else {
       // tslint:disable-next-line: max-line-length
-      alert('Il y a au moins une erreur dans les données que vous avez entré, veuillez corriger chaque input où vous voyez une petit icone');
+      alert('Il y a au moins une erreur dans les données que vous avez entré, veuillez corriger chaque champs où vous voyez une petit icone');
     }
   }
 

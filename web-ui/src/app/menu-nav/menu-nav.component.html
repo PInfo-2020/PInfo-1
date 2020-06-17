@@ -5,10 +5,11 @@
         Profil
       </a></mat-toolbar> -->
         <mat-toolbar>
+
             <div class="profil" *ngIf="userDetails; else elseUser">
                 <!--<div *ngIf="loggedIn">-->
                 <mat-icon>account_circle</mat-icon>
-                <p (click)="profil()">{{userDetails.username }}</p>
+                <p class="profilUserName" (click)="profil()">{{userDetails.username }}</p>
             </div>
             <ng-template #elseUser>
                 <div class="profil">Guest</div>
