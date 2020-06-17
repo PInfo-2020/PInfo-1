@@ -5,7 +5,7 @@
     <div *ngFor="let recipe of recipeList; let i = index" class="simpleRecipe">
         <div (click)='redirectToRecipe(recipe.id)' id='recipe'>
             <div class="simpleRecipeDiv">
-                <img src='{{ recipe.picture }}' alt=recipe.name style="height:120px;">
+                <img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;">
             </div>
             <div class="simpleRecipeDiv">
                 {{ recipe.name }}
@@ -16,6 +16,7 @@
         </div>
     </div>
 </div>
+
 <div *ngIf="recipeList.length === 0">
     <div class="box">
         Vous n'avez pas encore créé de recette, mais vous pouvez le faire en cliquant sur le bouton "Ajouter une recette" dans le menu à gauche </div>

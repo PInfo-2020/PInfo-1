@@ -5,15 +5,27 @@
   <p *ngIf = 'recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
   <p> Auteur : {{ recipe.authorName }} </p>
   <p> Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}}</p>
-  <p> Pour {{ recipe.people }} personnes</p>
+  <div *ngIf='recipe.picture'><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
+  <p> Pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personnes</p>
   <p> Temps de préparation : {{ recipe.preparationTime }} min </p>
   <p> Difficulté : {{ recipe.difficulty }}/10 </p>
-  <p> Ingrédients : </p> <button mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier mes ingrédients </button>
+  <p> Ingrédients : </p>
   <div *ngFor="let ingredient of ingredientRecipe">
     {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
+    <div *ngIf='ingredientMissing[ingredient.id] == -1'><mat-icon>cancel</mat-icon></div>
+    <div *ngIf='ingredientMissing[ingredient.id] == 0'><mat-icon>done</mat-icon>
+      <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
+    </div>
+    <div *ngIf='ingredientMissing[ingredient.id] > 0'> Il vous manque {{ ingredientMissing[ingredient.id] }} {{ ingredient.unity }}
+      <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
+    </div>
   </div>
+  <button mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier mes ingrédients </button>
   <br>
   <p> Préparation : {{ recipe.preparation }}</p>
+  <div *ngIf='hasAllIngredients'>
+    <button mat-raised-button color="black" aria-label="Terminer la recette" (click)="onDone()"> Fini !</button>
+  </div>
   <mat-divider></mat-divider>
   <p>Commentaires</p>
   <input type="text" #comment (keyup.enter)="changeComment(comment.value)" (blur)="changeComment(comment.value)"placeholder="Dites ce que vous pensez de cette recette">

@@ -50,7 +50,8 @@ export class UploadPhotoComponent implements OnInit {
         })
       .subscribe((events) => {
         if (events.type === HttpEventType.Response) {
-          this.uploadedPicture.emit(events.body.data.display_url);
+          const json: any = events.body;
+          this.uploadedPicture.emit(json.data.display_url);
         }
       });
     // ajout de la classe JS à HTML

@@ -171,9 +171,7 @@ export class FridgeContentComponent implements OnInit , AfterViewInit {
 
   createNewFridge(Fridge) {
     const fridgeTemp = JSON.stringify(Fridge);
-    console.log('FrigoTemp : ', fridgeTemp);
     const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
-    console.log('Nouveau Frigo : ', NewJson);
     this.http.put('api/v1/fridge', NewJson, {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json',

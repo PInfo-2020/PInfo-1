@@ -90,7 +90,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getIngredients();
-    // console.log(this.ingredients);
   }
 
   ngAfterViewInit() {

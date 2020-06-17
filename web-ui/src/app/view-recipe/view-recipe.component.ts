@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { identifierModuleUrl } from '@angular/compiler';
+import { identifierModuleUrl, templateJitUrl } from '@angular/compiler';
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
 import { HttpHeaders, HttpClient, HttpEventType } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
+import { stringify } from 'querystring';
+// import { receiveMessageOnPort } from 'worker_threads';
 
 class Ingredient {
   id: number;
@@ -64,6 +66,7 @@ class IngredientInFridgeName {
   }
 }
 
+
 @Component({
   selector: 'app-view-recipe',
   templateUrl: './view-recipe.component.html',
@@ -72,7 +75,7 @@ class IngredientInFridgeName {
 
 export class ViewRecipeComponent implements OnInit {
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, public keycloak: KeycloakService) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, public keycloak: KeycloakService, private router: Router) { }
 
   urlBase = 'api/v1/recipe/';
 
@@ -85,6 +88,8 @@ export class ViewRecipeComponent implements OnInit {
   public allIngredients: Array<Ingredient> = [];
 
   public ingredientRecipe: Array<IngredientRecipe> = [];
+
+  public ingredientRecipeOriginal: Array<IngredientRecipe> = [];
 
   public ingredientsInFridge: Array<IngredientInFridge> = [];
 
@@ -106,9 +111,14 @@ export class ViewRecipeComponent implements OnInit {
 
   public checkFridge = false;
 
+  public ingredientMissing: Array<number> = [];
+
+  public fridgeEmpty = true;
+
+  public hasAllIngredients = false;
+
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    // console.log(this.id);
     this.getIngredients();
   }
 
@@ -149,8 +159,6 @@ export class ViewRecipeComponent implements OnInit {
       this.addJsonRecipeIngredientsToClass(json);
       this.getFridge();
       this.recipe = json;
-      // console.log('recipe', this.recipe);
-      // console.log(this.ingredientRecipe);
     });
   }
 
@@ -163,6 +171,9 @@ export class ViewRecipeComponent implements OnInit {
            rejectUnauthorized: 'false' })
       };
     this.http.get(this.urlFridge, headernode).toPromise().then(json => {
+      if (json === []) {
+
+      }
       this.createClassFromJSON(json);
     });
   }
@@ -191,9 +202,7 @@ export class ViewRecipeComponent implements OnInit {
       ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
       const test = this.allIngredients;
       this.ingredientsInFridge.push(ingr);
-      // console.log('this.listIngredient', this.allIngredients);
       for (const ingredientName of this.allIngredients) {
-        // console.log('Dans for');
         if (ingredientName.id === ingredient.detailsID) {
           // tslint:disable-next-line: max-line-length
           unit = ingredientName.unity.split('/')[0];
@@ -207,6 +216,7 @@ export class ViewRecipeComponent implements OnInit {
   addJsonRecipeIngredientsToClass(recipe) {
     const ingredients = recipe.ingredients;
     let ingr;
+    let ingr2;
     let idIng: number;
     let name;
     let unity;
@@ -215,10 +225,8 @@ export class ViewRecipeComponent implements OnInit {
     let count = 0;
 
     for (const ingredient of ingredients) {
-      // console.log(ingredient);
       idIng = ingredient.detailsID;
       quantity = ingredient.quantity;
-      // console.log('all ingredients', this.allIngredients);
 
       while (flag < 1) {
         if (this.allIngredients[count].id === idIng) {
@@ -233,15 +241,82 @@ export class ViewRecipeComponent implements OnInit {
 
       ingr = new IngredientRecipe(idIng, name, unity, quantity);
       this.ingredientRecipe.push(ingr);
+      ingr2 =  new IngredientRecipe(idIng, name, unity, quantity);
+      this.ingredientRecipeOriginal.push(ingr2);
+    }
+  }
+
+  createNewFridgeDone(Fridge, recipe) {
+    let temp;
+    for (const ingrRecep of recipe) {
+      for (const ingrFridge of Fridge) {
+        if (ingrRecep.id === parseInt(ingrFridge.detailsID, 10)) {
+          temp = parseInt(ingrFridge.quantity, 10) - ingrRecep.quantity;
+          ingrFridge.quantity = temp.toString();
+        }
+      }
+    }
+
+    const fridgeTemp = JSON.stringify(Fridge);
+    const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
+    this.http.put('api/v1/fridge', NewJson, {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        rejectUnauthorized: 'false' }),
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(events => {
+      this.router.navigate(['/my-fridge/']);
+    });
+  }
+
+  changePeople(people) {
+    // let temp;
+    for (const ingrRecep of this.ingredientRecipe) {
+      for (const ingrOriginal of this.ingredientRecipeOriginal) {
+        if (ingrRecep.name === ingrOriginal.name) {
+          // temp = parseInt(ingrOriginal.name, 10) * people;
+          // ingrRecep.quantity = temp.toString();
+          ingrRecep.quantity = ingrOriginal.quantity * (people / this.recipe.people);
+        }
+      }
     }
   }
 
   onVerify() {
-    for (const myIngr in this.ingredientRecipe) {
-
-
+    let flag = 0;
+    this.hasAllIngredients = false;
+    let flagIngredients = 0;
+    for (const recepIngr of this.ingredientRecipe) {
+      this.ingredientMissing[recepIngr.id] = 0;
+      for (const myIngr of this.ingredientsInFridgeName) {
+        if (myIngr.name === recepIngr.name) {
+          if (parseInt(myIngr.quantity, 10) < recepIngr.quantity) {
+            this.ingredientMissing[recepIngr.id] = recepIngr.quantity - parseInt(myIngr.quantity, 10);
+          }
+          flag = 1;
+        }
+      }
+      if (flag === 0) {
+        this.ingredientMissing[recepIngr.id] = -1;
+      }
+      flag = 0;
     }
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.ingredientMissing.length; i++) {
+      if (this.ingredientMissing[i] === -1 || this.ingredientMissing[i] > 0) {
+        flagIngredients = 1;
+      }
+    }
+    if (flagIngredients === 0) {
+      this.hasAllIngredients = true;
+    }
+  }
 
+  onDone() {
+    this.createNewFridgeDone(this.ingredientsInFridge, this.ingredientRecipe);
   }
 
   getComments() {
@@ -254,17 +329,14 @@ export class ViewRecipeComponent implements OnInit {
       };
     this.http.get(this.urlBase + this.id + '/comments', headernode).toPromise().then(json => {
       this.comments = json;
-      // console.log(this.comments);
     });
   }
 
   changeComment(text) {
     if (text === '') {
-      // console.log('comment shit');
       this.text = null;
     }
     this.text = text;
-    // console.log('comment ok');
   }
 
   isInteger(value) {
@@ -280,14 +352,10 @@ export class ViewRecipeComponent implements OnInit {
   changeGrade(grade) {
     if (this.isInteger(grade) || grade < 0 || grade > 5) {
       this.grade = grade;
-      // console.log('grade ok');
     } else {
       this.grade = null;
-      // console.log('grade shit');
     }
   }
-
-
 
   onPublish() {
     if (this.comment !== null && this.grade !== null) {
@@ -295,7 +363,6 @@ export class ViewRecipeComponent implements OnInit {
         text: this.text,
         grade: this.grade
       };
-      // console.log(this.comment);
 
       this.json = JSON.stringify(this.comment);
       this.http.post(this.urlBase + this.id + '/comment', this.json, {
@@ -308,15 +375,11 @@ export class ViewRecipeComponent implements OnInit {
       observe: 'events'
       }).subscribe(events => {
         if (events.type === HttpEventType.Response) {
-          this.reload();
+          this.getComments();
         }
       });
         } else {
-      alert('Veuillez mettre un comentaire et une note correcte');
+      alert('Veuillez entrez un commentaire et une note correcte');
     }
-  }
-
-  reload() {
-    location.reload();
   }
 }
