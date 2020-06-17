@@ -1,0 +1,45 @@
+.title {
+  font-size: 30px;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.grade {
+  text-align: center;
+  padding-top: 5px;
+}
+
+.infos {
+  text-align: center;
+  color: gray;
+}
+
+.prepa {
+  padding-top: 20px;
+  padding-bottom:10px;
+}
+
+.v-align-middle {
+  vertical-align: middle;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+input
+{
+  width: 30px;
+}
+
+.ingredient {
+  padding-bottom:20px;
+}
+
+.ingred{
+  font-size: 20px;
+}
+
+.listIngredient {
+  padding-left : 20px;
+}

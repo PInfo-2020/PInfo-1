@@ -1,17 +1,26 @@
 <div *ngIf='recipe'>
+  <div class="title">
   {{ recipe.name }}
-  <br>
+</div>
+ <div class="grade">
   <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
   <p *ngIf = 'recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
-  <p> Auteur : {{ recipe.authorName }} </p>
-  <p> Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}}</p>
+</div>
+<div class="infos">
+  Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}} par {{ recipe.authorName }}
+</div>
   <div *ngIf='recipe.picture'><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
-  <p> Pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personnes</p>
-  <p> Temps de préparation : {{ recipe.preparationTime }} min </p>
-  <p> Difficulté : {{ recipe.difficulty }}/10 </p>
-  <p> Ingrédients : </p>
+  <div class="prepa">
+    <mat-icon class="v-align-middle">hourglass_empty</mat-icon>
+    <span class="v-align-middle"><span class="bold">Temps de préparation</span> : {{ recipe.preparationTime }} min, <mat-icon class="v-align-middle">graphic_eq</mat-icon> <span class="bold">Difficulté</span> : {{ recipe.difficulty }}/10</span>
+  </div>
+  <div>
+    <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
+</div>
   <div *ngFor="let ingredient of ingredientRecipe">
-    {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
+    <div class="listIngredient">
+    - {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
+  </div>
     <div *ngIf='ingredientMissing[ingredient.id] == -1'><mat-icon>cancel</mat-icon></div>
     <div *ngIf='ingredientMissing[ingredient.id] == 0'><mat-icon>done</mat-icon>
       <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
