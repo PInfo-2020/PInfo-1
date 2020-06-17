@@ -110,74 +110,25 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   public SelectedAssetFromSTCombo(ingre) {
-    if (!this.listIngredient.includes(ingre)) {
-      return;
-    }
 
-    let alreadyIn = 0;
-
-    for (const ingredient of this.addedIngredients) {
-      if (ingredient.name === ingre) {
-        alreadyIn = 1;
-      }
-    }
-    let newIngr;
-    let newIngrFridge;
-
-    if (alreadyIn === 0)  {
-      for (const ingred of this.ingredients) {
-        if (ingred.name === ingre) {
-          const unity = ingred.unity.split('/')[0];
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity, '');
-          newIngrFridge = new AddedIngredientToFridge(ingred.id, 0, '');
-          this.addedIngredients.push(newIngr);
-          this.addedIngredientsFridge.push(newIngrFridge);
-        }
-      }
-    }
   }
 
 
   ngOnInit() {
-    this.getIngredients();
+
   }
 
 
   ngAfterViewInit() {
-    const contains = value => s => s.toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
-    this.list.filterChange.asObservable().switchMap(value => Observable.from([this.listIngredient])
-      .do(() => this.list.loading = true)
-      .map((data) =>  data.filter(contains(value))))
-      .subscribe(x => {
-          this.data = x;
-          this.list.loading = false;
-      });
   }
 
   getIngredients() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.urlMinInfo, headernode).toPromise().then(json => {
-      this.addJsonToClass(json);
-    });
+
   }
 
   addJsonToClass(json) {
-    let ingr;
 
-    for (const ingredient of json) {
-      ingr = new Ingredient(ingredient[0], ingredient[1], ingredient[2], null);
-      this.ingredients.push(ingr);
-    }
-    for (const ingredient of this.ingredients) {
-      this.listIngredient.push(ingredient.name);
-    }
   }
 
 
@@ -186,70 +137,15 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   changeQuantity(quantity: string, id: string) {
-    for (const ingredient of this.addedIngredients) {
-      // tslint:disable-next-line: radix
-      if (parseInt(ingredient.id) === parseInt(id)) {
-        ingredient.quantity = quantity;
-      }
-    }
-    this.changeIngredients();
-    for (const ingredient of this.addedIngredientsFridge) {
-      // tslint:disable-next-line: radix
-      if (ingredient.detailsID === parseInt(id)) {
-        // tslint:disable-next-line: radix
-        ingredient.quantity = parseInt(quantity);
-      }
-    }
-    this.changeIngredients();
+
   }
 
   changeDate(date: Date, id: string) {
-    for (const ingredient of this.addedIngredients) {
-      // tslint:disable-next-line: radix
-      if (parseInt(ingredient.id) === parseInt(id.split('/')[0])) {
-          const dateNotFormatted = new Date(date);
-          let formattedString = dateNotFormatted.getFullYear() + '-';
-          if (dateNotFormatted.getMonth() < 9) {
-            formattedString += '0';
-          }
-          formattedString += (dateNotFormatted.getMonth() + 1);
-          formattedString += '-';
 
-          if (dateNotFormatted.getDate() < 10) {
-            formattedString += '0';
-         }
-          formattedString += dateNotFormatted.getDate();
-          ingredient.expiration = formattedString;
-      }
-    }
-    this.changeIngredients();
-    for (const ingredient of this.addedIngredientsFridge) {
-      // tslint:disable-next-line: radix
-      if (ingredient.detailsID === parseInt(id)) {
-        const dateNotFormatted = new Date(date);
-        let formattedString = dateNotFormatted.getFullYear() + '-';
-        if (dateNotFormatted.getMonth() < 9) {
-          formattedString += '0';
-        }
-        formattedString += (dateNotFormatted.getMonth() + 1);
-        formattedString += '-';
-
-        if (dateNotFormatted.getDate() < 10) {
-          formattedString += '0';
-        }
-        formattedString += dateNotFormatted.getDate();
-        ingredient.expiration = formattedString;
-      }
-    }
-    this.changeIngredients();
   }
 
   changeIngredients() {
-    this.ingredientsToBeStringified = [];
-    for (const ingred of this.addedIngredients) {
-      this.ingredientsToBeStringified.push(new IngredientToBeStringified(ingred.expiration, ingred.quantity, ingred.id));
-    }
-    this.changedIngredients.emit(this.ingredientsToBeStringified);
+
   }
 
   verifyData() {
@@ -259,13 +155,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   onAdd() {
-    this.verifyData();
-    if (this.incorrectData === 0) {
-      this.ChangeFridge();
-      this.addedIngredients.splice(0, this.addedIngredients.length);
-    } else {
-      this.printErrors();
-    }
+
   }
 
 
@@ -274,69 +164,16 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   }
 
   getFridge() {
-    const headernode = {
-      headers: new HttpHeaders(
-          { Accept: 'application/json' ,
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-           rejectUnauthorized: 'false' })
-      };
-    this.http.get(this.urlFridge, headernode).toPromise().then(json => {
-      this.createClassFromJSON(json);
-    });
+
   }
 
   createClassFromJSON(json) {
-    let ingr;
-    for (const ingredient of json.ingredients) {
-      const dateNotFormatted = new Date(ingredient.expiration);
-      let formattedString = dateNotFormatted.getFullYear() + '-';
-      if (dateNotFormatted.getMonth() < 9) {
-        formattedString += '0';
-      }
-      formattedString += (dateNotFormatted.getMonth() + 1);
-      formattedString += '-';
 
-      if (dateNotFormatted.getDate() < 10) {
-        formattedString += '0';
-      }
-      formattedString += dateNotFormatted.getDate();
-      ingr = new IngredientInFridge(ingredient.detailsID, ingredient.quantity, formattedString);
-      this.ingredientsInFridge.push(ingr);
-    }
-    this.createNewFridge(this.ingredientsInFridge);
    }
 
 
    createNewFridge(Fridge) {
-    for (const ingredient of Fridge) {
-      for (const ingredientAdd of this.addedIngredientsFridge) {
-        if (ingredient.detailsID === ingredientAdd.detailsID) {
-          ingredient.quantity += ingredientAdd.quantity;
-          this.addedIngredientsFridge.splice(this.addedIngredientsFridge.indexOf(ingredientAdd), 1);
-        }
-      }
-    }
-    const fridgeTemp = JSON.stringify(Fridge.concat(this.addedIngredientsFridge));
-    console.log('FrigoTemp : ', fridgeTemp);
-    const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
-    console.log('Nouveau Frigo : ', NewJson);
-    // tslint:disable-next-line: max-line-length
-    this.http.put('api/v1/fridge', NewJson, {
-      headers: new HttpHeaders(
-        {'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        rejectUnauthorized: 'false' }),
-      reportProgress: true,
-      observe: 'events'
-    }).subscribe(events => {
-      if (events.type === HttpEventType.Response) {
-        console.log(events.body);
-        alert('SUCCESS !!');
-      }
 
-    });
   }
 
   printErrors() {
