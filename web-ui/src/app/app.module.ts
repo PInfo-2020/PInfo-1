@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { SearchRecipeModule } from './search-recipe/search-recipe.module';
 import { MyReceipesModule } from './my-receipes/my-receipes.module';
 import { MyFridgeModule } from './my-fridge/my-fridge.module';
 import { AddReceipeModule } from './add-receipe/add-receipe.module';
@@ -73,7 +73,7 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
       MatSidenavModule,
       MatIconModule,
       MatListModule,
-      DashboardModule,
+      SearchRecipeModule,
       MyReceipesModule,
       MyFridgeModule,
       AddReceipeModule,

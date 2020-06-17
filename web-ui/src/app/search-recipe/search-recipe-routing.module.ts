@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard.component';
+import { SearchRecipeComponent } from './search-recipe.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'search-recipe', component: SearchRecipeComponent }
 ];
 
 @NgModule({
@@ -29,4 +29,4 @@ const routes: Routes = [
     MatDividerModule,
   ]
 })
-export class DashboardRoutingModule { }
+export class SearchRecipeRoutingModule { }
