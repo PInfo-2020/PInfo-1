@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
-    location / { try_files $uri $uri/ /index.html;}
+      location / { try_files $uri $uri/ /index.html;}
   name: {{ include "pickncook.fullname" . }}.ingress-static
   namespace: {{ .Release.Namespace }} 
   labels:
