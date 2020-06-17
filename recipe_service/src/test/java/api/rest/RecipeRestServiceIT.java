@@ -356,7 +356,7 @@ class RecipeRestServiceIT {
         assertEquals("myName", Recipe2.getComments().get(0).getUserName());
     }
  
- /*
+ 
     @Test
     void testSearch() {
    
@@ -376,12 +376,12 @@ class RecipeRestServiceIT {
         Recipe newRecipe2 = createRecipe("tarte aux fraises suisse", ingredients, (short)6, (short)4, (short)2, "maPhoto", "Prepare bien",
                 "moi", "myName", Date.valueOf("2020-03-28"), 4.7f, listComment);
        
-        Ingredient ing3 = new Ingredient();
-        ing3.setDetailsID(22);
-        ing3.setQuantity((short) 4);
-        Ingredient ing4 = new Ingredient();
-        ing4.setDetailsID(25);
-        ing4.setQuantity((short) 50);
+		Ingredient ing3 = new Ingredient();
+		ing3.setDetailsID(22);
+		ing3.setQuantity((short) 30);
+		Ingredient ing4 = new Ingredient();
+		ing4.setDetailsID(25);
+		ing4.setQuantity((short) 50);
        
         List<Ingredient> newIngredients = new ArrayList<>();
         newIngredients.add(ing3);
@@ -420,13 +420,22 @@ class RecipeRestServiceIT {
         assertEquals("tarte aux fraises bernoise",response1.get(0).getName());
         when().get("/search/" + mySearch2).then().statusCode(200); // There is no recipe
         when().get("/search/" + mySearch3).then().statusCode(200); // There is no recipe
-        List<Recipe> response2 = when().get("/search/" + mySearch4 + "?id=25&id=22").then().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
+        List<Recipe> response2 = when().get("/search/" + mySearch4 + "?id=25&id=22&quantity=300&quantity=300").then().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
         assertEquals(2,response2.size());
         assertEquals("Glace à l'abricot",response2.get(0).getName());
-        List<Recipe> response3 = when().get("/search/" + mySearch4 + "?id=25").then().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
+        List<Recipe> response3 = when().get("/search/" + mySearch4 + "?id=25&quantity=300").then().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
         assertEquals(1,response3.size());
         assertEquals("Glace à l'abricot remasterisée",response3.get(0).getName());
        
+        String error1 = when().get("/search/" + mySearch4 + "?id=25").then().statusCode(400).extract().asString();
+        assertEquals("ids and quantities have not same size",error1);
+        
+        List<Recipe> response4 = when().get("/search/" + mySearch4 + "?id=25&id=22&quantity=1&quantity=1").then().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
+		assertEquals(0,response4.size());
+		
+        List<Recipe> response5 = when().get("/search/" + mySearch4 + "?id=25&id=22&quantity=300&quantity=15").then().statusCode(200).extract().body().jsonPath().getList(".", Recipe.class);
+		assertEquals(1,response5.size());
+        
         with().contentType(ContentType.JSON).header(header).delete("/" + id_1).then().assertThat().statusCode(200);
         with().contentType(ContentType.JSON).header(header).delete("/" + id_2).then().assertThat().statusCode(200);
         with().contentType(ContentType.JSON).header(header).delete("/" + id_3).then().assertThat().statusCode(200);
@@ -434,7 +443,7 @@ class RecipeRestServiceIT {
    
     }
    
-   */
+   
  
  
  
