@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
+
 import javax.enterprise.context.ApplicationScoped;
 
 import javax.inject.Inject;
@@ -171,9 +172,14 @@ public class RecipeRestService {
 	@Path("/search/{mySearch}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Recipe> getSearchedRecipes(@PathParam("mySearch") String mySearch,@QueryParam("id") List<Long> idIngredientFromFridge ) {
+    public Response getSearchedRecipes(@PathParam("mySearch") String mySearch,@QueryParam("id") List<Long> idIngredientFromFridge, @QueryParam("quantity") List<Long> idQuantityFromFridge) {
 
-        return recipeService.searchRecipes(mySearch, idIngredientFromFridge);
+		if(idIngredientFromFridge.size()!=idQuantityFromFridge.size()) {
+			return Response.status(Response.Status.BAD_REQUEST).entity("ids and quantities have not same size").build();
+		}
+		List<Recipe> recipes = recipeService.searchRecipes(mySearch, idIngredientFromFridge, idQuantityFromFridge);
+		return Response.status(Response.Status.OK).entity(recipes).build();
+        //return recipeService.searchRecipes(mySearch, idIngredientFromFridge, idQuantityFromFridge);
     }
 	
 

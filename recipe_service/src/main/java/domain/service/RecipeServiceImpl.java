@@ -12,9 +12,11 @@ import domain.model.Recipe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -175,6 +177,8 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	private List<String> cleanSearch(String search){
 		
+		
+		
 		//We delete some characters and we put everything in lowercase
 		search = search.replace(",", " ");
 		search = search.replace(";", " ");
@@ -225,7 +229,8 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	
 	@Override
-	public List<Recipe> searchRecipes(String search, List<Long> idIngredientFromFridge){
+	public List<Recipe> searchRecipes(String search, List<Long> idIngredientFromFridge, List<Long> idQuantityFromFridge){
+		
 		List<String> words = cleanSearch(search);
 		
 			
@@ -253,19 +258,32 @@ public class RecipeServiceImpl implements RecipeService{
 		if(! foundRecipes.isEmpty()) {
 			if(!(idIngredientFromFridge.isEmpty())) {
 				
+				Map<Long,Long> idQuantity = new HashMap<Long, Long>();
+				Iterator<Long> idi = idIngredientFromFridge.iterator();
+				Iterator<Long> quantityi = idQuantityFromFridge.iterator();
+				while (idi.hasNext() && quantityi.hasNext()) {
+					idQuantity.put(idi.next(), quantityi.next());
+				}
+				
 				
 				ListIterator<Recipe> i = foundRecipes.listIterator();
 				while (i.hasNext()) {
-					boolean hasIt = true;
+					boolean hasEverythingWithEnoughQuantity = true;
 					Recipe recipe = i.next();
 					List<Ingredient> currentIngredients = recipe.getIngredients();
 	
 		    		for (Ingredient ingredient : currentIngredients) {
-			    		if (!(idIngredientFromFridge.contains(ingredient.getDetailsID()))) {
-			    			hasIt = false;	
+		    			Boolean hasItWithEnoughQuantity = false;
+		    			for (Map.Entry<Long, Long> entry : idQuantity.entrySet()) {
+		    				if(entry.getKey()==ingredient.getDetailsID() && entry.getValue() >= ingredient.getQuantity()) {
+		    					hasItWithEnoughQuantity = true;
+		    				}
+		    			}
+			    		if (!hasItWithEnoughQuantity) {
+			    			hasEverythingWithEnoughQuantity = false;	
 			    		}
 		    		}
-					if(!(hasIt)) {
+					if(!(hasEverythingWithEnoughQuantity)) {
 						i.remove();
 					}
 				}

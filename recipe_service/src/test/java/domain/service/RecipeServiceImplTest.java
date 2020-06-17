@@ -249,10 +249,11 @@ class RecipeServiceImplTest {
 		
 		Ingredient ing3 = new Ingredient();
 		ing3.setDetailsID(22);
-		ing3.setQuantity((short) 4);
+		ing3.setQuantity((short) 30);
 		Ingredient ing4 = new Ingredient();
 		ing4.setDetailsID(25);
 		ing4.setQuantity((short) 50);
+		
 		
 		List<Ingredient> newIngredients = new ArrayList<>();
 		newIngredients.add(ing3);
@@ -275,8 +276,8 @@ class RecipeServiceImplTest {
 		int size = recipes.size();
 		Recipe myRecipe = recipes.get(size-3);
 		
-		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", Collections.emptyList());
-		List<Recipe> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", Collections.emptyList());
+		List<Recipe> foundRecipes1 = recipeService.searchRecipes("Tartes à la fraises", Collections.emptyList(), Collections.emptyList());
+		List<Recipe> foundRecipes2 = recipeService.searchRecipes("poires aux truffes", Collections.emptyList(), Collections.emptyList());
 		
 
 		assertEquals(2,foundRecipes1.size());
@@ -286,20 +287,36 @@ class RecipeServiceImplTest {
 		assertEquals(0,foundRecipes2.size());
 		
 		
-		List<Recipe> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", Collections.emptyList());
+		List<Recipe> foundRecipes3 = recipeService.searchRecipes("Abricots au chocolat noir", Collections.emptyList(), Collections.emptyList());
 
 		
 		assertEquals(0,foundRecipes3.size()); //Only the 3rd recipe, not the 4th which doesn't have chocolate
 
-		List<Long> frigo = new ArrayList<>();
-		frigo.add((long) 25);
-		List<Recipe> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot",  frigo);
+		List<Long> frigoIds = new ArrayList<>();
+		List<Long> frigoQuantities = new ArrayList<>();
+		frigoQuantities.add((long) 300);
+		frigoIds.add((long) 25);
+		List<Recipe> foundRecipes4 = recipeService.searchRecipes("Glace à l'abricot",  frigoIds, frigoQuantities);
 
 		assertEquals(1,foundRecipes4.size());
-		frigo.add((long) 22);
-		List<Recipe> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot",  frigo);
-
+		frigoQuantities.add((long) 300);
+		frigoIds.add((long) 22);
+		List<Recipe> foundRecipes5 = recipeService.searchRecipes("Glace à l'abricot",  frigoIds, frigoQuantities);
 		assertEquals(2,foundRecipes5.size());
+		
+		frigoQuantities.clear();
+		frigoQuantities.add((long) 1);
+		frigoQuantities.add((long) 1);
+		List<Recipe> foundRecipes6 = recipeService.searchRecipes("Glace à l'abricot",  frigoIds, frigoQuantities);
+		assertEquals(0,foundRecipes6.size());
+		
+		frigoQuantities.clear();
+		frigoQuantities.add((long) 300);
+		frigoQuantities.add((long) 15);
+		List<Recipe> foundRecipes7 = recipeService.searchRecipes("Glace à l'abricot",  frigoIds, frigoQuantities);
+		assertEquals(1,foundRecipes7.size());
+		
+		
 	}
 	
 	

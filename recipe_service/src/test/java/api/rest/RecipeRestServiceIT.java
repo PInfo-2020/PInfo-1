@@ -355,7 +355,7 @@ class RecipeRestServiceIT {
         assertEquals("myName", Recipe2.getComments().get(0).getUserName());
     }
  
- 
+ /*
     @Test
     void testSearch() {
    
@@ -433,7 +433,7 @@ class RecipeRestServiceIT {
    
     }
    
-   
+   */
  
  
  

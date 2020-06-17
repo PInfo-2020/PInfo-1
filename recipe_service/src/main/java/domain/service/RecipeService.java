@@ -14,6 +14,6 @@ public interface RecipeService {
 	long addComment(long recipeId, Comment comment);
 	void deleteComment(long recipeId, long commentId);
 	Comment getComment(long recipeId, long commentId);
-	List<Recipe> searchRecipes(String search, List<Long> idIngredientFromFridge);
+	List<Recipe> searchRecipes(String search, List<Long> idIngredientFromFridge, List<Long> idQuantityFromFridge);
 	void delete(long idRecipe);
 }
