@@ -1,15 +1,15 @@
 import { AddReceipeComponent } from './add-receipe/add-receipe.component';
 import { MyFridgeComponent } from './my-fridge/my-fridge.component';
-// import { ViewRecipeComponent } from  './view-recipe/view-recipe.component';
 import { CanAuthenticationGuard } from './services/keycloak/keycloak-auth-gard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewRecipeComponent } from './view-recipe/view-recipe.component';
+import { SearchRecipeComponent } from './search-recipe/search-recipe.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/search-recipe',
     pathMatch: 'full'
   },
   {
@@ -29,10 +29,12 @@ const routes: Routes = [
   {
     path: 'view-recipe/:id',
     component: ViewRecipeComponent
+  },
+  {
+    path: 'search-recipe',
+    component: SearchRecipeComponent
   }
 ];
-
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

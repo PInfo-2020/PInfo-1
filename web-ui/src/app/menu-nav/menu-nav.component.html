@@ -1,62 +1,58 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'side' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <!-- <mat-toolbar>
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'side' : 'side'" [opened]="(isHandset$ | async) === false">
+        <!-- <mat-toolbar>
       <a href="#"><mat-icon>account_circle</mat-icon>
         Profil
       </a></mat-toolbar> -->
-    <mat-toolbar>
-      <div class="profil" *ngIf="userDetails; else elseUser">
-      <!--<div *ngIf="loggedIn">-->
-         <mat-icon>account_circle</mat-icon>
-         <p (click)="profil()">{{userDetails.username }}</p>
-      </div>
-      <ng-template #elseUser>
-        <div class="profil">Guest</div>
-      </ng-template>
+        <mat-toolbar>
+            <div class="profil" *ngIf="userDetails; else elseUser">
+                <!--<div *ngIf="loggedIn">-->
+                <mat-icon>account_circle</mat-icon>
+                <p (click)="profil()">{{userDetails.username }}</p>
+            </div>
+            <ng-template #elseUser>
+                <div class="profil">Guest</div>
+            </ng-template>
 
-        <!--<p (click)="logOut()">
+            <!--<p (click)="logOut()">
           <br>Log Out
         </p>-->
 
-    </mat-toolbar>
+        </mat-toolbar>
 
-    <mat-nav-list>
-      <a mat-list-item routerLink="/my-fridge"><mat-icon>kitchen</mat-icon>Mon Frigo</a>
-      <a mat-list-item routerLink="/my-receipes"><mat-icon>restaurant</mat-icon>Mes Recettes</a>
-    </mat-nav-list>
-    <br>
-    <mat-nav-list>
-        <a mat-list-item routerLink="/add-receipe"><mat-icon>add_circle_outline</mat-icon>Ajouter une recette</a>
-    </mat-nav-list>
-    <br>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/view-recipe"><mat-icon>forward</mat-icon>Voir une recette</a>
-    </mat-nav-list>
-    <br>
-    <mat-nav-list>
-        <a mat-list-item href="#"><mat-icon>settings</mat-icon>Paramètres</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        <br>
+
+        <mat-nav-list>
+            <a mat-list-item routerLink="/search-recipe">
+                <mat-icon>search</mat-icon>Rechercher une recette</a>
+        </mat-nav-list>
+        <br>
+        <mat-nav-list>
+            <a mat-list-item routerLink="/my-fridge">
+                <mat-icon>kitchen</mat-icon>Mon Frigo</a>
+            <a mat-list-item routerLink="/my-receipes">
+                <mat-icon>restaurant</mat-icon>Mes Recettes</a>
+        </mat-nav-list>
+        <br>
+        <mat-nav-list>
+            <a mat-list-item routerLink="/add-receipe">
+                <mat-icon>add_circle_outline</mat-icon>Ajouter une recette</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>PickNCook</span>
-      <div class="log" *ngIf="userDetails; else elseBlock">
-        <p (click)="logout()">Log Out</p>
-      </div>
-      <ng-template #elseBlock> <p class="log" (click)="login()">Log In</p></ng-template>
-    </mat-toolbar>
-    <router-outlet></router-outlet>
-    <!-- Add Content Here -->
-  </mat-sidenav-content>
+            <span (click)="logoClick()">PickNCook</span>
+            <div class="log" *ngIf="userDetails; else elseBlock">
+                <p (click)="logout()">Log Out</p>
+            </div>
+            <ng-template #elseBlock>
+                <p class="log" (click)="login()">Log In</p>
+            </ng-template>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+        <!-- Add Content Here -->
+    </mat-sidenav-content>
 </mat-sidenav-container>

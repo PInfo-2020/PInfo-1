@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
+import { Router } from '@angular/router';
 
 
 
@@ -22,7 +23,7 @@ export class MenuNavComponent implements OnInit {
         shareReplay()
       );
 
-  constructor(private breakpointObserver: BreakpointObserver, public keycloak: KeycloakService) {
+  constructor(private breakpointObserver: BreakpointObserver, public keycloak: KeycloakService, private router: Router) {
   }
 
   async ngOnInit() {
@@ -35,8 +36,8 @@ export class MenuNavComponent implements OnInit {
       this.keycloak.getKeycloakInstance().accountManagement();
     }
   }
-  async login(){
-    await this.keycloak.login({ redirectUri: document.baseURI+"my-fridge"});
+  async login() {
+    await this.keycloak.login({ redirectUri: document.baseURI + 'my-fridge'});
   }
   async logout() {
     await this.keycloak.logout(document.baseURI);
@@ -44,7 +45,7 @@ export class MenuNavComponent implements OnInit {
   async isLoggedIn(): Promise<boolean> {
     return await this.keycloak.isLoggedIn();
   }
-
-
-
+  logoClick() {
+    this.router.navigate(['/search-recipe/']);
+  }
 }

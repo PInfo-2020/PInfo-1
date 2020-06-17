@@ -1,4 +1,4 @@
-import { DifficultyInputComponent } from './../add-receipe/difficulty-input/difficulty-input.component';
+import { DifficultyInputComponent } from '../add-receipe/difficulty-input/difficulty-input.component';
 import { numberSymbols } from '@progress/kendo-angular-intl';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
@@ -30,12 +30,12 @@ class Ingredient {
 }
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-search-recipe',
+  templateUrl: './search-recipe.component.html',
+  styleUrls: ['./search-recipe.component.css']
 })
 
-export class DashboardComponent implements OnInit {
+export class SearchRecipeComponent implements OnInit {
 
   constructor(private http: HttpClient, public keycloak: KeycloakService) { }
 

@@ -4,19 +4,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard.component';
+import { SearchRecipeRoutingModule } from './search-recipe-routing.module';
+import { SearchRecipeComponent } from './search-recipe.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    DashboardRoutingModule,
+    SearchRecipeRoutingModule,
   ],
   declarations: [
-    DashboardComponent,
+    SearchRecipeComponent,
   ]
 })
-export class DashboardModule { }
+export class SearchRecipeModule { }
 
 /*MatFormFieldModule,
 MatInputModule,
