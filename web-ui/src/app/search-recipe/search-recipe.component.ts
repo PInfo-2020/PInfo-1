@@ -151,18 +151,6 @@ export class SearchRecipeComponent implements OnInit {
     this.onSearch();
   }
 
-  /*myFridgeFilter() {
-    let ingrFlag = 0;
-    let bool;
-
-    for (const recip of this.recipes) {
-      ingrFlag = 0;
-      for (const ingr of recip.ingredients) {
-         bool = this.myIngredientsArray.includes('ingr');
-      }
-    }
-  }*/
-
   myIngredientsToArray() {
     for (const ingr of this.myIngredients) {
       this.myIngredientsArray.push(ingr.name);

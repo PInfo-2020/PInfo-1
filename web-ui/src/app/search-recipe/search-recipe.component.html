@@ -19,7 +19,7 @@
 <div *ngFor="let recipe of recipeList; let i = index" class="simpleRecipe">
   <div (click)='redirectToRecipe(recipe.id)' id='recipe'>
       <div class="simpleRecipeDiv">
-          <img src="https://miro.medium.com/max/746/1*5aL4dPHXvvaDnAQxmMRLug.png" alt=recipe.name style="height:120px;">
+          <img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;">
       </div>
       <div class="simpleRecipeDiv">
           {{ recipe.name }}
