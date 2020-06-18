@@ -1,4 +1,3 @@
-import { FridgeContentComponent } from './../fridge-content/fridge-content.component';
 import { NgModule, AfterViewInit, Output, EventEmitter  } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 // tslint:disable-next-line: import-blacklist
@@ -107,6 +106,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
   json: string;
 
   @ViewChild('list') listValue: any;
+
+  @Output() reloadFridge = new EventEmitter();
 
   urlMinInfo = 'api/v1/ingredients/minInfos';
   urlFridge = 'api/v1/fridge';
@@ -272,7 +273,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
 
 
   onAdd() {
-    console.log(this.addedIngredients);
     this.verifyData();
     if (this.incorrectData === 0) {
       this.ChangeFridge();
@@ -308,7 +308,6 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     let ingr;
     this.ingredientsInFridge = [];
     for (const ingredient of json.ingredients) {
-      console.log(ingredient.expiration);
       const dateNotFormatted = new Date(ingredient.expiration);
       let formattedString = dateNotFormatted.getFullYear() + '-';
       if (dateNotFormatted.getMonth() < 9) {
@@ -339,9 +338,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     }
     const fridgeTemp = JSON.stringify(Fridge.concat(this.addedIngredientsFridge));
     this.addedIngredientsFridge = [];
-    console.log('FrigoTemp : ', fridgeTemp);
     const NewJson = '{"ingredients":'.concat(fridgeTemp).concat('}');
-    console.log('Nouveau Frigo : ', NewJson);
     // tslint:disable-next-line: max-line-length
     this.http.put('api/v1/fridge', NewJson, {
       headers: new HttpHeaders(
@@ -351,7 +348,9 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         rejectUnauthorized: 'false' }),
       reportProgress: true,
       observe: 'events'
-    }).subscribe(events => {});
+    }).subscribe(events => {
+      this.reloadFridge.emit();
+    });
   }
 
   printErrors() {

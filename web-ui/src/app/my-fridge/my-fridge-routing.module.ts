@@ -11,7 +11,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MyFridgeComponent } from './my-fridge.component';
 import { IngredientsInputComponent } from './ingredients-input/ingredients-input.component';
-import { FridgeContentComponent } from './fridge-content/fridge-content.component';
 
 const routes: Routes = [
   { path: 'my-fridge', component: MyFridgeComponent }
@@ -44,12 +43,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     DropDownsModule,
-    IngredientsInputComponent,
-    FridgeContentComponent,
+    IngredientsInputComponent
   ],
   declarations: [
-    IngredientsInputComponent,
-    FridgeContentComponent,
+    IngredientsInputComponent
   ]
 })
 

@@ -43,6 +43,7 @@ mat-checkbox {
   margin: 5px;
   padding: 3px;
   float: left;
+  background-color: rgba(255,255,255,0.75)
 }
 
 .simpleRecipeDiv {

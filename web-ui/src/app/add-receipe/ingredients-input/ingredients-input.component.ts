@@ -84,7 +84,8 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
     if (alreadyIn === 0)  {
       for (const ingred of this.ingredients) {
         if (ingred.name === ingre) {
-          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, ingred.unity);
+          const unity = ingred.unity.split('/')[0];
+          newIngr = new AddedIngredient(ingred.name, 0, ingred.id, unity);
           this.addedIngredients.push(newIngr);
           this.listValue.text = '';
         }

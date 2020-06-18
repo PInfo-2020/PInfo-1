@@ -1,42 +1,45 @@
 <div *ngIf='recipe'>
   <div class="title">
   {{ recipe.name }}
-</div>
- <div class="grade">
-  <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
-  <p *ngIf = 'recipe.grade >= 0'> Note : {{( recipe.grade | number:'1.0-1')}}/5 </p>
-</div>
-<div class="infos">
-  Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}} par {{ recipe.authorName }}
-</div>
-<div *ngIf='recipe.picture' class="image"><img class="img" src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
-<div class="Global">
-  <div class="prepa">
-    <mat-icon class="v-align-middle">hourglass_empty</mat-icon>
-    <span class="v-align-middle"><span class="bold">Temps de préparation</span> : {{ recipe.preparationTime }} min, <mat-icon class="v-align-middle">graphic_eq</mat-icon> <span class="bold">Difficulté</span> : {{ recipe.difficulty }}/10</span>
   </div>
-  <mat-divider></mat-divider>
-  <div class="left">
-    <div class="bloc">
-      <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input class="people" type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
+  <div class="grade">
+    <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
+    <p *ngIf = 'recipe.grade >= 0'> Note : {{( recipe.grade | number:'1.0-1')}}/5 </p>
+  </div>
+  <div class="infos">
+    Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}} par {{ recipe.authorName }}
+  </div>
+  <div *ngIf='recipe.picture' class="image"><img class="img" src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;">
+  </div>
+  <div class="Global">
+    <div class="prepa">
+      <mat-icon class="v-align-middle">hourglass_empty</mat-icon>
+      <span class="v-align-middle"><span class="bold">Temps de préparation</span> : {{ recipe.preparationTime }} min, <mat-icon class="v-align-middle">graphic_eq</mat-icon> <span class="bold">Difficulté</span> : {{ recipe.difficulty }}/10</span>
     </div>
-    <div class="GlobalIngred">
-    <div *ngFor="let ingredient of ingredientRecipe">
-      <div class="listIngredient leftIngred">
-        - {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
+    <mat-divider></mat-divider>
+    <div class="left">
+      <div class="bloc">
+        <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input class="people" type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
       </div>
-      <div *ngIf='ingredientMissing[ingredient.id] == -1' class="rightIngred"><mat-icon>cancel</mat-icon></div>
-      <div *ngIf='ingredientMissing[ingredient.id] == 0' class="rightIngred"><mat-icon>done</mat-icon>
-      <div *ngIf='isOutdated[ingredient.id]' class="rightIngred"><mat-icon>warning</mat-icon> Expiré</div>
-    </div>
-    <div *ngIf='ingredientMissing[ingredient.id] > 0'> Il vous manque {{ ingredientMissing[ingredient.id] }} {{ ingredient.unity }}
-      <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
+      <div class="GlobalIngred">
+        <div *ngFor="let ingredient of ingredientRecipe">
+          <div class="listIngredient leftIngred">
+            - {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
+          </div>
+          <div *ngIf='ingredientMissing[ingredient.id] == -1' class="rightIngred"><mat-icon>cancel</mat-icon></div>
+          <div *ngIf='ingredientMissing[ingredient.id] == 0' class="rightIngred"><mat-icon>done</mat-icon>
+          <div *ngIf='isOutdated[ingredient.id]' class="rightIngred"><mat-icon>warning</mat-icon> Expiré</div>
+        </div>
+        <div *ngIf='ingredientMissing[ingredient.id] > 0'>
+          Il vous manque {{ ingredientMissing[ingredient.id] }} {{ ingredient.unity }}
+          <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
+        </div>
+      </div>
+      <div>
+        <button class="button" mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier que j'ai les ingrédients nécéssaires </button>
+      </div>
     </div>
   </div>
-  <div>
-    <button class="button" mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier que j'ai les ingrédients nécéssaires </button>
-  </div>
-</div>
   <div class="right">
     <div class="bloc">
       <mat-icon class="v-align-middle">short_text</mat-icon><span class="v-align-middle ingred">Préparation : </span>
@@ -47,17 +50,16 @@
   </div>
 </div>
 </div>
-</div>
-<br>
-<div>
-  <div>
-    <p>Commentaires</p>
+<div class="comments">
+  <div class="prepa">
+    <span class="ingred">Commentaires : </span>
   </div>
-  <input type="text" #comment (keyup.enter)="changeComment(comment.value)" (blur)="changeComment(comment.value)"placeholder="Dites ce que vous pensez de cette recette">
+  <textarea height="auto" rows="4" cols="50" type="text" #comment (keyup.enter)="changeComment(comment.value)" (blur)="changeComment(comment.value)"placeholder="Dites ce que vous pensez de cette recette"></textarea>
   <br>
   Note :
-  <input type="text" #grade (keyup.enter)="changeGrade(grade.value)" (blur)="changeGrade(grade.value)"placeholder="1-5">
-  <button mat-raised-button color="black" aria-label="Publier le commentaire" (click)="onPublish()"> Publier
+  <input class="people" type="text" min="1" max="5" #grade (keyup.enter)="changeGrade(grade.value)" (blur)="changeGrade(grade.value)"placeholder="1-5">
+  <br>
+  <button class="button" mat-raised-button color="black" aria-label="Publier le commentaire" (click)="onPublish()"> Publier
   </button>
   <div *ngFor="let comment of comments;">
     {{ comment.text }}

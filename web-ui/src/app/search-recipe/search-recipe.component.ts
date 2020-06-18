@@ -122,7 +122,6 @@ export class SearchRecipeComponent implements OnInit {
   }
 
   onClick(i) {
-    console.log(i);
   }
 
   changeKeyword(kw: string) {
@@ -139,14 +138,12 @@ export class SearchRecipeComponent implements OnInit {
       this.search();
     }
   } else {
-    console.log('ERREUR');
   }
   }
 
   search() {
     this.recipeList = [];
     this.urlSearch = this.urlSearch + this.keywordIngr ;
-    console.log(this.urlSearch);
     const headernode = {
       headers: new HttpHeaders(
           { Accept: 'application/json' ,

@@ -50,7 +50,7 @@
 
 .Global{
   width:100%;
-  padding: 10px;
+  padding: 50px;
 }
 
 .Global .left {
@@ -86,4 +86,10 @@
 .img{
   border-radius: 5px;
   width: 25%;
+}
+
+.comments{
+  width:100%;
+  padding-top: 40px;
+  padding-left: 50px;
 }
