@@ -5,17 +5,17 @@
     <div *ngFor="let recipe of recipeList; let i = index" class="simpleRecipe">
         <div (click)='redirectToRecipe(recipe.id)' id='recipe'>
             <div class="simpleRecipeDiv">
-              <div *ngIf='recipe.picture'><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;">
-            </div>
-            <div class="simpleRecipeDiv">
-                {{ recipe.name }}
-                <br>
-                <br>
-                <br>
-                Note :
-                <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
-                <p *ngIf = 'recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
-                Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
+                <div *ngIf='recipe.picture'><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;">
+                </div>
+                <div class="simpleRecipeDiv">
+                    {{ recipe.name }}
+                    <br>
+                    <br>
+                    <br> Note :
+                    <p *ngIf='recipe.grade < 0'> Pas encore notée </p>
+                    <p *ngIf='recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
+                    Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
+                </div>
             </div>
         </div>
     </div>
@@ -23,5 +23,5 @@
 
 <div *ngIf="recipeList.length === 0">
     <div class="box">
-        Vous n'avez pas encore créé de recette, mais vous pouvez le faire en cliquant sur le bouton "Ajouter une recette" dans le menu à gauche </div>
+        Vous n'avez pas encore créé de recette, mais vous pouvez le faire en cliquant sur le bouton "Ajouter une recette" dans le menu à gauche. </div>
 </div>

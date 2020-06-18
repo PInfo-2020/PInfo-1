@@ -365,7 +365,7 @@ export class ViewRecipeComponent implements OnInit {
   }
 
   changeGrade(grade) {
-    if (this.isInteger(grade) || grade < 0 || grade > 5) {
+    if (this.isInteger(grade) && grade >= 0 && grade <= 5) {
       this.grade = grade;
     } else {
       this.grade = null;
