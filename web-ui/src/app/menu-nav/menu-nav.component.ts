@@ -46,6 +46,6 @@ export class MenuNavComponent implements OnInit {
     return await this.keycloak.isLoggedIn();
   }
   logoClick() {
-    this.router.navigate(['/search-recipe/']);
+    this.router.navigate(['/dashboard/']);
   }
 }

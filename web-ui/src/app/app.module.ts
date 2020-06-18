@@ -28,6 +28,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { environment } from 'src/environments/environment';
 import { KeycloakInterceptorService } from './services/keycloak/keycloak.interceptor.service';
 import { ViewRecipeModule } from './view-recipe/view-recipe.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 
 
@@ -87,7 +88,8 @@ export function init_config(appLoadService: AppInitService, keycloak: KeycloakSe
       DropDownsModule,
       KeycloakAngularModule,
       HttpClientModule,
-      ViewRecipeModule
+      ViewRecipeModule,
+      DashboardModule
    ],
    providers: [
 

@@ -1,3 +1,4 @@
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddReceipeComponent } from './add-receipe/add-receipe.component';
 import { MyFridgeComponent } from './my-fridge/my-fridge.component';
 import { CanAuthenticationGuard } from './services/keycloak/keycloak-auth-gard';
@@ -9,7 +10,7 @@ import { SearchRecipeComponent } from './search-recipe/search-recipe.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/search-recipe',
+    redirectTo: '/dashboard',
     pathMatch: 'full'
   },
   {

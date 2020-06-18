@@ -37,3 +37,16 @@
     padding-left: calc(90% - 75px);
     padding-top: 10px;
 }
+
+.guest{
+  color: #D3D3D3;
+}
+
+.connectPart{
+  color: gray;
+  font-size: large;
+}
+
+.connect{
+  text-align: center;
+}

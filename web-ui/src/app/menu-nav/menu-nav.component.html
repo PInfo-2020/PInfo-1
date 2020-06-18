@@ -28,6 +28,7 @@
                 <mat-icon>search</mat-icon>Rechercher une recette</a>
         </mat-nav-list>
         <br>
+        <div *ngIf="userDetails; else GuestBlock">
         <mat-nav-list>
             <a mat-list-item routerLink="/my-fridge">
                 <mat-icon>kitchen</mat-icon>Mon Frigo</a>
@@ -39,6 +40,25 @@
             <a mat-list-item routerLink="/add-receipe">
                 <mat-icon>add_circle_outline</mat-icon>Ajouter une recette</a>
         </mat-nav-list>
+      </div>
+      <ng-template #GuestBlock>
+          <mat-nav-list>
+              <hr color="gray">
+              <div class="connect">
+                <p class="connectPart">text</p>
+              </div>
+              <hr color="gray">
+              <a mat-list-item routerLink="/my-fridge" class="guest">
+                  <mat-icon>kitchen</mat-icon>Mon Frigo</a>
+              <a mat-list-item routerLink="/my-receipes" class="guest">
+                  <mat-icon>restaurant</mat-icon>Mes Recettes</a>
+          </mat-nav-list>
+          <br>
+          <mat-nav-list>
+              <a mat-list-item routerLink="/add-receipe" class="guest">
+                  <mat-icon>add_circle_outline</mat-icon>Ajouter une recette</a>
+          </mat-nav-list>
+      </ng-template>
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">
