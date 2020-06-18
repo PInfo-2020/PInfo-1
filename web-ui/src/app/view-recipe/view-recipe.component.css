@@ -16,7 +16,7 @@
 
 .prepa {
   padding-top: 20px;
-  padding-bottom:10px;
+  padding-bottom:15px;
 }
 
 .v-align-middle {
@@ -42,4 +42,44 @@ input
 
 .listIngredient {
   padding-left : 20px;
+}
+
+.image{
+  text-align: center;
+  padding-top:10px;
+}
+
+.Global{
+  width:100%;
+  padding: 10px;
+}
+
+.Global .left {
+  float:left;
+  width:60%;
+}
+.Global .right {
+  padding-left:60%;
+  margin-right: 30px;
+}
+
+.bloc{
+  padding-top: 15px;
+}
+
+.GlobalIngred{
+  width:70%;
+  padding: 10px;
+}
+
+.Global .leftIngred {
+  float:left;
+  width:50%;
+}
+.Global .rightIngred {
+  margin-left:50%
+}
+
+.button {
+  margin-top: 15px;
 }

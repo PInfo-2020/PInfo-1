@@ -8,7 +8,7 @@
     </kendo-autocomplete>
     <div *ngFor="let ingredient of addedIngredients; let i = index">
         <div>{{ ingredient.name }}
-            <input type="number" id="{{ ingredient.id }}" #quantity (keyup.enter)="changeQuantity(quantity.value, quantity.id)" (blur)="changeQuantity(quantity.value, quantity.id)"> {{ ingredient.unity }}
+            <input type="number" min="1" id="{{ ingredient.id }}" #quantity (keyup.enter)="changeQuantity(quantity.value, quantity.id)" (blur)="changeQuantity(quantity.value, quantity.id)"> {{ ingredient.unity }}
             <button mat-icon-button color="black" aria-label="Retirer l'ingrédient" (click)="onRemove(i)">
                   <mat-icon>clear</mat-icon>
                 </button>

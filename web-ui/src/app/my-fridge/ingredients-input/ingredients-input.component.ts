@@ -351,7 +351,7 @@ export class IngredientsInputComponent implements OnInit, AfterViewInit {
         rejectUnauthorized: 'false' }),
       reportProgress: true,
       observe: 'events'
-    });
+    }).subscribe(events => {});
   }
 
   printErrors() {

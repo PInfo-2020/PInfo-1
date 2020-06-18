@@ -4,39 +4,55 @@
 </div>
  <div class="grade">
   <p *ngIf = 'recipe.grade < 0'> Pas encore notée </p>
-  <p *ngIf = 'recipe.grade >= 0'> {{( recipe.grade | number:'1.0-1')}} </p>
+  <p *ngIf = 'recipe.grade >= 0'> Note : {{( recipe.grade | number:'1.0-1')}}/5 </p>
 </div>
 <div class="infos">
   Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}} par {{ recipe.authorName }}
 </div>
-  <div *ngIf='recipe.picture'><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
+<div *ngIf='recipe.picture' class="image"><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
+<div class="Global">
   <div class="prepa">
     <mat-icon class="v-align-middle">hourglass_empty</mat-icon>
     <span class="v-align-middle"><span class="bold">Temps de préparation</span> : {{ recipe.preparationTime }} min, <mat-icon class="v-align-middle">graphic_eq</mat-icon> <span class="bold">Difficulté</span> : {{ recipe.difficulty }}/10</span>
   </div>
-  <div class="">
-    <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
-</div>
-  <div *ngFor="let ingredient of ingredientRecipe">
-    <div class="listIngredient">
-    - {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
-  </div>
-    <div *ngIf='ingredientMissing[ingredient.id] == -1'><mat-icon>cancel</mat-icon></div>
-    <div *ngIf='ingredientMissing[ingredient.id] == 0'><mat-icon>done</mat-icon>
-      <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
+  <mat-divider></mat-divider>
+  <div class="left">
+    <div class="bloc">
+      <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
+    </div>
+    <div class="GlobalIngred">
+    <div *ngFor="let ingredient of ingredientRecipe">
+      <div class="listIngredient leftIngred">
+        - {{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unity }}
+      </div>
+      <div *ngIf='ingredientMissing[ingredient.id] == -1' class="rightIngred"><mat-icon>cancel</mat-icon></div>
+      <div *ngIf='ingredientMissing[ingredient.id] == 0' class="rightIngred"><mat-icon>done</mat-icon>
+      <div *ngIf='isOutdated[ingredient.id]' class="rightIngred"><mat-icon>warning</mat-icon> Expiré</div>
     </div>
     <div *ngIf='ingredientMissing[ingredient.id] > 0'> Il vous manque {{ ingredientMissing[ingredient.id] }} {{ ingredient.unity }}
       <div *ngIf='isOutdated[ingredient.id]'><mat-icon>warning</mat-icon> Expiré</div>
     </div>
   </div>
-  <button mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier que j'ai les ingrédients nécéssaires </button>
-  <br>
-  <p> Préparation : {{ recipe.preparation }}</p>
+  <div>
+    <button class="button" mat-raised-button color="black" aria-label="Voir mes ingrédients" (click)="onVerify()"> Vérifier que j'ai les ingrédients nécéssaires </button>
+  </div>
+</div>
+  <div class="right">
+    <div class="bloc">
+      <mat-icon class="v-align-middle">short_text</mat-icon><span class="v-align-middle ingred">Préparation : </span>
+    </div>
+    <p class="listIngredient">{{ recipe.preparation }}</p>
   <div *ngIf='hasAllIngredients'>
     <button mat-raised-button color="black" aria-label="Terminer la recette" (click)="onDone()"> Fini !</button>
   </div>
-  <mat-divider></mat-divider>
-  <p>Commentaires</p>
+</div>
+</div>
+</div>
+<br>
+<div>
+  <div>
+    <p>Commentaires</p>
+  </div>
   <input type="text" #comment (keyup.enter)="changeComment(comment.value)" (blur)="changeComment(comment.value)"placeholder="Dites ce que vous pensez de cette recette">
   <br>
   Note :
@@ -44,9 +60,9 @@
   <button mat-raised-button color="black" aria-label="Publier le commentaire" (click)="onPublish()"> Publier
   </button>
   <div *ngFor="let comment of comments;">
-    <mat-divider></mat-divider>
     {{ comment.text }}
     <br>
     Note : {{ comment.grade }}/5, publié par : {{ comment.userName }}
   </div>
+</div>
 </div>
