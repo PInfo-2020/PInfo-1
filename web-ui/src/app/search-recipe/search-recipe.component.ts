@@ -2,6 +2,7 @@ import { DifficultyInputComponent } from '../add-receipe/difficulty-input/diffic
 import { numberSymbols } from '@progress/kendo-angular-intl';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { stringify } from 'querystring';
 import { Router } from '@angular/router';
@@ -56,6 +57,8 @@ class Ingredient {
 
 export class SearchRecipeComponent implements OnInit {
 
+  userDetails: KeycloakProfile;
+
   constructor(private http: HttpClient, public keycloak: KeycloakService, private router: Router) { }
 
   public filteredRecipes: Array<Recipe> = [];
@@ -82,7 +85,10 @@ export class SearchRecipeComponent implements OnInit {
 
   urlSearch = '';
 
-  ngOnInit() {
+  async ngOnInit() {
+    if (await this.keycloak.isLoggedIn()) {
+      this.userDetails = await this.keycloak.loadUserProfile();
+    }
   }
 
   getIngredients() {

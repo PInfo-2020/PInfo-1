@@ -1,14 +1,23 @@
-
+<h1>Rechercher une recette</h1>
 <div>
   <!--<mat-label> Recherche </mat-label>-->
-    <input type="text" onkeypress="javascript: return String.fromCharCode(event.charCode).match('[\\\\!@#$\/%^&*(),.?<>|{}:;\']') === null" #keyword (keyup.enter)="changeKeywordAndSearch(keyword.value)" (blur)="changeKeyword(keyword.value)"placeholder="Ex. : tomate, pizza">
-  <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="onSearch()">
-    <mat-icon>search</mat-icon>
-  </button>
-  <div>
-  <mat-checkbox (change)="onToggle($event)" labelPosition="before">Utiliser mes ingrédients : </mat-checkbox>
-  <div *ngIf='fridgeIsEmpty'> Vous n'avez pas encore entré d'ingrédient dans votre frigo !</div>
+  <div class="bloc">
+    <div class="searchBar">
+      <div>
+      <input type="text" onkeypress="javascript: return String.fromCharCode(event.charCode).match('[\\\\!@#$\/%^&*(),.?<>|{}:;\']') === null" #keyword (keyup.enter)="changeKeywordAndSearch(keyword.value)" (blur)="changeKeyword(keyword.value)"placeholder="Ex. : tomate, pizza">
+      <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+      </div>
+    </div>
 </div>
+  <div *ngIf="userDetails; else GuestSearch" class="bloc">
+    <div class="searchBar">
+      <mat-checkbox (change)="onToggle($event)" labelPosition="before">Utiliser mes ingrédients : </mat-checkbox>
+    <div *ngIf='fridgeIsEmpty'> Vous n'avez pas encore entré d'ingrédient dans votre frigo !</div></div>
+</div>
+<ng-template #GuestSearch>
+</ng-template>
 <div *ngIf='filteredRecipesIsEmpty'> Aucun Résultats</div>
 <div *ngFor="let recipe of filteredRecipes; let i = index">
   <div>{{ recipe.name }} {{ recipe.time }} min  {{ recipe.difficulty }} /10
