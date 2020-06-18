@@ -1,11 +1,37 @@
+.all{
+  padding-top: 40px;
+  height:89.3%;
+  background: url("../../assets/img/tiramisu.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .center{
   text-align: center;
 }
 
 h1 {
   padding-top:20px;
+  font-size: 40px;
 }
 
 .miam{
   width:100%
+}
+
+.boxText{
+  text-align: center;
+  background-color:rgba(255,255,255,0.65);
+  border-width: 5px;
+  border-radius: 5px;
+  margin: auto;
+  width: 900px;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.text{
+  font-size: 18px;
 }

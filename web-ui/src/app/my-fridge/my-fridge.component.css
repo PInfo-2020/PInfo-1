@@ -1,5 +1,16 @@
-:host {
-  padding: 30px
+h1{
+  text-align: center;
+  color: white;
+  font-size:40px;
+}
+
+.background{
+  padding-top: 40px;
+  height:89.3%;
+  background: url("../../assets/img/frigo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
 }
 
 #add-recipe {
@@ -17,4 +28,14 @@
 
 .item{
   margin: 15px;
+}
+
+.fridge{
+  background-color: rgba(255,255,255,0.7);
+  width:50%;
+  margin-left:15px;
+  margin-top:50px;
+  border-width: 5px;
+  border-radius: 5px;
+  padding:10px;
 }

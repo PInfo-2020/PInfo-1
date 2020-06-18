@@ -1,5 +1,7 @@
+<div class="background">
 <div id="add-recipe">
     <h1>Créez votre recette !</h1>
+    <div class="recipe">
     <app-name-input (changedName)="onNameChanged($event)"></app-name-input>
     <mat-icon [hidden]="dataVerification.name" color="warn">warning</mat-icon>
     <p></p>
@@ -34,4 +36,6 @@
     <mat-icon [hidden]="dataVerification.preparation" color="warn">warning</mat-icon>
     <p></p>
     <button mat-raised-button (click)="publishRecipe()" color="primary">Publier</button>
+  </div>
+</div>
 </div>

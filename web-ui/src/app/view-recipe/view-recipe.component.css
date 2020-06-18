@@ -27,8 +27,7 @@
   font-weight: bold;
 }
 
-input
-{
+.people{
   width: 30px;
 }
 
@@ -82,4 +81,9 @@ input
 
 .button {
   margin-top: 15px;
+}
+
+.img{
+  border-radius: 5px;
+  width: 25%;
 }

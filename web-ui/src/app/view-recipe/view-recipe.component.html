@@ -9,7 +9,7 @@
 <div class="infos">
   Publiée le {{recipe.publicationDate | date: 'dd-MM-yyyy'}} par {{ recipe.authorName }}
 </div>
-<div *ngIf='recipe.picture' class="image"><img src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
+<div *ngIf='recipe.picture' class="image"><img class="img" src="{{ recipe.picture }}" alt="{{ recipe.name }}" style="height:120px;"></div>
 <div class="Global">
   <div class="prepa">
     <mat-icon class="v-align-middle">hourglass_empty</mat-icon>
@@ -18,7 +18,7 @@
   <mat-divider></mat-divider>
   <div class="left">
     <div class="bloc">
-      <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
+      <mat-icon class="v-align-middle">fastfood</mat-icon><span class="v-align-middle ingred"> Ingrédients pour <input class="people" type="number" #people (keyup.enter)="changePeople(people.value)" (blur)="changePeople(people.value)" value="{{ recipe.people }}" maxlength="2" size="4"> personne :</span>
     </div>
     <div class="GlobalIngred">
     <div *ngFor="let ingredient of ingredientRecipe">

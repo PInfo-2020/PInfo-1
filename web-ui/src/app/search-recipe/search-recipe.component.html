@@ -1,5 +1,7 @@
-<h1>Rechercher une recette</h1>
-<div>
+<div class="background">
+  <div class="content">
+    <h1>Rechercher une recette</h1>
+  <div>
   <!--<mat-label> Recherche </mat-label>-->
   <div class="bloc">
     <div class="searchBar">
@@ -12,13 +14,13 @@
     </div>
 </div>
   <div *ngIf="userDetails; else GuestSearch" class="bloc">
-    <div class="searchBar">
-      <mat-checkbox (change)="onToggle($event)" labelPosition="before">Utiliser mes ingrédients : </mat-checkbox>
-    <div *ngIf='fridgeIsEmpty'> Vous n'avez pas encore entré d'ingrédient dans votre frigo !</div></div>
+    <div class="searchBar white">
+      <mat-checkbox (change)="onToggle($event)" labelPosition="before">Utiliser mes ingrédients</mat-checkbox>
+    <div *ngIf='fridgeIsEmpty' class="white center"> Vous n'avez pas encore entré d'ingrédient dans votre frigo !</div></div>
 </div>
 <ng-template #GuestSearch>
 </ng-template>
-<div *ngIf='filteredRecipesIsEmpty'> Aucun Résultats</div>
+<div *ngIf='filteredRecipesIsEmpty' class="white center"> Aucun résultat</div>
 <div *ngFor="let recipe of filteredRecipes; let i = index">
   <div>{{ recipe.name }} {{ recipe.time }} min  {{ recipe.difficulty }} /10
       <button mat-icon-button color="black" aria-label="Voir la Recette" (click)="onClick(i)">
@@ -43,5 +45,7 @@
           Temps de préparation : {{ recipe.time }} Difficulté : {{ recipe.difficulty }}
       </div>
   </div>
+</div>
+</div>
 </div>
 </div>
