@@ -105,27 +105,27 @@ export class AddReceipeComponent implements OnInit {
     }
 
     // Time has to be positive integer and non zero
-    if (!this.isInteger(this.timeEntered) || this.timeEntered <= 0) {
+    if (!(this.isInteger(this.timeEntered)) || this.timeEntered <= 0) {
       this.dataVerification.time = false;
     }
 
     // Difficulty must be an integer between 1 and 10
-    if (!this.isInteger(this.difficultyEntered) || this.difficultyEntered < 1 || this.difficultyEntered > 10) {
+    if (!(this.isInteger(this.difficultyEntered)) || this.difficultyEntered < 1 || this.difficultyEntered > 10) {
       this.dataVerification.difficulty = false;
     }
 
     // People has to be positive integer and non zero
-    if (!this.isInteger(this.peopleEntered) || this.peopleEntered <= 0) {
+    if (!(this.isInteger(this.peopleEntered)) || this.peopleEntered <= 0) {
       this.dataVerification.people = false;
     }
 
     // There has to be ingredients
-    if (! this.ingredientsEntered || ! this.areIngredientsQuantitiesLegit()) {
+    if (! (this.ingredientsEntered) || ! this.areIngredientsQuantitiesLegit()) {
       this.dataVerification.ingredients = false;
     }
 
     // Recipe can not be empty
-    if (! this.recipeEntered || ! this.recipeEntered.trim()) {
+    if (! (this.recipeEntered) || ! this.recipeEntered.trim()) {
       this.dataVerification.preparation = false;
     }
 
@@ -145,7 +145,7 @@ export class AddReceipeComponent implements OnInit {
       preparationTime: this.timeEntered,
       difficulty: this.difficultyEntered,
       ingredients: this.ingredientsEntered,
-      preparation: this.recipeEntered                              // for testing
+      preparation: this.recipeEntered
     };
     this.json = JSON.stringify(this.recipe);
     //tslint:disable-next-line: max-line-length
