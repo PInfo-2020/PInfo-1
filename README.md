@@ -10,7 +10,7 @@ Projet informatique
 - TopFox : https://github.com/TopFox : Chef de projet
 - Rozozepine : https://github.com/Rozozepine : Admin Sys
 - Vossitu : https://github.com/Vossitu : Backend dev
-- Jimmysburgger : https://github.com/Jimmysburgger : Backend dev
+- Jean-Marc-B : https://github.com/Jean-Marc-B : Backend dev
 - JeremieGuy : https://github.com/JeremieGuy : Frontend dev
 - jlstoupy98 : https://github.com/jlstoupy98 : Frontend dev
 
